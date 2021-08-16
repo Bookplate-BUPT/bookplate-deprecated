@@ -1,0 +1,1 @@
+"D:\微信web开发者工具\cli.bat" cloud functions deploy --e qqk-4gjankm535f1a524 --n quickstartFunctions --r --project "E:\学习\大创\SecondHandBooks" --report
