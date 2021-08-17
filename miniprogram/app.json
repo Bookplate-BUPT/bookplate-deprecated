@@ -1,8 +1,6 @@
 {
   "pages": [
 
-
-    
     "pages/main/main",
     "pages/sellBook/sellBook",
     "pages/message/message",
