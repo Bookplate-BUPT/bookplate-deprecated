@@ -2,6 +2,7 @@
   "pages": [
 
     "pages/main/main",
+    "pages/liaotian/liaotian",
     "pages/sellBook/sellBook",
     "pages/message/message",
     "pages/cart/cart",
