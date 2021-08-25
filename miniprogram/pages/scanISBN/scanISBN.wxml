@@ -1,0 +1,4 @@
+<!--pages/scanISBN/scanISBN.wxml-->
+<text>pages/scanISBN/scanISBN.wxml</text>
+<button bindtap="scanISBN" type="primary">扫码加书</button>
+

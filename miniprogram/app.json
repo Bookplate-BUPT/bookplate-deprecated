@@ -1,6 +1,7 @@
 {
   "pages": [
 
+    "pages/scanISBN/scanISBN",
     "pages/main/main",
     "pages/sellBook/sellBook",
     "pages/message/message",
