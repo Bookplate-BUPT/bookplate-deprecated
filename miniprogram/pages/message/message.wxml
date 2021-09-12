@@ -1,2 +1,12 @@
 <!--pages/message/message.wxml-->
-<text>pages/message/message.wxml</text>
+<view class="container">
+  <textarea class="content" placeholder="写点文字..." bindinput="onInput" auto-focus bindfocus="onFocus" bindblur="onBlur">
+  </textarea>
+</view>
+<view>
+    {{ hasSensitiveWords }}
+</view>
+ 
+<view class="footer">
+  <button class="send-btn" size="default" bind:tap="send">发布</button>
+</view>
