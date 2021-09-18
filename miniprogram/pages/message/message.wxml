@@ -3,10 +3,11 @@
   <textarea class="content" placeholder="写点文字..." bindinput="onInput" auto-focus bindfocus="onFocus" bindblur="onBlur">
   </textarea>
 </view>
+
 <view>
-    {{ hasSensitiveWords }}
+  {{ hasSensitiveWords }}
 </view>
- 
+
 <view class="footer">
   <button class="send-btn" size="default" bind:tap="send">发布</button>
 </view>
