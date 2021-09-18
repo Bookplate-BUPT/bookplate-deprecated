@@ -1,9 +1,5 @@
 <!--pages/scanISBN/scanISBN.wxml-->
-<view style="margin-top: 16px;">
-  <van-cell-group title="书籍图片">
-    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
-  </van-cell-group>
-</view>
+<van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="请准确填写要求的书籍信息或使用扫码加书一键填写。" />
 
 <view>
   <van-cell-group title="书籍信息">
@@ -19,13 +15,20 @@
   </van-cell-group>
 </view>
 
-<view style="margin-top: 16px; margin-bottom: 16px;">
-  <van-col span="9" offset="2">
-    <van-button plain round color="#66ccff" icon="delete-o" bind:click="setBookDetail" data-="{}" block size="small">
-      一键清空
-    </van-button>
-  </van-col>
-  <van-col span="9" offset="2">
-    <van-button round color="#66ccff" icon="scan" bind:click="scanISBN" block size="small">扫码加书</van-button>
-  </van-col>
+<view style="margin-bottom: 64px;">
+  <van-cell-group title="书籍图片">
+    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
+  </van-cell-group>
 </view>
+
+<van-goods-action>
+  <van-goods-action-icon icon="question-o" text="遇到困难" bind:click="onClickIcon" />
+  <van-goods-action-icon icon="delete-o" text="一键清空" bind:click="setBookDetail" />
+  <!-- <van-goods-action-icon icon="scan" text="扫码加书" bind:click="scanISBN" /> -->
+  <van-goods-action-button plain color="#36cfc9" bind:click="scanISBN">
+    <van-icon name="scan" />扫码加书
+  </van-goods-action-button>
+  <van-goods-action-button color="#36cfc9" bind:click="onClickIcon">
+    信息录入
+  </van-goods-action-button>
+</van-goods-action>

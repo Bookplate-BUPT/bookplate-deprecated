@@ -5,6 +5,7 @@
     "pages/main/main",
     "pages/liaotian/liaotian",
     "pages/scanISBN/scanISBN",
+    "pages/liaotian/liaotian",
     "pages/sellBook/sellBook",
     "pages/message/message",
     "pages/cart/cart",
@@ -13,12 +14,12 @@
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#89CFF0",
+    "navigationBarBackgroundColor": "#b5f5ec",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#000000",
-    "selectedColor": "#66CCFF",
+    "selectedColor": "#7ab37a",
     "borderStyle": "white",
     "list": [{
       "pagePath": "pages/main/main",
