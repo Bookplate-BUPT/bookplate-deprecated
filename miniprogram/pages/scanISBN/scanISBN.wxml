@@ -1,0 +1,31 @@
+<!--pages/scanISBN/scanISBN.wxml-->
+<view style="margin-top: 16px;">
+  <van-cell-group title="书籍图片">
+    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
+  </van-cell-group>
+</view>
+
+<view>
+  <van-cell-group title="书籍信息">
+    <van-field value="{{ bookDetail.name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="always" />
+    <van-field value="{{ bookDetail.author }}" placeholder="请输入作者名" label="作者名" required clearable
+      clear-trigger="always" />
+    <van-field value="{{ bookDetail.isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable
+      clear-trigger="always" />
+    <van-field value="{{ bookDetail.publisher }}" placeholder="请输入出版社" label="出版社" required clearable
+      clear-trigger="always" />
+    <van-field value="{{ bookDetail.introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="always"
+      autosize type="textarea" />
+  </van-cell-group>
+</view>
+
+<view style="margin-top: 16px; margin-bottom: 16px;">
+  <van-col span="9" offset="2">
+    <van-button plain round color="#66ccff" icon="delete-o" bind:click="setBookDetail" data-="{}" block size="small">
+      一键清空
+    </van-button>
+  </van-col>
+  <van-col span="9" offset="2">
+    <van-button round color="#66ccff" icon="scan" bind:click="scanISBN" block size="small">扫码加书</van-button>
+  </van-col>
+</view>
