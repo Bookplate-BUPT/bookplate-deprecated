@@ -3,7 +3,6 @@
 
 
     "pages/main/main",
-    "pages/liaotian/liaotian",
     "pages/scanISBN/scanISBN",
     "pages/liaotian/liaotian",
     "pages/sellBook/sellBook",
