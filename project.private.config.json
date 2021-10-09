@@ -17,6 +17,12 @@
           "pathName": "pages/scanISBN/scanISBN",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "卖书界面",
+          "pathName": "pages/sellBookMain/sellBookMain",
+          "query": "",
+          "scene": null
         }
       ]
     }
