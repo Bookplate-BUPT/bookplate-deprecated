@@ -1,0 +1,25 @@
+/* pages/sellBookMain/sellBookMain.wxss */
+
+.tipsCardRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tipsCard {
+  background-color: #e6fffb;
+  border-radius: 20px;
+  border: 2px solid #b5f5ec;
+  width: 76%;
+  height: 84px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.footerRoot {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  background-color: white;
+  padding-top: 8px;
+}
