@@ -13,14 +13,20 @@
     "miniprogram": {
       "list": [
         {
-          "name": "扫描ISBN",
-          "pathName": "pages/scanISBN/scanISBN",
+          "name": "sellBookMain",
+          "pathName": "pages/sellBookMain/sellBookMain",
           "query": "",
           "scene": null
         },
         {
-          "name": "卖书界面",
-          "pathName": "pages/sellBookMain/sellBookMain",
+          "name": "main",
+          "pathName": "pages/main/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "sellBook",
+          "pathName": "pages/sellBook/sellBook",
           "query": "",
           "scene": null
         }
