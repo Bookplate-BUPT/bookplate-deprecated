@@ -70,10 +70,6 @@
 
 
 
-
-
-
-
 ## 注意事项
 
 - 在微信开发者工具中，数据库的数据类型被定义为 `string` , `number` , `boolean` , `null` , `array` , `object` , `date` , `geopoint` ，不存在 `varchar` 等。
