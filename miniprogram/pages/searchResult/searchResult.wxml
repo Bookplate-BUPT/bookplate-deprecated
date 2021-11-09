@@ -1,0 +1,2 @@
+<!--pages/searchResult/searchResult.wxml-->
+<text>{{ keyword }}</text>
