@@ -1,8 +1,6 @@
 // pages/scanISBN/scanISBN.js
-// import Notify from '../../../node_modules/@vant/weapp/dist/notify/notify';
 
 Page({
-
   data: {
     bookDetail: {
       author: '',

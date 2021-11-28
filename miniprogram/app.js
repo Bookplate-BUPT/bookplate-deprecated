@@ -10,6 +10,9 @@ App({
       })
 
     }
-    this.globalData = {}
+  },
+
+  globalData: {
+    userOpenid: '',
   }
 })
