@@ -23,30 +23,30 @@ Page({
       desc: '获取你的昵称、头像',
       success: res => {
         wx.showToast({
-          title: '获取成功',
+          title: '登录成功',
           icon: 'success',
         })
 
+        app.globalData.userInfo = res.userInfo
         this.setData({
-          userInfo: res.userInfo,
+          userInfo: app.globalData.userInfo,
         })
 
         // 获取用户openid
         wx.cloud.callFunction({
           name: 'getOpenid',
           success: resInner => {
-            app.globalData.userOpenid = resInner.result.openid;
+            app.globalData.userOpenid = resInner.result.openid
             this.setData({
               userOpenid: app.globalData.userOpenid,
             })
 
             wx.setStorageSync('user', {
-              userInfo: res.userInfo,
-              userOpenid: resInner.result.openid
+              userInfo: app.globalData.userInfo,
+              userOpenid: app.globalData.userOpenid
             })
           }
         })
-
       },
       fail: res => {
         wx.showToast({
@@ -62,8 +62,15 @@ Page({
   userLogout() {
     this.setData({
       userInfo: '',
+      userOpenid: '',
     })
+    app.globalData.userInfo = ''
     app.globalData.userOpenid = ''
+
+    wx.showToast({
+      title: '退出成功',
+      icon: 'success'
+    })
   },
 
 })
