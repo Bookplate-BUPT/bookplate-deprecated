@@ -6,10 +6,11 @@ Page({
     userOpenid: '',
   },
 
-  onLoad: function (options) {
+  onLoad(options) {
     this.setData({
       userOpenid: app.globalData.userOpenid,
     })
   },
+
 
 })

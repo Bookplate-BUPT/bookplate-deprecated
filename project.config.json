@@ -40,7 +40,7 @@
   },
   "appid": "wx1bb2e8a6e5d71c45",
   "projectname": "SecondHandBooks",
-  "libVersion": "2.19.6",
+  "libVersion": "2.21.0",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "search": {

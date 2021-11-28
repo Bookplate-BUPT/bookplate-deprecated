@@ -10,9 +10,13 @@ App({
       })
 
     }
+
+    this.globalData.userInfo = wx.getStorageSync('user').userInfo
+    this.globalData.userOpenid = wx.getStorageSync('user').userOpenid
   },
 
   globalData: {
+    userInfo: '',
     userOpenid: '',
   }
 })

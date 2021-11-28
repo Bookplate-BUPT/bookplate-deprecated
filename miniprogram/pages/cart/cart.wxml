@@ -1,2 +1,6 @@
 <!--pages/cart/cart.wxml-->
-<text>{{userOpenid}}</text>
+
+
+<view wx:if="{{!userOpenid}}">
+  <text>请先登录</text>
+</view>

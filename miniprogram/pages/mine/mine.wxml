@@ -15,7 +15,6 @@
   </view>
 </van-cell-group>
 
-
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}" style="background-color: black;">
     <van-button slot="left" color="lightgreen" custom-class="swiperCellButton">选择</van-button>
