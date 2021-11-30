@@ -1,7 +1,10 @@
 // pages/mine/mine.js
-const app = getApp();
+import __user from "../../utils/user"
+
+const app = getApp()
 
 Page({
+
   data: {
     userInfo: '',
     userOpenid: '',
@@ -13,53 +16,55 @@ Page({
 
   onShow() {
     this.setData({
-      userInfo: app.globalData.userInfo,
-      userOpenid: app.globalData.userOpenid,
+      userInfo: __user.getUserInfo(),
+      userOpenid: __user.getUserOpenid(),
     })
   },
 
   // 用户登录
-  userLogin() {
-    if (this.data.userInfo || this.data.userOpenid)
-      return
+  userLoginInMine() {
+    if (!__user.checkLoginStatus()) {
+      // 获取用户昵称、头像
+      wx.getUserProfile({
+        desc: '获取你的昵称、头像',
+        success: res => {
+          wx.showToast({
+            title: '登录成功',
+            icon: 'success',
+          })
 
-    // 获取用户昵称、头像
-    wx.getUserProfile({
-      desc: '获取你的昵称、头像',
-      success: res => {
-        wx.showToast({
-          title: '登录成功',
-          icon: 'success',
-        })
+          app.globalData.userInfo = res.userInfo
 
-        app.globalData.userInfo = res.userInfo
-        this.setData({
-          userInfo: app.globalData.userInfo,
-        })
+          this.setData({
+            userInfo: app.globalData.userInfo,
+          })
 
-        // 获取用户openid
-        wx.cloud.callFunction({
-          name: 'getOpenid',
-          success: resInner => {
-            app.globalData.userOpenid = resInner.result.openid
-            this.setData({
-              userOpenid: app.globalData.userOpenid,
-            })
+          // 获取用户openid
+          wx.cloud.callFunction({
+            name: 'getOpenid',
+            success: resInner => {
+              app.globalData.userOpenid = resInner.result.openid
 
-            wx.setStorageSync('user', {
-              userInfo: app.globalData.userInfo,
-              userOpenid: app.globalData.userOpenid
-            })
-          }
-        })
-      },
-      fail: res => {
-        wx.showToast({
-          title: '获取失败',
-          icon: 'error',
-        })
-      }
-    })
+              this.setData({
+                userOpenid: app.globalData.userOpenid,
+              })
+
+              // 本地缓存
+              wx.setStorageSync('user', {
+                userInfo: app.globalData.userInfo,
+                userOpenid: app.globalData.userOpenid
+              })
+            }
+          })
+        },
+        fail: res => {
+          wx.showToast({
+            title: '获取失败',
+            icon: 'error',
+          })
+        }
+      })
+    }
   },
 
   // 用户退出登录
@@ -68,24 +73,6 @@ Page({
       userInfo: '',
       userOpenid: '',
     })
-    app.globalData.userInfo = ''
-    app.globalData.userOpenid = ''
-
-    wx.setStorageSync('user', {
-      userInfo: '',
-      userOpenid: '',
-      success: res => {
-        wx.showToast({
-          title: '退出成功',
-          icon: 'success'
-        })
-      },
-      fail: res => {
-        wx.showToast({
-          title: '退出失败',
-          icon: 'error'
-        })
-      }
-    })
+    __user.userLogout()
   },
 })

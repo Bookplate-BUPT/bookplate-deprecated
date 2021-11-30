@@ -1,7 +1,12 @@
 // pages/sellBook/sellBook.js
-const app = getApp();
+import __user from "../../utils/user"
+
+// 对象解构
+const { userLogin } = __user
 
 Page({
+  // 对象字面量的属性值简写
+  userLogin,
 
   data: {
     userInfo: '',
@@ -11,11 +16,11 @@ Page({
 
   onShow() {
     this.setData({
-      userInfo: app.globalData.userInfo,
-      userOpenid: app.globalData.userOpenid,
+      userInfo: __user.getUserInfo(),
+      userOpenid: __user.getUserOpenid(),
     })
 
-    if (!this.data.userInfo || !this.data.userOpenid)
+    if (!__user.checkLoginStatus())
       this.setData({ showNoLoginPopup: true })
   },
 
@@ -51,45 +56,6 @@ Page({
     this.setData({ showNoLoginPopup: false });
   },
 
-  // 用户登录，认证用户信息
-  userLogin() {
-    // 获取用户昵称、头像
-    wx.getUserProfile({
-      desc: '获取你的昵称、头像',
-      success: res => {
-        wx.showToast({
-          title: '登录成功',
-          icon: 'success',
-        })
 
-        app.globalData.userInfo = res.userInfo
-        this.setData({
-          userInfo: app.globalData.userInfo,
-        })
 
-        // 获取用户openid
-        wx.cloud.callFunction({
-          name: 'getOpenid',
-          success: resInner => {
-            app.globalData.userOpenid = resInner.result.openid
-            this.setData({
-              userOpenid: app.globalData.userOpenid,
-            })
-
-            // 本地缓存
-            wx.setStorageSync('user', {
-              userInfo: app.globalData.userInfo,
-              userOpenid: app.globalData.userOpenid
-            })
-          }
-        })
-      },
-      fail: res => {
-        wx.showToast({
-          title: '获取失败',
-          icon: 'error',
-        })
-      }
-    })
-  }
 })

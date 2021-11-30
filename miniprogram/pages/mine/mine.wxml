@@ -1,7 +1,7 @@
 <!--pages/mine/mine.wxml-->
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
-  <view bindtap="userLogin" style="background-color: white; height: 84px;">
+  <view bindtap="userLoginInMine" style="background-color: white; height: 84px;">
     <view wx:if="{{userInfo}}" style="display: flex; align-items: center;">
       <van-image round width="64px" height="64px" src="{{userInfo.avatarUrl}}"
         style="margin-left: 15%; margin-top: 10px;" />
