@@ -4,13 +4,16 @@ Page({
   data: {
     author: '',
     introduction: '',
-    showList: [],
+    showList: [],   // 展示在页面上的图片列表，类型为对象数组
     isbn: '',
     name: '',
     price: '',
     publisher: '',
+    publishingTime: '',
+    imageList: [],  // 将要上传至数据库的图片列表，类型为字符串数组
   },
 
+  // 扫描ISBN
   scanISBN() {
     wx.scanCode({
       onlyFromCamera: false,
@@ -27,11 +30,17 @@ Page({
             isbn: res.result
           },
           success: res => {
-            // console.log(JSON.parse(res.result))
+            console.log(JSON.parse(res.result))
             this.setBookDetail(JSON.parse(res.result).data[0])
             wx.showToast({
               icon: 'success',
               title: '识别成功',
+            })
+
+            // 滚动页面
+            wx.pageScrollTo({
+              scrollTop: 999,
+              duration: 200,
             })
           },
           fail: err => {
@@ -43,17 +52,22 @@ Page({
         })
       },
       fail: err => {
-        console.log(err)
+        wx.showToast({
+          icon: 'error',
+          title: '识别失败',
+        })
       }
     })
+
+
   },
 
+  // 设置书籍信息
   setBookDetail(res) {
     let tempImageList = this.data.showList
     tempImageList.push({
       url: 'data:image/png;base64,' + res.image,
       isImage: true,
-      deletable: true,
     })
 
     this.setData({
@@ -64,15 +78,31 @@ Page({
       name: res.name,
       price: res.price,
       publisher: res.publisher,
+      publishingTime: res.publishingTime,
     })
   },
 
+  // 清楚所有信息
+  clearBookDetail() {
+    this.setData({
+      author: '',
+      introduction: '',
+      showList: [],
+      isbn: '',
+      name: '',
+      price: '',
+      publisher: '',
+      publishingTime: '',
+      imageList: [],
+    })
+  },
+
+  // 点击相机图标添加图片
   addImage(event) {
     let tempImageList = this.data.showList
     tempImageList.push({
       url: event.detail.file.url,
       isImage: true,
-      deletable: true,
     })
 
     this.setData({
@@ -80,7 +110,18 @@ Page({
     })
   },
 
-  infoUpload() {
+  // 删除其中某一张图片
+  deleteImage(event) {
+    let tempImageList = this.data.showList
+    tempImageList.splice(event.detail.index, 1)
+
+    this.setData({
+      showList: tempImageList
+    })
+  },
+
+  // 将用于展示的图片数组转成可上传至数据库的数组之后，上传全部数据
+  uploadBookInfo() {
 
   }
 

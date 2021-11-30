@@ -1,32 +1,37 @@
 <!--pages/scanISBN/scanISBN.wxml-->
 <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="请准确填写要求的书籍信息或使用扫码加书一键填写。" />
 
-<view>
-  <van-cell-group title="书籍信息">
-    <van-field value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="always" />
-    <van-field value="{{ author }}" placeholder="请输入作者名" label="作者名" required clearable clear-trigger="always" />
-    <van-field value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable clear-trigger="always" />
-    <van-field value="{{ publisher }}" placeholder="请输入出版社" label="出版社" required clearable clear-trigger="always" />
-    <van-field value="{{ introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="always" autosize
-      type="textarea" />
-  </van-cell-group>
-</view>
+<van-cell-group inset title="书籍信息" custom-class="shadow">
+  <van-field value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="always" />
+  <van-field value="{{ author }}" placeholder="请输入作者名" label="作者名" required clearable clear-trigger="always" />
+  <van-field value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable clear-trigger="always" />
+  <van-field value="{{ publisher }}" placeholder="请输入出版社" label="出版社" required clearable clear-trigger="always" />
+  <van-field value="{{ publishingTime }}" placeholder="请输入出版时间" label="出版时间" required clearable
+    clear-trigger="always" />
+  <van-field value="{{ introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="always" autosize
+    type="textarea" />
+</van-cell-group>
 
-<view style="margin-bottom: 64px;">
-  <van-cell-group title="书籍图片">
-    <van-uploader file-list="{{ showList }}" bind:after-read="addImage" />
-  </van-cell-group>
-</view>
 
-<!-- <van-image src="{{image}}" width="10rem" height="10rem" /> -->
+<van-cell-group inset title="书籍图片" custom-class="shadow">
+  <view style="margin: 2% 0 0 3%;">
+    <van-uploader file-list="{{ showList }}" bind:after-read="addImage" max-count="9" bind:delete="deleteImage" />
+  </view>
+</van-cell-group>
 
-<van-goods-action>
+<van-cell-group>
+
+</van-cell-group>
+
+<view style="margin-bottom: 64px;"></view>
+
+<van-goods-action style="z-index: 999;">
   <van-goods-action-icon icon="question-o" text="遇到困难" bind:click="onClickIcon" />
-  <van-goods-action-icon icon="delete-o" text="一键清空" bind:click="setBookDetail" />
-  <van-goods-action-button plain color="#36cfc9" bind:click="scanISBN">
+  <van-goods-action-icon icon="delete-o" text="一键清空" bind:click="clearBookDetail" />
+  <van-goods-action-button plain color="#8ac286" bind:click="scanISBN">
     <van-icon name="scan" />扫码加书
   </van-goods-action-button>
-  <van-goods-action-button color="#36cfc9" bind:click="infoUpload">
+  <van-goods-action-button color="#8ac286" bind:click="uploadBookInfo">
     信息录入
   </van-goods-action-button>
 </van-goods-action>

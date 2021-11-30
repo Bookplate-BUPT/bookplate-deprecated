@@ -1,18 +1,5 @@
 /* pages/sellBookMain/sellBookMain.wxss */
 
-.tipsCardRoot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.tipsCard {
-  width: 76%;
-  height: 84px;
-  padding: 12px;
-  box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
-}
-
 .footerRoot {
   position: fixed;
   bottom: 0px;
@@ -23,7 +10,7 @@
 
 .shadow {
   box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
-
+  background-color: white;
   /* 解决van-swipe-cell渲染层报错 */
   touch-action: none;
 }
