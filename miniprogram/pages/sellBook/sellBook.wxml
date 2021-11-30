@@ -3,32 +3,30 @@
 
 <view>
   <van-cell-group title="书籍信息">
-    <van-field value="{{ bookDetail.name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="always" />
-    <van-field value="{{ bookDetail.author }}" placeholder="请输入作者名" label="作者名" required clearable
-      clear-trigger="always" />
-    <van-field value="{{ bookDetail.isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable
-      clear-trigger="always" />
-    <van-field value="{{ bookDetail.publisher }}" placeholder="请输入出版社" label="出版社" required clearable
-      clear-trigger="always" />
-    <van-field value="{{ bookDetail.introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="always"
-      autosize type="textarea" />
+    <van-field value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="always" />
+    <van-field value="{{ author }}" placeholder="请输入作者名" label="作者名" required clearable clear-trigger="always" />
+    <van-field value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable clear-trigger="always" />
+    <van-field value="{{ publisher }}" placeholder="请输入出版社" label="出版社" required clearable clear-trigger="always" />
+    <van-field value="{{ introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="always" autosize
+      type="textarea" />
   </van-cell-group>
 </view>
 
 <view style="margin-bottom: 64px;">
   <van-cell-group title="书籍图片">
-    <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" />
+    <van-uploader file-list="{{ showList }}" bind:after-read="addImage" />
   </van-cell-group>
 </view>
+
+<!-- <van-image src="{{image}}" width="10rem" height="10rem" /> -->
 
 <van-goods-action>
   <van-goods-action-icon icon="question-o" text="遇到困难" bind:click="onClickIcon" />
   <van-goods-action-icon icon="delete-o" text="一键清空" bind:click="setBookDetail" />
-  <!-- <van-goods-action-icon icon="scan" text="扫码加书" bind:click="scanISBN" /> -->
   <van-goods-action-button plain color="#36cfc9" bind:click="scanISBN">
     <van-icon name="scan" />扫码加书
   </van-goods-action-button>
-  <van-goods-action-button color="#36cfc9" bind:click="onClickIcon">
+  <van-goods-action-button color="#36cfc9" bind:click="infoUpload">
     信息录入
   </van-goods-action-button>
 </van-goods-action>

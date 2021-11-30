@@ -30,6 +30,7 @@
     </van-row>
   </view>
 </van-cell-group>
+
 <van-cell-group inset style="margin-top: 12px;" custom-class="shadow">
   <view style="background-color: white; padding: 12px;">
     <van-row>
@@ -68,7 +69,6 @@
   </view>
 </van-cell-group>
 
-
 <view class="footerRoot">
   <van-row>
     <van-col span="9" offset="2">
@@ -82,7 +82,7 @@
   </van-row>
 
   <view style="padding-left: 8%; height: 36px; align-items: center; display: flex;" bindtap="toSellDetail">
-    <van-icon name="question-o" style="margin-top: 1px;" />
-    <text style="font-size: 14px; color: #323233; margin-left: 4px;">了解更多买卖二手书流程</text>
+    <van-icon name="question-o" style="margin: 5px 0 0 0;" />
+    <text style="font-size: 14px; color: #323233; margin:4px 0 0 4px;">了解更多买卖二手书流程</text>
   </view>
 </view>

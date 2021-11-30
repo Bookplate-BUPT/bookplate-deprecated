@@ -2,16 +2,13 @@
 
 Page({
   data: {
-    bookDetail: {
-      author: '',
-      introduction: '',
-      image: '',
-      isbn: '',
-      name: '',
-      price: '',
-      publisher: '',
-    },
-    fileList: [],
+    author: '',
+    introduction: '',
+    showList: [],
+    isbn: '',
+    name: '',
+    price: '',
+    publisher: '',
   },
 
   scanISBN() {
@@ -19,18 +16,18 @@ Page({
       onlyFromCamera: false,
       scanType: ['barCode'],
       success: res => {
-        // console.log('扫描ISBN码成功', res)
         wx.showToast({
           icon: 'loading',
           title: '正在识别...',
         })
+
         wx.cloud.callFunction({
           name: 'getBookInfo',
           data: {
             isbn: res.result
           },
           success: res => {
-            console.log('调用云函数getBookInfo成功', JSON.parse(res.result))
+            // console.log(JSON.parse(res.result))
             this.setBookDetail(JSON.parse(res.result).data[0])
             wx.showToast({
               icon: 'success',
@@ -38,7 +35,6 @@ Page({
             })
           },
           fail: err => {
-            // console.log('调用云函数getBookInfo失败', err)
             wx.showToast({
               icon: 'error',
               title: '识别失败',
@@ -52,23 +48,41 @@ Page({
     })
   },
 
-  afterRead(event) {
-
-  },
-
-
   setBookDetail(res) {
-    var tempBookDetail = {
+    let tempImageList = this.data.showList
+    tempImageList.push({
+      url: 'data:image/png;base64,' + res.image,
+      isImage: true,
+      deletable: true,
+    })
+
+    this.setData({
       author: res.author,
       introduction: res.introduction,
-      image: res.image,
+      showList: tempImageList,
       isbn: res.isbn,
       name: res.name,
       price: res.price,
       publisher: res.publisher,
-    }
-    this.setData({
-      bookDetail: tempBookDetail
     })
   },
+
+  addImage(event) {
+    let tempImageList = this.data.showList
+    tempImageList.push({
+      url: event.detail.file.url,
+      isImage: true,
+      deletable: true,
+    })
+
+    this.setData({
+      showList: tempImageList
+    })
+  },
+
+  infoUpload() {
+
+  }
+
+
 })

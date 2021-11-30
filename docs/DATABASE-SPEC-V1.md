@@ -27,7 +27,7 @@
 | isbn              | string         | not null |         | 书本的ISBN码                                      |
 | describe          | string         | not null |         | 卖家对商品的描述                                  |
 | content           | string         | not null |         | 书中内容的简介                                    |
-| picture           | array          | not null |         | 商品多张图片src的数组                             |
+| imageList         | array          | not null |         | 商品多张图片src的数组                             |
 | state             | number         | not null |         | 商品的状态，0表示未售出，1表示已售出，2表示已下架 |
 | views             | number         | not null |         | 商品的点击量                                      |
 | favorites         | number         | not null |         | 商品的收藏量                                      |
