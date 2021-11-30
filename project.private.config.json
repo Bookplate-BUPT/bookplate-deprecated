@@ -41,6 +41,12 @@
           "pathName": "pages/mine/mine",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "cart",
+          "pathName": "pages/cart/cart",
+          "query": "",
+          "scene": null
         }
       ]
     }

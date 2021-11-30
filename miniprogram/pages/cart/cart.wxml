@@ -1,6 +1,20 @@
 <!--pages/cart/cart.wxml-->
 
-
 <view wx:if="{{!userOpenid}}">
-  <text>请先登录</text>
+  <van-popup show="{{ showNoLoginPopup }}" bind:close="closeNoLoginPopup" round position="bottom"
+    custom-style="height: 35%">
+    <view style="justify-content: center; display: flex; margin: 12% 0 8% 0;">认证用户信息后方可正常使用</view>
+    <van-button round type="primary" color="linear-gradient(to right, #b3cfb0, #659c64)"
+      custom-style="justify-content: center; display: flex; width: 80%" bind:click="userLogin">
+      点此认证用户信息
+    </van-button>
+  </van-popup>
+</view>
+
+
+<view>
+  <view>请先登录</view>
+  <view>请先登录</view>
+  <view>请先登录</view>
+  <view>请先登录</view>
 </view>
