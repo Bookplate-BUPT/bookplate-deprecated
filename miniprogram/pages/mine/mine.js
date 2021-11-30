@@ -8,12 +8,17 @@ Page({
   },
 
   onLoad() {
+
+  },
+
+  onShow() {
     this.setData({
       userInfo: app.globalData.userInfo,
       userOpenid: app.globalData.userOpenid,
     })
   },
 
+  // 用户登录
   userLogin() {
     if (this.data.userInfo || this.data.userOpenid)
       return
@@ -55,10 +60,9 @@ Page({
         })
       }
     })
-
-
   },
 
+  // 用户退出登录
   userLogout() {
     this.setData({
       userInfo: '',
@@ -67,10 +71,21 @@ Page({
     app.globalData.userInfo = ''
     app.globalData.userOpenid = ''
 
-    wx.showToast({
-      title: '退出成功',
-      icon: 'success'
+    wx.setStorageSync('user', {
+      userInfo: '',
+      userOpenid: '',
+      success: res => {
+        wx.showToast({
+          title: '退出成功',
+          icon: 'success'
+        })
+      },
+      fail: res => {
+        wx.showToast({
+          title: '退出失败',
+          icon: 'error'
+        })
+      }
     })
   },
-
 })

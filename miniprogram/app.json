@@ -21,7 +21,8 @@
     "color": "#000000",
     "selectedColor": "#7ab37a",
     "borderStyle": "white",
-    "list": [{
+    "list": [
+      {
         "pagePath": "pages/main/main",
         "iconPath": "/icons/main.png",
         "selectedIconPath": "/icons/main_1.png"
