@@ -9,8 +9,12 @@ Page({
     name: '',
     price: '',
     publisher: '',
-    publishingTime: '',
+    publishDate: '',
     imageList: [],  // 将要上传至数据库的图片列表，类型为字符串数组
+    originalPrice: '',
+    price: 0,
+
+    currentPrice: 0,
   },
 
   // 扫描ISBN
@@ -78,7 +82,7 @@ Page({
       name: res.name,
       price: res.price,
       publisher: res.publisher,
-      publishingTime: res.publishingTime,
+      publishDate: res.publishingTime,
     })
   },
 
@@ -92,8 +96,10 @@ Page({
       name: '',
       price: '',
       publisher: '',
-      publishingTime: '',
+      publishDate: '',
       imageList: [],
+      original_price: 0,
+      price: 0,
     })
   },
 
@@ -110,7 +116,7 @@ Page({
     })
   },
 
-  // 删除其中某一张图片
+  // 删除展示列表里的某一张图片
   deleteImage(event) {
     let tempImageList = this.data.showList
     tempImageList.splice(event.detail.index, 1)
@@ -123,7 +129,15 @@ Page({
   // 将用于展示的图片数组转成可上传至数据库的数组之后，上传全部数据
   uploadBookInfo() {
 
-  }
+  },
+
+
+  onChange(event) {
+    wx.showToast({
+      icon: 'none',
+      title: `当前值：${event.detail.value / 100}`,
+    });
+  },
 
 
 })

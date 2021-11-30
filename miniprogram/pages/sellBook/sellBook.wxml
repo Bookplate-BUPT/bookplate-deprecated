@@ -19,9 +19,17 @@
   </view>
 </van-cell-group>
 
-<van-cell-group>
+<van-cell-group inset title="售卖详情" custom-class="shadow">
+  <van-field value="{{ originalPrice }}" placeholder="请输入原价" label="书本原价" required clearable clear-trigger="always"
+    type="digit" />
 
+  <van-cell title="二手定价" title-width="72px" required>
+    <view style="margin: 10px 16px 0 16px">
+      <van-slider value="{{ currentPrice }}" use-slot-button bind:drag="onChange" />
+    </view>
+  </van-cell>
 </van-cell-group>
+
 
 <view style="margin-bottom: 64px;"></view>
 
