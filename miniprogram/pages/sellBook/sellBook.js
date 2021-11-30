@@ -1,8 +1,6 @@
 // pages/scanISBN/scanISBN.js
-// import Notify from '../../../node_modules/@vant/weapp/dist/notify/notify';
 
 Page({
-
   data: {
     bookDetail: {
       author: '',
@@ -13,34 +11,15 @@ Page({
       price: '',
       publisher: '',
     },
-    fileList: [
-      {
-        url: 'https://img.yzcdn.cn/vant/leaf.jpg',
-      },
-      {
-        url: 'https://img.yzcdn.cn/vant/tree.jpg',
-      },
-    ],
+    fileList: [],
   },
 
-  /**
-   * 调用 getBookInfo 云函数
-   * @param {string} 书本的ISBN码
-   * @returns {object} 返回包括所有书本详细信息的对象
-   * @example 
-   * wx.cloud.callFunction({
-          name: 'getBookInfo',
-          data: {
-            isbn: 9787201077642
-          }
-        })
-   */
   scanISBN() {
     wx.scanCode({
       onlyFromCamera: false,
       scanType: ['barCode'],
       success: res => {
-        console.log('扫描ISBN码成功', res)
+        // console.log('扫描ISBN码成功', res)
         wx.showToast({
           icon: 'loading',
           title: '正在识别...',
@@ -59,7 +38,7 @@ Page({
             })
           },
           fail: err => {
-            console.log('调用云函数getBookInfo失败', err)
+            // console.log('调用云函数getBookInfo失败', err)
             wx.showToast({
               icon: 'error',
               title: '识别失败',
@@ -74,19 +53,7 @@ Page({
   },
 
   afterRead(event) {
-    const { file } = event.detail;
-    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-    wx.uploadFile({
-      url: 'http://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-      filePath: file.url,
-      name: 'file',
-      formData: { user: 'test' },
-      success(res) {
-        // 上传完成需要更新 fileList
-        this.data.fileList.push({ ...file, url: res.data });
-        this.setData({ fileList });
-      },
-    });
+
   },
 
 
