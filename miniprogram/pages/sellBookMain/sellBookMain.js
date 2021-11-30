@@ -25,7 +25,9 @@ Page({
   },
 
   onHide() {
-    this.closeNoLoginPopup()
+    this.setData({
+      showNoLoginPopup: false,
+    })
   },
 
   // 了解更多买卖二手书流程
@@ -53,7 +55,8 @@ Page({
 
   // 关闭提示弹出层
   closeNoLoginPopup() {
-    this.setData({ showNoLoginPopup: false });
+    if (__user.checkLoginStatus())
+      this.setData({ showNoLoginPopup: false });
   },
 
 
