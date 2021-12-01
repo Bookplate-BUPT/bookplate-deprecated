@@ -28,11 +28,6 @@ Page({
       wx.getUserProfile({
         desc: '获取你的昵称、头像',
         success: res => {
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success',
-          })
-
           app.globalData.userInfo = res.userInfo
 
           this.setData({
@@ -54,6 +49,14 @@ Page({
                 userInfo: app.globalData.userInfo,
                 userOpenid: app.globalData.userOpenid
               })
+
+              wx.showToast({
+                title: '登录成功',
+                icon: 'success',
+              })
+            },
+            fail: resInner => {
+              console.log(resInner)
             }
           })
         },
