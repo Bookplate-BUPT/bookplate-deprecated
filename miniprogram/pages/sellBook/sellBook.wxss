@@ -6,3 +6,7 @@
   /* 解决van-swipe-cell渲染层报错 */
   touch-action: none;
 }
+
+.custom-button {
+  background-color: black;
+}

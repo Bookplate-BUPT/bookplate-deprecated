@@ -1,20 +1,45 @@
 // pages/scanISBN/scanISBN.js
+import __user from "../../utils/user"
 
 Page({
   data: {
+    // 书本信息相关
     author: '',
-    introduction: '',
-    showList: [],   // 展示在页面上的图片列表，类型为对象数组
+    introduction: '',   // 书本内容的介绍
+    showList: [],       // 展示在页面上的图片列表，类型为对象数组
     isbn: '',
     name: '',
-    price: '',
     publisher: '',
     publishDate: '',
-    imageList: [],  // 将要上传至数据库的图片列表，类型为字符串数组
-    originalPrice: '',
-    price: 0,
+    imageList: [],      // 将要上传至数据库的图片列表，类型为字符串数组
+    originalPrice: '',  // 为了使初始化时原价那一栏什么也不写，这里需要为空字符串，而不是数字0
+    price: '',          // 二手定价同理
+    description: '',    // 用户对自己二手书的描述
 
-    currentPrice: 0,
+    // 页面展示相关
+    showDifficultyOverLay: false,
+    helpSteps: [
+      {
+        text: '一',
+        desc: 'AAA'
+      },
+      {
+        text: '二',
+        desc: 'BBB'
+      },
+      {
+        text: '三',
+        desc: 'CCC'
+      },
+    ],
+
+    userOpenid: '',
+  },
+
+  onLoad() {
+    this.setData({
+      userOpenid: __user.getUserOpenid(),
+    })
   },
 
   // 扫描ISBN
@@ -41,9 +66,9 @@ Page({
               title: '识别成功',
             })
 
-            // 滚动页面
+            // 滚动页面到底部
             wx.pageScrollTo({
-              scrollTop: 999,
+              scrollTop: 9999,
               duration: 200,
             })
           },
@@ -62,11 +87,9 @@ Page({
         })
       }
     })
-
-
   },
 
-  // 设置书籍信息
+  // 设置书籍信息（在scanISBN里调用）
   setBookDetail(res) {
     let tempImageList = this.data.showList
     tempImageList.push({
@@ -83,10 +106,11 @@ Page({
       price: res.price,
       publisher: res.publisher,
       publishDate: res.publishingTime,
+      originalPrice: res.price,
     })
   },
 
-  // 清楚所有信息
+  // 清除所有信息
   clearBookDetail() {
     this.setData({
       author: '',
@@ -94,12 +118,12 @@ Page({
       showList: [],
       isbn: '',
       name: '',
-      price: '',
       publisher: '',
       publishDate: '',
       imageList: [],
-      original_price: 0,
-      price: 0,
+      originalPrice: '',
+      price: '',
+      description: '',
     })
   },
 
@@ -128,16 +152,132 @@ Page({
 
   // 将用于展示的图片数组转成可上传至数据库的数组之后，上传全部数据
   uploadBookInfo() {
+    // 检查登录状态
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '尚未登录',
+        icon: 'error',
+      })
+      return
+    }
 
+    // 对象数组映射成字符串数组
+    let tempImageList = this.data.showList.map(i => i.url)
+    this.setData({
+      imageList: tempImageList,
+    })
+
+    // 信息是否完整
+    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description) {
+      wx.showToast({
+        title: '信息不完整',
+        icon: 'error',
+      })
+      return
+    }
+
+    // 上传数据库
+    wx.cloud.callFunction({
+      name: 'createGoods',
+      data: {
+        author: this.data.author,
+        introduction: this.data.introduction,
+        isbn: this.data.isbn,
+        name: this.data.name,
+        price: this.data.price,
+        publisher: this.data.publisher,
+        publishDate: this.data.publishDate,
+        imageList: this.data.imageList,
+        originalPrice: this.data.originalPrice,
+        price: this.data.price,
+        description: this.data.description,
+        openid: this.data.userOpenid,
+      },
+      success: res => {
+        wx.showToast({
+          title: '发布成功',
+          icon: 'success',
+        })
+
+        wx.switchTab({
+          url: '../sellBookMain/sellBookMain',
+        })
+      },
+      fail: res => {
+        wx.showToast({
+          title: '发布失败',
+          icon: 'error',
+        })
+      }
+    })
   },
 
+  // 当slider发生拖动改变时调用
+  priceDragInSlider(event) {
+    let tempPrice = event.detail.value / 100 * Number(this.data.originalPrice)
 
-  onChange(event) {
-    wx.showToast({
-      icon: 'none',
-      title: `当前值：${event.detail.value / 100}`,
-    });
+    // 错误检测
+    if (isNaN(tempPrice)) {
+      wx.showToast({
+        icon: 'error',
+        title: `原价输入有误`,
+      });
+      return
+    } else if (this.data.originalPrice == '') {
+      wx.showToast({
+        icon: 'error',
+        title: `原价不能为空`,
+      });
+      return
+    }
+
+    // 保留两位小数
+    tempPrice = tempPrice.toFixed(2)
+
+    this.setData({
+      price: tempPrice,
+    })
   },
 
+  // 当slider发生点击改变时调用
+  priceChangeInSlider(event) {
+    let tempPrice = event.detail / 100 * Number(this.data.originalPrice)
+
+    // 错误检测
+    if (isNaN(tempPrice)) {
+      wx.showToast({
+        icon: 'error',
+        title: `原价输入有误`,
+      });
+      return
+    } else if (this.data.originalPrice == '') {
+      wx.showToast({
+        icon: 'error',
+        title: `原价不能为空`,
+      });
+      return
+    }
+
+    // 保留两位小数
+    tempPrice = tempPrice.toFixed(2)
+
+    this.setData({
+      price: tempPrice,
+    })
+  },
+
+  // 展示遇到困难遮罩层
+  showDifficultyOverLay() {
+    this.setData({
+      showDifficultyOverLay: true,
+    })
+  },
+
+  // 隐藏遇到困难遮罩层
+  closeDifficultyOverLay() {
+    this.setData({
+      showDifficultyOverLay: false,
+    })
+  },
 
 })
