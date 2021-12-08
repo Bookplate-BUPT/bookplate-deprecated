@@ -4,14 +4,14 @@
 
 ## USERS 用户
 
-| 属性名   | 数据库数据类型 | 是否为空 | 类型    | 备注                                 |
-| -------- | -------------- | -------- | ------- | ------------------------------------ |
-| _id      | string         | not null | primary | 用户ID                               |
-| _openid  | string         | not null |         | 用户设备的唯一标识符                 |
-| username | string         | not null |         | 用户昵称，可以随意更改               |
-| password | string         | not null |         | 登录账户所需的密码                   |
-| avatar   | string         | not null |         | 用户头像的src                        |
-| grade    | number         | not null |         | 表示用户的年级，1表示大一，5表示研一 |
+| 属性名   | 数据库数据类型 | 是否为空 | 类型    | 备注                   |
+| -------- | -------------- | -------- | ------- | ---------------------- |
+| _id      | string         | not null | primary | 用户ID                 |
+| _openid  | string         | not null |         | 用户设备的唯一标识符   |
+| username | string         | not null |         | 用户昵称，可以随意更改 |
+| avatar   | string         | not null |         | 用户头像的src          |
+| grade    | string         | not null |         | 表示用户的年级         |
+| school   | string         | not null |         | 表示用户的学院         |
 
 
 
