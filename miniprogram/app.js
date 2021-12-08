@@ -11,6 +11,7 @@ App({
 
     }
 
+    // 取本地缓存的用户信息
     this.globalData.userInfo = wx.getStorageSync('user').userInfo
     this.globalData.userOpenid = wx.getStorageSync('user').userOpenid
   },
