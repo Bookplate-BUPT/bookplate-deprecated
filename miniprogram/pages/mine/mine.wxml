@@ -5,7 +5,10 @@
     <view wx:if="{{userInfo}}" style="display: flex; align-items: center;">
       <van-image round width="64px" height="64px" src="{{userInfo.avatarUrl}}"
         style="margin-left: 15%; margin-top: 10px;" />
-      <text style="font-size: 14px; margin-left: 16px;">{{userInfo.nickName}}</text>
+      <view>
+        <text style="font-size: 14px; margin-left: 16px;">{{userInfo.nickName}}</text>
+        <van-tag color="#f2826a">标签</van-tag>
+      </view>
     </view>
 
     <view wx:else style="display: flex; align-items: center;">
@@ -13,6 +16,10 @@
       <text style="font-size: 14px; margin-left: 16px;">点击验证个人信息</text>
     </view>
   </view>
+</van-cell-group>
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
+  <van-cell is-link title="编辑个人信息" link-type="navigateTo" url="../editUserInfo/editUserInfo" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
@@ -29,5 +36,5 @@
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;" wx:if="{{userInfo}}">
-  <van-button block color="linear-gradient(to right, #b3cfb0, #659c64)" bind:click="userLogout">退出登录</van-button>
+  <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="userLogout">退出登录</van-button>
 </van-cell-group>

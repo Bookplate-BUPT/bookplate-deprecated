@@ -47,6 +47,12 @@
           "pathName": "pages/cart/cart",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "editUserInfo",
+          "pathName": "pages/editUserInfo/editUserInfo",
+          "query": "",
+          "scene": null
         }
       ]
     }

@@ -8,17 +8,16 @@ Page({
   data: {
     userInfo: '',
     userOpenid: '',
+    userGrade: '',
+    userSchool: '',
   },
 
   onLoad() {
-
+    this.getUserDetail()
   },
 
   onShow() {
-    this.setData({
-      userInfo: __user.getUserInfo(),
-      userOpenid: __user.getUserOpenid(),
-    })
+
   },
 
   // 用户登录
@@ -54,6 +53,9 @@ Page({
                 title: '登录成功',
                 icon: 'success',
               })
+
+              // 检查用户是否是第一次使用
+              this.userRegister()
             },
             fail: resInner => {
               console.log(resInner)
@@ -67,6 +69,8 @@ Page({
           })
         }
       })
+
+
     }
   },
 
@@ -77,5 +81,45 @@ Page({
       userOpenid: '',
     })
     __user.userLogout()
+  },
+
+  userRegister() {
+    wx.cloud.database().collection('users')
+      .where({
+        _openid: __user.getUserOpenid()
+      })
+      .get()
+      .then(res => {
+        // 如果没有该用户，则需要注册
+        if (!res.data.length) {
+          wx.cloud.database().collection('users')
+            .add({
+              data: {
+                grade: '大一',
+                school: '信息与通信工程学院',
+              }
+            })
+
+          wx.navigateTo({
+            url: '../editUserInfo/editUserInfo',
+          })
+        }
+      })
+  },
+
+  getUserDetail() {
+    wx.cloud.database().collection('users')
+      .where({
+        _openid: __user.getUserOpenid()
+      })
+      .get()
+      .then(res => {
+        this.setData({
+          userInfo: __user.getUserInfo(),
+          userOpenid: __user.getUserOpenid(),
+          userGrade: res.data[0].grade,
+          userSchool: res.data[0].school,
+        })
+      })
   },
 })
