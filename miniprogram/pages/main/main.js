@@ -34,6 +34,7 @@ Page({
         value: 3,
       },
     ],
+    bookList: [],
   },
 
   // 关键字搜索
