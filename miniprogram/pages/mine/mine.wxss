@@ -10,3 +10,11 @@
 .swiperCellButton {
   width: 65px;
 }
+
+.usernameCol {
+  margin-top: 8px;
+}
+
+.tagCol {
+  margin-top: 4px;
+}

@@ -13,11 +13,11 @@ Page({
   },
 
   onLoad() {
-    this.getUserDetail()
+
   },
 
   onShow() {
-
+    this.getUserDetail()
   },
 
   // 用户登录
@@ -83,6 +83,7 @@ Page({
     __user.userLogout()
   },
 
+  // 检测用户是否为第一次进入小程序
   userRegister() {
     wx.cloud.database().collection('users')
       .where({
@@ -107,6 +108,7 @@ Page({
       })
   },
 
+  // 取得用户的各种信息
   getUserDetail() {
     wx.cloud.database().collection('users')
       .where({

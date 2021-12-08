@@ -5,10 +5,17 @@
     <view wx:if="{{userInfo}}" style="display: flex; align-items: center;">
       <van-image round width="64px" height="64px" src="{{userInfo.avatarUrl}}"
         style="margin-left: 15%; margin-top: 10px;" />
-      <view>
-        <text style="font-size: 14px; margin-left: 16px;">{{userInfo.nickName}}</text>
-        <van-tag color="#f2826a">标签</van-tag>
-      </view>
+
+      <van-row>
+        <van-col custom-class="usernameCol">
+          <text style="font-size: 14px; margin-left: 16px;">{{userInfo.nickName}}</text>
+          <van-tag color="#f6a7af" style="margin-left: 12px;">{{ userGrade }}</van-tag>
+        </van-col>
+        <van-col offset="2" custom-class="tagCol">
+          <van-tag color="#b0c2db">{{ userSchool }}</van-tag>
+        </van-col>
+      </van-row>
+
     </view>
 
     <view wx:else style="display: flex; align-items: center;">
