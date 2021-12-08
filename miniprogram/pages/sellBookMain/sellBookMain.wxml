@@ -76,7 +76,7 @@
       </van-button>
     </van-col>
     <van-col span="9" offset="2">
-      <van-button round type="primary" block color="linear-gradient(to right, #b3cfb0, #659c64)" size="small">发布求书信息
+      <van-button round type="primary" block color="linear-gradient(to right, #8ac286, #659c64)" size="small">发布求书信息
       </van-button>
     </van-col>
   </van-row>
