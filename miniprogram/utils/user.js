@@ -117,5 +117,5 @@ export default {
   getUserInfo,
   getUserOpenid,
   userLogin,
-  userLogout
+  userLogout,
 }

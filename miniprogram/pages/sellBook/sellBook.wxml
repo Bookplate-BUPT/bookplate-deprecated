@@ -34,6 +34,7 @@
 
   <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable
     clear-trigger="focus" autosize type="textarea" />
+
 </van-cell-group>
 
 <!-- 书籍图片 -->
