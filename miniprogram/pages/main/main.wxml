@@ -1,32 +1,19 @@
 <!--pages/main/main.wxml-->
 
 <van-sticky>
-  <van-search value="{{ searchWord }}" bind:search="onSearch" shape="round" use-action-slot="true"
-    background="linear-gradient(to bottom, #b5f5ec, #87e8de)">
-    <view slot="action" bindtap="onScanSearch">
-      <van-icon name="scan" size="20px" style="margin-top: 10px;" />
-    </view>
-  </van-search>
+  <view style="margin-top: -8px;">
+    <van-search value="{{ searchWord }}" bind:search="keySearch" shape="round" use-action-slot="true"
+      background="#8ac286">
+      <view slot="action" bindtap="scanSearch">
+        <van-icon name="scan" size="20px" />
+      </view>
+    </van-search>
+  </view>
+
+  <van-dropdown-menu active-color="#8ac286">
+    <van-dropdown-item value="{{ 0 }}" options="{{ bookTypeOption }}" />
+    <van-dropdown-item value="{{ 0 }}" options="{{ sortTypeOption }}" />
+  </van-dropdown-menu>
 </van-sticky>
 
-<van-tabs swipeable color="#5cdbd3">
-  <van-tab title="猜你喜欢">
-    内容 1
-    <view style="height: 500px;">123</view>
-  </van-tab>
-
-  <van-tab title="大一">
-    <van-dropdown-menu>
-      <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
-      <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
-    </van-dropdown-menu>
-  </van-tab>
-
-  <van-tab title="大二">
-    内容 3
-  </van-tab>
-
-  <van-tab title="大三">
-    内容 4
-  </van-tab>
-</van-tabs>
+<view style="height: 999px;">123143645</view>
