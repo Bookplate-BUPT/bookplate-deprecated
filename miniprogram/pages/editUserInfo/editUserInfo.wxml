@@ -1,0 +1,8 @@
+<!--pages/editUserInfo/editUserInfo.wxml-->
+<van-cell-group inset title="编辑个人信息" custom-class="shadow">
+  <van-picker columns="{{ columns }}" bind:change="gradeAndSchoolChange" confirm-button-text="" cancel-button-text="" />
+</van-cell-group>
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
+  <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="confirmEdit">确认编辑</van-button>
+</van-cell-group>
