@@ -5,40 +5,51 @@ Page({
     bookTypeOption: [
       {
         text: '全部书籍',
-        value: 0,
+        value: '',
       },
       {
         text: '本科生',
-        value: 1,
+        value: '本科生',
       },
       {
         text: '研究生',
-        value: 2,
+        value: '研究生',
       },
     ],
     sortTypeOption: [
       {
         text: '默认排序',
-        value: 0,
+        value: '',
       },
       {
         text: '最新上架',
-        value: 1,
+        value: 'post_date',
       },
       {
         text: '最多浏览',
-        value: 2,
+        value: 'views',
       },
       {
         text: '最多收藏',
-        value: 3,
+        value: 'favorites',
       },
     ],
+    bookType: '',
+    sortType: '',
+
     goodsList: '',
   },
 
   onLoad() {
     this.getGoodsList()
+  },
+
+  // 下拉刷新监听
+  onPullDownRefresh() {
+    wx.showToast({
+      title: '正在刷新...',
+      icon: 'loading',
+    })
   },
 
   // 关键字搜索
@@ -82,8 +93,6 @@ Page({
         this.setData({
           goodsList: res.data
         })
-
-        console.log(this.data.goodsList)
       })
   },
 
@@ -97,5 +106,24 @@ Page({
     console.log('添加购物车')
   },
 
+  // 筛选书籍类型改变时调用
+  bookTypeChange(event) {
+    this.setData({
+      bookType: event.detail
+    })
+  },
 
+  // 排序类型改变时调用
+  sortTypeChange(event) {
+    this.setData({
+      sortType: event.detail
+    })
+  },
+
+  // 进入商品详情页
+  goToBookDetail(event) {
+    wx.navigateTo({
+      url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
+    })
+  },
 })

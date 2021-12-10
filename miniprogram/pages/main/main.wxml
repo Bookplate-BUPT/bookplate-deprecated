@@ -11,21 +11,21 @@
   </view>
 
   <van-dropdown-menu active-color="#8ac286">
-    <van-dropdown-item value="{{ 0 }}" options="{{ bookTypeOption }}" />
-    <van-dropdown-item value="{{ 0 }}" options="{{ sortTypeOption }}" />
+    <van-dropdown-item value="{{ bookType }}" options="{{ bookTypeOption }}" bind:change="bookTypeChange" />
+    <van-dropdown-item value="{{ sortType }}" options="{{ sortTypeOption }}" bind:change="sortTypeChange" />
   </van-dropdown-menu>
 </van-sticky>
 
 <view wx:for="{{ goodsList }}" style="margin-top: 8px;" wx:key="_id">
   <van-cell-group inset custom-class="shadow">
     <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
-      <van-button slot="left" color="orange" custom-class="swiperCellButton" bind:click="favoriteGoods">
+      <van-button slot="left" color="#FFC125" custom-class="swiperCellButton" bind:click="favoriteGoods">
         <van-icon name="star" />
         <view>收藏</view>
       </van-button>
 
       <van-card price="{{ item.price }}" desc="{{ item.description }}" title="{{ item.name }}"
-        thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" />
+        thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail"/>
 
       <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart">
         <van-icon name="shopping-cart" />
