@@ -17,7 +17,7 @@
 
 <!-- 售卖详情 -->
 <van-cell-group inset title="售卖详情" custom-class="shadow">
-  <van-field model:value="{{ originalPrice }}" placeholder="请输入原价" label="书本原价" required clearable clear-trigger="focus"
+  <van-field model:value="{{ originalPrice }}" placeholder="请输入原价" label="书籍原价" required clearable clear-trigger="focus"
     type="digit" />
 
   <van-field model:value="{{ price }}" placeholder="请输入二手定价" label="二手定价" required clearable clear-trigger="focus"
@@ -29,6 +29,15 @@
         bind:change="priceChangeInSlider">
         <view slot="button" style="background-color: black;">{{ price }}</view>
       </van-slider>
+    </view>
+  </van-cell>
+
+  <van-cell title="书籍分类" required title-width="84px">
+    <view style="margin: 2px 0 0 4px;">
+      <van-radio-group value="{{ grade }}" bind:change="bookGradeChange" direction="horizontal">
+        <van-radio name="本科生" checked-color="#8ac286">本科生</van-radio>
+        <van-radio name="研究生" checked-color="#8ac286">研究生</van-radio>
+      </van-radio-group>
     </view>
   </van-cell>
 

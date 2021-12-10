@@ -26,6 +26,7 @@ exports.main = async (event, context) => {
         favorites: 0,
         post_date: new Date(),
         book_publish_date: event.publishDate,
+        grade: event.grade,
       }
     })
   }

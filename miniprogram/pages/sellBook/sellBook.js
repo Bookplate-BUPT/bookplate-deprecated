@@ -15,6 +15,7 @@ Page({
     originalPrice: '',  // 为了使初始化时原价那一栏什么也不写，这里需要为空字符串，而不是数字0
     price: '',          // 二手定价同理
     description: '',    // 用户对自己二手书的描述
+    grade: '',          // 书籍对应的学习水平（本科、研究生等）
 
     // 页面展示相关
     showDifficultyOverLay: false,
@@ -91,6 +92,7 @@ Page({
 
   // 设置书籍信息（在scanISBN里调用）
   setBookDetail(res) {
+    // 图片的base64格式的处理
     let tempImageList = this.data.showList
     tempImageList.push({
       url: 'data:image/png;base64,' + res.image,
@@ -168,7 +170,7 @@ Page({
     })
 
     // 信息是否完整
-    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description) {
+    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.grade) {
       wx.showToast({
         title: '信息不完整',
         icon: 'error',
@@ -192,15 +194,16 @@ Page({
         price: this.data.price,
         description: this.data.description,
         openid: this.data.userOpenid,
+        grade: this.data.grade,
       },
       success: res => {
         wx.showToast({
           title: '发布成功',
           icon: 'success',
-        })
-
-        wx.switchTab({
-          url: '../sellBookMain/sellBookMain',
+        }).then(res => {
+          wx.switchTab({
+            url: '../sellBookMain/sellBookMain',
+          })
         })
       },
       fail: res => {
@@ -263,6 +266,12 @@ Page({
 
     this.setData({
       price: tempPrice,
+    })
+  },
+
+  bookGradeChange(event) {
+    this.setData({
+      grade: event.detail
     })
   },
 
