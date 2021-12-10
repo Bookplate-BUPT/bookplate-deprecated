@@ -30,12 +30,12 @@
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
-  <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}" style="background-color: black;">
+  <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}">
     <van-button slot="left" color="lightgreen" custom-class="swiperCellButton">选择</van-button>
     <van-cell title="单元格" value="内容" />
     <van-button slot="right" color="red" custom-class="swiperCellButton">删除</van-button>
   </van-swipe-cell>
-  <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}" style="background-color: black;">
+  <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}">
     <van-button slot="left" color="lightgreen" custom-class="swiperCellButton">选择</van-button>
     <van-cell title="单元格" value="内容" />
     <van-button slot="right" color="red" custom-class="swiperCellButton">删除</van-button>
