@@ -14,6 +14,7 @@ exports.main = async (event, context) => {
     return cloud.database().collection('goods').add({
       data: {
         _openid: currentOpenid,
+        author: event.author,
         price: event.price,
         original_price: event.originalPrice,
         name: event.name,
@@ -25,6 +26,7 @@ exports.main = async (event, context) => {
         views: 0,
         favorites: 0,
         post_date: new Date(),
+        publisher: event.publisher,
         book_publish_date: event.publishDate,
         grade: event.grade,
       }

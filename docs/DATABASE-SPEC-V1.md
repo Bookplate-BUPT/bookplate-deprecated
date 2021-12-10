@@ -21,6 +21,7 @@
 | ----------------- | -------------- | -------- | ------- | ------------------------------------------------- |
 | _id               | string         | not null | primary | 商品ID                                            |
 | _openid           | string         | not null |         | 指卖家的设备                                      |
+| author            | string         | not null |         | 书本的作者                                        |
 | price             | number         | not null |         | 商品的价格                                        |
 | original_price    | number         | not null |         | 书本的原价                                        |
 | name              | string         | not null |         | 书本的名字                                        |
@@ -32,6 +33,7 @@
 | views             | number         | not null |         | 商品的点击量                                      |
 | favorites         | number         | not null |         | 商品的收藏量                                      |
 | post_date         | date           | not null |         | 商品的发布时间                                    |
+| publisher         | string         | not null |         | 书本的出版社                                      |
 | book_publish_date | date           | not null |         | 书本的发行时间                                    |
 | grade             | string         | not null |         | 书本对应的年级                                    |
 
