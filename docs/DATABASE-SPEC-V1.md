@@ -33,6 +33,7 @@
 | favorites         | number         | not null |         | 商品的收藏量                                      |
 | post_date         | date           | not null |         | 商品的发布时间                                    |
 | book_publish_date | date           | not null |         | 书本的发行时间                                    |
+| grade             | string         | not null |         | 书本对应的年级                                    |
 
 
 
