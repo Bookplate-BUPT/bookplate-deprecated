@@ -8,11 +8,11 @@ Page({
         value: 0,
       },
       {
-        text: '大一',
+        text: '本科生',
         value: 1,
       },
       {
-        text: '大二',
+        text: '研究生',
         value: 2,
       },
     ],
@@ -34,7 +34,11 @@ Page({
         value: 3,
       },
     ],
-    bookList: [],
+    goodsList: '',
+  },
+
+  onLoad() {
+    this.getGoodsList()
   },
 
   // 关键字搜索
@@ -68,6 +72,29 @@ Page({
         })
       }
     })
+  },
+
+  // 获取商品列表
+  getGoodsList() {
+    wx.cloud.database().collection('goods')
+      .get()
+      .then(res => {
+        this.setData({
+          goodsList: res.data
+        })
+
+        console.log(this.data.goodsList)
+      })
+  },
+
+  // 收藏商品
+  favoriteGoods() {
+    console.log('收藏')
+  },
+
+  // 添加商品到购物车
+  addGoodsToCart() {
+    console.log('添加购物车')
   },
 
 

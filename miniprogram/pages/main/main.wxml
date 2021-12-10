@@ -4,7 +4,7 @@
   <view style="margin-top: -8px;">
     <van-search value="{{ searchWord }}" bind:search="keySearch" shape="round" use-action-slot="true"
       background="#8ac286">
-      <view slot="action" bindtap="scanSearch">
+      <view slot="action" bindtap="scanSearch" style="margin-top: 4px;">
         <van-icon name="scan" size="20px" />
       </view>
     </van-search>
@@ -16,4 +16,21 @@
   </van-dropdown-menu>
 </van-sticky>
 
-<!-- <view style="height: 999px;">123143645</view> -->
+<view wx:for="{{ goodsList }}" style="margin-top: 8px;" wx:key="_id">
+  <van-cell-group inset custom-class="shadow">
+    <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
+      <van-button slot="left" color="orange" custom-class="swiperCellButton" bind:click="favoriteGoods">
+        <van-icon name="star" />
+        <view>收藏</view>
+      </van-button>
+
+      <van-card price="{{ item.price }}" desc="{{ item.description }}" title="{{ item.name }}"
+        thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" />
+
+      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart">
+        <van-icon name="shopping-cart" />
+        <view>加入购物车</view>
+      </van-button>
+    </van-swipe-cell>
+  </van-cell-group>
+</view>
