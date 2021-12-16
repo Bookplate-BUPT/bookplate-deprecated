@@ -29,7 +29,7 @@
         bindtap="goToBookDetail" />
 
       <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart"
-        data-id=" {{ item._id }} ">
+        data-id="{{ item._id }}">
         <van-icon name="shopping-cart" />
         <view>加入购物车</view>
       </van-button>
