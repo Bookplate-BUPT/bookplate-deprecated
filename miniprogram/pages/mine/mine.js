@@ -96,6 +96,8 @@ Page({
           wx.cloud.database().collection('users')
             .add({
               data: {
+                avatarUrl: __user.getUserInfo().avatarUrl,
+                nickName: __user.getUserInfo().nickName,
                 grade: '大一',
                 school: '信息与通信工程学院',
               }
