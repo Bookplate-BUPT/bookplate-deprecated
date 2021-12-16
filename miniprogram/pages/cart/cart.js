@@ -8,7 +8,7 @@ Page({
     userInfo: '',
     userOpenid: '',
     showNoLoginPopup: false,
-    cartList: [],
+    cartList: '',
   },
 
   onLoad() {
@@ -82,33 +82,37 @@ Page({
   },
 
   // 获取购物车内的所有商品
-  getCartList() {
-    wx.cloud.database().collection('cart')
+  async getCartList() {
+    // 获取购物车内的商品ID列表
+    const goodsIdList = await wx.cloud.database().collection('cart')
       .where({
         _openid: __user.getUserOpenid(),
       })
       .get()
-      .then(res => {
-        let tempCartList = res.data
 
-        tempCartList.forEach(i => {
-          wx.cloud.database().collection('goods')
-            .where({
-              _id: i.goods_id
-            })
-            .get()
-            .then(resInner => {
-              i.bookDetail = resInner.data[0]
-            })
+    // 根据商品ID查询对应的商品详细信息
+    const promiseArray = goodsIdList.data.map((i) => (
+      wx.cloud.database().collection('goods')
+        .where({
+          _id: i.goods_id
         })
+        .get()
+    ))
+
+    // 等到所有的查询线程结束后再继续进行
+    const bookDetailList = await Promise.all(promiseArray)
+
+    // 将详细信息放入原商品ID列表
+    const tempCartList = goodsIdList.data.map((i, idx) => ({
+      ...i,
+      bookDetail: bookDetailList[idx].data[0],
+    }))
+
+    this.setData({
+      cartList: tempCartList,
+    })
+  },
 
 
-        this.setData({
-          cartList: tempCartList,
-        })
-
-        console.log(this.data.cartList)
-      })
-  }
 
 })
