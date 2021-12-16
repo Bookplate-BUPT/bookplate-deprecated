@@ -12,9 +12,15 @@
 </view>
 
 
-<view>
-  <view>请先登录</view>
-  <view>请先登录</view>
-  <view>请先登录</view>
-  <view>请先登录</view>
+<!-- <view wx:for="{{ cartList }}" style="margin-top: 8px;" wx:key="_id">
+  <van-cell-group inset custom-class="shadow">
+    <van-card price="{{ item.bookDetail.price }}" desc="{{ item.bookDetail.description }}"
+      title="{{ item.bookDetail.name }}" thumb="{{ item.bookDetail.image_list[0] }}"
+      origin-price="{{ item.bookDetail.original_price }}" data-id="{{ item.bookDetail._id }}"
+      bindtap="goToBookDetail" />
+  </van-cell-group>
+</view> -->
+
+<view wx:for="{{ cartList }}" wx:key="_id">
+  {{ item.bookDetail.price }}
 </view>

@@ -1,4 +1,6 @@
 // pages/cart/cart.js
+import __user from "../../utils/user"
+
 const app = getApp();
 
 Page({
@@ -6,10 +8,11 @@ Page({
     userInfo: '',
     userOpenid: '',
     showNoLoginPopup: false,
+    cartList: [],
   },
 
-  onLoad(options) {
-
+  onLoad() {
+    this.getCartList()
   },
 
   onShow() {
@@ -76,6 +79,36 @@ Page({
         })
       }
     })
+  },
+
+  // 获取购物车内的所有商品
+  getCartList() {
+    wx.cloud.database().collection('cart')
+      .where({
+        _openid: __user.getUserOpenid(),
+      })
+      .get()
+      .then(res => {
+        let tempCartList = res.data
+
+        tempCartList.forEach(i => {
+          wx.cloud.database().collection('goods')
+            .where({
+              _id: i.goods_id
+            })
+            .get()
+            .then(resInner => {
+              i.bookDetail = resInner.data[0]
+            })
+        })
+
+
+        this.setData({
+          cartList: tempCartList,
+        })
+
+        console.log(this.data.cartList)
+      })
   }
 
 })
