@@ -1,2 +1,36 @@
 <!--pages/bookDetail/bookDetail.wxml-->
-<text>pages/bookDetail/bookDetail.wxml</text>
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 12px;">
+  <swiper wx:for="{{ bookDetail.image_list }}" wx:key="key" indicator-dots autoplay>
+    <swiper-item>
+      <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
+    </swiper-item>
+  </swiper>
+</van-cell-group>
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="书籍详情">
+
+</van-cell-group>
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="卖家信息">
+  <view style="display: flex; align-items: center;">
+    <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 5%" />
+
+    <van-row>
+      <van-col custom-class="usernameCol">
+        <text style="font-size: 14px; margin-left: 16px;">{{ sellerDetail.nickName }}</text>
+        <van-tag color="#f6a7af" style="margin-left: 12px;">{{ sellerDetail.grade }}</van-tag>
+      </van-col>
+      <van-col offset="2" custom-class="tagCol">
+        <van-tag color="#b0c2db">{{ sellerDetail.school }}</van-tag>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<van-goods-action>
+  <van-goods-action-icon icon="chat-o" text="联系卖家" />
+  <van-goods-action-icon icon="cart-o" text="购物车" info="{{ 5 }}" />
+  <van-goods-action-button text="加入购物车" type="warning" plain color="#8ac286" />
+  <van-goods-action-button text="立即购买" color="linear-gradient(to right, #8ac286, #659c64)" />
+</van-goods-action>

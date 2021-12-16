@@ -3,6 +3,7 @@ Page({
   data: {
     goodsID: '',
     bookDetail: '',
+    sellerDetail: '',
   },
 
   onLoad(options) {
@@ -12,6 +13,7 @@ Page({
     this.getBookDetail()
   },
 
+  // 获取书籍详细信息
   getBookDetail() {
     wx.cloud.database().collection('goods')
       .doc(this.data.goodsID)
@@ -20,6 +22,25 @@ Page({
         this.setData({
           bookDetail: res.data
         })
+        console.log(this.data.bookDetail)
+
+        // 获取卖家详细信息
+        // 之后需要修改成为利用云函数去获取
+        wx.cloud.database().collection('users')
+          .where({
+            _openid: res.data._openid
+          })
+          .get()
+          .then(resInner => {
+            this.setData({
+              sellerDetail: resInner.data[0]
+            })
+
+            console.log(this.data.sellerDetail)
+          })
+
       })
   },
+
+
 })
