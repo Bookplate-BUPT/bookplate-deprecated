@@ -23,6 +23,8 @@ Page({
 
     if (!this.data.userInfo || !this.data.userOpenid)
       this.setData({ showNoLoginPopup: true })
+
+    this.getCartList()
   },
 
   onHide() {
@@ -113,6 +115,40 @@ Page({
     })
   },
 
+  // 进入商品详情页
+  goToBookDetail(event) {
+    wx.navigateTo({
+      url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
+    })
+  },
+
+  // 将商品移除购物车
+  deleteGoods(event) {
+    wx.cloud.database().collection('cart')
+      .doc(event.currentTarget.dataset.id)
+      .remove()
+      .then(res => {
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
+        })
+
+        let tempCartList = this.data.cartList
+        const index = this.data.cartList.findIndex(i => i._id === event.currentTarget.dataset.id)
+
+        tempCartList.splice(index, 1)
+
+        this.setData({
+          cartList: tempCartList
+        })
+      })
+      .catch(res => {
+        wx.showToast({
+          title: '删除失败',
+          icon: 'error',
+        })
+      })
+  },
 
 
 })

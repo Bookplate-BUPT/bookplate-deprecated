@@ -52,6 +52,7 @@ Page({
       title: '正在刷新...',
       icon: 'loading',
     })
+    this.getGoodsList()
   },
 
   // 关键字搜索
