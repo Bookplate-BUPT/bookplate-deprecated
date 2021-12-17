@@ -12,7 +12,7 @@ Page({
   },
 
   onLoad() {
-    this.getCartList()
+    // this.getCartList()
   },
 
   onShow() {
