@@ -8,9 +8,28 @@
   </swiper>
 </van-cell-group>
 
-<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="书籍详情">
 
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="书籍详情">
 </van-cell-group>
+
+<van-cell-group inset>
+  <van-cell  custom-class="shadow" title="书籍名称" value="{{bookDetail.name}}" />
+
+  <van-cell type="textarea" 
+  custom-class="shadow"
+  autosize left-icon="contact"
+  title="作者信息" value="{{bookDetail.author}}" />
+
+  <van-cell  custom-class="shadow" title="出版信息" value="{{bookDetail.publisher+bookDetail.book_publish_date}}" />
+
+  <van-cell  custom-class="shadow" title="原价" value="{{bookDetail.original_price}}" />
+
+  <van-cell  custom-class="shadow" title="售价" value="{{bookDetail.price}}" />
+
+  <van-cell  custom-class="shadow" title="描述" value="{{bookDetail.description}}" />
+</van-cell-group>
+
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="卖家信息">
   <view style="display: flex; align-items: center;">
