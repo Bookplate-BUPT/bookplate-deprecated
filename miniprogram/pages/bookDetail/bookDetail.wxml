@@ -11,6 +11,7 @@
 
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="书籍详情">
+  <!-- 这里写书籍详情 -->
 </van-cell-group>
 
 <van-cell-group inset>
@@ -32,9 +33,8 @@
 
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="卖家信息">
-  <view style="display: flex; align-items: center;">
-    <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 5%" />
-
+  <view style="display: flex; align-items: center; margin: 0 0 2% 0">
+    <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 10%" />
     <van-row>
       <van-col custom-class="usernameCol">
         <text style="font-size: 14px; margin-left: 16px;">{{ sellerDetail.nickName }}</text>

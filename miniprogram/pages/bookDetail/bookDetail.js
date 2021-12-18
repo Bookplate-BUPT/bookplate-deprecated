@@ -35,8 +35,6 @@ Page({
             this.setData({
               sellerDetail: resInner.data[0]
             })
-
-            console.log(this.data.sellerDetail)
           })
 
       })
