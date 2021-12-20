@@ -43,6 +43,10 @@ Page({
   },
 
   onLoad() {
+
+  },
+
+  onShow() {
     this.getGoodsList()
   },
 
@@ -93,8 +97,14 @@ Page({
     wx.cloud.database().collection('goods')
       .get()
       .then(res => {
+        let tempGoodsList = res.data.map((i, idx) => ({
+          ...i,
+          // 5天内将书籍设置为最新
+          isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+        }))
+
         this.setData({
-          goodsList: res.data
+          goodsList: tempGoodsList
         })
       })
   },

@@ -2,8 +2,7 @@
 
 <van-sticky>
   <view style="margin-top: -8px;">
-    <van-search value="{{ searchWord }}" bind:search="keySearch" shape="round" use-action-slot="true"
-      background="#8ac286">
+    <van-search value="{{ searchWord }}" bind:search="keySearch" shape="round" use-action-slot="true" background="#8ac286">
       <view slot="action" bindtap="scanSearch" style="margin-top: 4px;">
         <van-icon name="scan" size="20px" />
       </view>
@@ -24,12 +23,14 @@
         <view>收藏</view>
       </van-button>
 
-      <van-card price="{{ item.price }}" desc="{{ item.description }}" title="{{ item.name }}"
-        thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}"
-        bindtap="goToBookDetail" />
+      <van-card price="{{ item.price }}" desc="{{ item.description }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
+        <view slot="title" style="font-weight: bold;">
+          {{ item.name }}
+          <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin" >{{ item.grade }}</van-tag>
+        </view>
+      </van-card>
 
-      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart"
-        data-id="{{ item._id }}">
+      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}">
         <van-icon name="shopping-cart" />
         <view>加入购物车</view>
       </van-button>
