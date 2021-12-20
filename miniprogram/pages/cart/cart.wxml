@@ -18,7 +18,7 @@
       custom-class="goodsCardMargin">
       <view slot="title" style="font-weight: bold;">
         {{ item.bookDetail.name }}
-        <!-- <van-tag type="warning" plain>{{ item.add_time.toDateString() }}</van-tag> -->
+        <van-tag type="warning" plain>{{ item.bookDetail.grade }}</van-tag>
       </view>
       <view slot="num" style="display: flex; justify-content: space-between;">
         <van-button size="mini" round color="#f6a7af" bind:click="deleteGoods" data-id="{{ item._id }}">删除
