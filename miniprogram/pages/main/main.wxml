@@ -25,9 +25,11 @@
       </van-button>
 
       <van-card price="{{ item.price }}" desc="{{ item.description }}" title="{{ item.name }}"
-        thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail"/>
+        thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}"
+        bindtap="goToBookDetail" />
 
-      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart">
+      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart"
+        data-id="{{ item._id }}">
         <van-icon name="shopping-cart" />
         <view>加入购物车</view>
       </van-button>
