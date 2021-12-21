@@ -6,33 +6,27 @@
       <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
     </swiper-item>
   </swiper>
+  <view class="price-show">
+    <view>
+      <p class="price">￥{{bookDetail.price}}</p>
+      <p class="original-price">原价￥{{bookDetail.original_price}}</p>
+    </view>
+    <view class="book-name">{{bookDetail.name}}</view>
+  </view>
 </van-cell-group>
 
+<view style="margin-top: 15px" />
 
-
-<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="书籍详情">
-  <!-- 这里写书籍详情 -->
+<van-cell-group style="margin-top: 5px;" inset>
+  <van-cell title="作者信息" value="{{bookDetail.author}}" />
+  <van-cell title="出版信息" value="{{bookDetail.publisher+bookDetail.book_publish_date}}" />
+  <van-cell title="书籍描述" value="{{bookDetail.description}}" />
 </van-cell-group>
 
-<van-cell-group inset>
-  <van-cell  custom-class="shadow" title="书籍名称" value="{{bookDetail.name}}" />
-
-  <van-cell type="textarea" 
-  custom-class="shadow"
-  autosize left-icon="contact"
-  title="作者信息" value="{{bookDetail.author}}" />
-
-  <van-cell  custom-class="shadow" title="出版信息" value="{{bookDetail.publisher+bookDetail.book_publish_date}}" />
-
-  <van-cell  custom-class="shadow" title="原价" value="{{bookDetail.original_price}}" />
-
-  <van-cell  custom-class="shadow" title="售价" value="{{bookDetail.price}}" />
-
-  <van-cell  custom-class="shadow" title="描述" value="{{bookDetail.description}}" />
-</van-cell-group>
-
-
-<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" title="卖家信息">
+<van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息">
+  <van-cell title="昵称" value="{{sellerDetail.nickName}}" />
+  <van-cell title="年级" value="{{sellerDetail.grade}}" />
+  <van-cell title="学院" value="{{sellerDetail.school}}" />
   <view style="display: flex; align-items: center; margin: 0 0 2% 0">
     <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 10%" />
     <van-row>
@@ -46,6 +40,8 @@
     </van-row>
   </view>
 </van-cell-group>
+
+<view style="margin-bottom: 25%;" />
 
 <van-goods-action>
   <van-goods-action-icon icon="chat-o" text="联系卖家" />
