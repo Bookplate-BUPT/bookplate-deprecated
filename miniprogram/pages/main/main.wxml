@@ -26,7 +26,7 @@
       <van-card price="{{ item.price }}" desc="{{ item.description }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
         <view slot="title" style="font-weight: bold;">
           {{ item.name }}
-          <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin" >{{ item.grade }}</van-tag>
+          <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
         </view>
       </van-card>
 
@@ -37,3 +37,5 @@
     </van-swipe-cell>
   </van-cell-group>
 </view>
+
+<van-divider contentPosition="center" dashed>没有更多啦</van-divider>
