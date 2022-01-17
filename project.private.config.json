@@ -53,6 +53,12 @@
           "pathName": "pages/editUserInfo/editUserInfo",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/searchResult/searchResult",
+          "query": "keyword=9787563552658",
+          "scene": null
         }
       ]
     }

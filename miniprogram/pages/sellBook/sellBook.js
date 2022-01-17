@@ -170,7 +170,7 @@ Page({
     })
 
     // 信息是否完整
-    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.grade) {
+    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.grade || this.data.price === '') {
       wx.showToast({
         title: '信息不完整',
         icon: 'error',
