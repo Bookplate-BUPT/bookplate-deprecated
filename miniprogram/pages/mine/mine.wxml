@@ -3,8 +3,7 @@
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <view bindtap="userLoginInMine" style="background-color: white; height: 84px;">
     <view wx:if="{{userInfo}}" style="display: flex; align-items: center;">
-      <van-image round width="64px" height="64px" src="{{userInfo.avatarUrl}}"
-        style="margin-left: 15%; margin-top: 10px;" />
+      <van-image round width="64px" height="64px" src="{{userInfo.avatarUrl}}" style="margin-left: 15%; margin-top: 10px;" />
 
       <van-row>
         <van-col custom-class="usernameCol">
@@ -29,7 +28,7 @@
   <van-cell is-link title="编辑个人信息" link-type="navigateTo" url="../editUserInfo/editUserInfo" />
 </van-cell-group>
 
-<van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
+<!-- <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}">
     <van-button slot="left" color="lightgreen" custom-class="swiperCellButton">选择</van-button>
     <van-cell title="单元格" value="内容" />
@@ -40,7 +39,7 @@
     <van-cell title="单元格" value="内容" />
     <van-button slot="right" color="red" custom-class="swiperCellButton">删除</van-button>
   </van-swipe-cell>
-</van-cell-group>
+</van-cell-group> -->
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;" wx:if="{{userInfo}}">
   <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="userLogout">退出登录</van-button>
