@@ -6,6 +6,11 @@
       <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
     </swiper-item>
   </swiper>
+
+  <view style="margin-top: -4%; margin-bottom: -4%;">
+    <van-divider dashed />
+  </view>
+
   <view class="price-show">
     <view>
       <p class="price">￥{{bookDetail.price}}</p>
@@ -15,15 +20,15 @@
   </view>
 </van-cell-group>
 
-<view style="margin-top: 15px" />
-
-<van-cell-group style="margin-top: 5px;" inset>
-  <van-cell title="作者信息" value="{{bookDetail.author}}" />
-  <van-cell title="出版信息" value="{{bookDetail.publisher+bookDetail.book_publish_date}}" />
-  <van-cell title="书籍描述" value="{{bookDetail.description}}" />
+<van-cell-group inset custom-class="shadow" title="书籍信息">
+  <van-cell title="作者" value="{{bookDetail.author}}" title-width="25%" />
+  <van-cell title="出版社" value="{{bookDetail.publisher}}" title-width="25%" />
+  <van-cell title="出版时间" value="{{bookDetail.book_publish_date}}" title-width="25%" />
+  <van-cell title="卖家描述" value="{{bookDetail.description}}" title-width="25%" />
+  <van-cell title="书籍描述" value="{{bookDetail.introduction}}" title-width="25%" />
 </van-cell-group>
 
-<van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息">
+<van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">
   <van-cell title="昵称" value="{{sellerDetail.nickName}}" />
   <van-cell title="年级" value="{{sellerDetail.grade}}" />
   <van-cell title="学院" value="{{sellerDetail.school}}" />
@@ -45,7 +50,7 @@
 
 <van-goods-action>
   <van-goods-action-icon icon="chat-o" text="联系卖家" />
-  <van-goods-action-icon icon="cart-o" text="购物车" info="{{ 5 }}" />
+  <van-goods-action-icon icon="cart-o" text="购物车" info="{{ numOfUserCartGoods === 0 ? '' : numOfUserCartGoods }}" bind:click="gotoCart" />
   <van-goods-action-button text="加入购物车" type="warning" plain color="#8ac286" />
   <van-goods-action-button text="立即购买" color="linear-gradient(to right, #8ac286, #659c64)" />
 </van-goods-action>

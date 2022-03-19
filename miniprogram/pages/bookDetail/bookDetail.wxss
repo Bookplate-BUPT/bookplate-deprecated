@@ -16,7 +16,6 @@
 
 .price-show {
   background-attachment: scroll;
-  background-color: #aadaa6;
   height: 66px;
 }
 
