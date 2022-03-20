@@ -126,4 +126,19 @@ Page({
         })
       })
   },
+
+  // 前往收藏页面
+  gotoFavorite() {
+    console.log("nbnb")
+  },
+
+  // 前往交易查询页面
+  gotoTrade() {
+    console.log("22")
+  },
+
+  // 前往浏览历史页面
+  gotoHistory() {
+    console.log("nb")
+  }
 })
