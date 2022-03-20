@@ -6,10 +6,10 @@
   touch-action: none;
 }
 
-.swiperCellButton {
-  min-height: 105px;
-  width: auto;
-}
+/* .goodsCardButton {
+  min-width: 15%;
+  max-width: 15%;
+} */
 
 .goodsCardMargin {
   margin-top: 4px;
