@@ -1,2 +1,23 @@
 <!--pages/searchResult/searchResult.wxml-->
-<text>{{ keyword }}</text>
+<view wx:for="{{ goodsList }}" style="margin-top: 8px;" wx:key="_id">
+  <van-cell-group inset custom-class="shadow">
+    <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
+      <van-button slot="left" color="#FFC125" custom-class="swiperCellButton" bind:click="favoriteGoods">
+        <van-icon name="star" />
+        <view>收藏</view>
+      </van-button>
+
+      <van-card price="{{ item.price }}" desc="{{ item.description }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
+        <view slot="title" style="font-weight: bold;">
+          {{ item.name }}
+          <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+        </view>
+      </van-card>
+
+      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}">
+        <van-icon name="shopping-cart" />
+        <view>加入购物车</view>
+      </van-button>
+    </van-swipe-cell>
+  </van-cell-group>
+</view>

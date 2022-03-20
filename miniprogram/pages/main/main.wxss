@@ -10,3 +10,7 @@
   min-height: 105px;
   width: auto;
 }
+
+.tagMargin {
+  margin-left: 6px;
+}

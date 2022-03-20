@@ -11,10 +11,23 @@
   </van-popup>
 </view>
 
-
-<view>
-  <view>请先登录</view>
-  <view>请先登录</view>
-  <view>请先登录</view>
-  <view>请先登录</view>
+<view wx:for="{{ cartList }}" style="margin-top: 8px;" wx:key="_id">
+  <van-cell-group inset custom-class="shadow">
+    <van-card price="{{ item.bookDetail.price }}" desc="{{ item.bookDetail.description }}"
+      thumb="{{ item.bookDetail.image_list[0] }}" origin-price="{{ item.bookDetail.original_price }}"
+      custom-class="goodsCardMargin">
+      <view slot="title" style="font-weight: bold;">
+        {{ item.bookDetail.name }}
+        <van-tag type="warning" plain>{{ item.bookDetail.grade }}</van-tag>
+      </view>
+      <view slot="num" style="display: flex; justify-content: space-between;">
+        <van-button size="mini" round color="#f6a7af" bind:click="deleteGoods" data-id="{{ item._id }}">删除
+        </van-button>
+        <van-button size="mini" round color="#b0c2db" bind:click="goToBookDetail" data-id="{{ item.bookDetail._id }}">查看
+        </van-button>
+        <van-button size="mini" round color="#8ac286" bind:click="buyGoods" data-id="{{ item.bookDetail._id }}">购买
+        </van-button>
+      </view>
+    </van-card>
+  </van-cell-group>
 </view>

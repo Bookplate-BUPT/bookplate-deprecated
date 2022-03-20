@@ -1,4 +1,6 @@
 // pages/main/main.js
+import __user from "../../utils/user"
+
 Page({
 
   data: {
@@ -41,6 +43,10 @@ Page({
   },
 
   onLoad() {
+
+  },
+
+  onShow() {
     this.getGoodsList()
   },
 
@@ -50,6 +56,7 @@ Page({
       title: '正在刷新...',
       icon: 'loading',
     })
+    this.getGoodsList()
   },
 
   // 关键字搜索
@@ -87,13 +94,78 @@ Page({
 
   // 获取商品列表
   getGoodsList() {
-    wx.cloud.database().collection('goods')
-      .get()
-      .then(res => {
-        this.setData({
-          goodsList: res.data
+    // 无排序要求
+    if (!this.data.bookType && !this.data.sortType) {
+      wx.cloud.database().collection('goods')
+        .get()
+        .then(res => {
+          let tempGoodsList = res.data.map((i, idx) => ({
+            ...i,
+            // 5天内将书籍设置为最新
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+          }))
+
+          this.setData({
+            goodsList: tempGoodsList
+          })
         })
-      })
+    }
+    // 书籍信息排序（时间、浏览、收藏等）
+    else if (!this.data.bookType && this.data.sortType) {
+      wx.cloud.database().collection('goods')
+        .orderBy(this.data.sortType, 'desc')
+        .get()
+        .then(res => {
+          let tempGoodsList = res.data.map((i, idx) => ({
+            ...i,
+            // 5天内将书籍设置为最新
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+          }))
+
+          this.setData({
+            goodsList: tempGoodsList
+          })
+        })
+    }
+    // 书籍类型排序（本科生、研究生）
+    else if (this.data.bookType && !this.data.sortType) {
+      wx.cloud.database().collection('goods')
+        .where({
+          grade: this.data.bookType
+        })
+        .get()
+        .then(res => {
+          let tempGoodsList = res.data.map((i, idx) => ({
+            ...i,
+            // 5天内将书籍设置为最新
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+          }))
+
+          this.setData({
+            goodsList: tempGoodsList
+          })
+        })
+    }
+    // 都存在
+    else if (this.data.bookType && this.data.sortType) {
+      wx.cloud.database().collection('goods')
+        .where({
+          grade: this.data.bookType
+        })
+        .orderBy(this.data.sortType, 'asc')
+        .get()
+        .then(res => {
+          let tempGoodsList = res.data.map((i, idx) => ({
+            ...i,
+            // 5天内将书籍设置为最新
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+          }))
+
+          this.setData({
+            goodsList: tempGoodsList
+          })
+        })
+    }
   },
 
   // 收藏商品
@@ -102,8 +174,45 @@ Page({
   },
 
   // 添加商品到购物车
-  addGoodsToCart() {
-    console.log('添加购物车')
+  addGoodsToCart(event) {
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error',
+      })
+    } else {
+      // 查询用户购物车里是否已有此商品
+      wx.cloud.database().collection('cart')
+        .where({
+          _openid: __user.getUserOpenid(),
+          goods_id: event.currentTarget.dataset.id,
+        })
+        .get()
+        .then(res => {
+          // 已经在购物车内
+          if (res.data.length) {
+            wx.showToast({
+              title: '已在购物车中',
+              icon: 'error',
+            })
+          } else {
+            // 不在购物车内
+            wx.cloud.database().collection('cart')
+              .add({
+                data: {
+                  goods_id: event.currentTarget.dataset.id,
+                  add_time: new Date(),
+                }
+              })
+              .then(res => {
+                wx.showToast({
+                  title: '添加成功',
+                  icon: 'success',
+                })
+              })
+          }
+        })
+    }
   },
 
   // 筛选书籍类型改变时调用
@@ -111,6 +220,7 @@ Page({
     this.setData({
       bookType: event.detail
     })
+    this.getGoodsList()
   },
 
   // 排序类型改变时调用
@@ -118,6 +228,7 @@ Page({
     this.setData({
       sortType: event.detail
     })
+    this.getGoodsList()
   },
 
   // 进入商品详情页
