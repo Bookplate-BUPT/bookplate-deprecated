@@ -73,6 +73,17 @@
 
 
 
+## FAVORITE
+
+| 属性名   | 数据库数据类型 | 是否为空 | 类型    | 备注             |
+| -------- | -------------- | -------- | ------- | ---------------- |
+| _id      | string         | not null | primary | 收藏ID           |
+| _openid  | string         | not null |         | 用户ID           |
+| goods_id | string         | not null |         | 商品ID           |
+| add_time | date           | not null |         | 商品被收藏的时间 |
+
+
+
 ## 注意事项
 
 - 在微信开发者工具中，数据库的数据类型被定义为 `string` , `number` , `boolean` , `null` , `array` , `object` , `date` , `geopoint` ，不存在 `varchar` 等。
