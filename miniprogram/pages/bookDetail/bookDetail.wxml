@@ -1,31 +1,41 @@
 <!--pages/bookDetail/bookDetail.wxml-->
+<wxs src="../../utils/utils.wxs" module="utils" />
 
-<van-cell-group inset custom-class="shadow" style="margin-top: 12px;">
-  <swiper wx:for="{{ bookDetail.image_list }}" wx:key="key" indicator-dots autoplay>
-    <swiper-item>
-      <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
-    </swiper-item>
-  </swiper>
+<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
+  <van-cell>
+    <swiper wx:for="{{ bookDetail.image_list }}" wx:key="key" indicator-dots autoplay>
+      <swiper-item>
+        <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
+      </swiper-item>
+    </swiper>
+  </van-cell>
 
-  <view style="margin-top: -4%; margin-bottom: -4%;">
-    <van-divider dashed />
-  </view>
+  <van-cell use-label-slot>
+    <view class="price-show" slot="label">
+      <view>
+        <text class="price-mark">￥</text>
+        <text class="price-int">{{ utils.getInt(bookDetail.price) }}</text>
+        <text class="price-float">.{{ utils.getFloat(bookDetail.price) }}</text>
+        <text class="original-price">￥{{bookDetail.original_price}}</text>
+        <!-- <van-tag plain style="margin-left: 4px;">原价</van-tag> -->
+      </view>
 
-  <view class="price-show">
-    <view>
-      <p class="price">￥{{bookDetail.price}}</p>
-      <p class="original-price">原价￥{{bookDetail.original_price}}</p>
+      <view class="book-name">
+        <van-tag color="{{ bookDetail.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain>{{ bookDetail.grade }}</van-tag>
+        <text style="margin-left: 8px;">{{bookDetail.name}}</text>
+      </view>
     </view>
-    <view class="book-name">{{bookDetail.name}}</view>
-  </view>
+  </van-cell>
+
+  <van-cell title="卖家描述" label="{{bookDetail.description}}" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" title="书籍信息">
-  <van-cell title="作者" value="{{bookDetail.author}}" title-width="25%" />
-  <van-cell title="出版社" value="{{bookDetail.publisher}}" title-width="25%" />
-  <van-cell title="出版时间" value="{{bookDetail.book_publish_date}}" title-width="25%" />
-  <van-cell title="卖家描述" value="{{bookDetail.description}}" title-width="25%" />
-  <van-cell title="书籍描述" value="{{bookDetail.introduction}}" title-width="25%" />
+  <van-cell title="作者" label="{{bookDetail.author}}" />
+  <van-cell title="出版社" label="{{bookDetail.publisher}}" />
+  <van-cell title="出版时间" label="{{bookDetail.book_publish_date}}" />
+
+  <van-cell title="书籍描述" label="{{bookDetail.introduction}}" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">

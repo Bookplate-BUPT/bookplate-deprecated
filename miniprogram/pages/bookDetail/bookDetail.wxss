@@ -16,31 +16,45 @@
 
 .price-show {
   background-attachment: scroll;
-  height: 66px;
 }
 
-.price {
-  font-size: 25px;
-  color: red;
+.price-mark {
+  color: #ee0a24;
+  font-size: 16px;
+  /* margin-left: 10px; */
   font-weight: 600;
-  margin-top: 7px;
-  margin-left: 10px;
+}
+
+.price-int {
+  font-size: 25px;
+  color: #ee0a24;
+  font-weight: 600;
+  /* margin-top: 7px; */
+  margin-left: 2px;
+}
+
+.price-float {
+  font-size: 18px;
+  color: #ee0a24;
+  font-weight: 600;
+  /* margin-top: 7px; */
 }
 
 .original-price {
-  color: #888;
+  color: #969799;
   text-decoration: line-through;
-  padding-left: 5px;
+  /* padding-left: 5px; */
   font-size: 12px;
-  line-height: 30px;
+  /* line-height: 30px; */
   font-weight: 300;
   margin-left: 5px;
 }
 
 .book-name {
+  color: #323233;
   font-size: 17px;
   font-weight: 600;
-  margin-top: -2px;
-  margin-left: 12px;
-  margin-bottom: 7px;
+  margin-top: 4px;
+  /* margin-left: 12px; */
+  /* margin-bottom: 7px; */
 }

@@ -14,8 +14,6 @@ Page({
     })
 
     this.getBookDetail()
-
-
   },
 
   // 获取书籍详细信息
