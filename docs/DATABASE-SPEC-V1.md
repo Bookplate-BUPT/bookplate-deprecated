@@ -73,7 +73,7 @@
 
 
 
-## FAVORITE
+## FAVORITE 收藏
 
 | 属性名   | 数据库数据类型 | 是否为空 | 类型    | 备注             |
 | -------- | -------------- | -------- | ------- | ---------------- |
@@ -81,6 +81,17 @@
 | _openid  | string         | not null |         | 用户ID           |
 | goods_id | string         | not null |         | 商品ID           |
 | add_time | date           | not null |         | 商品被收藏的时间 |
+
+
+
+## HISTORY 浏览历史
+
+| 属性名    | 数据库数据类型 | 是否为空 | 类型    | 备注           |
+| --------- | -------------- | -------- | ------- | -------------- |
+| _id       | string         | not null | primary | 历史ID         |
+| _openid   | string         | not null |         | 用户ID         |
+| goods_id  | string         | not null |         | 商品ID         |
+| view_time | date           | not null |         | 浏览商品的时间 |
 
 
 
