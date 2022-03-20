@@ -1,0 +1,20 @@
+// 取数的整数部分
+var getInt = function (n) {
+  if (n) return parseInt(n)
+  else return 0;
+}
+
+// 取数的小数部分，只返回两位
+var getFloat = function (n) {
+  if (n) {
+    var f = (n.split("."))[1]
+    if (f.length == 1) return f + "0"
+    else return f.substring(0, 2)
+  }
+  else return "00";
+}
+
+module.exports = {
+  getInt: getInt,
+  getFloat: getFloat
+}
