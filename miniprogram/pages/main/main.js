@@ -169,8 +169,45 @@ Page({
   },
 
   // 收藏商品
-  favoriteGoods() {
-    console.log('收藏')
+  favoriteGoods(event) {
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error',
+      })
+    } else {
+      // 查询用户收藏里是否已有此商品
+      wx.cloud.database().collection('favorite')
+        .where({
+          _openid: __user.getUserOpenid(),
+          goods_id: event.currentTarget.dataset.id,
+        })
+        .get()
+        .then(res => {
+          // 已经在收藏内
+          if (res.data.length) {
+            wx.showToast({
+              title: '已在收藏中',
+              icon: 'error',
+            })
+          } else {
+            // 不在收藏内
+            wx.cloud.database().collection('favorite')
+              .add({
+                data: {
+                  goods_id: event.currentTarget.dataset.id,
+                  add_time: new Date(),
+                }
+              })
+              .then(res => {
+                wx.showToast({
+                  title: '收藏成功',
+                  icon: 'success',
+                })
+              })
+          }
+        })
+    }
   },
 
   // 添加商品到购物车

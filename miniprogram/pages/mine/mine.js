@@ -129,9 +129,8 @@ Page({
 
   // 前往收藏页面
   gotoFavorite() {
-    wx.showToast({
-      title: '功能未开发',
-      icon: 'error',
+    wx.navigateTo({
+      url: '../favorite/favorite',
     })
   },
 
@@ -149,5 +148,5 @@ Page({
       title: '功能未开发',
       icon: 'error',
     })
-  }
+  },
 })
