@@ -36,11 +36,12 @@
     "disableUseStrict": false,
     "minifyWXML": true,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false
+    "useCompilerPlugins": false,
+    "ignoreUploadUnusedFiles": true
   },
   "appid": "wx1bb2e8a6e5d71c45",
   "projectname": "SecondHandBooks",
-  "libVersion": "2.21.0",
+  "libVersion": "2.23.3",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "search": {

@@ -44,8 +44,11 @@ Page({
     })
   },
 
-  toRequestBook() {
-
+  // 发布求书信息
+  toSeekBook() {
+    wx.navigateTo({
+      url: '../seekBook/seekBook',
+    })
   },
 
   // 打开提示弹出层

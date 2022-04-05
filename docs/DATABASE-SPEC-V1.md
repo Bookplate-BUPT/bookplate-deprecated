@@ -73,6 +73,21 @@
 
 
 
+## SEEK 求书
+
+| 属性名       | 数据库数据类型 | 是否为空 | 类型    | 备注                  |
+| ------------ | -------------- | -------- | ------- | --------------------- |
+| _id          | string         | not null | primary | 消息ID                |
+| _openid      | string         | not null |         | 用户ID                |
+| author       | string         | not null |         | 书籍作者              |
+| imageList    | array          | nullable |         | 商品多张图片src的数组 |
+| introduction | string         | nullalbe |         | 书中内容的简介        |
+| isbn         | string         | nullable |         | 书本的ISBN码          |
+| name         | string         | not null |         | 书本的名字            |
+| needs        | string         | nullable |         | 买家对二手书籍的需求  |
+| publishDate  | date           | nullable |         | 书本的发行时间        |
+| publisher    | string         | nullable |         | 书本的出版社          |
+
 ## 注意事项
 
 - 在微信开发者工具中，数据库的数据类型被定义为 `string` , `number` , `boolean` , `null` , `array` , `object` , `date` , `geopoint` ，不存在 `varchar` 等。

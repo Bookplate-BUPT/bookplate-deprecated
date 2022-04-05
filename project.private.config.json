@@ -59,6 +59,12 @@
           "pathName": "pages/bookDetail/bookDetail",
           "query": "id=c462c81061b2efc50187301411d885e8",
           "scene": null
+        },
+        {
+          "name": "seekBook",
+          "pathName": "pages/seekBook/seekBook",
+          "query": "",
+          "scene": null
         }
       ]
     }

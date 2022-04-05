@@ -6,7 +6,6 @@ Page({
     // 书本信息相关
     author: '',
     introduction: '',   // 书本内容的介绍
-    showList: [],       // 展示在页面上的图片列表，类型为对象数组
     isbn: '',
     name: '',
     publisher: '',
@@ -18,6 +17,7 @@ Page({
     grade: '',          // 书籍对应的学习水平（本科、研究生等）
 
     // 页面展示相关
+    showList: [],       // 展示在页面上的图片列表，类型为对象数组
     showDifficultyOverLay: false,
     helpSteps: [
       {
@@ -59,9 +59,16 @@ Page({
           data: {
             isbn: res.result
           },
-          success: res => {
-            console.log(JSON.parse(res.result))
-            this.setBookDetail(JSON.parse(res.result).data[0])
+          success: resInner => {
+            // let str = JSON.stringify(res.result)
+            // let json = JSON.parse(str)
+            // console.log(json)
+            // this.setBookDetail(json.data[0])
+
+            console.log(resInner)
+
+            console.log(JSON.parse(resInner.result))
+            this.setBookDetail(JSON.parse(resInner.result).data[0])
             wx.showToast({
               icon: 'success',
               title: '识别成功',
@@ -269,6 +276,7 @@ Page({
     })
   },
 
+  // 更改书籍的年级时调用
   bookGradeChange(event) {
     this.setData({
       grade: event.detail
