@@ -84,13 +84,39 @@ Page({
         icon: 'error',
       })
     }
+    else {
+      // 上传数据库
+      wx.cloud.database().collection('seek')
+        .add({
+          data: {
+            author: this.data.author,
+            introduction: this.data.introduction,
+            isbn: this.data.isbn,
+            name: this.data.name,
+            publisher: this.data.publisher,
+            publishDate: this.data.publishDate,
+            imageList: this.data.imageList,
+            needs: this.data.needs,
+          }
+        })
+        .then(res => {
+          wx.showToast({
+            title: '添加成功',
+            icon: 'success',
+          }).then(res => {
+            wx.switchTab({
+              url: '../sellBookMain/sellBookMain',
+            })
+          })
+        })
+        .catch(res => {
+          wx.showToast({
+            title: '添加失败',
+            icon: 'error',
+          })
 
-    // 上传数据库
-    wx.cloud.database().collection('seek')
-      .add({
-        data: {
-
-        }
-      })
+          console.log(res)
+        })
+    }
   }
 })
