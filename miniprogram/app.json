@@ -10,7 +10,8 @@
     "pages/searchResult/searchResult",
     "pages/editUserInfo/editUserInfo",
     "pages/bookDetail/bookDetail",
-    "pages/seekBook/seekBook"
+    "pages/seekBook/seekBook",
+    "pages/chatroom/chatroom"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

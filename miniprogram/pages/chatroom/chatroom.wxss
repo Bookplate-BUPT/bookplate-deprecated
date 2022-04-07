@@ -1,0 +1,30 @@
+/* pages/chatroom/chatroom.wxss */
+
+.textInputRoot {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: solid 1px #d2d2d2;
+  background-color: #f7f7f7;
+  height: 64px;
+}
+
+.chatContent-left {
+  background-color: white;
+  margin-left: 8px;
+  margin-right: 16px;
+  border-radius: 8px;
+  padding: 4px 8px 4px;
+}
+
+.chatContent-right {
+  background-color: white;
+  margin-right: 8px;
+  margin-left: 16px;
+  border-radius: 8px;
+  padding: 4px 8px 4px;
+}
+
+Page {
+  background-color: #ededed;
+}
