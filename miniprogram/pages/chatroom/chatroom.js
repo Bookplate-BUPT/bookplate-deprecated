@@ -6,14 +6,23 @@ const app = getApp()
 Page({
   data: {
     textInputValue: '',
-    chatMessage: [],
-    openid: '',
+    chatMessage: [],  // 聊天记录对象数组
+
+    openid: '',       // 用户自己的openid
+    otherid: '',      // 当前对话对方的openid
+    avatarLeft: '',   // 对方用户的头像url
+    avatarRight: '',  // 自己的头像url
   },
 
-  onLoad() {
+  onLoad(options) {
     this.setData({
-      openid: app.globalData.userOpenid
+      openid: app.globalData.userOpenid,
+      otherid: options.openid,
     })
+
+    this.getBothAvatar()
+
+    // console.log(this.data.avatarRight)
   },
 
   onShow() {
@@ -90,11 +99,11 @@ Page({
     }
 
     const doc = {
-      avatar: app.globalData.userInfo.avatarUrl,
-      nickName: app.globalData.userInfo.nickName,
-      textContent: this.data.textInputValue,
+      content: this.data.textInputValue,
       sendTime: new Date(),
       sendTimeTS: Date.now(),
+      sender: this.data.openid,
+      recipient: this.data.otherid,
     }
 
     wx.cloud.database().collection('chatroom').add({
@@ -114,4 +123,31 @@ Page({
       })
     }).exec()
   },
+
+  // 获取双方的头像
+  getBothAvatar() {
+    // 获取对方的头像
+    wx.cloud.database().collection('users')
+      .where({
+        _openid: this.data.otherid
+      })
+      .get()
+      .then(res => {
+        this.setData({
+          avatarLeft: res.data[0].avatarUrl
+        })
+      })
+
+    // 获取自己的头像
+    wx.cloud.database().collection('users')
+      .where({
+        _openid: this.data.openid
+      })
+      .get()
+      .then(res => {
+        this.setData({
+          avatarRight: res.data[0].avatarUrl
+        })
+      })
+  }
 })
