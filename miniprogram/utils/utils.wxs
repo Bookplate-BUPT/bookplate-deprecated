@@ -14,7 +14,15 @@ var getFloat = function (n) {
   else return "00";
 }
 
+// 自定义时间戳转成时间，形式如下
+// x月x日 hh:mm
+var newFormatTime = function (nS) {
+  var date = getDate(nS * 1000)
+  return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + date.getMinutes()
+}
+
 module.exports = {
   getInt: getInt,
-  getFloat: getFloat
+  getFloat: getFloat,
+  newFormatTime: newFormatTime,
 }
