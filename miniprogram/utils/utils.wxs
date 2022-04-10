@@ -16,9 +16,9 @@ var getFloat = function (n) {
 
 // 自定义时间戳转成时间，形式如下
 // x月x日 hh:mm
-var newFormatTime = function (nS) {
+var newFormatTime = function (timestamp) {
   // 此处的先除以1000再乘以1000不可删除
-  var date = getDate(nS / 1000 * 1000)
+  var date = getDate(timestamp / 1000 * 1000)
   return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + date.getMinutes()
 }
 
