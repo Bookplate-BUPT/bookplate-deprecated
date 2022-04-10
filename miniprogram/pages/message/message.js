@@ -63,6 +63,8 @@ Page({
 
   // 前往聊天室
   gotoChatroom(event) {
-
+    wx.navigateTo({
+      url: '../chatroom/chatroom?openid=' + event.currentTarget.dataset.id,
+    })
   },
 })

@@ -3,9 +3,9 @@
 
 <van-notice-bar left-icon="info-o" text="您的聊天正在受监控，请注意文明用语。" />
 
-<van-tabs active="{{ active }}" color="#659c64">
+<van-tabs active="{{ active }}" color="#659c64" animated swipeable>
   <van-tab title="卖家">
-    <view wx:for="{{ sellerList }}" class="user-card" bind:click="gotoChatroom">
+    <view wx:for="{{ sellerList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-id="{{ item.seller }}">
       <van-image round width="40px" height="40px" src="{{ item.avatar }}" />
 
       <view style="margin-left: 16px; width: 100%;">
@@ -16,7 +16,6 @@
 
         <view style="margin-top: 8px; font-size: small; color: #999999; padding-right: 16px;">{{ item.last_content }}</view>
       </view>
-
     </view>
   </van-tab>
 
