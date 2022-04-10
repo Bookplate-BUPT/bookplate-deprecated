@@ -64,12 +64,14 @@
 
 ## CHAT 聊天消息
 
-| 属性名    | 数据库数据类型 | 是否为空 | 类型    | 备注         |
-| --------- | -------------- | -------- | ------- | ------------ |
-| _id       | string         | not null | primary | 消息ID       |
-| sender    | string         | not null | foreign | 消息发送者ID |
-| recipient | string         | not null | foreign | 消息接受者ID |
-| send_time | date           | not null |         | 消息发送时间 |
+| 属性名       | 数据库数据类型 | 是否为空 | 类型    | 备注             |
+| ------------ | -------------- | -------- | ------- | ---------------- |
+| _id          | string         | not null | primary | 消息ID           |
+| sender       | string         | not null | foreign | 消息发送者ID     |
+| recipient    | string         | not null | foreign | 消息接受者ID     |
+| send_time    | date           | not null |         | 消息发送时间     |
+| send_time_ts | number         | not null |         | 消息发送的时间戳 |
+| content      | string         | not null |         | 消息内容         |
 
 
 
