@@ -31,15 +31,31 @@ Page({
 
   // 生命周期函数--监听页面初次渲染完成
   onReady() {
-    wx.cloud.database().collection('chatroom').watch({
-      onChange: this.onChange.bind(this),
-      onError(err) {
-        console.log(err)
-      }
-    })
+    // 监听chatroom数据库里符合两人对话的消息
+    // 当这一些消息发生变更（即某人可能发送了消息）时
+    // 调用onChange()函数
+    wx.cloud.database().collection('chatroom')
+      .where(
+        wx.cloud.database().command.or([
+          {
+            sender: this.data.openid,
+            recipient: this.data.otherid,
+          },
+          {
+            sender: this.data.otherid,
+            recipient: this.data.openid,
+          }
+        ])
+      )
+      .watch({
+        onChange: this.onChange.bind(this),
+        onError(err) {
+          console.log(err)
+        }
+      })
   },
 
-  // 当数据库中的消息发生变更（即某人发送了消息后）
+  // 当数据库中的消息发生变更（即某人发送了消息后）调用的函数
   onChange(snapshot) {
     // console.log(snapshot)
 
@@ -133,9 +149,16 @@ Page({
       })
       .get()
       .then(res => {
-        this.setData({
-          avatarLeft: res.data[0].avatarUrl
-        })
+        if (res.data.length == 0) {
+          wx.showToast({
+            title: '用户不存在',
+            icon: 'error',
+          })
+        } else {
+          this.setData({
+            avatarLeft: res.data[0].avatarUrl
+          })
+        }
       })
 
     // 获取自己的头像
