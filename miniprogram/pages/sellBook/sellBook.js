@@ -45,6 +45,7 @@ Page({
 
   // 扫描ISBN
   scanISBN() {
+    // 识别书籍的ISBN码
     wx.scanCode({
       onlyFromCamera: false,
       scanType: ['barCode'],
@@ -54,21 +55,16 @@ Page({
           title: '正在识别...',
         })
 
+        // 将ISBN码上传到
         wx.cloud.callFunction({
           name: 'getBookInfo',
           data: {
             isbn: res.result
           },
           success: resInner => {
-            // let str = JSON.stringify(res.result)
-            // let json = JSON.parse(str)
-            // console.log(json)
-            // this.setBookDetail(json.data[0])
+            console.log(JSON.parse(resInner.result).data)
 
-            console.log(resInner)
-
-            console.log(JSON.parse(resInner.result))
-            this.setBookDetail(JSON.parse(resInner.result).data[0])
+            this.setBookDetail(JSON.parse(resInner.result).data)
             wx.showToast({
               icon: 'success',
               title: '识别成功',
@@ -99,23 +95,30 @@ Page({
 
   // 设置书籍信息（在scanISBN里调用）
   setBookDetail(res) {
-    // 图片的base64格式的处理
+    // 图片的base64格式的处理（旧api接口）
+    // 目前isbn查询api已更换，不需要base64
+    // let tempImageList = this.data.showList
+    // tempImageList.push({
+    //   url: 'data:image/png;base64,' + res.image,
+    //   isImage: true,
+    // })
+
     let tempImageList = this.data.showList
     tempImageList.push({
-      url: 'data:image/png;base64,' + res.image,
+      url: res.photoUrl,
       isImage: true,
     })
 
     this.setData({
       author: res.author,
-      introduction: res.introduction,
+      introduction: res.description,
       showList: tempImageList,
-      isbn: res.isbn,
+      isbn: res.code,
       name: res.name,
-      price: res.price,
-      publisher: res.publisher,
-      publishDate: res.publishingTime,
-      originalPrice: res.price,
+      // price: res.price,
+      publisher: res.publishing,
+      publishDate: res.published,
+      originalPrice: this.data.stringToPrice(res.price),
     })
   },
 
@@ -296,5 +299,10 @@ Page({
       showDifficultyOverLay: false,
     })
   },
+
+  // 价格字符串转换
+  stringToPrice(str) {
+
+  }
 
 })
