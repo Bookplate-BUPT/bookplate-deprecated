@@ -1,2 +1,31 @@
 <!--pages/favorite/favorite.wxml-->
-<text>pages/favorite/favorite.wxml</text>
+
+<view wx:if="{{!userOpenid}}">
+  <van-popup show="{{ showNoLoginPopup }}" bind:close="closeNoLoginPopup" round position="bottom" custom-style="height: 35%">
+    <view style="justify-content: center; display: flex; margin: 12% 0 8% 0;">认证用户信息后方可正常使用</view>
+    <van-button round type="primary" color="linear-gradient(to right, #b3cfb0, #659c64)" custom-style="justify-content: center; display: flex; width: 80%" bind:click="userLogin">
+      点此认证用户信息
+    </van-button>
+  </van-popup>
+</view>
+
+<view wx:for="{{ favoriteList }}" style="margin-top: 8px;" wx:key="_id">
+  <van-cell-group inset custom-class="shadow">
+    <van-card price="{{ item.bookDetail.price }}" desc="{{ item.bookDetail.description }}" thumb="{{ item.bookDetail.image_list[0] }}" origin-price="{{ item.bookDetail.original_price }}" custom-class="goodsCardMargin">
+      <view slot="title" style="font-weight: bold;">
+        {{ item.bookDetail.name }}
+        <van-tag type="warning" plain color="{{ item.bookDetail.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" style="margin-left: 4px;">{{ item.bookDetail.grade }}</van-tag>
+      </view>
+      <view slot="num" style="display: flex; justify-content: space-between;">
+        <van-button size="mini" round color="#f6a7af" bind:click="deleteFavorite" data-id="{{ item._id }}">移除
+        </van-button>
+        <van-button size="mini" round color="#b0c2db" bind:click="goToBookDetail" data-id="{{ item.bookDetail._id }}">查看
+        </van-button>
+        <van-button size="mini" round color="#8ac286" bind:click="addGoodsToCart" data-id="{{ item.bookDetail._id }}">加购
+        </van-button>
+      </view>
+    </van-card>
+  </van-cell-group>
+</view>
+
+<view style="margin-bottom: 5%;" />
