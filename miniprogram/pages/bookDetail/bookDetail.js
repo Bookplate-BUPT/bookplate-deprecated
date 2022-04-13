@@ -8,15 +8,16 @@ Page({
     goodsID: '',
     bookDetail: '',
     sellerDetail: '',
-
+    isExisted: false,
     numOfUserCartGoods: '',
     userInfo: '',
     userOpenid: '',
+    eventID: '',
   },
 
   onLoad(options) {
     this.setData({
-      goodsID: options.id
+      goodsID: options.id,
     })
   },
 
@@ -28,6 +29,7 @@ Page({
 
     this.getBookDetail()
     this.getNumOfUserCartGoods()
+    this.checkFavoriteStatus()
   },
 
   // 获取书籍详细信息
@@ -119,4 +121,77 @@ Page({
         })
     }
   },
+
+  // 添加商品到收藏夹
+  addGoodsToFavorite(event) {
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error',
+      })
+    }
+    else {
+      wx.cloud.database().collection('favorite')
+        .where({
+          goods_id: this.data.goodsID,
+          _openid: __user.getUserOpenid(),
+        })
+        .get()
+        .then(res => {
+          if (res.data.length === 1) {
+            wx.cloud.database().collection('favorite')
+              .doc(res.data[0]._id)
+              .remove()
+              .then(res => {
+                this.setData({
+                  isExisted: false
+                })
+                wx.showToast({
+                  title: '已取消收藏',
+                  icon: 'success'
+                })
+              })
+          }
+          else {
+            wx.cloud.database().collection('favorite')
+              .add({
+                data: {
+                  goods_id: this.data.goodsID,
+                  add_time: new Date()
+                }
+              })
+              .then(res => {
+                this.setData({
+                  isExisted: true
+                })
+                wx.showToast({
+                  title: '收藏成功',
+                  icon: 'success'
+                })
+              })
+          }
+        })
+    }
+  },
+
+  // 判断商品收藏状态，以控制收藏图标的状态
+  checkFavoriteStatus() {
+    wx.cloud.database().collection('favorite')
+      .where({
+        goods_id: this.data.goodsID,
+        _openid: __user.getUserOpenid(),
+      })
+      .get()
+      .then(res => {
+        if(res.data.length === 1) {
+          this.setData({
+            isExisted: true
+          })
+        }else {
+          this.setData({
+            isExisted: false
+          })
+        }
+      })
+  }
 })
