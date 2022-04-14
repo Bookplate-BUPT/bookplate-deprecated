@@ -55,7 +55,7 @@ Page({
           title: '正在识别...',
         })
 
-        // 将ISBN码上传到
+        // 将ISBN码上传到云函数
         wx.cloud.callFunction({
           name: 'getBookInfo',
           data: {
