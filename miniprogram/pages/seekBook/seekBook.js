@@ -19,7 +19,50 @@ Page({
 
   // 扫描ISBN
   scanISBN() {
+    // 识别书籍的ISBN码
+    wx.scanCode({
+      onlyFromCamera: false,
+      scanType: ['barCode'],
+      success: res => {
+        wx.showToast({
+          title: '正在识别...',
+          icon: 'loading',
+        })
 
+        // 将ISBN码上传到云函数
+        wx.cloud.callFunction({
+          name: 'getBookInfo',
+          data: {
+            isbn: res.result
+          },
+          success: resInner => {
+
+            this.setBook
+          }
+        })
+      }
+    })
+  },
+
+  // 设置书籍信息（在scanISBN里调用）
+  setBookDetail(res) {
+    let tempImageList = this.data.showList
+    tempImageList.push({
+      url: res.photoUrl,
+      isImage: true,
+    })
+
+    this.setData({
+      author: res.author,
+      introduction: res.description,
+      showList: tempImageList,
+      isbn: res.code,
+      name: res.name,
+      // price: res.price,
+      publisher: res.publishing,
+      publishDate: res.published,
+      originalPrice: this.data.stringToPrice(res.price),
+    })
   },
 
   // 清楚所有信息
