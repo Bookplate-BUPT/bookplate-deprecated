@@ -40,6 +40,9 @@ Page({
     sortType: '',
 
     goodsList: '',
+
+    active: 0,
+
   },
 
   onLoad() {
@@ -237,4 +240,5 @@ Page({
       url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
     })
   },
+
 })
