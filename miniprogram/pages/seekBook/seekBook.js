@@ -13,8 +13,23 @@ Page({
     imageList: [],      // 将要上传至数据库的图片列表，类型为字符串数组
     needs: '',          // 用户对二手书的个人需求
 
+    // 页面展示相关
     showList: [],       // 展示在页面上的图片列表，类型为对象数组
-
+    showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
+    helpSteps: [        // 遇到困难遮罩层内容
+      {
+        text: '一',
+        desc: 'AAA'
+      },
+      {
+        text: '二',
+        desc: 'BBB'
+      },
+      {
+        text: '三',
+        desc: 'CCC'
+      },
+    ],
   },
 
   // 扫描ISBN
@@ -36,8 +51,9 @@ Page({
             isbn: res.result
           },
           success: resInner => {
+            console.log(JSON.parse(resInner.result).data)
 
-            this.setBook
+            this.setBookDetail(JSON.parse(resInner.result).data)
           }
         })
       }
@@ -58,10 +74,8 @@ Page({
       showList: tempImageList,
       isbn: res.code,
       name: res.name,
-      // price: res.price,
       publisher: res.publishing,
       publishDate: res.published,
-      originalPrice: this.data.stringToPrice(res.price),
     })
   },
 
@@ -161,5 +175,19 @@ Page({
           console.log(res)
         })
     }
-  }
+  },
+
+  // 展示遇到困难遮罩层
+  showDifficultyOverLay() {
+    this.setData({
+      showDifficultyOverLay: true,
+    })
+  },
+
+  // 隐藏遇到困难遮罩层
+  closeDifficultyOverLay() {
+    this.setData({
+      showDifficultyOverLay: false,
+    })
+  },
 })
