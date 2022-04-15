@@ -115,10 +115,9 @@ Page({
       showList: tempImageList,
       isbn: res.code,
       name: res.name,
-      // price: res.price,
       publisher: res.publishing,
       publishDate: res.published,
-      originalPrice: this.data.stringToPrice(res.price),
+      originalPrice: this.stringToPrice(res.price),
     })
   },
 
@@ -136,6 +135,7 @@ Page({
       originalPrice: '',
       price: '',
       description: '',
+      grade: '',
     })
   },
 
@@ -302,7 +302,17 @@ Page({
 
   // 价格字符串转换
   stringToPrice(str) {
+    // xx.xx元 形式
+    if (str.endsWith('元')) {
+      return Number(str.substr(0, str.length - 2))
+    }
+    // XXX xx.xx 形式
+    else if (!Number(str[0])) {
+      if (str.includes('CNY')) {
+        return Number((str.split(' '))[1])
+      }
+    }
 
+    return ''
   }
-
 })
