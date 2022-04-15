@@ -53,7 +53,26 @@ Page({
           success: resInner => {
             console.log(JSON.parse(resInner.result).data)
 
-            this.setBookDetail(JSON.parse(resInner.result).data)
+            let tempRes = JSON.parse(resInner.result).data
+
+            if (tempRes) {
+              this.setBookDetail(tempRes)
+              wx.showToast({
+                icon: 'success',
+                title: '识别成功',
+              })
+
+              // 滚动页面到底部
+              wx.pageScrollTo({
+                scrollTop: 9999,
+                duration: 200,
+              })
+            } else {
+              wx.showToast({
+                title: '未查询到书籍',
+                icon: 'error',
+              })
+            }
           }
         })
       }
@@ -154,6 +173,7 @@ Page({
             publishDate: this.data.publishDate,
             imageList: this.data.imageList,
             needs: this.data.needs,
+            post_date: new Date(),
           }
         })
         .then(res => {

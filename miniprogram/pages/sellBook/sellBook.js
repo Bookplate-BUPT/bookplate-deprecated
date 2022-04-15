@@ -64,17 +64,26 @@ Page({
           success: resInner => {
             console.log(JSON.parse(resInner.result).data)
 
-            this.setBookDetail(JSON.parse(resInner.result).data)
-            wx.showToast({
-              icon: 'success',
-              title: '识别成功',
-            })
+            let tempRes = JSON.parse(resInner.result).data
 
-            // 滚动页面到底部
-            wx.pageScrollTo({
-              scrollTop: 9999,
-              duration: 200,
-            })
+            if (tempRes) {
+              this.setBookDetail(tempRes)
+              wx.showToast({
+                icon: 'success',
+                title: '识别成功',
+              })
+
+              // 滚动页面到底部
+              wx.pageScrollTo({
+                scrollTop: 9999,
+                duration: 200,
+              })
+            } else {
+              wx.showToast({
+                title: '未查询到书籍',
+                icon: 'error',
+              })
+            }
           },
           fail: err => {
             wx.showToast({
