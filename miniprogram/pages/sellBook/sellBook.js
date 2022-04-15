@@ -18,8 +18,8 @@ Page({
 
     // 页面展示相关
     showList: [],       // 展示在页面上的图片列表，类型为对象数组
-    showDifficultyOverLay: false,
-    helpSteps: [
+    showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
+    helpSteps: [        // 遇到困难遮罩层内容
       {
         text: '一',
         desc: 'AAA'
