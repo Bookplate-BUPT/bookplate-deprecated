@@ -28,4 +28,6 @@
   </van-cell-group>
 </view>
 
+<van-divider wx:if="{{ favoriteList.length }}" contentPosition="center" dashed>共有{{ favoriteList.length }}条结果</van-divider>
+
 <view style="margin-bottom: 5%;" />
