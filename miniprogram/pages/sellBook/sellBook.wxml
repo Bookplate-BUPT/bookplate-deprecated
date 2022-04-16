@@ -1,32 +1,29 @@
 <!--pages/scanISBN/scanISBN.wxml-->
 
 <!-- 顶栏通知 -->
-<van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="请准确填写要求的书籍信息或使用扫码加书一键填写。" />
+<van-sticky>
+  <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="请准确填写要求的书籍信息或使用扫码加书一键填写。" />
+</van-sticky>
 
 <!-- 书籍信息 -->
 <van-cell-group inset title="书籍信息" custom-class="shadow">
-  <van-field model:value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ author }}" placeholder="请输入作者名" label="作者名" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ publisher }}" placeholder="请输入出版社" label="出版社" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ publishDate }}" placeholder="请输入出版时间" label="出版时间" required clearable
-    clear-trigger="focus" />
-  <van-field model:value="{{ introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="focus" autosize
-    type="textarea" />
+  <van-field model:value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ author }}" placeholder="请输入作者名" label="作者名" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ publisher }}" placeholder="请输入出版社" label="出版社" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ publishDate }}" placeholder="请输入出版时间" label="出版时间" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>
 
 <!-- 售卖详情 -->
 <van-cell-group inset title="售卖详情" custom-class="shadow">
-  <van-field model:value="{{ originalPrice }}" placeholder="请输入原价" label="书籍原价" required clearable clear-trigger="focus"
-    type="digit" />
+  <van-field model:value="{{ originalPrice }}" placeholder="请输入原价" label="书籍原价" required clearable clear-trigger="focus" type="digit" />
 
-  <van-field model:value="{{ price }}" placeholder="请输入二手定价" label="二手定价" required clearable clear-trigger="focus"
-    type="digit" />
+  <van-field model:value="{{ price }}" placeholder="请输入二手定价" label="二手定价" required clearable clear-trigger="focus" type="digit" />
 
   <van-cell>
     <view style="margin: 16px 16px 16px 16px">
-      <van-slider value="{{ price / originalPrice * 100 }}" use-slot-button bind:drag="priceDragInSlider"
-        bind:change="priceChangeInSlider">
+      <van-slider value="{{ price / originalPrice * 100 }}" use-slot-button bind:drag="priceDragInSlider" bind:change="priceChangeInSlider">
         <view slot="button" style="background-color: black;">{{ price }}</view>
       </van-slider>
     </view>
@@ -41,9 +38,7 @@
     </view>
   </van-cell>
 
-  <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable
-    clear-trigger="focus" autosize type="textarea" />
-
+  <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>
 
 <!-- 书籍图片 -->
@@ -69,7 +64,8 @@
   <van-goods-action-icon icon="question-o" text="遇到困难" bind:click="showDifficultyOverLay" />
   <van-goods-action-icon icon="delete-o" text="一键清空" bind:click="clearBookDetail" />
   <van-goods-action-button plain color="#8ac286" bind:click="scanISBN">
-    <van-icon name="scan" />扫码加书
+    <van-icon name="scan" />
+    <text style="margin-left: 4px;">扫码填写</text>
   </van-goods-action-button>
   <van-goods-action-button color="#8ac286" bind:click="uploadBookInfo">
     信息录入

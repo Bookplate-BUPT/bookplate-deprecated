@@ -1,5 +1,10 @@
 <!--pages/searchResult/searchResult.wxml-->
-<view wx:for="{{ goodsList }}" style="margin-top: 8px;" wx:key="_id">
+
+<view wx:if="{{ !goodsList.length }}">
+  <van-empty image="search" description="没有搜索到，试试换个关键词" />
+</view>
+
+<view wx:if="{{ goodsList }}" wx:for="{{ goodsList }}" style="margin-top: 8px;" wx:key="_id">
   <van-cell-group inset custom-class="shadow">
     <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
       <van-button slot="left" color="#FFC125" custom-class="swiperCellButton" bind:click="favoriteGoods">
@@ -21,3 +26,5 @@
     </van-swipe-cell>
   </van-cell-group>
 </view>
+
+<van-divider wx:if="{{ goodsList.length }}" contentPosition="center" dashed>共有{{goodsList.length}}条结果</van-divider>

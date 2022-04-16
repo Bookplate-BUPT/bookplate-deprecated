@@ -1,0 +1,51 @@
+<!--pages/seekBook/seekBook.wxml-->
+
+<van-sticky>
+  <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="填写的信息越详细越有可能找到自己想要的书噢！" />
+</van-sticky>
+
+<!-- 必要信息 -->
+<van-cell-group inset title="必要信息" custom-class="shadow">
+  <van-field model:value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="focus" autosize type="textarea" />
+</van-cell-group>
+
+<!-- 可选信息 -->
+<van-cell-group inset title="可选信息" custom-class="shadow">
+  <van-field model:value="{{ needs }}" placeholder="需无涂改、笔记等" label="个人需求" clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ author }}" placeholder="请输入作者名" label="作者名" clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ publisher }}" placeholder="请输入出版社" label="出版社" clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ publishDate }}" placeholder="请输入出版时间" label="出版时间" clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="focus" autosize type="textarea" />
+</van-cell-group>
+
+<!-- 书籍图片 -->
+<van-cell-group inset title="书籍图片" custom-class="shadow">
+  <view style="margin: 2% 0 0 3%;">
+    <van-uploader file-list="{{ showList }}" bind:after-read="addImage" max-count="9" bind:delete="deleteImage" />
+  </view>
+</van-cell-group>
+
+<view style="margin-bottom: 64px;"></view>
+
+<!-- 底部 -->
+<van-goods-action style="z-index: 999;">
+  <van-goods-action-icon icon="question-o" text="遇到困难" bind:click="showDifficultyOverLay" />
+  <van-goods-action-icon icon="delete-o" text="一键清空" bind:click="clearBookDetail" />
+  <van-goods-action-button plain color="#8ac286" bind:click="scanISBN">
+    <van-icon name="scan" />
+    <text style="margin-left: 4px;">扫码填写</text>
+  </van-goods-action-button>
+  <van-goods-action-button color="#8ac286" bind:click="uploadBookInfo">
+    信息录入
+  </van-goods-action-button>
+</van-goods-action>
+
+<!-- 遇到困难遮罩层 -->
+<van-overlay show="{{ showDifficultyOverLay }}" bind:click="closeDifficultyOverLay" style="z-index: 1000;">
+  <view style="margin-top: 25%;">
+    <van-cell-group inset custom-class="shadow">
+      <van-steps steps="{{ helpSteps }}" active="{{ -1 }}" direction="vertical" />
+    </van-cell-group>
+  </view>
+</van-overlay>

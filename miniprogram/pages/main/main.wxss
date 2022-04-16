@@ -14,3 +14,7 @@
 .tagMargin {
   margin-left: 6px;
 }
+
+.tagMargin-seek {
+  margin-top: 8px;
+}

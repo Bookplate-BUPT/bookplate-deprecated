@@ -6,7 +6,6 @@ Page({
     // 书本信息相关
     author: '',
     introduction: '',   // 书本内容的介绍
-    showList: [],       // 展示在页面上的图片列表，类型为对象数组
     isbn: '',
     name: '',
     publisher: '',
@@ -18,8 +17,9 @@ Page({
     grade: '',          // 书籍对应的学习水平（本科、研究生等）
 
     // 页面展示相关
-    showDifficultyOverLay: false,
-    helpSteps: [
+    showList: [],       // 展示在页面上的图片列表，类型为对象数组
+    showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
+    helpSteps: [        // 遇到困难遮罩层内容
       {
         text: '一',
         desc: 'AAA'
@@ -45,6 +45,7 @@ Page({
 
   // 扫描ISBN
   scanISBN() {
+    // 识别书籍的ISBN码
     wx.scanCode({
       onlyFromCamera: false,
       scanType: ['barCode'],
@@ -54,24 +55,35 @@ Page({
           title: '正在识别...',
         })
 
+        // 将ISBN码上传到云函数
         wx.cloud.callFunction({
           name: 'getBookInfo',
           data: {
             isbn: res.result
           },
-          success: res => {
-            console.log(JSON.parse(res.result))
-            this.setBookDetail(JSON.parse(res.result).data[0])
-            wx.showToast({
-              icon: 'success',
-              title: '识别成功',
-            })
+          success: resInner => {
+            console.log(JSON.parse(resInner.result).data)
 
-            // 滚动页面到底部
-            wx.pageScrollTo({
-              scrollTop: 9999,
-              duration: 200,
-            })
+            let tempRes = JSON.parse(resInner.result).data
+
+            if (tempRes) {
+              this.setBookDetail(tempRes)
+              wx.showToast({
+                icon: 'success',
+                title: '识别成功',
+              })
+
+              // 滚动页面到底部
+              wx.pageScrollTo({
+                scrollTop: 9999,
+                duration: 200,
+              })
+            } else {
+              wx.showToast({
+                title: '未查询到书籍',
+                icon: 'error',
+              })
+            }
           },
           fail: err => {
             wx.showToast({
@@ -92,23 +104,29 @@ Page({
 
   // 设置书籍信息（在scanISBN里调用）
   setBookDetail(res) {
-    // 图片的base64格式的处理
+    // 图片的base64格式的处理（旧api接口）
+    // 目前isbn查询api已更换，不需要base64
+    // let tempImageList = this.data.showList
+    // tempImageList.push({
+    //   url: 'data:image/png;base64,' + res.image,
+    //   isImage: true,
+    // })
+
     let tempImageList = this.data.showList
     tempImageList.push({
-      url: 'data:image/png;base64,' + res.image,
+      url: res.photoUrl,
       isImage: true,
     })
 
     this.setData({
       author: res.author,
-      introduction: res.introduction,
+      introduction: res.description,
       showList: tempImageList,
-      isbn: res.isbn,
+      isbn: res.code,
       name: res.name,
-      price: res.price,
-      publisher: res.publisher,
-      publishDate: res.publishingTime,
-      originalPrice: res.price,
+      publisher: res.publishing,
+      publishDate: res.published,
+      originalPrice: this.stringToPrice(res.price),
     })
   },
 
@@ -126,6 +144,7 @@ Page({
       originalPrice: '',
       price: '',
       description: '',
+      grade: '',
     })
   },
 
@@ -269,6 +288,7 @@ Page({
     })
   },
 
+  // 更改书籍的年级时调用
   bookGradeChange(event) {
     this.setData({
       grade: event.detail
@@ -289,4 +309,19 @@ Page({
     })
   },
 
+  // 价格字符串转换
+  stringToPrice(str) {
+    // xx.xx元 形式
+    if (str.endsWith('元')) {
+      return Number(str.substr(0, str.length - 2))
+    }
+    // XXX xx.xx 形式
+    else if (!Number(str[0])) {
+      if (str.includes('CNY')) {
+        return Number((str.split(' '))[1])
+      }
+    }
+
+    return ''
+  }
 })
