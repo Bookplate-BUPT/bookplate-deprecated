@@ -43,11 +43,11 @@
 
   <van-grid column-num="2">
     <van-grid-item text="书籍总浏览量" center>
-      <text slot="icon" style="color: #323233; font-size: x-large;">123</text>
+      <text slot="icon" style="color: #323233; font-size: x-large;">0</text>
     </van-grid-item>
 
     <van-grid-item text="书籍总收藏量" center>
-      <text slot="icon" style="color: #323233; font-size: x-large;">123</text>
+      <text slot="icon" style="color: #323233; font-size: x-large;">0</text>
     </van-grid-item>
   </van-grid>
 

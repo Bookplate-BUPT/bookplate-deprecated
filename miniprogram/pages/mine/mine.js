@@ -6,10 +6,14 @@ const app = getApp()
 Page({
 
   data: {
+    // 用户个人信息
     userInfo: '',
     userOpenid: '',
     userGrade: '',
     userSchool: '',
+
+    viewsSum: '-',    // 书籍总浏览量
+    favoriteSum: '-', // 书籍总收藏量
   },
 
   onLoad() {
@@ -19,6 +23,7 @@ Page({
   onShow() {
     if (__user.checkLoginStatus()) {
       this.getUserDetail()
+      this.countViewsAndFavorite()
     }
   },
 
@@ -151,4 +156,36 @@ Page({
       icon: 'error',
     })
   },
+
+  // 计算书籍总浏览量和总收藏量
+  countViewsAndFavorite() {
+    if (!__user.checkLoginStatus()) {
+      this.setData({
+        viewsSum: '-',
+        favoriteSum: '-',
+      })
+    } else {
+      wx.cloud.database().collection('goods')
+        .where({
+          _openid: app.globalData.userOpenid
+        })
+        .get()
+        .then(res => {
+          let tempViewsSum = 0
+          let tempFavoriteSum = 0
+
+          res.data.forEach(i => {
+            tempViewsSum += i.views
+            tempFavoriteSum += i.favorites
+          })
+
+          this.setData({
+            viewsSum: tempViewsSum,
+            favoriteSum: tempFavoriteSum,
+          })
+        })
+    }
+  },
+
+
 })
