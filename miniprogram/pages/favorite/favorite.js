@@ -28,10 +28,6 @@ Page({
     this.getFavoriteList()
   },
 
-  onHide() {
-    this.closeNoLoginPopup()
-  },
-
   // 用户登录，认证用户信息
   userLogin() {
     // 获取用户昵称、头像

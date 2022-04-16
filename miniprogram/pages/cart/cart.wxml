@@ -32,4 +32,6 @@
   </van-cell-group>
 </view>
 
+<van-divider wx:if="{{ cartList.length }}" contentPosition="center" dashed>共有{{ cartList.length }}件商品</van-divider>
+
 <view style="margin-bottom: 5%;" />

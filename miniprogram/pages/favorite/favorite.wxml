@@ -21,13 +21,13 @@
         </van-button>
         <van-button size="mini" round color="#b0c2db" bind:click="goToBookDetail" data-id="{{ item.bookDetail._id }}">查看
         </van-button>
-        <van-button size="mini" round color="#8ac286" bind:click="addGoodsToCart" data-id="{{ item.bookDetail._id }}">加购
+        <van-button size="mini" round color="#8ac286" bind:click="addGoodsToCart" data-id="{{ item.bookDetail._id }}">购买
         </van-button>
       </view>
     </van-card>
   </van-cell-group>
 </view>
 
-<van-divider wx:if="{{ favoriteList.length }}" contentPosition="center" dashed>共有{{ favoriteList.length }}条结果</van-divider>
+<van-divider wx:if="{{ favoriteList.length }}" contentPosition="center" dashed>共有{{ favoriteList.length }}件商品</van-divider>
 
 <view style="margin-bottom: 5%;" />
