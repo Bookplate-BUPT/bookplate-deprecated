@@ -61,6 +61,8 @@ Page({
                 icon: 'success',
               })
 
+              this.countViewsAndFavorite()
+
               // 检查用户是否是第一次使用
               this.userRegister()
             },
@@ -76,8 +78,6 @@ Page({
           })
         }
       })
-
-
     }
   },
 
@@ -86,6 +86,8 @@ Page({
     this.setData({
       userInfo: '',
       userOpenid: '',
+      viewsSum: '-',
+      favoriteSum: '-',
     })
     __user.userLogout()
   },
