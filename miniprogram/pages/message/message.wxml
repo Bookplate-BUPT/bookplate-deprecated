@@ -1,13 +1,23 @@
 <!--pages/message/message.wxml-->
-<view class="container">
-  <textarea class="content" placeholder="写点文字..." bindinput="onInput" auto-focus bindfocus="onFocus" bindblur="onBlur">
-  </textarea>
-</view>
+<wxs src="../../utils/utils.wxs" module="utils" />
 
-<view>
-  {{ hasSensitiveWords }}
-</view>
+<van-notice-bar left-icon="info-o" text="您的聊天正在受监控，请注意文明用语。" />
 
-<view class="footer">
-  <button class="send-btn" size="default" bind:tap="send">发布</button>
-</view>
+<van-tabs active="{{ active }}" color="#659c64" animated swipeable>
+  <van-tab title="卖家">
+    <view wx:for="{{ sellerList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-id="{{ item.seller }}">
+      <van-image round width="40px" height="40px" src="{{ item.avatar }}" />
+
+      <view style="margin-left: 16px; width: 100%;">
+        <view style="margin-top: -8px;">
+          <text>{{ item.nickName }}</text>
+          <text class="date">{{ utils.newFormatTime(item.last_conversation_time) }}</text>
+        </view>
+
+        <view style="margin-top: 8px; font-size: small; color: #999999; padding-right: 16px;">{{ item.last_content }}</view>
+      </view>
+    </view>
+  </van-tab>
+
+  <van-tab title="买家">买家</van-tab>
+</van-tabs>

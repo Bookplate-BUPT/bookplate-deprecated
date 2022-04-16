@@ -11,7 +11,8 @@
     "pages/editUserInfo/editUserInfo",
     "pages/bookDetail/bookDetail",
     "pages/favorite/favorite",
-    "pages/seekBook/seekBook"
+    "pages/seekBook/seekBook",
+    "pages/chatroom/chatroom"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

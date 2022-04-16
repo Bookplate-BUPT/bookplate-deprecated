@@ -1,72 +1,70 @@
 // pages/message/message.js
+import __user from "../../utils/user"
 
-/**
- *
- * 你也是可以单独将自定义的文本放到一个js文件当中,通过export的方式导出来,在想要使用的地方引入进去也是可以的
- */
-const g_reg = /aaaaaa|bbbbbb/gm
+const app = getApp();
 
 Page({
-
   data: {
-    textareaValue: '',
-    hasSensitiveWords: ''
+    active: 0,
+    openid: '',
+
+    sellerList: [],   // 卖家列表
+    buyerList: [],    // 买家列表
   },
 
-  // 监听表单时,数据有变化时
-  onInput(event) {
-    let textVal = event.detail.value;
+  onLoad() {
     this.setData({
-      textareaValue: textVal
+      openid: app.globalData.userOpenid,
+    })
+
+    this.getSellerList()
+  },
+
+  // 获取卖家列表
+  async getSellerList() {
+    // 以买家为自己获取关系列表
+    const sellerList = await wx.cloud.database().collection('relationship')
+      .where({
+        buyer: this.data.openid
+      })
+      .get()
+
+    // 根据卖家的openid查询卖家用户的详细信息
+    const promiseArray = await sellerList.data.map((i) => (
+      wx.cloud.database().collection('users')
+        .where({
+          _openid: i.seller
+        })
+        .orderBy('last_conversation_time', 'desc')
+        .get()
+    ))
+
+    // 等到所有的查询线程结束后再继续进行
+    const sellerDetailList = await Promise.all(promiseArray)
+
+    // 将卖家的头像和昵称信息放入列表
+    const tempSellerList = sellerList.data.map((i, idx) => ({
+      ...i,
+      avatar: sellerDetailList[idx].data[0].avatarUrl,
+      nickName: sellerDetailList[idx].data[0].nickName,
+    }))
+
+    this.setData({
+      sellerList: tempSellerList
+    })
+
+    console.log(this.data.sellerList)
+  },
+
+  // 获取买家列表
+  getBuyerList() {
+
+  },
+
+  // 前往聊天室
+  gotoChatroom(event) {
+    wx.navigateTo({
+      url: '../chatroom/chatroom?openid=' + event.currentTarget.dataset.id,
     })
   },
-
-  // 失去焦点时
-  onBlur(event) {
-    // 前端可进行手动的弱校验,也可以在失去焦点时发送请求进行文本的校验,但是每次失去焦点就请求一次,这样是消耗云资源的,其实在发布时候与失去焦点做校验两者都可以
-    const textVal = event.detail.value;
-    if (this._hasSensitiveWords(textVal)) {
-      wx.showToast({
-        title: '含有敏感词！',
-      })
-      this.setData({
-        hasSensitiveWords: textVal.replace(g_reg, "***")
-      })
-      console.log(this.data.textareaValue);
-    } else {
-      this.setData({
-        hasSensitiveWords: textVal
-      })
-      console.log(this.data.textareaValue);
-    }
-  },
-
-  // 发布
-  send() {
-    // 请求msgSecCheck1云函数,对文本内容进行校验
-    this._requestCloudMsgCheck();
-  },
-
-  _requestCloudMsgCheck() {
-    let textareaVal = this.data.textareaValue;
-    wx.cloud.callFunction({
-      name: 'msgSecCheck2',
-      data: {
-        content: textareaVal
-      }
-    }).then(res => {
-      console.log(res);
-    }).catch(err => {
-      // 失败时,也就是违规做一些用户提示,或者禁止下一步操作等之类的业务逻辑操作
-      console.error(err);
-    })
-  },
-
-  // 手动对敏感词检测
-  _hasSensitiveWords(str) {
-    if (str == '' || str == 'undefined') return false;
-    if (g_reg.test(str)) { // 如果检测有违规,就返回true
-      return true;
-    }
-  }
 })
