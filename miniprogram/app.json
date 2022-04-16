@@ -10,6 +10,7 @@
     "pages/searchResult/searchResult",
     "pages/editUserInfo/editUserInfo",
     "pages/bookDetail/bookDetail",
+    "pages/favorite/favorite",
     "pages/seekBook/seekBook"
   ],
   "window": {
@@ -23,8 +24,7 @@
     "color": "#000000",
     "selectedColor": "#7ab37a",
     "borderStyle": "white",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/main/main",
         "iconPath": "/icons/main.png",
         "selectedIconPath": "/icons/main_1.png"

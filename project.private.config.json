@@ -52,6 +52,12 @@
           "scene": null
         },
         {
+          "name": "favorite",
+          "pathName": "pages/favorite/favorite",
+          "query": "",
+          "scene": null
+        },
+        {
           "name": "seekBook",
           "pathName": "pages/seekBook/seekBook",
           "query": "",

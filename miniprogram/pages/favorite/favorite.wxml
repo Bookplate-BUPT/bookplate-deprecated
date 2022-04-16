@@ -1,6 +1,6 @@
-<!--pages/cart/cart.wxml-->
+<!--pages/favorite/favorite.wxml-->
 
-<view wx:if="{{ !userOpenid }}">
+<view wx:if="{{!userOpenid}}">
   <van-popup show="{{ showNoLoginPopup }}" bind:close="closeNoLoginPopup" round position="bottom" custom-style="height: 35%">
     <view style="justify-content: center; display: flex; margin: 12% 0 8% 0;">认证用户信息后方可正常使用</view>
     <van-button round type="primary" color="linear-gradient(to right, #b3cfb0, #659c64)" custom-style="justify-content: center; display: flex; width: 80%" bind:click="userLogin">
@@ -9,11 +9,7 @@
   </van-popup>
 </view>
 
-<view wx:if="{{ !cartList.length }}" style="margin-top: 25%;">
-  <van-empty image="https://img.yzcdn.cn/vant/custom-empty-image.png" description="购物车还没有商品噢" />
-</view>
-
-<view wx:if="{{ cartList.length }}" wx:for="{{ cartList }}" style="margin-top: 8px;" wx:key="_id">
+<view wx:for="{{ favoriteList }}" style="margin-top: 8px;" wx:key="_id">
   <van-cell-group inset custom-class="shadow">
     <van-card price="{{ item.bookDetail.price }}" desc="{{ item.bookDetail.description }}" thumb="{{ item.bookDetail.image_list[0] }}" origin-price="{{ item.bookDetail.original_price }}" custom-class="goodsCardMargin">
       <view slot="title" style="font-weight: bold;">
@@ -21,17 +17,17 @@
         <van-tag type="warning" plain color="{{ item.bookDetail.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" style="margin-left: 4px;">{{ item.bookDetail.grade }}</van-tag>
       </view>
       <view slot="num" style="display: flex; justify-content: space-between;">
-        <van-button size="mini" round color="#f6a7af" bind:click="deleteGoods" data-id="{{ item._id }}">删除
+        <van-button size="mini" round color="#f6a7af" bind:click="deleteFavorite" data-id="{{ item._id }}">移除
         </van-button>
         <van-button size="mini" round color="#b0c2db" bind:click="goToBookDetail" data-id="{{ item.bookDetail._id }}">查看
         </van-button>
-        <van-button size="mini" round color="#8ac286" bind:click="buyGoods" data-id="{{ item.bookDetail._id }}">购买
+        <van-button size="mini" round color="#8ac286" bind:click="addGoodsToCart" data-id="{{ item.bookDetail._id }}">购买
         </van-button>
       </view>
     </van-card>
   </van-cell-group>
 </view>
 
-<van-divider wx:if="{{ cartList.length }}" contentPosition="center" dashed>共有{{ cartList.length }}件商品</van-divider>
+<van-divider wx:if="{{ favoriteList.length }}" contentPosition="center" dashed>共有{{ favoriteList.length }}件商品</van-divider>
 
 <view style="margin-bottom: 5%;" />

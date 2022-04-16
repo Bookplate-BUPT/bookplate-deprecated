@@ -59,8 +59,9 @@
 <view style="margin-bottom: 25%;" />
 
 <van-goods-action>
-  <van-goods-action-icon icon="chat-o" text="联系卖家" />
-  <van-goods-action-icon icon="cart-o" text="购物车" info="{{ numOfUserCartGoods === '' ? '' : numOfUserCartGoods }}" bind:click="gotoCart" />
-  <van-goods-action-button text="加入购物车" type="warning" plain color="#8ac286" bind:click="addGoodsToCart" data-id="{{ goodsID }}" />
-  <van-goods-action-button text="立即购买" color="linear-gradient(to right, #8ac286, #659c64)" />
+  <van-goods-action-icon icon="cart-o" text="购物车" info="{{ numOfUserCartGoods === 0 ? '' : numOfUserCartGoods }}" bind:click="gotoCart" />
+  <van-goods-action-icon icon="{{ isExisted ? 'star' : 'star-o' }}" text="{{ isExisted ? '已收藏' : '收藏' }}" bind:click="addGoodsToFavorite" icon-class="{{ isExisted ? 'star' : ''}}">
+  </van-goods-action-icon>
+  <van-goods-action-button text="加入购物车" type="warning" plain color="#8ac286" bind:click="addGoodsToCart" />
+  <van-goods-action-button text="联系卖家" color="linear-gradient(to right, #8ac286, #659c64)" />
 </van-goods-action>
