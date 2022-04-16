@@ -1,8 +1,10 @@
 <!--pages/main/main.wxml-->
 
+<wxs src="../../utils/utils.wxs" module="utils" />
+
 <van-sticky>
   <view style="margin-top: -8px">
-    <van-search value="{{ searchWord }}" bind:search="keySearch" shape="round" use-action-slot="true" background="#8ac286">
+    <van-search bind:search="keySearch" shape="round" use-action-slot="true" background="#8ac286">
       <view slot="action" bindtap="scanSearch" style="margin-top: 4px;">
         <van-icon name="scan" size="20px" />
       </view>
@@ -28,10 +30,13 @@
             <view>收藏</view>
           </van-button>
 
-          <van-card price="{{ item.price }}" desc="{{ item.description }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
+          <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
             <view slot="title" style="font-weight: bold;">
               {{ item.name }}
               <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+            </view>
+            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+              {{ item.introduction }}
             </view>
           </van-card>
 
@@ -48,5 +53,31 @@
   </van-tab>
 
   <!-- 求书部分 -->
-  <van-tab title="求书">内容 2</van-tab>
+  <van-tab title="求书">
+    <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
+      <van-cell-group inset custom-class="shadow">
+        <view style="background-color: #fafafa;">
+          <van-row>
+            <van-col custom-class="tagMargin-seek">
+              <van-tag mark style="margin-left: 16px; margin-top: 16px" color="#ee0a24">{{ item.isNew ? '最新' : '' }}</van-tag>
+            </van-col>
+            <van-col>
+              <view style="font-weight: bold; font-size: x-small; color: #323233; margin-top: 9px; margin-left: {{ item.isNew ? '10px' : '-8px' }};">
+                {{ item.name }}
+              </view>
+            </van-col>
+          </van-row>
+
+          <view style="color: #646566; font-size: xx-small; margin: 8px 16px;">{{ item.needs }}</view>
+
+          <view style="color: #646566; font-size: xx-small; margin: 8px 16px;">{{ item.introduction }}</view>
+
+          <view style="color: #646566; font-size: xx-small; margin: 8px 16px; display: flex; justify-content: flex-end;">{{ item.date }}</view>
+        </view>
+      </van-cell-group>
+    </view>
+
+    <!-- 底部提示分隔线 -->
+    <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
+  </van-tab>
 </van-tabs>

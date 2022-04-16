@@ -5,7 +5,7 @@ Page({
 
   data: {
     // 页面显示
-    active: 1,      // 标签栏索引
+    active: 0,      // 标签栏索引
 
     // 卖书部分
     bookTypeOption: [
@@ -111,7 +111,9 @@ Page({
           let tempGoodsList = res.data.map((i, idx) => ({
             ...i,
             // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            // 书籍介绍自定义格式化，最长长度为24
+            introduction: this.introductionFormat(i.introduction, 24),
           }))
 
           this.setData({
@@ -128,7 +130,9 @@ Page({
           let tempGoodsList = res.data.map((i, idx) => ({
             ...i,
             // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            // 书籍介绍自定义格式化，最长长度为24
+            introduction: this.introductionFormat(i.introduction, 24),
           }))
 
           this.setData({
@@ -147,7 +151,9 @@ Page({
           let tempGoodsList = res.data.map((i, idx) => ({
             ...i,
             // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            // 书籍介绍自定义格式化，最长长度为24
+            introduction: this.introductionFormat(i.introduction, 24),
           }))
 
           this.setData({
@@ -167,7 +173,9 @@ Page({
           let tempGoodsList = res.data.map((i, idx) => ({
             ...i,
             // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000
+            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            // 书籍介绍自定义格式化，最长长度为24
+            introduction: this.introductionFormat(i.introduction, 24),
           }))
 
           this.setData({
@@ -258,8 +266,8 @@ Page({
           isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
           // 将日期自定义格式化
           date: this.dateFormat(i.post_date),
-          // 书籍介绍自定义格式化
-          introduction: this.introductionFormat(i.introduction),
+          // 书籍介绍自定义格式化，最长长度为50
+          introduction: this.introductionFormat(i.introduction, 50),
           // 二手书需求内容格式化
           needs: this.needsFormat(i.needs),
         }))
@@ -267,10 +275,7 @@ Page({
         this.setData({
           seekList: tempSeekList
         })
-
-        console.log(this.data.seekList)
       })
-
   },
 
   // 自定义格式化日期
@@ -292,14 +297,10 @@ Page({
   },
 
   // 书籍介绍内容格式化
-  introductionFormat(str) {
+  introductionFormat(str, length) {
     // 过长则需要省略
-    if (str.length > 50) {
-      return str.substr(0, 50) + '……'
-    }
-    // 为空则需要提示
-    else if (str.length === 0) {
-      return '无书籍内容介绍'
+    if (str.length > length) {
+      return str.substr(0, length) + '……'
     }
     // 不用格式化
     else return str
