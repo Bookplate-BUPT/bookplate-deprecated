@@ -7,11 +7,11 @@
 
 <!-- 书籍信息 -->
 <van-cell-group inset title="书籍信息" custom-class="shadow">
-  <van-field model:value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ author }}" placeholder="请输入作者名" label="作者名" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ publisher }}" placeholder="请输入出版社" label="出版社" required clearable clear-trigger="focus" />
-  <van-field model:value="{{ publishDate }}" placeholder="请输入出版时间" label="出版时间" required clearable clear-trigger="focus" />
+  <van-field model:value="{{ name }}" placeholder="请输入书名" label="书名" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ author }}" placeholder="请输入作者名" label="作者名" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ isbn }}" placeholder="请输入书籍ISBN码" label="ISBN码" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ publisher }}" placeholder="请输入出版社" label="出版社" required clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ publishDate }}" placeholder="请输入出版时间" label="出版时间" required clearable clear-trigger="focus" autosize type="textarea" />
   <van-field model:value="{{ introduction }}" placeholder="请输入书本介绍" label="介绍" clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>
 
@@ -39,7 +39,6 @@
   </van-cell>
 
   <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable clear-trigger="focus" autosize type="textarea" />
-
 </van-cell-group>
 
 <!-- 书籍图片 -->
