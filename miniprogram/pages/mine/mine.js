@@ -127,12 +127,14 @@ Page({
       })
       .get()
       .then(res => {
-        this.setData({
-          userInfo: __user.getUserInfo(),
-          userOpenid: __user.getUserOpenid(),
-          userGrade: res.data[0].grade,
-          userSchool: res.data[0].school,
-        })
+        if (res.data.length !== 0) {
+          this.setData({
+            userInfo: __user.getUserInfo(),
+            userOpenid: __user.getUserOpenid(),
+            userGrade: res.data[0].grade,
+            userSchool: res.data[0].school,
+          })
+        }
       })
   },
 

@@ -80,3 +80,5 @@
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;" wx:if="{{userInfo}}">
   <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="userLogout">退出登录</van-button>
 </van-cell-group>
+
+<view style="margin-bottom: 5%;" />
