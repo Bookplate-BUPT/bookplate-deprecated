@@ -58,6 +58,14 @@
           "scene": null
         },
         {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+          "name": "searchResult",
+          "pathName": "pages/searchResult/searchResult",
+          "query": "keyword=高等数学",
+=======
+>>>>>>> master
           "name": "message",
           "pathName": "pages/message/message",
           "query": "",
@@ -75,6 +83,10 @@
           "name": "chatroom2",
           "pathName": "pages/chatroom/chatroom",
           "query": "openid=owJ0m5SCRup81zjj1x1g04lhWn4Q",
+<<<<<<< HEAD
+=======
+>>>>>>> feature-SB03
+>>>>>>> master
           "launchMode": "default",
           "scene": null
         }
