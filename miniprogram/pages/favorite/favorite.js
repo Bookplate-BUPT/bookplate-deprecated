@@ -1,4 +1,5 @@
-// pages/cart/cart.js
+// pages/favorite/favorite.js
+
 import __user from "../../utils/user"
 
 const app = getApp();
@@ -8,11 +9,11 @@ Page({
     userInfo: '',
     userOpenid: '',
     showNoLoginPopup: false,
-    cartList: '',
+    favoriteList: '',
   },
 
   onLoad() {
-    // this.getCartList()
+    // this.getFavoriteList()
   },
 
   onShow() {
@@ -21,24 +22,10 @@ Page({
       userOpenid: app.globalData.userOpenid,
     })
 
-    if (!__user.checkLoginStatus())
+    if (!this.data.userInfo || !this.data.userOpenid)
       this.setData({ showNoLoginPopup: true })
-    else
-      this.getCartList()
-  },
 
-  onHide() {
-    this.closeNoLoginPopup()
-  },
-
-  // 打开提示弹出层
-  showNoLoginPopup() {
-    this.setData({ showNoLoginPopup: true });
-  },
-
-  // 关闭提示弹出层
-  closeNoLoginPopup() {
-    this.setData({ showNoLoginPopup: false });
+    this.getFavoriteList()
   },
 
   // 用户登录，认证用户信息
@@ -83,10 +70,10 @@ Page({
     })
   },
 
-  // 获取购物车内的所有商品
-  async getCartList() {
-    // 获取购物车内的商品ID列表
-    const goodsIdList = await wx.cloud.database().collection('cart')
+  // 获取已收藏的书籍
+  async getFavoriteList() {
+    // 获取收藏夹内的商品ID列表
+    const goodsIdList = await wx.cloud.database().collection('favorite')
       .where({
         _openid: __user.getUserOpenid(),
       })
@@ -105,14 +92,16 @@ Page({
     const bookDetailList = await Promise.all(promiseArray)
 
     // 将详细信息放入原商品ID列表
-    const tempCartList = goodsIdList.data.map((i, idx) => ({
+    const tempFavoriteList = goodsIdList.data.map((i, idx) => ({
       ...i,
       bookDetail: bookDetailList[idx].data[0],
     }))
 
     this.setData({
-      cartList: tempCartList,
+      favoriteList: tempFavoriteList,
     })
+
+    console.log(this.data.favoriteList)
   },
 
   // 进入商品详情页
@@ -122,24 +111,24 @@ Page({
     })
   },
 
-  // 将商品移除购物车
-  deleteGoods(event) {
-    wx.cloud.database().collection('cart')
+  // 将商品移除收藏夹
+  deleteFavorite(event) {
+    wx.cloud.database().collection('favorite')
       .doc(event.currentTarget.dataset.id)
       .remove()
       .then(res => {
         wx.showToast({
-          title: '删除成功',
+          title: '移除成功',
           icon: 'success',
         })
 
-        let tempCartList = this.data.cartList
-        const index = this.data.cartList.findIndex(i => i._id === event.currentTarget.dataset.id)
+        let tempFavoriteList = this.data.favoriteList
+        const index = this.data.favoriteList.findIndex(i => i._id === event.currentTarget.dataset.id)
 
-        tempCartList.splice(index, 1)
+        tempFavoriteList.splice(index, 1)
 
         this.setData({
-          cartList: tempCartList
+          favoriteList: tempFavoriteList
         })
       })
       .catch(res => {
@@ -150,5 +139,39 @@ Page({
       })
   },
 
+  // 添加商品到购物车
+  addGoodsToCart(event) {
+    // 查询用户购物车里是否已有此商品
+    wx.cloud.database().collection('cart')
+      .where({
+        _openid: __user.getUserOpenid(),
+        goods_id: event.currentTarget.dataset.id,
+      })
+      .get()
+      .then(res => {
+        // 已经在购物车内
+        if (res.data.length) {
+          wx.showToast({
+            title: '已在购物车中',
+            icon: 'error',
+          })
+        } else {
+          // 不在购物车内
+          wx.cloud.database().collection('cart')
+            .add({
+              data: {
+                goods_id: event.currentTarget.dataset.id,
+                add_time: new Date(),
+              }
+            })
+            .then(res => {
+              wx.showToast({
+                title: '添加成功',
+                icon: 'success',
+              })
+            })
+        }
+      })
 
+  },
 })

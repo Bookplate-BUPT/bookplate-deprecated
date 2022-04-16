@@ -6,10 +6,14 @@ const app = getApp()
 Page({
 
   data: {
+    // 用户个人信息
     userInfo: '',
     userOpenid: '',
     userGrade: '',
     userSchool: '',
+
+    viewsSum: '-',    // 书籍总浏览量
+    favoriteSum: '-', // 书籍总收藏量
   },
 
   onLoad() {
@@ -17,7 +21,10 @@ Page({
   },
 
   onShow() {
-    this.getUserDetail()
+    if (__user.checkLoginStatus()) {
+      this.getUserDetail()
+      this.countViewsAndFavorite()
+    }
   },
 
   // 用户登录
@@ -54,6 +61,8 @@ Page({
                 icon: 'success',
               })
 
+              this.countViewsAndFavorite()
+
               // 检查用户是否是第一次使用
               this.userRegister()
             },
@@ -69,8 +78,6 @@ Page({
           })
         }
       })
-
-
     }
   },
 
@@ -79,6 +86,8 @@ Page({
     this.setData({
       userInfo: '',
       userOpenid: '',
+      viewsSum: '-',
+      favoriteSum: '-',
     })
     __user.userLogout()
   },
@@ -126,4 +135,59 @@ Page({
         })
       })
   },
+
+  // 前往收藏页面
+  gotoFavorite() {
+    wx.navigateTo({
+      url: '../favorite/favorite',
+    })
+  },
+
+  // 前往交易查询页面
+  gotoTrade() {
+    wx.showToast({
+      title: '功能未开发',
+      icon: 'error',
+    })
+  },
+
+  // 前往浏览历史页面
+  gotoHistory() {
+    wx.showToast({
+      title: '功能未开发',
+      icon: 'error',
+    })
+  },
+
+  // 计算书籍总浏览量和总收藏量
+  countViewsAndFavorite() {
+    if (!__user.checkLoginStatus()) {
+      this.setData({
+        viewsSum: '-',
+        favoriteSum: '-',
+      })
+    } else {
+      wx.cloud.database().collection('goods')
+        .where({
+          _openid: app.globalData.userOpenid
+        })
+        .get()
+        .then(res => {
+          let tempViewsSum = 0
+          let tempFavoriteSum = 0
+
+          res.data.forEach(i => {
+            tempViewsSum += i.views
+            tempFavoriteSum += i.favorites
+          })
+
+          this.setData({
+            viewsSum: tempViewsSum,
+            favoriteSum: tempFavoriteSum,
+          })
+        })
+    }
+  },
+
+
 })

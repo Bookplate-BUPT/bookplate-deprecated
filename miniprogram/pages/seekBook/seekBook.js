@@ -13,13 +13,89 @@ Page({
     imageList: [],      // 将要上传至数据库的图片列表，类型为字符串数组
     needs: '',          // 用户对二手书的个人需求
 
+    // 页面展示相关
     showList: [],       // 展示在页面上的图片列表，类型为对象数组
-
+    showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
+    helpSteps: [        // 遇到困难遮罩层内容
+      {
+        text: '一',
+        desc: 'AAA'
+      },
+      {
+        text: '二',
+        desc: 'BBB'
+      },
+      {
+        text: '三',
+        desc: 'CCC'
+      },
+    ],
   },
 
   // 扫描ISBN
   scanISBN() {
+    // 识别书籍的ISBN码
+    wx.scanCode({
+      onlyFromCamera: false,
+      scanType: ['barCode'],
+      success: res => {
+        wx.showToast({
+          title: '正在识别...',
+          icon: 'loading',
+        })
 
+        // 将ISBN码上传到云函数
+        wx.cloud.callFunction({
+          name: 'getBookInfo',
+          data: {
+            isbn: res.result
+          },
+          success: resInner => {
+            console.log(JSON.parse(resInner.result).data)
+
+            let tempRes = JSON.parse(resInner.result).data
+
+            if (tempRes) {
+              this.setBookDetail(tempRes)
+              wx.showToast({
+                icon: 'success',
+                title: '识别成功',
+              })
+
+              // 滚动页面到底部
+              wx.pageScrollTo({
+                scrollTop: 9999,
+                duration: 200,
+              })
+            } else {
+              wx.showToast({
+                title: '未查询到书籍',
+                icon: 'error',
+              })
+            }
+          }
+        })
+      }
+    })
+  },
+
+  // 设置书籍信息（在scanISBN里调用）
+  setBookDetail(res) {
+    let tempImageList = this.data.showList
+    tempImageList.push({
+      url: res.photoUrl,
+      isImage: true,
+    })
+
+    this.setData({
+      author: res.author,
+      introduction: res.description,
+      showList: tempImageList,
+      isbn: res.code,
+      name: res.name,
+      publisher: res.publishing,
+      publishDate: res.published,
+    })
   },
 
   // 清楚所有信息
@@ -97,6 +173,7 @@ Page({
             publishDate: this.data.publishDate,
             imageList: this.data.imageList,
             needs: this.data.needs,
+            post_date: new Date(),
           }
         })
         .then(res => {
@@ -118,5 +195,19 @@ Page({
           console.log(res)
         })
     }
-  }
+  },
+
+  // 展示遇到困难遮罩层
+  showDifficultyOverLay() {
+    this.setData({
+      showDifficultyOverLay: true,
+    })
+  },
+
+  // 隐藏遇到困难遮罩层
+  closeDifficultyOverLay() {
+    this.setData({
+      showDifficultyOverLay: false,
+    })
+  },
 })
