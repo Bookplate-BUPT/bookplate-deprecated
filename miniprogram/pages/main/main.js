@@ -199,11 +199,20 @@ Page({
                   add_time: new Date(),
                 }
               })
-              .then(res => {
+              .then(resInner => {
                 wx.showToast({
                   title: '收藏成功',
                   icon: 'success',
                 })
+
+                // 该商品的被收藏数需要加1
+                wx.cloud.database().collection('goods')
+                  .doc(event.currentTarget.dataset.id)
+                  .update({
+                    data: {
+                      favorites: wx.cloud.database().command.inc(1)
+                    }
+                  })
               })
           }
         })

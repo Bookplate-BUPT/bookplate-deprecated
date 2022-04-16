@@ -133,6 +133,7 @@ Page({
         })
         .get()
         .then(res => {
+          // 如果已经收藏此商品，则需要取消收藏
           if (res.data.length === 1) {
             wx.cloud.database().collection('favorite')
               .doc(res.data[0]._id)
@@ -145,8 +146,18 @@ Page({
                   title: '已取消收藏',
                   icon: 'success'
                 })
+
+                // 商品的被收藏数减1
+                wx.cloud.database().collection('goods')
+                  .doc(this.data.goodsID)
+                  .update({
+                    data: {
+                      favorites: wx.cloud.database().command.inc(-1)
+                    }
+                  })
               })
           }
+          // 收藏此商品
           else {
             wx.cloud.database().collection('favorite')
               .add({
@@ -163,6 +174,15 @@ Page({
                   title: '收藏成功',
                   icon: 'success'
                 })
+
+                // 商品的被收藏数加1
+                wx.cloud.database().collection('goods')
+                  .doc(this.data.goodsID)
+                  .update({
+                    data: {
+                      favorites: wx.cloud.database().command.inc(1)
+                    }
+                  })
               })
           }
         })
