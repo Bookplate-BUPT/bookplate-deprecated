@@ -104,15 +104,16 @@ Page({
     this.setData({
       favoriteList: tempFavoriteList,
     })
+
+    console.log(this.data.favoriteList)
   },
 
-    // 进入商品详情页
-    goToBookDetail(event) {
-      wx.navigateTo({
-        url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
-      })
-    },
-
+  // 进入商品详情页
+  goToBookDetail(event) {
+    wx.navigateTo({
+      url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
+    })
+  },
 
   // 将商品移除收藏夹
   deleteFavorite(event) {
@@ -131,7 +132,7 @@ Page({
         tempFavoriteList.splice(index, 1)
 
         this.setData({
-          cartList: tempFavoriteList
+          favoriteList: tempFavoriteList
         })
       })
       .catch(res => {
@@ -142,8 +143,8 @@ Page({
       })
   },
 
-// 添加商品到购物车
-addGoodsToCart(event) {
+  // 添加商品到购物车
+  addGoodsToCart(event) {
     // 查询用户购物车里是否已有此商品
     wx.cloud.database().collection('cart')
       .where({
@@ -175,6 +176,6 @@ addGoodsToCart(event) {
             })
         }
       })
-  
-},  
+
+  },
 })
