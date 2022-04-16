@@ -21,10 +21,10 @@ Page({
       userOpenid: app.globalData.userOpenid,
     })
 
-    if (!this.data.userInfo || !this.data.userOpenid)
+    if (!__user.checkLoginStatus())
       this.setData({ showNoLoginPopup: true })
-
-    this.getCartList()
+    else
+      this.getCartList()
   },
 
   onHide() {

@@ -10,8 +10,6 @@ Page({
     sellerDetail: '',
     isExisted: false,
     numOfUserCartGoods: '',
-    userInfo: '',
-    userOpenid: '',
     eventID: '',
   },
 
@@ -22,11 +20,6 @@ Page({
   },
 
   onShow() {
-    this.setData({
-      userInfo: app.globalData.userInfo,
-      userOpenid: app.globalData.userOpenid,
-    })
-
     this.getBookDetail()
     this.getNumOfUserCartGoods()
     this.checkFavoriteStatus()
@@ -60,13 +53,15 @@ Page({
 
   // 获取用户购物车内商品总数
   getNumOfUserCartGoods() {
+    // 如果没登录则直接返回
+    if (!__user.checkLoginStatus()) return
+
     wx.cloud.database().collection('cart')
       .where({
-        _openid: this.data.userOpenid
+        _openid: app.globalData.userOpenid
       })
       .get()
       .then(res => {
-        // console.log(res.data.length)
         this.setData({
           numOfUserCartGoods: res.data.length
         })
@@ -81,7 +76,7 @@ Page({
   },
 
   // 添加商品到购物车
-  addGoodsToCart(event) {
+  addGoodsToCart() {
     if (!__user.checkLoginStatus()) {
       wx.showToast({
         title: '请先登录',
@@ -91,8 +86,8 @@ Page({
       // 查询用户购物车里是否已有此商品
       wx.cloud.database().collection('cart')
         .where({
-          _openid: __user.getUserOpenid(),
-          goods_id: event.currentTarget.dataset.id,
+          _openid: app.globalData.userOpenid,
+          goods_id: this.data.goodsID,
         })
         .get()
         .then(res => {
@@ -107,7 +102,7 @@ Page({
             wx.cloud.database().collection('cart')
               .add({
                 data: {
-                  goods_id: event.currentTarget.dataset.id,
+                  goods_id: this.data.goodsID,
                   add_time: new Date(),
                 }
               })
@@ -123,7 +118,7 @@ Page({
   },
 
   // 添加商品到收藏夹
-  addGoodsToFavorite(event) {
+  addGoodsToFavorite() {
     if (!__user.checkLoginStatus()) {
       wx.showToast({
         title: '请先登录',
@@ -134,7 +129,7 @@ Page({
       wx.cloud.database().collection('favorite')
         .where({
           goods_id: this.data.goodsID,
-          _openid: __user.getUserOpenid(),
+          _openid: app.globalData.userOpenid,
         })
         .get()
         .then(res => {
@@ -176,22 +171,29 @@ Page({
 
   // 判断商品收藏状态，以控制收藏图标的状态
   checkFavoriteStatus() {
-    wx.cloud.database().collection('favorite')
-      .where({
-        goods_id: this.data.goodsID,
-        _openid: __user.getUserOpenid(),
+    // 如果没登录的话直接设为未收藏
+    if (!__user.checkLoginStatus()) {
+      this.setData({
+        isExisted: false
       })
-      .get()
-      .then(res => {
-        if(res.data.length === 1) {
-          this.setData({
-            isExisted: true
-          })
-        }else {
-          this.setData({
-            isExisted: false
-          })
-        }
-      })
+    } else {
+      wx.cloud.database().collection('favorite')
+        .where({
+          goods_id: this.data.goodsID,
+          _openid: app.globalData.userOpenid,
+        })
+        .get()
+        .then(res => {
+          if (res.data.length === 1) {
+            this.setData({
+              isExisted: true
+            })
+          } else {
+            this.setData({
+              isExisted: false
+            })
+          }
+        })
+    }
   }
 })

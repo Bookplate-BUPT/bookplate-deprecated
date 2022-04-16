@@ -17,7 +17,9 @@ Page({
   },
 
   onShow() {
-    this.getUserDetail()
+    if (__user.checkLoginStatus()) {
+      this.getUserDetail()
+    }
   },
 
   // 用户登录
