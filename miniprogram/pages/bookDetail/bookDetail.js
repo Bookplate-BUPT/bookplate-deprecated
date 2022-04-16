@@ -17,6 +17,15 @@ Page({
     this.setData({
       goodsID: options.id,
     })
+
+    // 商品被浏览量加1
+    wx.cloud.database().collection('goods')
+      .doc(options.id)
+      .update({
+        data: {
+          views: wx.cloud.database().command.inc(1)
+        }
+      })
   },
 
   onShow() {
