@@ -19,7 +19,7 @@ var getFloat = function (n) {
 var newFormatTime = function (timestamp) {
   // 此处的先除以1000再乘以1000不可删除
   var date = getDate(timestamp / 1000 * 1000)
-  return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + date.getMinutes()
+  return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
 }
 
 module.exports = {

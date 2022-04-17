@@ -1,5 +1,4 @@
 // pages/message/message.js
-import user from "../../utils/user";
 import __user from "../../utils/user"
 
 const app = getApp();
@@ -10,6 +9,10 @@ Page({
   },
 
   onLoad() {
+    // this.getUserList()
+  },
+
+  onShow() {
     this.getUserList()
   },
 
@@ -63,7 +66,7 @@ Page({
       userList: tempUserList.sort((x, y) => y.last_conversation_time - x.last_conversation_time)
     })
 
-    console.log(this.data.userList)
+    // console.log(this.data.userList)
   },
 
   // 前往聊天室

@@ -326,7 +326,7 @@ Page({
 
   // 自定义格式化日期
   dateFormat(date) {
-    return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + date.getMinutes()
+    return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
   },
 
   // 用户需求内容格式化
