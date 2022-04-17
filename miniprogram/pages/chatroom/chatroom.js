@@ -20,9 +20,8 @@ Page({
       otherid: options.openid,
     })
 
+    this.checkRelationship()
     this.getBothAvatar()
-
-    // console.log(this.data.avatarRight)
   },
 
   onShow() {
@@ -128,14 +127,36 @@ Page({
       this.setData({
         textInputValue: '',
       })
+
+      // 消息发送成功后，需要更新一下双方的关系
+      wx.cloud.database().collection('relationship')
+        .where(
+          wx.cloud.database().command.or([
+            {
+              user1: app.globalData.userOpenid,
+              user2: this.data.otherid,
+            },
+            {
+              user1: this.data.otherid,
+              user2: app.globalData.userOpenid,
+            }
+          ])
+        )
+        .update({
+          data: {
+            last_content: doc.content,
+            last_conversation_time: doc.sendTimeTS,
+          }
+        })
     })
   },
 
   // 使页面滚动到底部
   pageScrollToBottom() {
-    wx.createSelectorQuery().select('#chatroom').boundingClientRect(function (rect) {
+    wx.createSelectorQuery().select('#chatroom').boundingClientRect((rect) => {
       wx.pageScrollTo({
-        scrollTop: rect.bottom
+        scrollTop: rect.bottom,
+        duration: 200,
       })
     }).exec()
   },
@@ -171,6 +192,39 @@ Page({
         this.setData({
           avatarRight: res.data[0].avatarUrl
         })
+      })
+  },
+
+  // 检查relationship数据库里是否已经建立了与该用户的关系
+  // 如果没有，则需要创建关系
+  checkRelationship() {
+    wx.cloud.database().collection('relationship')
+      .where(
+        wx.cloud.database().command.or([
+          {
+            user1: app.globalData.userOpenid,
+            user2: this.data.otherid,
+          },
+          {
+            user1: this.data.otherid,
+            user2: app.globalData.userOpenid,
+          }
+        ])
+      )
+      .get()
+      .then(res => {
+        // 如果先前没有记录双方的关系，则需创建
+        if (res.data.length === 0) {
+          wx.cloud.database().collection('relationship')
+            .add({
+              data: {
+                last_content: '',
+                last_conversation_time: Date.now(),
+                user1: app.globalData.userOpenid,
+                user2: this.data.otherid,
+              }
+            })
+        }
       })
   }
 })
