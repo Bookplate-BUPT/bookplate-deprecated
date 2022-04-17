@@ -56,7 +56,7 @@
   <van-tab title="求书">
     <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
       <van-cell-group inset custom-class="shadow">
-        <view style="background-color: #fafafa;">
+        <view>
           <van-row>
             <van-col custom-class="tagMargin-seek">
               <van-tag mark style="margin-left: 16px; margin-top: 16px" color="#ee0a24">{{ item.isNew ? '最新' : '' }}</van-tag>

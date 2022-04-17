@@ -52,7 +52,7 @@
   <view style="background-color: white; padding: 12px;">
     <van-row>
       <van-col span="10" offset="1">
-        <van-image width="84px" height="84px" class="tipsCardImage" />
+        <van-image width="84px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips3.png" />
       </van-col>
       <van-col span="10" offset="1">
         <view style="margin-top: 10px;">
