@@ -121,34 +121,36 @@ Page({
       recipient: this.data.otherid,
     }
 
-    wx.cloud.database().collection('chatroom').add({
-      data: doc,
-    }).then(res => {
-      this.setData({
-        textInputValue: '',
+    wx.cloud.database().collection('chatroom')
+      .add({
+        data: doc,
       })
-
-      // 消息发送成功后，需要更新一下双方的关系
-      wx.cloud.database().collection('relationship')
-        .where(
-          wx.cloud.database().command.or([
-            {
-              user1: app.globalData.userOpenid,
-              user2: this.data.otherid,
-            },
-            {
-              user1: this.data.otherid,
-              user2: app.globalData.userOpenid,
-            }
-          ])
-        )
-        .update({
-          data: {
-            last_content: doc.content,
-            last_conversation_time: doc.sendTimeTS,
-          }
+      .then(res => {
+        this.setData({
+          textInputValue: '',
         })
-    })
+
+        // 消息发送成功后，需要更新一下双方的关系
+        wx.cloud.database().collection('relationship')
+          .where(
+            wx.cloud.database().command.or([
+              {
+                user1: app.globalData.userOpenid,
+                user2: this.data.otherid,
+              },
+              {
+                user1: this.data.otherid,
+                user2: app.globalData.userOpenid,
+              }
+            ])
+          )
+          .update({
+            data: {
+              last_content: doc.content,
+              last_conversation_time: doc.sendTimeTS,
+            }
+          })
+      })
   },
 
   // 使页面滚动到底部
