@@ -92,37 +92,48 @@ Page({
         icon: 'error',
       })
     } else {
-      // 查询用户购物车里是否已有此商品
-      wx.cloud.database().collection('cart')
-        .where({
-          _openid: app.globalData.userOpenid,
-          goods_id: this.data.goodsID,
+      // 不允许添加自己的商品进购物车
+      if (this.data.sellerDetail._openid === app.globalData.userOpenid) {
+        wx.showToast({
+          title: '不能添加自己的商品进购物车',
+          icon: 'none',
         })
-        .get()
-        .then(res => {
-          // 已经在购物车内
-          if (res.data.length) {
-            wx.showToast({
-              title: '已在购物车中',
-              icon: 'error',
-            })
-          } else {
-            // 不在购物车内
-            wx.cloud.database().collection('cart')
-              .add({
-                data: {
-                  goods_id: this.data.goodsID,
-                  add_time: new Date(),
-                }
+      } else {
+        // 查询用户购物车里是否已有此商品
+        wx.cloud.database().collection('cart')
+          .where({
+            _openid: app.globalData.userOpenid,
+            goods_id: this.data.goodsID,
+          })
+          .get()
+          .then(res => {
+
+            // 已经在购物车内
+            if (res.data.length) {
+              wx.showToast({
+                title: '已在购物车中',
+                icon: 'error',
               })
-              .then(res => {
-                wx.showToast({
-                  title: '添加成功',
-                  icon: 'success',
+            } else {
+              // 不在购物车内
+              wx.cloud.database().collection('cart')
+                .add({
+                  data: {
+                    goods_id: this.data.goodsID,
+                    add_time: new Date(),
+                  }
                 })
-              })
-          }
-        })
+                .then(res => {
+                  wx.showToast({
+                    title: '添加成功',
+                    icon: 'success',
+                  })
+
+                  this.getNumOfUserCartGoods()
+                })
+            }
+          })
+      }
     }
   },
 
@@ -224,5 +235,24 @@ Page({
           }
         })
     }
-  }
+  },
+
+  // 联系卖家
+  contactSeller() {
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error',
+      })
+    } else if (this.data.sellerDetail._openid === app.globalData.userOpenid) {
+      wx.showToast({
+        title: '无法联系自己',
+        icon: 'error',
+      })
+    } else {
+      wx.navigateTo({
+        url: '../chatroom/chatroom?openid=' + this.data.sellerDetail._openid,
+      })
+    }
+  },
 })

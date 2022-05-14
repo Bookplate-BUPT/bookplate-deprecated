@@ -25,7 +25,7 @@
         </van-button>
         <van-button size="mini" round color="#b0c2db" bind:click="goToBookDetail" data-id="{{ item.bookDetail._id }}">查看
         </van-button>
-        <van-button size="mini" round color="#8ac286" bind:click="buyGoods" data-id="{{ item.bookDetail._id }}">购买
+        <van-button size="mini" round color="#8ac286" bind:click="buyGoods" data-id="{{ item.bookDetail._id }}" data-openid="{{ item.bookDetail._openid }}">购买
         </van-button>
       </view>
     </van-card>

@@ -29,6 +29,9 @@ Page({
 
   onHide() {
     this.closeNoLoginPopup()
+    this.setData({
+      cartList: '',
+    })
   },
 
   // 打开提示弹出层
@@ -150,5 +153,10 @@ Page({
       })
   },
 
-
+  // 购买商品，联系卖家
+  buyGoods(event) {
+    wx.navigateTo({
+      url: '../chatroom/chatroom?openid=' + event.currentTarget.dataset.openid,
+    })
+  },
 })
