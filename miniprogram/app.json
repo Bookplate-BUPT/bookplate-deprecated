@@ -6,7 +6,6 @@
     "pages/message/message",
     "pages/cart/cart",
     "pages/mine/mine",
-    "pages/sellBookDetail/index",
     "pages/searchResult/searchResult",
     "pages/editUserInfo/editUserInfo",
     "pages/bookDetail/bookDetail",
