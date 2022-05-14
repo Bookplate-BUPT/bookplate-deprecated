@@ -34,7 +34,13 @@ Page({
   },
 
   onLoad() {
-    this.setPickerColumns()
+    // this.setPickerColumns()
+  },
+
+  onShow() {
+    if (__user.checkLoginStatus()) {
+      this.setPickerColumns()
+    }
   },
 
   // 年级与学院picker的值发生改变时调用
