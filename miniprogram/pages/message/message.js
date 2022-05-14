@@ -13,7 +13,9 @@ Page({
   },
 
   onShow() {
-    this.getUserList()
+    if (__user.checkLoginStatus()) {
+      this.getUserList()
+    }
   },
 
   // 获取用户列表

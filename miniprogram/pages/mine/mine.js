@@ -61,10 +61,23 @@ Page({
                 icon: 'success',
               })
 
+              wx.cloud.database().collection('users')
+                .where({
+                  _openid: resInner.result.openid
+                })
+                .update({
+                  data: {
+                    avatarUrl: res.userInfo.avatarUrl,
+                    nickName: res.userInfo.nickName
+                  }
+                })
+
               this.countViewsAndFavorite()
 
               // 检查用户是否是第一次使用
               this.userRegister()
+
+              this.getUserDetail()
             },
             fail: resInner => {
               console.log(resInner)
