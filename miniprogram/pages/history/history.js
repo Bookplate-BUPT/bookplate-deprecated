@@ -1,6 +1,7 @@
 // pages/favorite/favorite.js
 
 import __user from "../../utils/user"
+var util = require('../../utils/util.js'); 
 
 const app = getApp();
 
@@ -107,9 +108,17 @@ Page({
 
   // 进入商品详情页
   goToBookDetail(event) {
-    wx.navigateTo({
-      url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
-    })
+    wx.cloud.database().collection('history').where({
+      goods_id: event.currentTarget.dataset.id
+    }).update({
+      data: {
+        view_time: util.formatTime(new Date())
+      }
+    }).then(
+      wx.navigateTo({
+        url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
+      })
+    )
   },
 
   // 将商品移除浏览历史
