@@ -38,7 +38,8 @@
     "showES6CompileOption": false,
     "useCompilerPlugins": false,
     "ignoreUploadUnusedFiles": true,
-    "useStaticServer": true
+    "useStaticServer": true,
+    "lazyCodeLoading": "requiredComponents"
   },
   "appid": "wx1bb2e8a6e5d71c45",
   "projectname": "SecondHandBooks",

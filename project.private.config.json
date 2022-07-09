@@ -48,7 +48,8 @@
         {
           "name": "bookDetail",
           "pathName": "pages/bookDetail/bookDetail",
-          "query": "id=c462c81061b2efc50187301411d885e8",
+          "query": "id=1cf827d0625b8f880051dac5416f3d31",
+          "launchMode": "default",
           "scene": null
         },
         {
@@ -79,19 +80,20 @@
         {
           "name": "chatroom1",
           "pathName": "pages/chatroom/chatroom",
-          "query": "openid=randomOpenid",
+          "query": "openid=owJ0m5Rq0zk13XjgBwsg2W68WBm8",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "chatroom2",
           "pathName": "pages/chatroom/chatroom",
-          "query": "openid=owJ0m5SCRup81zjj1x1g04lhWn4Q",
+          "query": "openid=owJ0m5QDHh4Op9n_4-wPgxDO21FQ",
           "launchMode": "default",
           "scene": null
         }
       ]
     }
   },
-  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html"
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "libVersion": "2.23.0"
 }
