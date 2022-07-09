@@ -127,18 +127,22 @@ Page({
       .doc(event.currentTarget.dataset.id)
       .remove()
       .then(res => {
-        wx.showToast({
-          title: '移除成功',
-          icon: 'success',
-        })
-
+        
+        let tempNowHistoryList = this.data.nowHistoryList
         let tempHistoryList = this.data.historyList
-        const index = this.data.historyList.findIndex(i => i._id === event.currentTarget.dataset.id)
+        const index = this.data.nowHistoryList.findIndex(i => i._id === event.currentTarget.dataset.id)
 
+        tempNowHistoryList.splice(index, 1)
         tempHistoryList.splice(index, 1)
 
         this.setData({
+          nowHistoryList: tempNowHistoryList,
           historyList: tempHistoryList
+        })
+
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
         })
       })
       .catch(res => {
