@@ -168,9 +168,8 @@ Page({
 
   // 前往浏览历史页面
   gotoHistory() {
-    wx.showToast({
-      title: '功能未开发',
-      icon: 'error',
+    wx.navigateTo({
+      url: '../history/history',
     })
   },
 
