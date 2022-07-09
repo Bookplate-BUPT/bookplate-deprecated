@@ -7,6 +7,11 @@
   border-top: solid 1px #d2d2d2;
   background-color: #f7f7f7;
   height: 64px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+  padding-right: 12rpx;
 }
 
 .chatContent-left {

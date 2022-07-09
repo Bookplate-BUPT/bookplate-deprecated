@@ -1,5 +1,6 @@
 // pages/chatroom/chatroom.js
 import __user from "../../utils/user"
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
 const app = getApp()
 
@@ -12,6 +13,7 @@ Page({
     otherid: '',      // 当前对话对方的openid
     avatarLeft: '',   // 对方用户的头像url
     avatarRight: '',  // 自己的头像url
+    relationship: '', // 双方的关系数据
   },
 
   onLoad(options) {
@@ -226,7 +228,33 @@ Page({
                 user2: this.data.otherid,
               }
             })
+        } else {
+          this.setData({
+            relationship: res.data[0]
+          })
         }
       })
+  },
+
+  // 显示弹出框
+  showTradeDialog() {
+    Dialog.confirm({
+      title: '二手书交易',
+      message: '你确定要将此二手书出售吗？',
+      // theme: 'round-button',
+      closeOnClickOverlay: 'true',
+    })
+      .then(() => {
+        // on confirm
+        this.tradeAccept()
+      })
+      .catch(() => {
+        // on cancel
+      });
+  },
+
+  // 同意此交易
+  tradeAccept() {
+
   }
 })

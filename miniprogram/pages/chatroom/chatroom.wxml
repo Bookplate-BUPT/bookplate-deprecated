@@ -18,8 +18,17 @@
 
 <view style="height: 80px;" />
 
-<view class="textInputRoot">
-  <van-field placeholder="请输入" custom-style="border-radius: 4px; padding-right: 64rpx; margin: 16rpx" value="{{ textInputValue }}" use-button-slot bind:change="onTextInput">
-    <van-button slot="button" color="#8ac286" size="small" custom-style="border-radius: 8px;" bind:click="onSend">发送</van-button>
-  </van-field>
-</view>
+<van-dialog id="van-dialog" />
+
+<van-row custom-class="textInputRoot">
+  <view wx:if="{{ relationship.user2 === openid }}">
+    <van-button type="primary" icon="certificate" plain custom-style="border: 1px solid transparent; background-color: transparent; min-height: 50px; display: flex; flex-direction: column;" block bind:click="showTradeDialog">
+    </van-button>
+  </view>
+
+  <view style="width: 100%;">
+    <van-field placeholder="请输入" custom-style="border-radius: 4px" value="{{ textInputValue }}" use-button-slot bind:change="onTextInput">
+      <van-button slot="button" color="#8ac286" size="small" custom-style="border-radius: 8px;" bind:click="onSend">发送</van-button>
+    </van-field>
+  </view>
+</van-row>
