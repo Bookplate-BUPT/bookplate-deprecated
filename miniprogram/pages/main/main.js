@@ -1,8 +1,4 @@
 // pages/main/main.js
-import __user from "../../utils/user"
-
-const app = getApp();
-
 Page({
 
   data: {
@@ -187,107 +183,6 @@ Page({
     }
   },
 
-  // 收藏商品
-  favoriteGoods(event) {
-    if (!__user.checkLoginStatus()) {
-      wx.showToast({
-        title: '请先登录',
-        icon: 'error',
-      })
-    } else {
-      // 查询用户收藏里是否已有此商品
-      wx.cloud.database().collection('favorite')
-        .where({
-          _openid: __user.getUserOpenid(),
-          goods_id: event.currentTarget.dataset.id,
-        })
-        .get()
-        .then(res => {
-          // 已经在收藏内
-          if (res.data.length) {
-            wx.showToast({
-              title: '已在收藏中',
-              icon: 'error',
-            })
-          } else {
-            // 不在收藏内
-            wx.cloud.database().collection('favorite')
-              .add({
-                data: {
-                  goods_id: event.currentTarget.dataset.id,
-                  add_time: new Date(),
-                }
-              })
-              .then(resInner => {
-                wx.showToast({
-                  title: '收藏成功',
-                  icon: 'success',
-                })
-
-                // 该商品的被收藏数需要加1
-                wx.cloud.database().collection('goods')
-                  .doc(event.currentTarget.dataset.id)
-                  .update({
-                    data: {
-                      favorites: wx.cloud.database().command.inc(1)
-                    }
-                  })
-              })
-          }
-        })
-    }
-  },
-
-  // 添加商品到购物车
-  addGoodsToCart(event) {
-    if (!__user.checkLoginStatus()) {
-      wx.showToast({
-        title: '请先登录',
-        icon: 'error',
-      })
-    } else {
-      // 查询用户购物车里是否已有此商品
-      wx.cloud.database().collection('cart')
-        .where({
-          _openid: __user.getUserOpenid(),
-          goods_id: event.currentTarget.dataset.id,
-        })
-        .get()
-        .then(res => {
-          // 不允许添加自己的商品进购物车
-          if (event.currentTarget.dataset.openid === app.globalData.userOpenid) {
-            wx.showToast({
-              title: '不能添加自己的商品进购物车',
-              icon: 'none',
-            })
-          } else {
-            // 已经在购物车内
-            if (res.data.length) {
-              wx.showToast({
-                title: '已在购物车中',
-                icon: 'error',
-              })
-            } else {
-              // 不在购物车内
-              wx.cloud.database().collection('cart')
-                .add({
-                  data: {
-                    goods_id: event.currentTarget.dataset.id,
-                    add_time: new Date(),
-                  }
-                })
-                .then(res => {
-                  wx.showToast({
-                    title: '添加成功',
-                    icon: 'success',
-                  })
-                })
-            }
-          }
-        })
-    }
-  },
-
   // 筛选书籍类型改变时调用
   bookTypeChange(event) {
     this.setData({
@@ -302,13 +197,6 @@ Page({
       sortType: event.detail
     })
     this.getGoodsList()
-  },
-
-  // 进入商品详情页
-  goToBookDetail(event) {
-    wx.navigateTo({
-      url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
-    })
   },
 
   // 获取求书列表
