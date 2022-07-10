@@ -78,8 +78,7 @@ Page({
     const goodsIdList = await wx.cloud.database().collection('history')
       .where({
         _openid: __user.getUserOpenid(),
-      })
-      .get()
+      }).orderBy('view_time', 'desc').get()
 
     // 根据商品ID查询对应的商品详细信息
     const promiseArray = goodsIdList.data.map((i) => (
@@ -92,7 +91,6 @@ Page({
 
     // 等到所有的查询线程结束后再继续进行
     const bookDetailList = await Promise.all(promiseArray)
-    console.log('bookDetailList:',bookDetailList)
 
     // 将详细信息放入原商品ID列表
     const tempHistoryList = goodsIdList.data.map((i, idx) => ({
