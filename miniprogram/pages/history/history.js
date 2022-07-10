@@ -1,7 +1,7 @@
 // pages/favorite/favorite.js
 
 import __user from "../../utils/user"
-var util = require('../../utils/util.js'); 
+var util = require('../../utils/util.js');
 
 const app = getApp();
 
@@ -100,7 +100,7 @@ Page({
 
     this.setData({
       historyList: tempHistoryList,
-      nowHistoryList: tempHistoryList.slice(0,7)
+      nowHistoryList: tempHistoryList.slice(0, 7)
     })
   },
 
@@ -125,7 +125,7 @@ Page({
       .doc(event.currentTarget.dataset.id)
       .remove()
       .then(res => {
-        
+
         let tempNowHistoryList = this.data.nowHistoryList
         let tempHistoryList = this.data.historyList
         const index = this.data.nowHistoryList.findIndex(i => i._id === event.currentTarget.dataset.id)
@@ -155,11 +155,11 @@ Page({
    * 下拉触底事件
    */
   onReachBottom() {
-    if(this.data.nowHistoryList.length === this.data.historyList.length)
+    if (this.data.nowHistoryList.length === this.data.historyList.length)
       return
     var i = this.data.nowHistoryList.length
     this.setData({
-      nowHistoryList: [...this.data.nowHistoryList, ...this.data.historyList.slice(i, i+7)]
+      nowHistoryList: [...this.data.nowHistoryList, ...this.data.historyList.slice(i, i + 7)]
     })
   }
 })
