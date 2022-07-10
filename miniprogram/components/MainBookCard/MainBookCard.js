@@ -1,6 +1,8 @@
 // components/mainBook/mainBook.js
 
 import __user from "../../utils/user"
+var util = require('../../utils/util.js');
+
 const app = getApp()
 
 Component({
@@ -134,6 +136,23 @@ Component({
     goToBookDetail(event) {
       wx.navigateTo({
         url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
+      }).then(res => {
+        wx.cloud.database().collection('history').where({
+          goods_id: event.currentTarget.dataset.id
+        }).update({
+          data: {
+            view_time: util.formatTime(new Date())
+          }
+        }).then(res => {
+          if (!res.stats.updated) {
+            wx.cloud.database().collection('history').add({
+              data: {
+                goods_id: event.currentTarget.dataset.id,
+                view_time: util.formatTime(new Date())
+              }
+            })
+          }
+        })
       })
     },
   }
