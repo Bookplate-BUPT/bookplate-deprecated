@@ -1,6 +1,6 @@
 <!--components/mainBook/mainBook.wxml-->
 <van-cell-group inset custom-class="shadow">
-  <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
+  <van-swipe-cell right-width="{{ right?100:0 }}" left-width="{{ left?60:0 }}">
     <view slot="left">
       <slot name="left"></slot>
     </view>

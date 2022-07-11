@@ -227,57 +227,6 @@ Page({
       })
   },
 
-  // 收藏商品
-  favoriteGoods(event) {
-    if (!__user.checkLoginStatus()) {
-      wx.showToast({
-        title: '请先登录',
-        icon: 'error',
-      })
-    } else {
-      // 查询用户收藏里是否已有此商品
-      wx.cloud.database().collection('favorite')
-        .where({
-          _openid: __user.getUserOpenid(),
-          goods_id: event.currentTarget.dataset.id,
-        })
-        .get()
-        .then(res => {
-          // 已经在收藏内
-          if (res.data.length) {
-            wx.showToast({
-              title: '已在收藏中',
-              icon: 'error',
-            })
-          } else {
-            // 不在收藏内
-            wx.cloud.database().collection('favorite')
-              .add({
-                data: {
-                  goods_id: event.currentTarget.dataset.id,
-                  add_time: new Date(),
-                }
-              })
-              .then(resInner => {
-                wx.showToast({
-                  title: '收藏成功',
-                  icon: 'success',
-                })
-
-                // 该商品的被收藏数需要加1
-                wx.cloud.database().collection('goods')
-                  .doc(event.currentTarget.dataset.id)
-                  .update({
-                    data: {
-                      favorites: wx.cloud.database().command.inc(1)
-                    }
-                  })
-              })
-          }
-        })
-    }
-  },
-
   // 添加商品到购物车
   addGoodsToCart(event) {
     if (!__user.checkLoginStatus()) {

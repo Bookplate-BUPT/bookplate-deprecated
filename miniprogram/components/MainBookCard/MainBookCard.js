@@ -20,7 +20,15 @@ Component({
     original_price: String,
     name: String,
     grade: String,
-    introduction: String
+    introduction: String,
+    left: {
+      type: Boolean,
+      value: false
+    },
+    right: {
+      type: Boolean,
+      value: false
+    }
   },
 
   /**
