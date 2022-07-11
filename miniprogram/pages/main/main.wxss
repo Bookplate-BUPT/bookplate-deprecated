@@ -2,3 +2,8 @@
 .tagMargin-seek {
   margin-top: 8px;
 }
+
+.swiperCellButton {
+  min-height: 105px;
+  width: auto;
+}

@@ -1,10 +1,9 @@
 <!--components/mainBook/mainBook.wxml-->
 <van-cell-group inset custom-class="shadow">
   <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
-    <van-button slot="left" color="#FFC125" custom-class="swiperCellButton" bind:click="favoriteGoods" data-id="{{ _id }}">
-      <van-icon name="star" />
-      <view>收藏</view>
-    </van-button>
+    <view slot="left">
+      <slot name="left"></slot>
+    </view>
 
     <van-card price="{{ price }}" thumb="{{ image_list[0] }}" origin-price="{{original_price }}" data-id="{{ _id }}" bindtap="goToBookDetail" tag="{{ isNew ? '最新' : '' }}">
       <view slot="title" style="font-weight: bold;">
@@ -16,9 +15,8 @@
       </view>
     </van-card>
 
-    <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ _id }}" data-openid="{{ _openid }}">
-      <van-icon name="shopping-cart" />
-      <view>加入购物车</view>
-    </van-button>
+    <view slot="right">
+      <slot name="right"></slot>
+    </view>
   </van-swipe-cell>
 </van-cell-group>

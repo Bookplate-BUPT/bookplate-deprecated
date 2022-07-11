@@ -23,7 +23,17 @@
 
     <!-- 卖书书籍陈列 -->
     <view wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
-      <MainBookCard _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" grade="{{item.grade}}" introduction="{{item.introduction}}"></MainBookCard>
+      <MainBookCard _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" grade="{{item.grade}}" introduction="{{item.introduction}}">
+        <van-button slot="left" color="#FFC125" custom-class="swiperCellButton" bind:click="favoriteGoods" data-id="{{ item._id }}">
+          <van-icon name="star" />
+          <view>收藏</view>
+        </van-button>
+
+        <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
+          <van-icon name="shopping-cart" />
+          <view>加入购物车</view>
+        </van-button>
+      </MainBookCard>
     </view>
 
     <!-- 底部提示分隔线 -->
