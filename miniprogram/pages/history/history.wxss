@@ -9,3 +9,8 @@
 .goodsCardMargin {
   margin-top: 4px;
 }
+
+.swiperCellButton {
+  min-height: 105px;
+  width: auto;
+}
