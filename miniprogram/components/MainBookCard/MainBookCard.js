@@ -65,5 +65,24 @@ Component({
         })
       })
     },
+    // 书籍介绍内容格式化
+    introductionFormat(str, length) {
+      // 过长则需要省略
+      if (str.length > length) {
+        return str.substr(0, length) + '……'
+      }
+      // 不用格式化
+      else return str
+    }
+  },
+  lifetimes: {
+    /**
+     * 生命周期函数：在组件实例进入页面节点树时执行
+     */
+    attached() {
+      this.setData({
+        introduction: this.introductionFormat(this.properties.introduction, 24)
+      })
+    }
   }
 })
