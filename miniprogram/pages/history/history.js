@@ -98,6 +98,10 @@ Page({
       bookDetail: bookDetailList[idx].data[0],
     }))
 
+    // 书籍介绍内容格式化
+    for (var i = 0; i < tempHistoryList.length; i++)
+      tempHistoryList[i].bookDetail.introduction = this.introductionFormat(tempHistoryList[i].bookDetail.introduction, 24)
+
     this.setData({
       historyList: tempHistoryList,
       nowHistoryList: tempHistoryList.slice(0, 7)
@@ -133,6 +137,13 @@ Page({
         tempNowHistoryList.splice(index, 1)
         tempHistoryList.splice(index, 1)
 
+        // 书籍介绍内容格式化
+        for (var i = 0; i < tempHistoryList.length; i++)
+        {
+          tempHistoryList[i].bookDetail.introduction = this.introductionFormat(tempHistoryList[i].bookDetail.introduction, 24)
+          tempNowHistoryList[i].bookDetail.introduction = this.introductionFormat(tempNowHistoryList[i].bookDetail.introduction, 24)
+        }
+
         this.setData({
           nowHistoryList: tempNowHistoryList,
           historyList: tempHistoryList
@@ -149,6 +160,16 @@ Page({
           icon: 'error',
         })
       })
+  },
+
+  // 书籍介绍内容格式化
+  introductionFormat(str, length) {
+    // 过长则需要省略
+    if (str.length > length) {
+      return str.substr(0, length) + '……'
+    }
+    // 不用格式化
+    else return str
   },
 
   /**
