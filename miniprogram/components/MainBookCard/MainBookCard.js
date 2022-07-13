@@ -22,12 +22,12 @@ Component({
     grade: String,
     introduction: String,
     left: {
-      type: Boolean,
-      value: false
+      type: Number,
+      value: 0
     },
     right: {
-      type: Boolean,
-      value: false
+      type: Number,
+      value: 0
     }
   },
 
