@@ -9,7 +9,7 @@
   </van-popup>
 </view>
 
-<van-tabs>
+<van-tabs color="#8AC286" sticky animated swipeable>
   <van-tab title="卖书">
     <view wx:for="{{ nowHistoryList }}" style="margin-top: 8px;" wx:key="_id">
       <MainBookCard right="{{ 60 }}" left="{{ 60 }}" price="{{item.bookDetail.price}}" image_list="{{item.bookDetail.image_list}}" origin-price="{{item.bookDetail.origin-price}}" _id="{{item.bookDetail._id}}" name="{{item.bookDetail.name}}" grade="{{item.bookDetail.grade}}" introduction="{{item.bookDetail.introduction}}">
