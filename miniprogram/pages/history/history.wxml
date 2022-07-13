@@ -17,12 +17,12 @@
         <van-button block color="#ff0000" custom-class="swiperCellButton" slot="right" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
       </MainBookCard>
     </view>
+    <van-divider contentPosition="center" dashed>没有更多啦</van-divider>
   </van-tab>
 
   <van-tab title="求书">
     <view style="display: flex; justify-content: center; margin-top: 200px;">暂未开发</view>
+    <van-divider contentPosition="center" dashed>没有更多啦</van-divider>
   </van-tab>
 
 </van-tabs>
-
-<van-divider contentPosition="center" dashed>没有更多啦</van-divider>
