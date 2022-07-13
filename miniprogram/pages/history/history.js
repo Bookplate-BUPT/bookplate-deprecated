@@ -99,8 +99,8 @@ Page({
     }))
 
     // 书籍介绍内容格式化
-    for (var i = 0; i < tempHistoryList.length; i++)
-      tempHistoryList[i].bookDetail.introduction = this.introductionFormat(tempHistoryList[i].bookDetail.introduction, 24)
+    for (var tempHistory of tempHistoryList)
+      tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, 24)
 
     this.setData({
       historyList: tempHistoryList,
@@ -138,11 +138,10 @@ Page({
         tempHistoryList.splice(index, 1)
 
         // 书籍介绍内容格式化
-        for (var i = 0; i < tempHistoryList.length; i++)
-        {
-          tempHistoryList[i].bookDetail.introduction = this.introductionFormat(tempHistoryList[i].bookDetail.introduction, 24)
-          tempNowHistoryList[i].bookDetail.introduction = this.introductionFormat(tempNowHistoryList[i].bookDetail.introduction, 24)
-        }
+        for (var tempHistory of tempHistoryList)
+          tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, 24)
+        for (var tempNowHistory of tempNowHistoryList)
+          tempNowHistory.bookDetail.introduction = this.introductionFormat(tempNowHistory.bookDetail.introduction, 24)
 
         this.setData({
           nowHistoryList: tempNowHistoryList,
