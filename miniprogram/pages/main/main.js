@@ -38,10 +38,6 @@ Page({
         text: '最多浏览',
         value: 'views',
       },
-      {
-        text: '最多收藏',
-        value: 'favorites',
-      },
     ],
     bookType: '',   // 书籍类型
     sortType: '',   // 排序类型

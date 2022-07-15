@@ -13,7 +13,6 @@ Page({
     userSchool: '',
 
     viewsSum: '-',    // 书籍总浏览量
-    favoriteSum: '-', // 书籍总收藏量
   },
 
   onLoad() {
@@ -23,7 +22,7 @@ Page({
   onShow() {
     if (__user.checkLoginStatus()) {
       this.getUserDetail()
-      this.countViewsAndFavorite()
+      this.countViews()
     }
   },
 
@@ -72,7 +71,7 @@ Page({
                   }
                 })
 
-              this.countViewsAndFavorite()
+              this.countViews()
 
               // 检查用户是否是第一次使用
               this.userRegister()
@@ -100,7 +99,6 @@ Page({
       userInfo: '',
       userOpenid: '',
       viewsSum: '-',
-      favoriteSum: '-',
     })
     __user.userLogout()
   },
@@ -166,8 +164,8 @@ Page({
     })
   },
 
-  // 计算书籍总浏览量和总收藏量
-  countViewsAndFavorite() {
+  // 计算书籍总浏览量
+  countViews() {
     if (!__user.checkLoginStatus()) {
       this.setData({
         viewsSum: '-',

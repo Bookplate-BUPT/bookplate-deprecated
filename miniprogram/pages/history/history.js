@@ -1,4 +1,4 @@
-// pages/favorite/favorite.js
+// pages/history/history.js
 
 import __user from "../../utils/user"
 var util = require('../../utils/util.js');
@@ -15,7 +15,7 @@ Page({
   },
 
   onLoad() {
-    // this.getFavoriteList()
+    // this.getHistoryList()
   },
 
   onShow() {

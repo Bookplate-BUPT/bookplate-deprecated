@@ -23,7 +23,6 @@ exports.main = async (event, context) => {
         introduction: event.introduction,
         image_list: event.imageList,
         views: 0,
-        favorites: 0,
         post_date: new Date(),
         publisher: event.publisher,
         book_publish_date: event.publishDate,
