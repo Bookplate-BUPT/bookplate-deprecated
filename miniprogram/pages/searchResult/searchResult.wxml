@@ -6,12 +6,7 @@
 
 <view wx:if="{{ goodsList.length }}" wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
   <van-cell-group inset custom-class="shadow">
-    <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
-      <van-button slot="left" color="#FFC125" custom-class="swiperCellButton" bind:click="favoriteGoods" data-id="{{ item._id }}">
-        <van-icon name="star" />
-        <view>收藏</view>
-      </van-button>
-
+    <van-swipe-cell right-width="{{ 100 }}">
       <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
         <view slot="title" style="font-weight: bold;">
           {{ item.name }}

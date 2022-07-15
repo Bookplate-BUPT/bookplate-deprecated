@@ -151,13 +151,6 @@ Page({
       })
   },
 
-  // 前往收藏页面
-  gotoFavorite() {
-    wx.navigateTo({
-      url: '../favorite/favorite',
-    })
-  },
-
   // 前往交易查询页面
   gotoTrade() {
     wx.showToast({
@@ -201,7 +194,5 @@ Page({
           })
         })
     }
-  },
-
-
+  }
 })

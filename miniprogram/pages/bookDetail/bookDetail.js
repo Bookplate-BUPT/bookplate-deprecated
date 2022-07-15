@@ -31,7 +31,6 @@ Page({
   onShow() {
     this.getBookDetail()
     this.getNumOfUserCartGoods()
-    this.checkFavoriteStatus()
   },
 
   // 获取书籍详细信息
@@ -134,106 +133,6 @@ Page({
             }
           })
       }
-    }
-  },
-
-  // 添加商品到收藏夹
-  addGoodsToFavorite() {
-    if (!__user.checkLoginStatus()) {
-      wx.showToast({
-        title: '请先登录',
-        icon: 'error',
-      })
-    }
-    else {
-      wx.cloud.database().collection('favorite')
-        .where({
-          goods_id: this.data.goodsID,
-          _openid: app.globalData.userOpenid,
-        })
-        .get()
-        .then(res => {
-          // 如果已经收藏此商品，则需要取消收藏
-          if (res.data.length === 1) {
-            wx.cloud.database().collection('favorite')
-              .doc(res.data[0]._id)
-              .remove()
-              .then(res => {
-                this.setData({
-                  isExisted: false
-                })
-                wx.showToast({
-                  title: '已取消收藏',
-                  icon: 'success'
-                })
-
-                // 商品的被收藏数减1
-                wx.cloud.database().collection('goods')
-                  .doc(this.data.goodsID)
-                  .update({
-                    data: {
-                      favorites: wx.cloud.database().command.inc(-1)
-                    }
-                  })
-              })
-          }
-          // 收藏此商品
-          else {
-            wx.cloud.database().collection('favorite')
-              .add({
-                data: {
-                  goods_id: this.data.goodsID,
-                  add_time: new Date()
-                }
-              })
-              .then(res => {
-                this.setData({
-                  isExisted: true
-                })
-                wx.showToast({
-                  title: '收藏成功',
-                  icon: 'success'
-                })
-
-                // 商品的被收藏数加1
-                wx.cloud.database().collection('goods')
-                  .doc(this.data.goodsID)
-                  .update({
-                    data: {
-                      favorites: wx.cloud.database().command.inc(1)
-                    }
-                  })
-              })
-          }
-        })
-    }
-  },
-
-  // 判断商品收藏状态，以控制收藏图标的状态
-  checkFavoriteStatus() {
-    // 如果没登录的话直接设为未收藏
-    if (!__user.checkLoginStatus()) {
-      this.setData({
-        isExisted: false
-      })
-    } else {
-      wx.cloud.database().collection('favorite')
-        .where({
-          goods_id: this.data.goodsID,
-          _openid: app.globalData.userOpenid,
-        })
-        .get()
-        .then(res => {
-          if (res.data.length === 1) {
-            this.setData({
-              isExisted: true
-            })
-          } else {
-            this.setData({
-              isExisted: false
-            })
-          }
-        })
     }
   },
 

@@ -24,12 +24,7 @@
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
-  <van-grid direction="horizontal" column-num="3" clickable>
-    <van-grid-item use-slot bind:click="gotoFavorite">
-      <van-icon name="star-o" size="15px" style="margin-bottom: 1px;" />
-      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我的收藏</text>
-    </van-grid-item>
-
+  <van-grid direction="horizontal" column-num="2" clickable>
     <van-grid-item use-slot bind:click="gotoTrade">
       <van-icon name="todo-list-o" size="16px" />
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">交易查询</text>
