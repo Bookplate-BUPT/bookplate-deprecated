@@ -171,7 +171,6 @@ Page({
     if (!__user.checkLoginStatus()) {
       this.setData({
         viewsSum: '-',
-        favoriteSum: '-',
       })
     } else {
       wx.cloud.database().collection('goods')
@@ -181,16 +180,13 @@ Page({
         .get()
         .then(res => {
           let tempViewsSum = 0
-          let tempFavoriteSum = 0
 
           res.data.forEach(i => {
             tempViewsSum += i.views
-            tempFavoriteSum += i.favorites
           })
 
           this.setData({
             viewsSum: tempViewsSum,
-            favoriteSum: tempFavoriteSum,
           })
         })
     }

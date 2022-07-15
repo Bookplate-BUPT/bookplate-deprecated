@@ -36,13 +36,9 @@
     </van-grid-item>
   </van-grid>
 
-  <van-grid column-num="2">
+  <van-grid column-num="1">
     <van-grid-item text="书籍总浏览量" center>
       <text slot="icon" style="color: #323233; font-size: x-large;">{{ viewsSum }}</text>
-    </van-grid-item>
-
-    <van-grid-item text="书籍总收藏量" center>
-      <text slot="icon" style="color: #323233; font-size: x-large;">{{ favoriteSum }}</text>
     </van-grid-item>
   </van-grid>
 
