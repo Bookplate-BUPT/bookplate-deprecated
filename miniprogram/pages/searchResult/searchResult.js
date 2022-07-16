@@ -1,4 +1,9 @@
 // pages/searchResult/searchResult.js
+
+import __user from "../../utils/user"
+
+const app = getApp()
+
 Page({
 
   data: {
@@ -64,5 +69,55 @@ Page({
     }
     // 不用格式化
     else return str
+  },
+
+  // 添加商品到购物车
+  addGoodsToCart(event) {
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error',
+      })
+    } else {
+      // 查询用户购物车里是否已有此商品
+      wx.cloud.database().collection('cart')
+        .where({
+          _openid: __user.getUserOpenid(),
+          goods_id: event.currentTarget.dataset.id,
+        })
+        .get()
+        .then(res => {
+          // 不允许添加自己的商品进购物车
+          if (event.currentTarget.dataset.openid === app.globalData.userOpenid) {
+            wx.showToast({
+              title: '不能添加自己的商品进购物车',
+              icon: 'none',
+            })
+          } else {
+            // 已经在购物车内
+            if (res.data.length) {
+              wx.showToast({
+                title: '已在购物车中',
+                icon: 'error',
+              })
+            } else {
+              // 不在购物车内
+              wx.cloud.database().collection('cart')
+                .add({
+                  data: {
+                    goods_id: event.currentTarget.dataset.id,
+                    add_time: new Date(),
+                  }
+                })
+                .then(res => {
+                  wx.showToast({
+                    title: '添加成功',
+                    icon: 'success',
+                  })
+                })
+            }
+          }
+        })
+    }
   },
 })
