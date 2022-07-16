@@ -221,7 +221,8 @@ Page({
               icon: 'success'
             }).then(res => {
               this.setData({
-                show: false
+                show: false,
+                buyColor: '#7C7C7E'
               })
             })
           })
