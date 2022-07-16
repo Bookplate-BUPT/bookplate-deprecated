@@ -11,6 +11,26 @@ Page({
     isExisted: false,
     numOfUserCartGoods: '',
     eventID: '',
+    show: false,
+    value: '',
+  },
+
+  onClose() {
+    this.setData({
+      show: false
+    })
+  },
+
+  onShowPop() {
+    this.setData({
+      show: true
+    })
+  },
+
+  onChange(e) {
+    this.setData({
+      value: e.detail
+    })
   },
 
   onLoad(options) {
@@ -40,7 +60,8 @@ Page({
       .get()
       .then(res => {
         this.setData({
-          bookDetail: res.data
+          bookDetail: res.data,
+          value: res.data.price
         })
         // console.log(this.data.bookDetail)
 
