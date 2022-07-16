@@ -7,16 +7,16 @@
   <van-empty description="暂时没有新消息"></van-empty>
 </view>
 <view wx:else>
-<view wx:for="{{ userList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-id="{{ item.otherid }}">
-  <van-image round width="40px" height="40px" src="{{ item.avatar }}" />
+  <view wx:for="{{ userList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-id="{{ item.otherid }}">
+    <van-image round width="40px" height="40px" src="{{ item.avatar }}" />
 
-  <view style="margin-left: 16px; width: 100%;">
-    <view style="margin-top: -8px;">
-      <text>{{ item.nickName }}</text>
-      <text class="date">{{ utils.newFormatTime(item.last_conversation_time) }}</text>
+    <view style="margin-left: 16px; width: 100%;">
+      <view style="margin-top: -8px;">
+        <text>{{ item.nickName }}</text>
+        <text class="date">{{ utils.newFormatTime(item.last_conversation_time) }}</text>
+      </view>
+
+      <view style="margin-top: 8px; font-size: small; color: #999999; padding-right: 16px;">{{ item.last_content }}</view>
     </view>
-
-    <view style="margin-top: 8px; font-size: small; color: #999999; padding-right: 16px;">{{ item.last_content }}</view>
   </view>
-</view>
 </view>
