@@ -3,6 +3,10 @@
 
 <van-notice-bar left-icon="info-o" text="您的聊天正在受监控，请注意文明用语。" />
 
+<view wx:if="{{ !userList }}" style="margin-top: 150rpx;">
+  <van-empty description="暂时没有新消息"></van-empty>
+</view>
+<view wx:else>
 <view wx:for="{{ userList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-id="{{ item.otherid }}">
   <van-image round width="40px" height="40px" src="{{ item.avatar }}" />
 
@@ -14,4 +18,5 @@
 
     <view style="margin-top: 8px; font-size: small; color: #999999; padding-right: 16px;">{{ item.last_content }}</view>
   </view>
+</view>
 </view>
