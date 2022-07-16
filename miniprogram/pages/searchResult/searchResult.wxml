@@ -5,24 +5,12 @@
 </view>
 
 <view wx:if="{{ goodsList.length }}" wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
-  <van-cell-group inset custom-class="shadow">
-    <van-swipe-cell right-width="{{ 100 }}">
-      <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
-        <view slot="title" style="font-weight: bold;">
-          {{ item.name }}
-          <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
-        </view>
-        <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
-          {{ item.introduction }}
-        </view>
-      </van-card>
-
-      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
-        <van-icon name="shopping-cart" />
-        <view>加入购物车</view>
-      </van-button>
-    </van-swipe-cell>
-  </van-cell-group>
+  <MainBookCard _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" grade="{{item.grade}}" introduction="{{item.introduction}}" right="{{100}}">
+    <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
+      <van-icon name="shopping-cart" />
+      <view>加入购物车</view>
+    </van-button>
+  </MainBookCard>
 </view>
 
 <van-divider wx:if="{{ goodsList.length }}" contentPosition="center" dashed>共有{{goodsList.length}}条结果</van-divider>
