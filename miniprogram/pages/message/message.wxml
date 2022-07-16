@@ -3,7 +3,7 @@
 
 <van-notice-bar left-icon="info-o" text="您的聊天正在受监控，请注意文明用语。" />
 
-<view wx:if="{{ !userList }}" style="margin-top: 150rpx;">
+<view wx:if="{{ !userList.length }}" style="margin-top: 150rpx;">
   <van-empty description="暂时没有新消息"></van-empty>
 </view>
 <view wx:else>
