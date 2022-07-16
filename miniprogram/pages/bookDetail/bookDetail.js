@@ -12,7 +12,7 @@ Page({
     numOfUserCartGoods: '',
     eventID: '',
     show: false,
-    value: '',
+    value: '', // 交易确认的价格
   },
 
   onClose() {
@@ -174,5 +174,49 @@ Page({
         url: '../chatroom/chatroom?openid=' + this.data.sellerDetail._openid,
       })
     }
+  },
+
+  // 确认提交交易信息
+  commitForm(event) {
+    wx.cloud.database().collection('trade').where({
+      goods_id: event.currentTarget.dataset.goods_id
+    }).get().then(res => {
+      // 如果该商品已被购买
+      if (res.data.length) {
+        wx.showToast({
+          title: '该商品已被预订',
+          icon: 'error'
+        }).then(res => {
+          this.setData({
+            show: false
+          })
+        })
+      } else {
+        if (!this.data.value) {
+          wx.showToast({
+            title: '现价不能为空',
+            icon: 'error'
+          })
+        } else {
+          wx.cloud.database().collection('trade').add({
+            data: {
+              goods_id: event.currentTarget.dataset.goods_id,
+              trade_time: new Date().toLocaleString(),
+              state: event.currentTarget.dataset.state,
+              price: event.currentTarget.dataset.price,
+            }
+          }).then(res => {
+            wx.showToast({
+              title: '交易请求已发送',
+              icon: 'success'
+            }).then(res => {
+              this.setData({
+                show: false
+              })
+            })
+          })
+        }
+      }
+    })
   },
 })
