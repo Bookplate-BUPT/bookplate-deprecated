@@ -48,6 +48,7 @@
 | goods_id   | string         | not null | foreign | 商品ID                                            |
 | trade_time | date           | not null |         | 交易时间                                          |
 | state      | number         | not null |         | 交易的状态，0表示未完成，1表示已完成，2表示已取消 |
+| price      | string         | not null |         | 交易最后确认的价格                                |
 
 
 
