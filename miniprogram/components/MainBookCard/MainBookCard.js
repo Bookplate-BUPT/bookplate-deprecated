@@ -50,7 +50,7 @@ Component({
           goods_id: event.currentTarget.dataset.id
         }).update({
           data: {
-            view_time: util.formatTime(new Date())
+            view_time: new Date()
           }
         }).then(res => {
           if (!res.stats.updated) {
