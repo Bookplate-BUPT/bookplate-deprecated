@@ -6,12 +6,16 @@ var getInt = function (n) {
 
 // 取数的小数部分，只返回两位
 var getFloat = function (n) {
-  if (n) {
-    var f = (n.split("."))[1]
-    if (f.length == 1) return f + "0"
-    else return f.substring(0, 2)
+  if (n !== undefined) {
+    var numList = n.split(".")
+
+    if (numList.length == 1) {
+      return "00"
+    } else if (numList.length == 2) {
+      if (numList[1].length == 1) return numList[1] + "0"
+      else return numList[1].substring(0, 2)
+    }
   }
-  else return "00";
 }
 
 // 自定义时间戳转成时间，形式如下
