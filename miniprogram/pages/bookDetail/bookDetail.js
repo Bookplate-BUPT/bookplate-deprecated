@@ -12,7 +12,9 @@ Page({
     numOfUserCartGoods: '',
     eventID: '',
     show: false,
-    value: '', // 交易确认的价格
+    trade_price: '', // 交易确认的价格
+    trade_time: '', // 交易确认的时间
+    trade_spot: '', // 交易确认的地点
     buyColor: 'linear-gradient(to right, #8ac286, #659c64)', // 按钮的颜色
     btnDisabled: false, // 按钮是否锁定
   },
@@ -31,14 +33,25 @@ Page({
       })
     } else {
       this.setData({
-        show: true
+        show: true,
+        trade_time: new Date().toLocaleTimeString(),
       })
     }
   },
 
-  onChange(e) {
+  onChangeTradePrice(e) {
     this.setData({
-      value: e.detail
+      trade_price: e.detail
+    })
+  },
+  onChangeTradeTime(e) {
+    this.setData({
+      trade_time: e.detail
+    })
+  },
+  onChangeTradeSpot(e) {
+    this.setData({
+      trade_spot: e.detail
     })
   },
 
@@ -70,7 +83,7 @@ Page({
       .then(res => {
         this.setData({
           bookDetail: res.data,
-          value: res.data.price
+          trade_price: res.data.price
         })
         // console.log(this.data.bookDetail)
         wx.cloud.database().collection('trade').where({
@@ -197,7 +210,7 @@ Page({
 
   // 确认提交交易信息
   commitForm(event) {
-    if (!this.data.value) {
+    if (!this.data.trade_price) {
       wx.showToast({
         title: '现价不能为空',
         icon: 'error'
@@ -208,7 +221,9 @@ Page({
           goods_id: event.currentTarget.dataset.goods_id,
           trade_time: new Date(),
           state: event.currentTarget.dataset.state,
-          price: event.currentTarget.dataset.price,
+          trade_price: event.currentTarget.dataset.trade_price,
+          trade_time: event.currentTarget.dataset.trade_time,
+          trade_spot: event.currentTarget.dataset.trade_spot,
         }
       }).then(res => {
         wx.showToast({
