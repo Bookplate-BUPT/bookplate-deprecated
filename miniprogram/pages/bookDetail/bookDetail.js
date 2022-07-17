@@ -14,6 +14,7 @@ Page({
     show: false,
     value: '', // 交易确认的价格
     buyColor: 'linear-gradient(to right, #8ac286, #659c64)', // 按钮的颜色
+    btnDisabled: false, // 按钮是否锁定
   },
 
   onClose() {
@@ -23,9 +24,16 @@ Page({
   },
 
   onShowPop() {
-    this.setData({
-      show: true
-    })
+    if (this.data.btnDisabled) {
+      wx.showToast({
+        title: '该书已被预订',
+        icon: 'error'
+      })
+    } else {
+      this.setData({
+        show: true
+      })
+    }
   },
 
   onChange(e) {
@@ -70,7 +78,8 @@ Page({
         }).get().then(tradeRes => {
           if (tradeRes.data.length && tradeRes.data[0].state != 2) {
             this.setData({
-              buyColor: '#7C7C7E'
+              buyColor: '#7C7C7E',
+              btnDisabled: true,
             })
           }
 
@@ -188,46 +197,31 @@ Page({
 
   // 确认提交交易信息
   commitForm(event) {
-    wx.cloud.database().collection('trade').where({
-      goods_id: event.currentTarget.dataset.goods_id
-    }).get().then(res => {
-      // 如果该商品已被购买
-      if (res.data.length) {
+    if (!this.data.value) {
+      wx.showToast({
+        title: '现价不能为空',
+        icon: 'error'
+      })
+    } else {
+      wx.cloud.database().collection('trade').add({
+        data: {
+          goods_id: event.currentTarget.dataset.goods_id,
+          trade_time: new Date().toLocaleString(),
+          state: event.currentTarget.dataset.state,
+          price: event.currentTarget.dataset.price,
+        }
+      }).then(res => {
         wx.showToast({
-          title: '该商品已被预订',
-          icon: 'error'
+          title: '交易请求已发送',
+          icon: 'success'
         }).then(res => {
           this.setData({
-            show: false
+            show: false,
+            buyColor: '#7C7C7E',
+            btnDisabled: true
           })
         })
-      } else {
-        if (!this.data.value) {
-          wx.showToast({
-            title: '现价不能为空',
-            icon: 'error'
-          })
-        } else {
-          wx.cloud.database().collection('trade').add({
-            data: {
-              goods_id: event.currentTarget.dataset.goods_id,
-              trade_time: new Date().toLocaleString(),
-              state: event.currentTarget.dataset.state,
-              price: event.currentTarget.dataset.price,
-            }
-          }).then(res => {
-            wx.showToast({
-              title: '交易请求已发送',
-              icon: 'success'
-            }).then(res => {
-              this.setData({
-                show: false,
-                buyColor: '#7C7C7E'
-              })
-            })
-          })
-        }
-      }
-    })
+      })
+    }
   },
 })
