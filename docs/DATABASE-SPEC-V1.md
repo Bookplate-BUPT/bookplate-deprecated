@@ -41,14 +41,15 @@
 
 ## TRADE 交易
 
-| 属性名     | 数据库数据类型 | 是否为空 | 类型    | 备注                                              |
-| ---------- | -------------- | -------- | ------- | ------------------------------------------------- |
-| _id        | string         | not null | primary | 交易ID                                            |
-| _openid    | string         | not null | foreign | 买家ID                                            |
-| goods_id   | string         | not null | foreign | 商品ID                                            |
-| trade_time | date           | not null |         | 交易时间                                          |
-| state      | number         | not null |         | 交易的状态，0表示未完成，1表示已完成，2表示已取消 |
-| price      | string         | not null |         | 交易最后确认的价格                                |
+| 属性名      | 数据库数据类型 | 是否为空 | 类型    | 备注                                              |
+| ----------- | -------------- | -------- | ------- | ------------------------------------------------- |
+| _id         | string         | not null | primary | 交易ID                                            |
+| _openid     | string         | not null | foreign | 买家ID                                            |
+| goods_id    | string         | not null | foreign | 商品ID                                            |
+| trade_time  | date           | not null |         | 交易时间                                          |
+| trade_price | string         | not null |         | 交易价格                                          |
+| trade_spot  | string         | not null |         | 交易地点                                          |
+| state       | number         | not null |         | 交易的状态，0表示未完成，1表示已完成，2表示已取消 |
 
 
 
