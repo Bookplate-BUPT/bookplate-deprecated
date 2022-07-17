@@ -206,7 +206,7 @@ Page({
       wx.cloud.database().collection('trade').add({
         data: {
           goods_id: event.currentTarget.dataset.goods_id,
-          trade_time: new Date().toLocaleString(),
+          trade_time: new Date(),
           state: event.currentTarget.dataset.state,
           price: event.currentTarget.dataset.price,
         }

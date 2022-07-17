@@ -1,7 +1,6 @@
 // pages/history/history.js
 
 import __user from "../../utils/user"
-var util = require('../../utils/util.js');
 
 const app = getApp();
 
@@ -114,7 +113,7 @@ Page({
       goods_id: event.currentTarget.dataset.id
     }).update({
       data: {
-        view_time: util.formatTime(new Date())
+        view_time: new Date()
       }
     }).then(
       wx.navigateTo({

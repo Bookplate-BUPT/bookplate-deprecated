@@ -1,5 +1,4 @@
 // components/mainBook/mainBook.js
-var util = require('../../utils/util.js');
 
 Component({
   /**
@@ -58,7 +57,7 @@ Component({
             wx.cloud.database().collection('history').add({
               data: {
                 goods_id: event.currentTarget.dataset.id,
-                view_time: util.formatTime(new Date())
+                view_time: new Date()
               }
             })
           }
