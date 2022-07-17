@@ -76,7 +76,7 @@ Page({
         wx.cloud.database().collection('trade').where({
           goods_id: res.data._id
         }).get().then(tradeRes => {
-          if (tradeRes.data.length && tradeRes.data[0].state != 2) {
+          if (tradeRes.data.length && tradeRes.data[0].state == 0) {
             this.setData({
               buyColor: '#7C7C7E',
               btnDisabled: true,
