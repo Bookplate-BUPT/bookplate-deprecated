@@ -225,6 +225,12 @@ Page({
               trade_price: event.currentTarget.dataset.trade_price,
               trade_time: event.currentTarget.dataset.trade_time,
               trade_spot: event.currentTarget.dataset.trade_spot,
+              original_price: this.data.bookDetail.original_price,
+              seller_openid: this.data.bookDetail._openid,
+              grade: this.data.bookDetail.grade,
+              name: this.data.bookDetail.name,
+              isbn: this.data.bookDetail.isbn,
+              image_list: this.data.bookDetail.image_list,
             }
           }).then(res => {
             wx.showToast({
