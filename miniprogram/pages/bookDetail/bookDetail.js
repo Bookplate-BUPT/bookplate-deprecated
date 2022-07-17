@@ -15,8 +15,6 @@ Page({
     trade_price: '', // 交易确认的价格
     trade_time: '', // 交易确认的时间
     trade_spot: '', // 交易确认的地点
-    buyColor: 'linear-gradient(to right, #8ac286, #659c64)', // 按钮的颜色
-    btnDisabled: false, // 按钮是否锁定
   },
 
   onClose() {
@@ -26,7 +24,7 @@ Page({
   },
 
   onShowPop() {
-    if (this.data.btnDisabled) {
+    if (this.data.bookDetail.state==1) {
       wx.showToast({
         title: '该书已被预订',
         icon: 'error'
@@ -86,15 +84,6 @@ Page({
           trade_price: res.data.price
         })
         // console.log(this.data.bookDetail)
-        wx.cloud.database().collection('trade').where({
-          goods_id: res.data._id
-        }).get().then(tradeRes => {
-          if (tradeRes.data.length && tradeRes.data[0].state == 0) {
-            this.setData({
-              buyColor: '#7C7C7E',
-              btnDisabled: true,
-            })
-          }
 
           // 获取卖家详细信息
           // 之后需要修改成为利用云函数去获取
@@ -109,7 +98,6 @@ Page({
               })
             })
         })
-      })
   },
 
   // 获取用户购物车内商品总数
@@ -226,8 +214,7 @@ Page({
             icon: 'error'
           }).then(res => {
             this.setData({
-              buyColor: '#7C7C7E',
-              btnDisabled: true,
+              'bookDetail.state': 1
             })
           })
         } else {
@@ -235,7 +222,7 @@ Page({
             data: {
               goods_id: event.currentTarget.dataset.goods_id,
               trade_time: new Date(),
-              state: event.currentTarget.dataset.state,
+              state: 0,
               trade_price: event.currentTarget.dataset.trade_price,
               trade_time: event.currentTarget.dataset.trade_time,
               trade_spot: event.currentTarget.dataset.trade_spot,
@@ -245,10 +232,16 @@ Page({
               title: '交易请求已发送',
               icon: 'success'
             }).then(res => {
-              this.setData({
-                show: false,
-                buyColor: '#7C7C7E',
-                btnDisabled: true
+              wx.cloud.database().collection('goods').doc(this.data.goodsID).update({
+                data: {
+                  state: 1
+                }
+              }).then(res => {
+                console.log(res)
+                this.setData({
+                  show: false,
+                  'bookDetail.state': 1
+                })
               })
             })
           })
