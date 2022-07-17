@@ -215,27 +215,44 @@ Page({
         title: '现价不能为空',
         icon: 'error'
       })
-    } else {
-      wx.cloud.database().collection('trade').add({
-        data: {
-          goods_id: event.currentTarget.dataset.goods_id,
-          trade_time: new Date(),
-          state: event.currentTarget.dataset.state,
-          trade_price: event.currentTarget.dataset.trade_price,
-          trade_time: event.currentTarget.dataset.trade_time,
-          trade_spot: event.currentTarget.dataset.trade_spot,
-        }
-      }).then(res => {
-        wx.showToast({
-          title: '交易请求已发送',
-          icon: 'success'
-        }).then(res => {
-          this.setData({
-            show: false,
-            buyColor: '#7C7C7E',
-            btnDisabled: true
+    }
+    else {
+      wx.cloud.database().collection('trade').where({
+        goods_id: event.currentTarget.dataset.goods_id,
+      }).get().then(res => {
+        if (res.data.length) {
+          wx.showToast({
+            title: '该书已被预订',
+            icon: 'error'
+          }).then(res => {
+            this.setData({
+              buyColor: '#7C7C7E',
+              btnDisabled: true,
+            })
           })
-        })
+        } else {
+          wx.cloud.database().collection('trade').add({
+            data: {
+              goods_id: event.currentTarget.dataset.goods_id,
+              trade_time: new Date(),
+              state: event.currentTarget.dataset.state,
+              trade_price: event.currentTarget.dataset.trade_price,
+              trade_time: event.currentTarget.dataset.trade_time,
+              trade_spot: event.currentTarget.dataset.trade_spot,
+            }
+          }).then(res => {
+            wx.showToast({
+              title: '交易请求已发送',
+              icon: 'success'
+            }).then(res => {
+              this.setData({
+                show: false,
+                buyColor: '#7C7C7E',
+                btnDisabled: true
+              })
+            })
+          })
+        }
       })
     }
   },
