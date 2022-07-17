@@ -27,6 +27,7 @@ exports.main = async (event, context) => {
         publisher: event.publisher,
         book_publish_date: event.publishDate,
         grade: event.grade,
+        state: event.state,
       }
     })
   }

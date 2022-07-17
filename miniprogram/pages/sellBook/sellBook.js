@@ -214,6 +214,7 @@ Page({
         description: this.data.description,
         openid: this.data.userOpenid,
         grade: this.data.grade,
+        state: 0, // 表示未售出
       },
       success: res => {
         wx.showToast({
