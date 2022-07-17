@@ -6,6 +6,7 @@ const app = getApp();
 Page({
   data: {
     userList: [],   // 用户列表
+    state: false,
   },
 
   onLoad() {
@@ -13,6 +14,9 @@ Page({
   },
 
   onShow() {
+    wx.showLoading({
+      title: '加载中',
+    })
     if (__user.checkLoginStatus()) {
       this.getUserList()
     }
@@ -65,9 +69,11 @@ Page({
 
     // 按时间戳进行排序后再赋值
     this.setData({
-      userList: tempUserList.sort((x, y) => y.last_conversation_time - x.last_conversation_time)
+      userList: tempUserList.sort((x, y) => y.last_conversation_time - x.last_conversation_time),
+      state: true
     })
 
+    wx.hideLoading()
     // console.log(this.data.userList)
   },
 
