@@ -6,6 +6,6 @@
   touch-action: pan-y;
 }
 
-.tagMargin {
+.gradeTag {
   margin-left: 6px;
 }
