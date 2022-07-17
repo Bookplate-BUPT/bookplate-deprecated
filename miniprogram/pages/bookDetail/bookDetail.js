@@ -67,11 +67,13 @@ Page({
           views: wx.cloud.database().command.inc(1)
         }
       })
+
+    this.getBookDetail()
+    this.getNumOfUserCartGoods()
   },
 
   onShow() {
-    this.getBookDetail()
-    this.getNumOfUserCartGoods()
+
   },
 
   // 获取书籍详细信息
@@ -86,8 +88,10 @@ Page({
         })
         // console.log(this.data.bookDetail)
 
+        // TODO: 应该卖家在上传商品的时候就把部分用于显示
+        // 的个人信息塞入其中
+
         // 获取卖家详细信息
-        // 之后需要修改成为利用云函数去获取
         wx.cloud.database().collection('users')
           .where({
             _openid: res.data._openid
