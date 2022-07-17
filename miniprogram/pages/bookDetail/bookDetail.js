@@ -24,7 +24,7 @@ Page({
   },
 
   onShowPop() {
-    if (this.data.bookDetail.state==1) {
+    if (this.data.bookDetail.state == 1) {
       wx.showToast({
         title: '该书已被预订',
         icon: 'error'
@@ -85,19 +85,19 @@ Page({
         })
         // console.log(this.data.bookDetail)
 
-          // 获取卖家详细信息
-          // 之后需要修改成为利用云函数去获取
-          wx.cloud.database().collection('users')
-            .where({
-              _openid: res.data._openid
+        // 获取卖家详细信息
+        // 之后需要修改成为利用云函数去获取
+        wx.cloud.database().collection('users')
+          .where({
+            _openid: res.data._openid
+          })
+          .get()
+          .then(resInner => {
+            this.setData({
+              sellerDetail: resInner.data[0]
             })
-            .get()
-            .then(resInner => {
-              this.setData({
-                sellerDetail: resInner.data[0]
-              })
-            })
-        })
+          })
+      })
   },
 
   // 获取用户购物车内商品总数
