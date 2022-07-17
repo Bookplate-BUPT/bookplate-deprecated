@@ -1,16 +1,13 @@
 // components/mainBook/mainBook.js
 
 Component({
-  /**
-   * 组件的设置选项
-   */
+
+  // 组件的设置选项
   options: {
     multipleSlots: true
   },
 
-  /**
-   * 组件的属性列表
-   */
+  // 组件的属性列表
   properties: {
     _id: String,
     _openid: String,
@@ -20,6 +17,8 @@ Component({
     name: String,
     grade: String,
     introduction: String,
+    isNew: Boolean,
+
     left: {
       type: Number,
       value: 0
@@ -30,16 +29,10 @@ Component({
     }
   },
 
-  /**
-   * 组件的初始数据
-   */
   data: {
 
   },
 
-  /**
-   * 组件的方法列表
-   */
   methods: {
     // 进入商品详情页
     goToBookDetail(event) {

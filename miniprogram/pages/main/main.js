@@ -50,12 +50,12 @@ Page({
   },
 
   onLoad() {
-
+    this.getGoodsList()
+    this.getSeekList()
   },
 
   onShow() {
-    this.getGoodsList()
-    this.getSeekList()
+
   },
 
   // 下拉刷新监听
