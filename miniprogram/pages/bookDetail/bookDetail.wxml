@@ -61,17 +61,18 @@
 <van-goods-action>
   <van-goods-action-icon icon="cart-o" text="购物车" info="{{ numOfUserCartGoods === 0 ? '' : numOfUserCartGoods }}" bind:click="gotoCart" />
   <van-goods-action-icon icon="chat-o" text="联系卖家" bind:click="contactSeller" />
-  <van-goods-action-button text="加入购物车" type="warning" plain color="#8ac286" bind:click="addGoodsToCart" />
-  <van-goods-action-button text="立即购买" color="{{bookDetail.state==1?'#7C7C7E':'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="onShowPop" />
+  <van-goods-action-button text="加入购物车" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="lockedGoodsConfirm" />
+  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即购买' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="onShowPop" />
+
   <van-popup show="{{ show }}" bind:close="onClose" round overlay closeable custom-style="height: 85%; width: 80% ">
     <view style="display: flex; flex-direction: column; justify-content: space-between; height: 98%;">
       <view style="margin-top: 28rpx;">
         <view style="display: flex; justify-content: center;">
-          <van-image src="{{bookDetail.image_list[0]}}" height="{{200}}" fit="heightFix" alt="图片加载失败" />
+          <van-image src="{{ bookDetail.image_list[0] }}" height="{{200}}" fit="heightFix" alt="图片加载失败" />
         </view>
-        <van-field label="书名:" readonly value="{{bookDetail.name}}" border="{{false}}"></van-field>
-        <van-field label="ISBN:" readonly value="{{bookDetail.isbn}}" border="{{false}}"></van-field>
-        <van-field label="原价:" readonly value="{{bookDetail.original_price}}" border="{{false}}"></van-field>
+        <van-field label="书名:" readonly value="{{ bookDetail.name }}" border="{{false}}"></van-field>
+        <van-field label="ISBN:" readonly value="{{ bookDetail.isbn }}" border="{{false}}"></van-field>
+        <van-field label="原价:" readonly value="{{ bookDetail.original_price }}" border="{{false}}"></van-field>
         <van-field label="现价:" value="{{ trade_price }}" placeholder="请输入现价" bind:change="onChangeTradePrice" border="{{false}}" clearable />
         <van-field label="时间:" value="{{ trade_time }}" placeholder="请输入时间" bind:change="onChangeTradeTime" border="{{false}}" clearable />
         <van-field label="地点:" value="{{ trade_spot }}" placeholder="请输入地点" bind:change="onChangeTradeSpot" border="{{false}}" clearable />
@@ -83,3 +84,5 @@
     </view>
   </van-popup>
 </van-goods-action>
+
+<van-dialog id="van-dialog" />

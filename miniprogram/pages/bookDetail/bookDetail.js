@@ -1,5 +1,6 @@
 // pages/bookDetail/bookDetail.js
 import __user from "../../utils/user"
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
 const app = getApp();
 
@@ -177,6 +178,21 @@ Page({
     }
   },
 
+  // 商品被锁定时加入购物车的确认
+  lockedGoodsConfirm() {
+    Dialog.confirm({
+      title: '确定加入购物车吗？',
+      message: '该书籍目前已被预定，被购买后将下架',
+      closeOnClickOverlay: true,
+    })
+      .then(() => {
+        this.addGoodsToCart()
+      })
+      .catch(() => {
+
+      });
+  },
+
   // 联系卖家
   contactSeller() {
     if (!__user.checkLoginStatus()) {
@@ -228,9 +244,9 @@ Page({
               original_price: this.data.bookDetail.original_price,
               seller_openid: this.data.bookDetail._openid,
               grade: this.data.bookDetail.grade,
-              name: this.data.bookDetail.name,
-              isbn: this.data.bookDetail.isbn,
-              image_list: this.data.bookDetail.image_list,
+              name: this.data.bookDetail.name,
+              isbn: this.data.bookDetail.isbn,
+              image_list: this.data.bookDetail.image_list,
             }
           }).then(res => {
             wx.showToast({
