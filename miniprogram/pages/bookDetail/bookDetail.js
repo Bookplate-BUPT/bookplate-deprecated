@@ -259,8 +259,9 @@ Page({
             }).then(res => {
               // 调用云函数修改数据库
               wx.cloud.callFunction({
-                name: 'updateGoodsState',
+                name: 'updateGoods',
                 data: {
+                  type: 'updateState',
                   goodsID: this.data.goodsID,
                   state: 1,
                 }
