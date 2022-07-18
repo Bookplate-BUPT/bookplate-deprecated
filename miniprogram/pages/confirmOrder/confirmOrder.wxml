@@ -1,34 +1,75 @@
-<view wx:for="{{tradeGoodsList}}" wx:key="goods_id" style="margin-top: 20rpx;">
-  <van-cell-group inset custom-class="shadow">
-    <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup">
-      <view slot="title" style="font-weight: bold;">
-        {{ item.name }}
-        <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
-      </view>
-      <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
-        <view>ISBN：{{ item.isbn }}</view>
-        <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
-        <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
-      </view>
-    </van-card>
-  </van-cell-group>
-  <van-popup bind:close="onClose" show="{{ show }}" round overlay closeable custom-style="height: 85%; width: 80% ">
-    <view style="display: flex; flex-direction: column; justify-content: space-between; height: 98%;">
-      <view style="margin-top: 28rpx;">
-        <view style="display: flex; justify-content: center;">
-          <van-image src="{{ item.image_list[0] }}" height="{{200}}" fit="heightFix" alt="图片加载失败" />
+<van-tabs>
+  <van-tab title="未处理">
+    <view wx:for="{{pendingTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <van-cell-group inset custom-class="shadow">
+        <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup">
+          <view slot="title" style="font-weight: bold;">
+            {{ item.name }}
+            <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+          </view>
+          <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+            <view>ISBN：{{ item.isbn }}</view>
+            <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
+            <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
+          </view>
+        </van-card>
+      </van-cell-group>
+
+      <van-popup bind:close="onClose" show="{{ show }}" round overlay closeable custom-style="height: 85%; width: 80% ">
+        <view style="display: flex; flex-direction: column; justify-content: space-between; height: 98%;">
+          <view style="margin-top: 28rpx;">
+            <view style="display: flex; justify-content: center;">
+              <van-image src="{{ item.image_list[0] }}" height="{{200}}" fit="heightFix" alt="图片加载失败" />
+            </view>
+            <van-field label="书名:" readonly value="{{ item.name }}" border="{{false}}" />
+            <van-field label="ISBN:" readonly value="{{ item.isbn }}" border="{{false}}" />
+            <van-field label="时间:" readonly value="{{ item.trade_time }}" border="{{false}}" />
+            <van-field label="地点:" readonly value="{{ item.trade_spot }}" border="{{false}}" />
+            <van-field label="原价:" readonly value="{{ item.original_price }}" border="{{false}}" />
+            <van-field label="现价:" readonly value="{{ item.trade_price }}" border="{{false}}" />
+          </view>
+          <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
+            <view bindtap="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}" style="color: rgb(247, 58, 58);">拒绝</view>
+            <view bindtap="commitForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">确认</view>
+          </view>
         </view>
-        <van-field label="书名:" readonly value="{{ item.name }}" border="{{false}}" />
-        <van-field label="ISBN:" readonly value="{{ item.isbn }}" border="{{false}}" />
-        <van-field label="时间:" readonly value="{{ item.trade_time }}" border="{{false}}" />
-        <van-field label="地点:" readonly value="{{ item.trade_spot }}" border="{{false}}" />
-        <van-field label="原价:" readonly value="{{ item.original_price }}" border="{{false}}" />
-        <van-field label="现价:" readonly value="{{ item.trade_price }}" border="{{false}}" />
-      </view>
-      <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
-        <view bindtap="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}" style="color: rgb(247, 58, 58);">拒绝</view>
-        <view bindtap="commitForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">确认</view>
-      </view>
+      </van-popup>
     </view>
-  </van-popup>
-</view>
+  </van-tab>
+
+  <van-tab title="已确认">
+    <view wx:for="{{confirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <van-cell-group inset custom-class="shadow">
+        <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
+          <view slot="title" style="font-weight: bold;">
+            {{ item.name }}
+            <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+          </view>
+          <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+            <view>ISBN：{{ item.isbn }}</view>
+            <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
+            <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
+          </view>
+        </van-card>
+      </van-cell-group>
+    </view>
+  </van-tab>
+
+  <van-tab title="已拒绝">
+    <view wx:for="{{rejectedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <van-cell-group inset custom-class="shadow">
+        <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
+          <view slot="title" style="font-weight: bold;">
+            {{ item.name }}
+            <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+          </view>
+          <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+            <view>ISBN：{{ item.isbn }}</view>
+            <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
+            <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
+          </view>
+        </van-card>
+      </van-cell-group>
+    </view>
+  </van-tab>
+</van-tabs>

@@ -5,6 +5,9 @@ Page({
 
   data: {
     tradeGoodsList: [],
+    pendingTrade: [],
+    confirmedTrade: [],
+    rejectedTrade: [],
     show: false,
   },
 
@@ -13,22 +16,33 @@ Page({
       show: false
     })
   },
+
   //查找trade表里面的数据
   getMyTrade() {
     wx.cloud.database().collection('trade').where({
       seller_openid: __user.getUserOpenid(),
     }).get().then(res => {
       this.setData({
-        tradeGoodsList: res.data
+        tradeGoodsList: res.data,
+      })
+      var pendingTrade = this.data.tradeGoodsList.filter(i => { return i.state == 0 })
+      var confirmedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 1 })
+      var rejectedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 2 })
+      this.setData({
+        pendingTrade: pendingTrade,
+        confirmedTrade: confirmedTrade,
+        rejectedTrade: rejectedTrade,
       })
     })
   },
+
   //打开弹出层
   ShowPopup(e) {
     this.setData({
       show: true
     })
   },
+
   //确认交易
   commitForm(event) {
     wx.cloud.callFunction({
@@ -45,6 +59,24 @@ Page({
         this.setData({
           show: false
         })
+
+        // 找到需要确认元素的索引
+        var tempPendingTrade = this.data.pendingTrade
+        var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
+
+        // 在已确认中添加元素
+        var tempConfirmedTrade = this.data.confirmedTrade
+        tempConfirmedTrade.push(tempPendingTrade[idx])
+
+        // 在未处理中删除元素
+        tempPendingTrade.splice(idx, 1)
+
+        // 更新页面
+        this.setData({
+          pendingTrade: tempPendingTrade,
+          confirmedTrade: tempConfirmedTrade,
+        })
+
         wx.cloud.callFunction({
           name: 'updateGoods',
           data: {
@@ -55,8 +87,9 @@ Page({
       })
     })
   },
+
   //拒绝交易
-  rejectForm(event){
+  rejectForm(event) {
     console.log(event)
     wx.cloud.callFunction({
       name: 'updateTradeState',
@@ -72,6 +105,25 @@ Page({
         this.setData({
           show: false
         })
+
+
+        // 找到需要确认元素的索引
+        var tempPendingTrade = this.data.pendingTrade
+        var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
+
+        // 在已拒绝中添加元素
+        var tempRejectedTrade = this.data.rejectedTrade
+        tempRejectedTrade.push(tempPendingTrade[idx])
+
+        // 在未处理中删除元素
+        tempPendingTrade.splice(idx, 1)
+
+        // 更新页面
+        this.setData({
+          pendingTrade: tempPendingTrade,
+          rejectedTrade: tempRejectedTrade,
+        })
+
         wx.cloud.callFunction({
           name: 'updateGoods',
           data: {
