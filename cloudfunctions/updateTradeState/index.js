@@ -7,16 +7,9 @@ cloud.init()
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
-  cloud.database().collection('goods').doc(event.goodsID).update({
+  return cloud.database().collection('trade').doc(event._id).update({
     data: {
       state: event.state
     }
   })
-
-  return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
-  }
 }
