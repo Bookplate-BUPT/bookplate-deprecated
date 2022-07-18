@@ -257,12 +257,14 @@ Page({
               title: '交易请求已发送',
               icon: 'success'
             }).then(res => {
-              wx.cloud.database().collection('goods').doc(this.data.goodsID).update({
+              // 调用云函数修改数据库
+              wx.cloud.callFunction({
+                name: 'updateGoodsState',
                 data: {
-                  state: 1
+                  goodsID: this.data.goodsID,
+                  state: 1,
                 }
               }).then(res => {
-                console.log(res)
                 this.setData({
                   show: false,
                   'bookDetail.state': 1
