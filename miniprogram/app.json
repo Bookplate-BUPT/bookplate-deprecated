@@ -11,6 +11,7 @@
     "pages/editUserInfo/editUserInfo",
     "pages/bookDetail/bookDetail",
     "pages/seekBook/seekBook",
+    "pages/confirmOrder/confirmOrder",
     "pages/chatroom/chatroom"
   ],
   "window": {
