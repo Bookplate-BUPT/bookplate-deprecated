@@ -74,28 +74,37 @@ Page({
   // 获取已浏览的书籍
   async getHistoryList() {
     // 获取浏览历史内的商品ID列表
-    const goodsIdList = await wx.cloud.database().collection('history')
+    var goodsIdList = await wx.cloud.database().collection('history')
       .where({
         _openid: __user.getUserOpenid(),
-      }).orderBy('view_time', 'desc').get()
+      }).get()
+    
+    // 将其中的数据取出
+    goodsIdList = goodsIdList.data
+
+    // 按照浏览时间逆序排列
+    goodsIdList.sort((a, b) => {
+      return b.view_time.getTime() - a.view_time.getTime()
+    })
+    // console.log('goodsIdList:',goodsIdList)
 
     // 根据商品ID查询对应的商品详细信息
-    const promiseArray = goodsIdList.data.map((i) => (
+    const promiseArray = goodsIdList.map((i) => (
       wx.cloud.database().collection('goods')
-        .where({
-          _id: i.goods_id
-        })
+        .doc(i.goods_id)
         .get()
     ))
 
     // 等到所有的查询线程结束后再继续进行
     const bookDetailList = await Promise.all(promiseArray)
+    // console.log('bookDetailList:',bookDetailList)
 
     // 将详细信息放入原商品ID列表
-    const tempHistoryList = goodsIdList.data.map((i, idx) => ({
+    const tempHistoryList = goodsIdList.map((i, idx) => ({
       ...i,
-      bookDetail: bookDetailList[idx].data[0],
+      bookDetail: bookDetailList[idx].data,
     }))
+    // console.log('tempHistoryList:',tempHistoryList)
 
     // 书籍介绍内容格式化
     for (var tempHistory of tempHistoryList)
