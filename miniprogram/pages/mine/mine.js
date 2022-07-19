@@ -13,6 +13,7 @@ Page({
     userSchool: '',
 
     viewsSum: '-',    // 书籍总浏览量
+    tradeSum: '-',    // 总交易成功量
   },
 
   onLoad() {
@@ -23,6 +24,7 @@ Page({
     if (__user.checkLoginStatus()) {
       this.getUserDetail()
       this.countViews()
+      this.countTrade()
     }
   },
 
@@ -149,6 +151,20 @@ Page({
       })
   },
 
+  // 前往我的卖书页面
+  gotoConfirmOrder() {
+    wx.navigateTo({
+      url: '../confirmOrder/confirmOrder',
+    })
+  },
+
+  // 前往买家相关页面
+  gotoViewOrder(event) {
+    wx.navigateTo({
+      url: `../viewOrder/viewOrder?active=${event.currentTarget.dataset.active}`,
+    })
+  },
+
   // 前往交易查询页面
   gotoTrade() {
     wx.showToast({
@@ -188,5 +204,39 @@ Page({
           })
         })
     }
-  }
+  },
+
+  // 计算交易总成功量
+  countTrade() {
+    if (!__user.checkLoginStatus()) {
+      this.setData({
+        tradeSum: '-',
+      })
+    } else {
+      let tempTradeSum = 0
+      wx.cloud.database().collection('trade')
+        .where({
+          seller_openid: app.globalData.userOpenid,
+          state: 2
+        })
+        .get()
+        .then(res => {
+          console.log('res1',res)
+          tempTradeSum += res.data.length,
+            wx.cloud.database().collection('trade')
+              .where({
+                _openid: app.globalData.userOpenid,
+                state: 2
+              })
+              .get()
+              .then(res => {
+                console.log('res2',res)
+                tempTradeSum += res.data.length
+                this.setData({
+                  tradeSum: tempTradeSum
+                })
+              })
+        })
+    }
+  },
 })

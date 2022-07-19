@@ -12,6 +12,7 @@
     "pages/bookDetail/bookDetail",
     "pages/seekBook/seekBook",
     "pages/confirmOrder/confirmOrder",
+    "pages/viewOrder/viewOrder",
     "pages/chatroom/chatroom"
   ],
   "window": {
