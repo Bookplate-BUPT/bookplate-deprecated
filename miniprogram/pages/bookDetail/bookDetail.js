@@ -229,7 +229,7 @@ Page({
         goods_id: event.currentTarget.dataset.goods_id,
       }).get().then(res => {
         if (res.data.length) {
-          if (res.data[0].state == 0) {
+          if (res.data.some(i => { return i.state == 0 })) {
             wx.showToast({
               title: '该书已被预订',
               icon: 'error'
@@ -238,45 +238,52 @@ Page({
                 'bookDetail.state': 1
               })
             })
+          } else {
+            this.addTradeRecord(event.currentTarget.dataset)
           }
         } else {
-          wx.cloud.database().collection('trade').add({
-            data: {
-              goods_id: event.currentTarget.dataset.goods_id,
-              state: 0,
-              trade_price: event.currentTarget.dataset.trade_price,
-              trade_time: event.currentTarget.dataset.trade_time,
-              trade_spot: event.currentTarget.dataset.trade_spot,
-              original_price: this.data.bookDetail.original_price,
-              seller_openid: this.data.bookDetail._openid,
-              grade: this.data.bookDetail.grade,
-              name: this.data.bookDetail.name,
-              isbn: this.data.bookDetail.isbn,
-              image_list: this.data.bookDetail.image_list,
-            }
-          }).then(res => {
-            wx.showToast({
-              title: '交易请求已发送',
-              icon: 'success'
-            }).then(res => {
-              // 调用云函数修改数据库
-              wx.cloud.callFunction({
-                name: 'updateGoods',
-                data: {
-                  type: 'updateState',
-                  goodsID: this.data.goodsID,
-                  state: 1,
-                }
-              }).then(res => {
-                this.setData({
-                  show: false,
-                  'bookDetail.state': 1
-                })
-              })
-            })
-          })
+          this.addTradeRecord(event.currentTarget.dataset)
         }
       })
     }
+  },
+
+  // 向trade集合中添加记录
+  addTradeRecord(i) {
+    wx.cloud.database().collection('trade').add({
+      data: {
+        goods_id: i.goods_id,
+        state: 0,
+        trade_price: i.trade_price,
+        trade_time: i.trade_time,
+        trade_spot: i.trade_spot,
+        original_price: this.data.bookDetail.original_price,
+        seller_openid: this.data.bookDetail._openid,
+        grade: this.data.bookDetail.grade,
+        name: this.data.bookDetail.name,
+        isbn: this.data.bookDetail.isbn,
+        image_list: this.data.bookDetail.image_list,
+      }
+    }).then(res => {
+      wx.showToast({
+        title: '交易请求已发送',
+        icon: 'success'
+      }).then(res => {
+        // 调用云函数修改数据库
+        wx.cloud.callFunction({
+          name: 'updateGoods',
+          data: {
+            type: 'updateState',
+            goodsID: this.data.goodsID,
+            state: 1,
+          }
+        }).then(res => {
+          this.setData({
+            show: false,
+            'bookDetail.state': 1
+          })
+        })
+      })
+    })
   },
 })
