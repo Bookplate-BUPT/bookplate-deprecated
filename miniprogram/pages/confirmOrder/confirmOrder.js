@@ -28,6 +28,12 @@ Page({
       var pendingTrade = this.data.tradeGoodsList.filter(i => { return i.state == 0 })
       var confirmedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 1 })
       var rejectedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 2 })
+
+      // 按时间逆序
+      pendingTrade.sort((a, b) => { return b.trade_time - a.trade_time })
+      confirmedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
+      rejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
+
       this.setData({
         pendingTrade: pendingTrade,
         confirmedTrade: confirmedTrade,
@@ -67,6 +73,8 @@ Page({
         // 在已确认中添加元素
         var tempConfirmedTrade = this.data.confirmedTrade
         tempConfirmedTrade.push(tempPendingTrade[idx])
+        // 已确认按时间逆序
+        tempConfirmedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
         // 在未处理中删除元素
         tempPendingTrade.splice(idx, 1)
@@ -114,6 +122,8 @@ Page({
         // 在已拒绝中添加元素
         var tempRejectedTrade = this.data.rejectedTrade
         tempRejectedTrade.push(tempPendingTrade[idx])
+        // 已拒绝按时间逆序
+        tempRejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
         // 在未处理中删除元素
         tempPendingTrade.splice(idx, 1)
