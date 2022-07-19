@@ -229,14 +229,16 @@ Page({
         goods_id: event.currentTarget.dataset.goods_id,
       }).get().then(res => {
         if (res.data.length) {
-          wx.showToast({
-            title: '该书已被预订',
-            icon: 'error'
-          }).then(res => {
-            this.setData({
-              'bookDetail.state': 1
+          if (res.data[0].state == 0) {
+            wx.showToast({
+              title: '该书已被预订',
+              icon: 'error'
+            }).then(res => {
+              this.setData({
+                'bookDetail.state': 1
+              })
             })
-          })
+          }
         } else {
           wx.cloud.database().collection('trade').add({
             data: {
