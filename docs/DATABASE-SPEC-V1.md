@@ -41,21 +41,21 @@
 
 ## TRADE 交易
 
-| 属性名         | 数据库数据类型 | 是否为空 | 类型    | 备注                                              |
-| -------------- | -------------- | -------- | ------- | ------------------------------------------------- |
-| _id            | string         | not null | primary | 交易ID                                            |
-| _openid        | string         | not null | foreign | 买家ID                                            |
-| goods_id       | string         | not null | foreign | 商品ID                                            |
-| seller_openid  | string         | not null | foreign | 卖家ID                                            |
-| trade_time     | date           | not null |         | 交易时间                                          |
-| trade_price    | string         | not null |         | 交易价格                                          |
-| trade_spot     | string         | not null |         | 交易地点                                          |
-| state          | number         | not null |         | 交易的状态，0表示未完成，1表示已完成，2表示已取消 |
-| isbn           | string         | not null |         | 交易书籍的ISBN                                    |
-| original_price | string         | not null |         | 交易书籍的原价                                    |
-| grade          | string         | not null |         | 卖家的年级                                        |
-| name           | string         | not null |         | 交易书籍的名称                                    |
-| image_list     | array          | not null |         | 交易书籍的图片列表                                |
+| 属性名         | 数据库数据类型 | 是否为空 | 类型    | 备注                                                         |
+| -------------- | -------------- | -------- | ------- | ------------------------------------------------------------ |
+| _id            | string         | not null | primary | 交易ID                                                       |
+| _openid        | string         | not null | foreign | 买家ID                                                       |
+| goods_id       | string         | not null | foreign | 商品ID                                                       |
+| seller_openid  | string         | not null | foreign | 卖家ID                                                       |
+| trade_time     | date           | not null |         | 交易时间                                                     |
+| trade_price    | string         | not null |         | 交易价格                                                     |
+| trade_spot     | string         | not null |         | 交易地点                                                     |
+| state          | number         | not null |         | 交易的状态，0表示未完成，1表示待收货，2表示已完成，3表示已取消 |
+| isbn           | string         | not null |         | 交易书籍的ISBN                                               |
+| original_price | string         | not null |         | 交易书籍的原价                                               |
+| grade          | string         | not null |         | 卖家的年级                                                   |
+| name           | string         | not null |         | 交易书籍的名称                                               |
+| image_list     | array          | not null |         | 交易书籍的图片列表                                           |
 
 
 
