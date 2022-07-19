@@ -22,19 +22,19 @@ Page({
     wx.cloud.database().collection('trade').where({
       seller_openid: __user.getUserOpenid(),
     }).get().then(res => {
-      this.setData({
-        tradeGoodsList: res.data,
-      })
-      var pendingTrade = this.data.tradeGoodsList.filter(i => { return i.state == 0 })
-      var confirmedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 1 })
-      var rejectedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 3 })
+      var tradeGoodsList = res.data
+      var pendingTrade = tradeGoodsList.filter(i => { return i.state == 0 })
+      var confirmedTrade = tradeGoodsList.filter(i => { return i.state == 1 })
+      var rejectedTrade = tradeGoodsList.filter(i => { return i.state == 3 })
 
       // 按时间逆序
+      tradeGoodsList.sort((a, b) => { return b.trade_time - a.trade_time })
       pendingTrade.sort((a, b) => { return b.trade_time - a.trade_time })
       confirmedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
       rejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
       this.setData({
+        tradeGoodsList: tradeGoodsList,
         pendingTrade: pendingTrade,
         confirmedTrade: confirmedTrade,
         rejectedTrade: rejectedTrade,
