@@ -33,7 +33,7 @@ Page({
     } else {
       this.setData({
         show: true,
-        trade_time: new Date().toLocaleTimeString(),
+        trade_time: new Date().toLocaleDateString(),
       })
     }
   },
