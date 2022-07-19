@@ -63,7 +63,6 @@
         </van-cell-group>
       </view>
     </view>
-
   </van-tab>
 
   <van-tab title="已拒绝">
@@ -87,6 +86,5 @@
         </van-cell-group>
       </view>
     </view>
-
   </van-tab>
 </van-tabs>
