@@ -27,7 +27,7 @@ Page({
       })
       var pendingTrade = this.data.tradeGoodsList.filter(i => { return i.state == 0 })
       var confirmedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 1 })
-      var rejectedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 2 })
+      var rejectedTrade = this.data.tradeGoodsList.filter(i => { return i.state == 3 })
 
       // 按时间逆序
       pendingTrade.sort((a, b) => { return b.trade_time - a.trade_time })
@@ -103,7 +103,7 @@ Page({
       name: 'updateTradeState',
       data: {
         _id: event.currentTarget.dataset._id,
-        state: 2,
+        state: 3,
       }
     }).then(res => {
       wx.showToast({
