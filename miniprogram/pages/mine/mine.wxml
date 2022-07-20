@@ -30,7 +30,7 @@
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">订单确认</text>
     </van-grid-item>
 
-    <van-grid-item use-slot bind:click="gotoViewOrder" data-active="{{ 1 }}">
+    <van-grid-item use-slot bind:click="gotoViewOrder" data-active="{{ 0 }}">
       <van-icon name="/icons/mybook.png" size="16px" />
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">我的订单</text>
     </van-grid-item>

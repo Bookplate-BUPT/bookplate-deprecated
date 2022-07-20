@@ -1,5 +1,5 @@
 <!--pages/viewOrder/viewOrder.wxml-->
-<van-tabs active="{{ active }}"  color="#8AC286" sticky animated swipeable>
+<van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable id="tabs">
   <van-tab title="全部">
     <view wx:if="{{ !tradeGoodsList.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有已确认的交易哦~"></van-empty>
