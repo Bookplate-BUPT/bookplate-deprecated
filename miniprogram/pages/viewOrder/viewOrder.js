@@ -9,7 +9,6 @@ Page({
     pendingTrade: [],     // 未处理的买书
     confirmedTrade: [],   // 待收货的买书
     rejectedTrade: [],    // 已拒绝的买书
-    tempActive: ''
   },
 
   onLoad(options) {
@@ -32,9 +31,21 @@ Page({
       })
       .get().then(res => {
         var tradeGoodsList = res.data
-        var pendingTrade = tradeGoodsList.filter(i => { return i.state == 0 })
-        var confirmedTrade = tradeGoodsList.filter(i => { return i.state == 1 })
-        var rejectedTrade = tradeGoodsList.filter(i => { return i.state == 3 })
+        var pendingTrade = []
+        var confirmedTrade = []
+        var rejectedTrade = []
+        tradeGoodsList.forEach(i => {
+          switch (i.state) {
+            case 0:
+              pendingTrade.push(i)
+              break
+            case 1:
+              confirmedTrade.push(i)
+              break
+            case 3:
+              rejectedTrade.push(i)
+          }
+        })
 
         // 按时间逆序
         tradeGoodsList.sort((a, b) => { return b.trade_time - a.trade_time })

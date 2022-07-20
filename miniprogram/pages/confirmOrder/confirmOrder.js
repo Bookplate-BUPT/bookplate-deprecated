@@ -24,9 +24,21 @@ Page({
       seller_openid: __user.getUserOpenid(),
     }).get().then(res => {
       var tradeGoodsList = res.data
-      var pendingTrade = tradeGoodsList.filter(i => { return i.state == 0 })
-      var confirmedTrade = tradeGoodsList.filter(i => { return i.state == 1 })
-      var rejectedTrade = tradeGoodsList.filter(i => { return i.state == 3 })
+      var pendingTrade = []
+      var confirmedTrade = []
+      var rejectedTrade = []
+      tradeGoodsList.forEach(i => {
+        switch (i.state) {
+          case 0:
+            pendingTrade.push(i)
+            break
+          case 1:
+            confirmedTrade.push(i)
+            break
+          case 3:
+            rejectedTrade.push(i)
+        }
+      })
 
       // 按时间逆序
       tradeGoodsList.sort((a, b) => { return b.trade_time - a.trade_time })
