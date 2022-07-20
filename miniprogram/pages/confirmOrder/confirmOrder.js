@@ -8,6 +8,7 @@ Page({
     pendingTrade: [],
     confirmedTrade: [],
     rejectedTrade: [],
+    popup: {},
     show: false,
   },
 
@@ -45,6 +46,7 @@ Page({
   //打开弹出层
   ShowPopup(e) {
     this.setData({
+      popup: e.currentTarget.dataset.item,
       show: true
     })
   },
