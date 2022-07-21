@@ -16,9 +16,9 @@
     </view>
     <view wx:else>
       <view wx:for="{{ nowHistoryList }}" style="margin-top: 8px;" wx:key="_id">
-      <view wx:if="{{nowHistoryList[index-1].view_time==item.view_time?'':item.view_time}}">
-        <view class="time">{{ item.view_time==today?'今天':item.view_time }}</view>
-      </view>
+        <view wx:if="{{nowHistoryList[index-1].view_time==item.view_time?false:true}}">
+          <view class="time">{{ item.view_time==today?'今天':utils.getDate(item.view_time,today) }}</view>
+        </view>
         <MainBookCard right="{{ 60 }}" left="{{ 60 }}" price="{{item.bookDetail.price}}" image_list="{{item.bookDetail.image_list}}" origin-price="{{item.bookDetail.origin-price}}" _id="{{item.bookDetail._id}}" name="{{item.bookDetail.name}}" grade="{{item.bookDetail.grade}}" introduction="{{item.bookDetail.introduction}}">
           <van-button block color="#FF596A" custom-class="swiperCellButton" slot="left" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
           <van-button block color="#FF596A" custom-class="swiperCellButton" slot="right" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
@@ -34,3 +34,15 @@
   </van-tab>
 
 </van-tabs>
+
+<wxs module="utils">
+  module.exports.getDate = function (str, now) {
+    var datelist = str.split("/")
+    now = now.split("/")[0]
+    if (now == datelist[0]) {
+      return datelist[1] + '月' + datelist[2] + '日'
+    } else {
+      return datelist[0] + '年' + datelist[1] + '月' + datelist[2] + '日'
+    }
+  }
+</wxs>
