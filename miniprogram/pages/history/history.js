@@ -10,7 +10,8 @@ Page({
     userOpenid: '',
     showNoLoginPopup: false,
     historyList: '', // 总浏览历史记录
-    nowHistoryList: '' // 当前浏览历史记录
+    nowHistoryList: '', // 当前浏览历史记录
+    today: '', // 今天的日期
   },
 
   onLoad() {
@@ -110,9 +111,13 @@ Page({
     for (var tempHistory of tempHistoryList)
       tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, 24)
 
+    tempHistoryList.forEach(i => {
+      i.view_time = i.view_time.toLocaleDateString()
+    })
     this.setData({
       historyList: tempHistoryList,
-      nowHistoryList: tempHistoryList.slice(0, 7)
+      nowHistoryList: tempHistoryList.slice(0, 7),
+      today: new Date().toLocaleDateString(),
     })
   },
 
