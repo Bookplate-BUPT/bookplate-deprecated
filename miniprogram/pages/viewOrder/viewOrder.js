@@ -105,4 +105,47 @@ Page({
       })
     })
   },
+
+  // 确认收货
+  confirmReceipt(event) {
+    wx.cloud.callFunction({
+      name: 'updateTradeState',
+      data: {
+        _id: event.currentTarget.dataset._id,
+        state: 2,
+      }
+    }).then(res => {
+      wx.showToast({
+        title: '收货成功',
+        icon: 'success'
+      }).then(res => {
+        // 找到需要确认元素的索引
+        var tempconfirmedTrade = this.data.confirmedTrade
+        var idx = tempconfirmedTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
+
+        // 在待收货中删除元素
+        tempconfirmedTrade.splice(idx, 1)
+
+        // 在全部中删除元素
+        var tempTradeGoodsList = this.data.tradeGoodsList
+        var idx = tempTradeGoodsList.findIndex(i => { return i._id == event.currentTarget.dataset._id })
+        tempTradeGoodsList.splice(idx, 1)
+
+        // 更新页面
+        this.setData({
+          confirmedTrade: tempconfirmedTrade,
+          tradeGoodsList: tempTradeGoodsList,
+        })
+
+        // 在goods集合中删除书籍
+        wx.cloud.callFunction({
+          name: 'updateGoods',
+          data: {
+            type: 'removeGoods',
+            goodsID: event.currentTarget.dataset.goodsid
+          }
+        })
+      })
+    })
+  },
 })
