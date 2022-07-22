@@ -8,3 +8,8 @@
 .tagMargin {
   margin-left: 6px;
 }
+
+.swiperCellButton {
+  min-height: 117px;
+  width: auto;
+}

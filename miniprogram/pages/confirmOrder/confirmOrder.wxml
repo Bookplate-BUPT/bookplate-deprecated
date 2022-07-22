@@ -27,19 +27,36 @@
       <van-empty description="没有未处理的交易哦~"></van-empty>
     </view>
     <view wx:else>
+      <!-- <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}">
+        <view slot="left">选择</view>
+        <van-cell-group>
+          <van-cell title="单元格" value="内容" />
+        </van-cell-group>
+        <view slot="right">删除</view>
+      </van-swipe-cell> -->
       <view wx:for="{{pendingTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" data-item="{{ item }}">
-            <view slot="title" style="font-weight: bold;">
-              {{ item.name }}
-              <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
-            </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
-              <view>ISBN：{{ item.isbn }}</view>
-              <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
-              <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
-            </view>
-          </van-card>
+          <van-swipe-cell right-width="{{80}}" left-width="{{80}}">
+            <van-button block custom-class="swiperCellButton" slot="left" color="#FF596A" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+              取消交易
+            </van-button>
+
+            <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" data-item="{{ item }}">
+              <view slot="title" style="font-weight: bold;">
+                {{ item.name }}
+                <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+              </view>
+              <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+                <view>ISBN：{{ item.isbn }}</view>
+                <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
+                <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
+              </view>
+            </van-card>
+
+            <van-button block custom-class="swiperCellButton" slot="right" color="#8AC286" bind:click="commitForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+              确认交易
+            </van-button>
+          </van-swipe-cell>
         </van-cell-group>
       </view>
       <van-popup bind:close="onClose" show="{{ show }}" round overlay closeable custom-style="height: 85%; width: 80% ">
