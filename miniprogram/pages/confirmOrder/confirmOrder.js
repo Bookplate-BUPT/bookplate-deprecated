@@ -98,14 +98,6 @@ Page({
           pendingTrade: tempPendingTrade,
           confirmedTrade: tempConfirmedTrade,
         })
-
-        wx.cloud.callFunction({
-          name: 'updateGoods',
-          data: {
-            type: 'removeGoods',
-            goodsID: event.currentTarget.dataset.goodsid,
-          }
-        })
       })
     })
   },
