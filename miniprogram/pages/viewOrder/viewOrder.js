@@ -61,4 +61,49 @@ Page({
         })
       })
   },
+
+  //取消交易
+  rejectForm(event) {
+    console.log(event)
+    wx.cloud.callFunction({
+      name: 'updateTradeState',
+      data: {
+        _id: event.currentTarget.dataset._id,
+        state: 3,
+      }
+    }).then(res => {
+      wx.showToast({
+        title: '已取消',
+        icon: 'success'
+      }).then(res => {
+        // 找到需要确认元素的索引
+        var tempPendingTrade = this.data.pendingTrade
+        var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
+
+        // 在已拒绝中添加元素
+        var tempRejectedTrade = this.data.rejectedTrade
+        tempRejectedTrade.push(tempPendingTrade[idx])
+        // 已拒绝按时间逆序
+        tempRejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
+
+        // 在未处理中删除元素
+        tempPendingTrade.splice(idx, 1)
+
+        // 更新页面
+        this.setData({
+          pendingTrade: tempPendingTrade,
+          rejectedTrade: tempRejectedTrade,
+        })
+
+        wx.cloud.callFunction({
+          name: 'updateGoods',
+          data: {
+            type: 'updateState',
+            goodsID: event.currentTarget.dataset.goodsid,
+            state: 0,
+          }
+        })
+      })
+    })
+  },
 })
