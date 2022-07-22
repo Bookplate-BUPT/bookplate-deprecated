@@ -52,12 +52,12 @@
     </view>
   </van-tab>
 
-  <van-tab title="已拒绝">
-    <view wx:if="{{ !confirmedTrade.length }}" style="margin-top: 180rpx;">
+  <van-tab title="已取消">
+    <view wx:if="{{ !rejectedTrade.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有已确认的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{confirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{rejectedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
             <view slot="title" style="font-weight: bold;">
@@ -76,11 +76,11 @@
   </van-tab>
 
   <van-tab title="待收货">
-    <view wx:if="{{ !rejectedTrade.length }}" style="margin-top: 180rpx;">
+    <view wx:if="{{ !confirmedTrade.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有已拒绝的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{rejectedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{confirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
             <view slot="title" style="font-weight: bold;">

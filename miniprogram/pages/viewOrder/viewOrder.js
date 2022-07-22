@@ -64,7 +64,6 @@ Page({
 
   //取消交易
   rejectForm(event) {
-    console.log(event)
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
