@@ -26,7 +26,7 @@
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-grid direction="horizontal" column-num="3" clickable>
     <van-grid-item use-slot bind:click="gotoConfirmOrder">
-      <van-icon name="shop-o" size="16px" />
+      <van-icon name="shop-o" size="16px" dot="{{unconfirmedTrade}}" />
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">订单确认</text>
     </van-grid-item>
 

@@ -14,6 +14,7 @@ Page({
 
     viewsSum: '-',    // 书籍总浏览量
     tradeSum: '-',    // 总交易成功量
+    unconfirmedTrade: false // 未处理的交易
   },
 
   onLoad() {
@@ -25,6 +26,7 @@ Page({
       this.getUserDetail()
       this.countViews()
       this.countTrade()
+      this.countConfirmedTrade()
     }
   },
 
@@ -221,7 +223,7 @@ Page({
         })
         .get()
         .then(res => {
-          console.log('res1',res)
+          console.log('res1', res)
           tempTradeSum += res.data.length,
             wx.cloud.database().collection('trade')
               .where({
@@ -230,12 +232,32 @@ Page({
               })
               .get()
               .then(res => {
-                console.log('res2',res)
+                console.log('res2', res)
                 tempTradeSum += res.data.length
                 this.setData({
                   tradeSum: tempTradeSum
                 })
               })
+        })
+    }
+  },
+
+  // 计算未处理的交易量
+  countConfirmedTrade() {
+    if (!__user.checkLoginStatus()) {
+
+    } else {
+      wx.cloud.database().collection('trade')
+        .where({
+          seller_openid: app.globalData.userOpenid,
+          state: 0
+        })
+        .get()
+        .then(res => {
+          if(!res.data.length) return
+          this.setData({
+            unconfirmedTrade: true
+          })
         })
     }
   },
