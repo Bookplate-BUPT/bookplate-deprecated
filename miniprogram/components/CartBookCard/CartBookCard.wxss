@@ -9,3 +9,14 @@
 .goodsCardMargin {
   margin-top: 4px;
 }
+
+.thumbAlt {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #C8C8C8;
+  border: 1px solid #E6E6E6;
+}

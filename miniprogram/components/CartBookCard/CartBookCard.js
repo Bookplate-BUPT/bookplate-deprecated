@@ -21,9 +21,15 @@ Component({
   methods: {
     // 进入商品详情页
     goToBookDetail(event) {
-      wx.navigateTo({
-        url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
-      })
+      if (event.currentTarget.dataset.id == undefined) {
+        wx.showToast({
+          title: '该书已下架',
+          icon: 'error'
+        })
+      } else
+        wx.navigateTo({
+          url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
+        })
     },
 
     // 将商品移除购物车
@@ -49,9 +55,15 @@ Component({
 
     // 购买商品，联系卖家
     buyGoods(event) {
-      wx.navigateTo({
-        url: '../chatroom/chatroom?openid=' + event.currentTarget.dataset.openid,
-      })
+      if (event.currentTarget.dataset.openid == undefined) {
+        wx.showToast({
+          title: '该书已下架',
+          icon: 'error'
+        })
+      } else
+        wx.navigateTo({
+          url: '../chatroom/chatroom?openid=' + event.currentTarget.dataset.openid,
+        })
     },
   }
 })
