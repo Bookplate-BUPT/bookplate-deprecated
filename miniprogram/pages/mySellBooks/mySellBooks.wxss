@@ -1,0 +1,6 @@
+.shadow {
+  box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
+  background-color: #fafafa;
+  /* 解决van-swipe-cell渲染层报错 */
+  touch-action: pan-y;
+}

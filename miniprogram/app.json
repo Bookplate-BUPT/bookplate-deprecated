@@ -13,7 +13,8 @@
     "pages/seekBook/seekBook",
     "pages/confirmOrder/confirmOrder",
     "pages/viewOrder/viewOrder",
-    "pages/chatroom/chatroom"
+    "pages/chatroom/chatroom",
+    "pages/mySellBooks/mySellBooks"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
