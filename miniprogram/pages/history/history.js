@@ -1,6 +1,7 @@
 // pages/history/history.js
 
 import __user from "../../utils/user"
+import __util from "../../utils/util"
 
 const app = getApp();
 
@@ -11,6 +12,7 @@ Page({
     showNoLoginPopup: false,
     historyList: '', // 总浏览历史记录
     nowHistoryList: '', // 当前浏览历史记录
+    historySum: '',
     today: '', // 今天的日期
   },
 
@@ -28,6 +30,7 @@ Page({
       this.setData({ showNoLoginPopup: true })
 
     this.getHistoryList()
+    this.getHistorySum()
   },
 
   // 用户登录，认证用户信息
@@ -79,7 +82,7 @@ Page({
       .where({
         _openid: __user.getUserOpenid(),
       }).get()
-    
+
     // 将其中的数据取出
     goodsIdList = goodsIdList.data
 
@@ -116,7 +119,7 @@ Page({
     })
     this.setData({
       historyList: tempHistoryList,
-      nowHistoryList: tempHistoryList.slice(0, 7),
+      nowHistoryList: tempHistoryList.slice(0, 10),
       today: new Date().toLocaleDateString(),
     })
   },
@@ -185,14 +188,24 @@ Page({
   },
 
   /**
-   * 下拉触底事件
+   * 上拉触底事件
    */
   onReachBottom() {
-    if (this.data.nowHistoryList.length === this.data.historyList.length)
-      return
-    var i = this.data.nowHistoryList.length
+    var res = __util.reachBottom('history', this.data.historySum, this.data.historyList, this.data.nowHistoryList, 'own')
     this.setData({
-      nowHistoryList: [...this.data.nowHistoryList, ...this.data.historyList.slice(i, i + 7)]
+      historyList: res.list,
+      nowHistoryList: res.nowList,
     })
-  }
+  },
+
+  // 获取浏览历史总数量
+  getHistorySum() {
+    wx.cloud.database().collection('history').where({
+      _openid: __user.getUserOpenid()
+    }).count().then(res => {
+      this.setData({
+        historySum: res.total
+      })
+    })
+  },
 })

@@ -1,10 +1,12 @@
 
 import __user from "../../utils/user"
+import __util from "../../utils/util"
 
 Page({
 
   data: {
-    MySellBooksList: [],    //我的卖书列表
+    goodsList: [],    //我的卖书列表
+    nowGoodsList: [],    //当前我的卖书列表
     changeSellBooksList: [],     //存储没有经过格式化的回调卖书列表
     today: '', // 今天日期
     postDate: '', // 上传日期
@@ -41,12 +43,13 @@ Page({
       tempGoodsList.sort((a, b) => {
         return b.post_date.toLocaleString() - a.post_date.toLocaleString()
       })
-      
+
       var postDate = tempGoodsList.map(i => {
         return i.post_date.toLocaleDateString()
       })
       this.setData({
-        MySellBooksList: tempGoodsList,
+        goodsList: tempGoodsList,
+        nowGoodsList: tempGoodsList.slice(0, 10),
         today: new Date().toLocaleDateString(),
         postDate: postDate
       })
@@ -61,11 +64,14 @@ Page({
       .then(res => {
         // 删除并更新数组
         var that = this
-        that.data.MySellBooksList.splice(e.currentTarget.dataset.index, 1)
-        that.data.changeSellBooksList.splice(e.currentTarget.dataset.index, 1)
+        var index = e.currentTarget.dataset.index
+        that.data.goodsList.splice(index, 1)
+        that.data.changeSellBooksList.splice(index, 1)
+        that.data.nowGoodsList.splice(index, 1)
         this.setData({
-          MySellBooksList: that.data.MySellBooksList,
+          goodsList: that.data.goodsList,
           changeSellBooksList: that.data.changeSellBooksList,
+          nowGoodsList: that.data.nowGoodsList,
         })
         // 提示
         wx.hideLoading()
@@ -84,5 +90,25 @@ Page({
     }
     // 不用格式化
     else return str
+  },
+
+  // 上拉触底监听
+  onReachBottom() {
+    var res = __util.reachBottom('goods', this.data.goodsSum, this.data.goodsList, this.data.nowGoodsList, 'own')
+    this.setData({
+      goodsList: res.list,
+      nowGoodsList: res.nowList,
+    })
+  },
+
+  // 获取商品总数量
+  getGoodsSum() {
+    wx.cloud.database().collection('goods').where({
+      _openid: __user.getUserOpenid()
+    }).count().then(res => {
+      this.setData({
+        goodsSum: res.total
+      })
+    })
   },
 })

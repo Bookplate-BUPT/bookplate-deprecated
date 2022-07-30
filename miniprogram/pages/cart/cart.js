@@ -1,5 +1,7 @@
 // pages/cart/cart.js
+import user from "../../utils/user";
 import __user from "../../utils/user"
+import __util from "../../utils/util"
 
 const app = getApp();
 
@@ -9,6 +11,8 @@ Page({
     userOpenid: '',
     showNoLoginPopup: false,
     cartList: '',
+    nowCartList: '',
+    cartSum: '',
   },
 
   onLoad() {
@@ -20,6 +24,7 @@ Page({
       userInfo: app.globalData.userInfo,
       userOpenid: app.globalData.userOpenid,
     })
+    this.getCartSum()
 
     if (!__user.checkLoginStatus())
       this.setData({ showNoLoginPopup: true })
@@ -31,6 +36,26 @@ Page({
     this.closeNoLoginPopup()
     this.setData({
       cartList: '',
+    })
+  },
+
+  // 上拉触底监听
+  onReachBottom() {
+    var res = __util.reachBottom('cart', this.data.cartSum, this.data.cartList, this.data.nowCartList, 'own')
+    this.setData({
+      cartList: res.list,
+      nowCartList: res.nowList,
+    })
+  },
+
+  // 获取购物车总商品量
+  getCartSum() {
+    wx.cloud.database().collection('cart').where({
+      _openid: __user.getUserOpenid()
+    }).count().then(res => {
+      this.setData({
+        cartSum: res.total
+      })
     })
   },
 
@@ -115,17 +140,19 @@ Page({
 
     this.setData({
       cartList: tempCartList,
+      nowCartList: tempCartList.slice(0, 10),
     })
   },
 
   // 将商品移除购物车
   deleteGoods(event) {
-    let tempCartList = this.data.cartList
-    const index = this.data.cartList.findIndex(i => i._id === event.detail._id)
+    let tempCartList = this.data.nowCartList
+    const index = this.data.nowCartList.findIndex(i => i._id === event.detail._id)
 
     tempCartList.splice(index, 1)
 
     this.setData({
+      nowCartList: tempCartList,
       cartList: tempCartList
     })
   }

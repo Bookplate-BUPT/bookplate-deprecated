@@ -21,8 +21,8 @@
           <view class="time">{{ item.view_time==today?'今天':utils.getDate(item.view_time,today) }}</view>
         </view>
         <MainBookCard right="{{ 60 }}" left="{{ 60 }}" price="{{item.bookDetail.price}}" image_list="{{item.bookDetail.image_list}}" origin-price="{{item.bookDetail.origin-price}}" _id="{{item.bookDetail._id}}" name="{{item.bookDetail.name}}" grade="{{item.bookDetail.grade}}" introduction="{{item.bookDetail.introduction}}">
-          <van-button block color="#FF596A" custom-class="swiperCellButton" slot="left" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
-          <van-button block color="#FF596A" custom-class="swiperCellButton" slot="right" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
+          <van-button block color="#878998" custom-class="swiperCellButton" slot="left" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
+          <van-button block color="#878998" custom-class="swiperCellButton" slot="right" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
         </MainBookCard>
       </view>
       <van-divider contentPosition="center" dashed>没有更多啦</van-divider>

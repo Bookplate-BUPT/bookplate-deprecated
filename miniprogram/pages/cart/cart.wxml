@@ -9,14 +9,14 @@
   </van-popup>
 </view>
 
-<view wx:if="{{ !cartList.length }}" style="margin-top: 25%;">
+<view wx:if="{{ !nowCartList.length }}" style="margin-top: 25%;">
   <van-empty image="https://img.yzcdn.cn/vant/custom-empty-image.png" description="购物车还没有商品噢" />
 </view>
 
-<view wx:if="{{ cartList.length }}" wx:for="{{ cartList }}" style="margin-top: 8px;" wx:key="_id">
+<view wx:if="{{ nowCartList.length }}" wx:for="{{ nowCartList }}" style="margin-top: 8px;" wx:key="_id">
   <CartBookCard bookDetail="{{item.bookDetail}}" _id="{{item._id}}" bind:delete="deleteGoods"></CartBookCard>
 </view>
 
-<van-divider wx:if="{{ cartList.length }}" contentPosition="center" dashed>共有{{ cartList.length }}件商品</van-divider>
+<van-divider wx:if="{{ nowCartList.length }}" contentPosition="center" dashed>共有{{ nowCartList.length }}件商品</van-divider>
 
 <view style="margin-bottom: 5%;" />
