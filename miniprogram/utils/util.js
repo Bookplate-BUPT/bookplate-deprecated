@@ -1,3 +1,5 @@
+const app = getApp();
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -14,23 +16,41 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
-function reachBottom(name, sum, list, nowList) {
+function reachBottom(name, sum, list, nowList, type) {
   var length = list.length
   var nowLength = nowList.length
   if (nowLength < sum) {
     if (nowLength === length) {
-      wx.cloud.database().collection(name).skip(nowLength).limit(20).get().then(res => {
-        var tempGoodsList = res.data // 新的数据
+      switch (type) {
+        case 'collection':
+          wx.cloud.database().collection(name).skip(nowLength).limit(20).get().then(res => {
+            var tempGoodsList = res.data // 新的数据
 
-        list = [...list, ...tempGoodsList] // 拼接数组
-        list = [...list, ...tempGoodsList.slice(0, 10)] // 拼接数组
+            list = [...list, ...tempGoodsList] // 拼接数组
+            list = [...list, ...tempGoodsList.slice(0, 10)] // 拼接数组
 
-        // 更新页面
-        return {
-          nowList: nowList,
-          list: list
-        }
-      })
+            // 更新页面
+            return {
+              nowList: nowList,
+              list: list
+            }
+          })
+        case 'own':
+          wx.cloud.database().collection(name).where({
+            _openid: app.globalData.userOpenid
+          }).skip(nowLength).limit(20).get().then(res => {
+            var tempGoodsList = res.data // 新的数据
+    
+            list = [...list, ...tempGoodsList] // 拼接数组
+            list = [...list, ...tempGoodsList.slice(0, 10)] // 拼接数组
+    
+            // 更新页面
+            return {
+              nowList: nowList,
+              list: list
+            }
+          })
+      }
     } else {
       nowList = [...nowList, ...list.slice(nowLength, nowLength + 10)]//拼接数组
 

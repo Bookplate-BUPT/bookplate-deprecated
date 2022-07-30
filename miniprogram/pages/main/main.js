@@ -1,7 +1,7 @@
 // pages/main/main.js
 
 import __user from "../../utils/user"
-import __utils from "../../utils/util"
+import __util from "../../utils/util"
 
 const app = getApp()
 
@@ -73,7 +73,7 @@ Page({
 
   // 上拉触底监听
   onReachBottom() {
-    var res = __utils.reachBottom('goods', this.data.goodsSum, this.data.goodsList, this.data.nowGoodsList)
+    var res = __util.reachBottom('goods', this.data.goodsSum, this.data.goodsList, this.data.nowGoodsList, 'collection')
     this.setData({
       goodsList: res.list,
       nowGoodsList: res.nowList,
