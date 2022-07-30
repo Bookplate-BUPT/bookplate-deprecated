@@ -3,8 +3,8 @@
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
   <van-cell>
-    <swiper wx:for="{{ bookDetail.image_list }}" wx:key="key" indicator-dots autoplay>
-      <swiper-item>
+    <swiper indicator-dots autoplay>
+      <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
         <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
       </swiper-item>
     </swiper>
