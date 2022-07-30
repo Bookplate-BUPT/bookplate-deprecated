@@ -42,7 +42,10 @@ Page({
     } else {
       wx.cloud.database().collection('goods')
         .where({
-          name: this.data.keyword
+          name: wx.cloud.database().RegExp({
+            regexp: this.data.keyword,
+            options: 'i',
+          })
         })
         .get()
         .then(res => {
