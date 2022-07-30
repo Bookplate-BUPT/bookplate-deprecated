@@ -16,7 +16,7 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
-function reachBottom(name, sum, list, nowList, type) {
+function reachBottom(name, sum, list, nowList, type, state) {
   var length = list.length
   var nowLength = nowList.length
   if (nowLength < sum) {
@@ -40,16 +40,49 @@ function reachBottom(name, sum, list, nowList, type) {
             _openid: app.globalData.userOpenid
           }).skip(nowLength).limit(20).get().then(res => {
             var tempGoodsList = res.data // 新的数据
-    
+
             list = [...list, ...tempGoodsList] // 拼接数组
             list = [...list, ...tempGoodsList.slice(0, 10)] // 拼接数组
-    
+
             // 更新页面
             return {
               nowList: nowList,
               list: list
             }
           })
+        case 'seller':
+          if (state == undefined) {
+            wx.cloud.database().collection(name).where({
+              seller_openid: app.globalData.userOpenid,
+            }).skip(nowLength).limit(20).get().then(res => {
+              var tempGoodsList = res.data // 新的数据
+
+              list = [...list, ...tempGoodsList] // 拼接数组
+              list = [...list, ...tempGoodsList.slice(0, 10)] // 拼接数组
+
+              // 更新页面
+              return {
+                nowList: nowList,
+                list: list
+              }
+            })
+          } else {
+            wx.cloud.database().collection(name).where({
+              seller_openid: app.globalData.userOpenid,
+              state: state
+            }).skip(nowLength).limit(20).get().then(res => {
+              var tempGoodsList = res.data // 新的数据
+
+              list = [...list, ...tempGoodsList] // 拼接数组
+              list = [...list, ...tempGoodsList.slice(0, 10)] // 拼接数组
+
+              // 更新页面
+              return {
+                nowList: nowList,
+                list: list
+              }
+            })
+          }
       }
     } else {
       nowList = [...nowList, ...list.slice(nowLength, nowLength + 10)]//拼接数组

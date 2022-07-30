@@ -1,11 +1,11 @@
 <!--pages/viewOrder/viewOrder.wxml-->
-<van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable id="tabs">
+<van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable id="tabs" bind:change="changeActive">
   <van-tab title="全部">
-    <view wx:if="{{ !tradeGoodsList.length }}" style="margin-top: 180rpx;">
+    <view wx:if="{{ !nowTradeGoodsList.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有已确认的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{tradeGoodsList}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{nowTradeGoodsList}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
             <view slot="title" style="font-weight: bold;">
@@ -24,11 +24,11 @@
   </van-tab>
 
   <van-tab title="卖家未处理">
-    <view wx:if="{{ !pendingTrade.length }}" style="margin-top: 180rpx;">
+    <view wx:if="{{ !nowPendingTrade.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有未处理的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{pendingTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{nowPendingTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-swipe-cell right-width="{{80}}">
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
@@ -53,11 +53,11 @@
   </van-tab>
 
   <van-tab title="已取消">
-    <view wx:if="{{ !rejectedTrade.length }}" style="margin-top: 180rpx;">
+    <view wx:if="{{ !nowRejectedTrade.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有已取消的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{rejectedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{nowRejectedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
             <view slot="title" style="font-weight: bold;">
@@ -76,11 +76,11 @@
   </van-tab>
 
   <van-tab title="待收货">
-    <view wx:if="{{ !confirmedTrade.length }}" style="margin-top: 180rpx;">
+    <view wx:if="{{ !nowConfirmedTrade.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有待收货的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{confirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{nowConfirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-swipe-cell right-width="{{80}}">
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
