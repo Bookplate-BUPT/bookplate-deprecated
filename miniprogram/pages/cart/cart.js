@@ -42,6 +42,7 @@ Page({
   // 上拉触底监听
   onReachBottom() {
     var res = __util.reachBottom('cart', this.data.cartSum, this.data.cartList, this.data.nowCartList, 'own')
+    if (res == undefined) return
     this.setData({
       cartList: res.list,
       nowCartList: res.nowList,

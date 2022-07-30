@@ -95,6 +95,7 @@ Page({
   // 上拉触底监听
   onReachBottom() {
     var res = __util.reachBottom('goods', this.data.goodsSum, this.data.goodsList, this.data.nowGoodsList, 'own')
+    if (res == undefined) return
     this.setData({
       goodsList: res.list,
       nowGoodsList: res.nowList,

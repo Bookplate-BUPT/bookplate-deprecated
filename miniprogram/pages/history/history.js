@@ -192,6 +192,7 @@ Page({
    */
   onReachBottom() {
     var res = __util.reachBottom('history', this.data.historySum, this.data.historyList, this.data.nowHistoryList, 'own')
+    if (res == undefined) return
     this.setData({
       historyList: res.list,
       nowHistoryList: res.nowList,
