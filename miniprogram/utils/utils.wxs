@@ -26,8 +26,24 @@ var newFormatTime = function (timestamp) {
   return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
 }
 
+/**
+ * 自定义日期显示，形式如下
+ * 若为今年：x月x日，否则：x年x月x日
+ * @param str 表示需要显示的日期
+ * @param now 表示当前日期
+ */
+var getDate = function (str, now) {
+  var datelist = str.split("/")
+  now = now.split("/")[0]
+  if (now == datelist[0]) {
+    return datelist[1] + '月' + datelist[2] + '日'
+  } else {
+    return datelist[0] + '年' + datelist[1] + '月' + datelist[2] + '日'
+  }
+}
 module.exports = {
   getInt: getInt,
   getFloat: getFloat,
   newFormatTime: newFormatTime,
+  getDate: getDate,
 }

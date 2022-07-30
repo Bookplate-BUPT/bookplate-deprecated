@@ -1,4 +1,5 @@
 <!--pages/history/history.wxml-->
+<wxs src="../../utils/utils.wxs" module="utils" />
 
 <view wx:if="{{!userOpenid}}">
   <van-popup show="{{ showNoLoginPopup }}" bind:close="closeNoLoginPopup" round position="bottom" custom-style="height: 35%">
@@ -34,15 +35,3 @@
   </van-tab>
 
 </van-tabs>
-
-<wxs module="utils">
-  module.exports.getDate = function (str, now) {
-    var datelist = str.split("/")
-    now = now.split("/")[0]
-    if (now == datelist[0]) {
-      return datelist[1] + '月' + datelist[2] + '日'
-    } else {
-      return datelist[0] + '年' + datelist[1] + '月' + datelist[2] + '日'
-    }
-  }
-</wxs>
