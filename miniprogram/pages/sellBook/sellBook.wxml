@@ -1,9 +1,11 @@
 <!--pages/scanISBN/scanISBN.wxml-->
 
 <!-- 顶栏通知 -->
-<van-sticky>
-  <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="请准确填写要求的书籍信息或使用扫码加书一键填写。" />
-</van-sticky>
+<block wx:if="{{ showState }}">
+  <van-sticky>
+    <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="请准确填写要求的书籍信息或使用扫码加书一键填写。" />
+  </van-sticky>
+</block>
 
 <!-- 书籍信息 -->
 <van-cell-group inset title="书籍信息" custom-class="shadow">
@@ -21,13 +23,14 @@
 
   <van-field model:value="{{ price }}" placeholder="请输入二手定价" label="二手定价" required clearable clear-trigger="focus" type="digit" />
 
+  <!-- 有点多余，直接输入现价更加的便捷，使用这个多此一举了
   <van-cell>
     <view style="margin: 16px 16px 16px 16px">
       <van-slider value="{{ price / originalPrice * 100 }}" use-slot-button bind:drag="priceDragInSlider" bind:change="priceChangeInSlider">
         <view slot="button" style="background-color: black;">{{ price }}</view>
       </van-slider>
     </view>
-  </van-cell>
+  </van-cell> -->
 
   <van-cell title="书籍分类" required title-width="84px">
     <view style="margin: 2px 0 0 4px;">
@@ -67,7 +70,14 @@
     <van-icon name="scan" />
     <text style="margin-left: 4px;">扫码填写</text>
   </van-goods-action-button>
-  <van-goods-action-button color="#8ac286" bind:click="uploadBookInfo">
-    信息录入
-  </van-goods-action-button>
+  <block wx:if="{{showState}}">
+    <van-goods-action-button color="#8ac286" bind:click="uploadBookInfo">
+      信息录入
+    </van-goods-action-button>
+  </block>
+  <block wx:else>
+    <van-goods-action-button color="#8ac286" bind:click="upDateMySellBooksMessages">
+      确认修改
+    </van-goods-action-button>
+  </block>
 </van-goods-action>

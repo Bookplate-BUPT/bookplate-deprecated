@@ -35,12 +35,41 @@ Page({
     ],
 
     userOpenid: '',
+    showState: true,            //根据不同的页面判断呈现相应的页面
   },
 
-  onLoad() {
-    this.setData({
-      userOpenid: __user.getUserOpenid(),
-    })
+  //根据页面的不同，赋予不同的setdata
+  onLoad(options) {
+    if (options.identification == 'transmission' || !(JSON.parse(options.message).identification == 'mySellBooks')) {
+      this.setData({
+        userOpenid: __user.getUserOpenid(),
+      })
+    }
+    else {
+      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id } = JSON.parse(options.message)
+      for (var i = 0; i < image_list.length; i++) {
+        this.data.showList.push({
+          url: image_list[i],
+          isImage: true,
+        })
+      }
+      this.setData({
+        userOpenid: __user.getUserOpenid(),
+        showState: false,
+        name: name,
+        author: author,
+        publishDate: book_publish_date,
+        description: description,
+        grade: grade,
+        showList: this.data.showList,
+        introduction: introduction,
+        isbn: isbn,
+        originalPrice: original_price,
+        price: price,
+        publisher: publisher,
+        _id: _id
+      })
+    }
   },
 
   // 扫描ISBN
@@ -150,24 +179,21 @@ Page({
 
   // 点击相机图标添加图片
   addImage(event) {
-    let tempImageList = this.data.showList
-    tempImageList.push({
+    this.data.showList.push({
       url: event.detail.file.url,
       isImage: true,
     })
 
     this.setData({
-      showList: tempImageList
+      showList: this.data.showList
     })
   },
 
   // 删除展示列表里的某一张图片
   deleteImage(event) {
-    let tempImageList = this.data.showList
-    tempImageList.splice(event.detail.index, 1)
-
+    this.data.showList.splice(event.detail.index, 1)
     this.setData({
-      showList: tempImageList
+      showList: this.data.showList
     })
   },
 
@@ -182,11 +208,7 @@ Page({
       return
     }
 
-    // 对象数组映射成字符串数组
-    let tempImageList = this.data.showList.map(i => i.url)
-    this.setData({
-      imageList: tempImageList,
-    })
+    this.fromObjectToChar()
 
     // 信息是否完整
     if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.grade || this.data.price === '') {
@@ -236,58 +258,58 @@ Page({
   },
 
   // 当slider发生拖动改变时调用
-  priceDragInSlider(event) {
-    let tempPrice = event.detail.value / 100 * Number(this.data.originalPrice)
+  // priceDragInSlider(event) {
+  //   let tempPrice = event.detail.value / 100 * Number(this.data.originalPrice)
 
-    // 错误检测
-    if (isNaN(tempPrice)) {
-      wx.showToast({
-        icon: 'error',
-        title: `原价输入有误`,
-      });
-      return
-    } else if (this.data.originalPrice == '') {
-      wx.showToast({
-        icon: 'error',
-        title: `原价不能为空`,
-      });
-      return
-    }
+  //   // 错误检测
+  //   if (isNaN(tempPrice)) {
+  //     wx.showToast({
+  //       icon: 'error',
+  //       title: `原价输入有误`,
+  //     });
+  //     return
+  //   } else if (this.data.originalPrice == '') {
+  //     wx.showToast({
+  //       icon: 'error',
+  //       title: `原价不能为空`,
+  //     });
+  //     return
+  //   }
 
-    // 保留两位小数
-    tempPrice = tempPrice.toFixed(2)
+  //   // 保留两位小数
+  //   tempPrice = tempPrice.toFixed(2)
 
-    this.setData({
-      price: tempPrice,
-    })
-  },
+  //   this.setData({
+  //     price: tempPrice,
+  //   })
+  // },
 
   // 当slider发生点击改变时调用
-  priceChangeInSlider(event) {
-    let tempPrice = event.detail / 100 * Number(this.data.originalPrice)
+  // priceChangeInSlider(event) {
+  //   let tempPrice = event.detail / 100 * Number(this.data.originalPrice)
 
-    // 错误检测
-    if (isNaN(tempPrice)) {
-      wx.showToast({
-        icon: 'error',
-        title: `原价输入有误`,
-      });
-      return
-    } else if (this.data.originalPrice == '') {
-      wx.showToast({
-        icon: 'error',
-        title: `原价不能为空`,
-      });
-      return
-    }
+  //   // 错误检测
+  //   if (isNaN(tempPrice)) {
+  //     wx.showToast({
+  //       icon: 'error',
+  //       title: `原价输入有误`,
+  //     });
+  //     return
+  //   } else if (this.data.originalPrice == '') {
+  //     wx.showToast({
+  //       icon: 'error',
+  //       title: `原价不能为空`,
+  //     });
+  //     return
+  //   }
 
-    // 保留两位小数
-    tempPrice = tempPrice.toFixed(2)
+  //   // 保留两位小数
+  //   tempPrice = tempPrice.toFixed(2)
 
-    this.setData({
-      price: tempPrice,
-    })
-  },
+  //   this.setData({
+  //     price: tempPrice,
+  //   })
+  // },
 
   // 更改书籍的年级时调用
   bookGradeChange(event) {
@@ -324,5 +346,38 @@ Page({
     }
 
     return ''
+  },
+
+  //更新上传实时的我的卖书信息，通过选择判断决定是否进行上传更新我的卖书信息
+  upDateMySellBooksMessages() {
+    this.fromObjectToChar()
+    wx.cloud.database().collection('goods').doc(this.data._id).update({
+      data: {
+        name: this.data.name,
+        author: this.data.author,
+        introduction: this.data.introduction,
+        isbn: this.data.isbn,
+        publisher: this.data.publisher,
+        publishDate: this.data.publishDate,
+        originalPrice: this.data.originalPrice,
+        price: this.data.price,
+        image_list: this.data.imageList,
+        description: this.data.description,
+        grade: this.data.grade
+      }
+    }).then(res => {
+      wx.showToast({
+        title: '修改成功',
+        icon: 'success'
+      })
+    })
+  },
+
+  // 对象数组映射成字符串数组
+  fromObjectToChar() {
+    let tempImageList = this.data.showList.map(i => i.url)
+    this.setData({
+      imageList: tempImageList,
+    })
   }
 })
