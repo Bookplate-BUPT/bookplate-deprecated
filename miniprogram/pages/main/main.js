@@ -1,6 +1,7 @@
 // pages/main/main.js
 
 import __user from "../../utils/user"
+import __utils from "../../utils/util"
 
 const app = getApp()
 
@@ -72,35 +73,11 @@ Page({
 
   // 上拉触底监听
   onReachBottom() {
-    var length = this.data.goodsList.length
-    var nowLength = this.data.nowGoodsList.length
-    if (nowLength < this.data.goodsSum) {
-      if (nowLength === length) {
-        wx.cloud.database().collection('goods').skip(nowLength).limit(20).get().then(res => {
-          var nowGoodsList = this.data.nowGoodsList
-          var goodsList = this.data.goodsList
-          var tempGoodsList = res.data // 新的数据
-
-          goodsList = [...goodsList, ...tempGoodsList] // 拼接数组
-          nowGoodsList = [...nowGoodsList, ...tempGoodsList.slice(0, 10)] // 拼接数组
-
-          // 更新页面
-          this.setData({
-            nowGoodsList: nowGoodsList,
-            goodsList: goodsList
-          })
-        })
-      } else {
-        var nowGoodsList = this.data.nowGoodsList
-        var goodsList = this.data.goodsList
-        nowGoodsList = [...nowGoodsList, ...goodsList.slice(nowLength, nowLength + 10)]//拼接数组
-
-        // 更新页面
-        this.setData({
-          nowGoodsList: nowGoodsList
-        })
-      }
-    }
+    var res = __utils.reachBottom('goods', this.data.goodsSum, this.data.goodsList, this.data.nowGoodsList)
+    this.setData({
+      goodsList: res.list,
+      nowGoodsList: res.nowList,
+    })
   },
 
   // 关键字搜索
