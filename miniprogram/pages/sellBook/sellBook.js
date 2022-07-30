@@ -369,6 +369,10 @@ Page({
       wx.showToast({
         title: '修改成功',
         icon: 'success'
+      }).then(res => {
+        wx.navigateBack({
+          delta: 1,
+        })
       })
     })
   },
