@@ -42,7 +42,9 @@ Page({
     bookType: '',   // 书籍类型
     sortType: '',   // 排序类型
 
+    goodsSum: '',    // 商品总数量
     goodsList: '',  // 卖书商品列表
+    nowGoodsList: '', // 当前买书商品列表
 
     // 求书部分
     seekList: '',   // 求书列表
@@ -51,6 +53,7 @@ Page({
 
   onLoad() {
     this.getGoodsList()
+    this.getGoodsSum()
     this.getSeekList()
   },
 
@@ -65,6 +68,39 @@ Page({
       icon: 'loading',
     })
     this.getGoodsList()
+  },
+
+  // 上拉触底监听
+  onReachBottom() {
+    var length = this.data.goodsList.length
+    var nowLength = this.data.nowGoodsList.length
+    if (nowLength < this.data.goodsSum) {
+      if (nowLength === length) {
+        wx.cloud.database().collection('goods').skip(nowLength).limit(20).get().then(res => {
+          var nowGoodsList = this.data.nowGoodsList
+          var goodsList = this.data.goodsList
+          var tempGoodsList = res.data // 新的数据
+
+          goodsList = [...goodsList, ...tempGoodsList] // 拼接数组
+          nowGoodsList = [...nowGoodsList, ...tempGoodsList.slice(0, 10)] // 拼接数组
+
+          // 更新页面
+          this.setData({
+            nowGoodsList: nowGoodsList,
+            goodsList: goodsList
+          })
+        })
+      } else {
+        var nowGoodsList = this.data.nowGoodsList
+        var goodsList = this.data.goodsList
+        nowGoodsList = [...nowGoodsList, ...goodsList.slice(nowLength, nowLength + 10)]//拼接数组
+
+        // 更新页面
+        this.setData({
+          nowGoodsList: nowGoodsList
+        })
+      }
+    }
   },
 
   // 关键字搜索
@@ -100,6 +136,15 @@ Page({
     })
   },
 
+  // 获取商品总数量
+  getGoodsSum() {
+    wx.cloud.database().collection('goods').count().then(res => {
+      this.setData({
+        goodsSum: res.total
+      })
+    })
+  },
+
   // 获取商品列表
   getGoodsList() {
     // 无排序要求
@@ -116,7 +161,8 @@ Page({
           }))
 
           this.setData({
-            goodsList: tempGoodsList
+            goodsList: tempGoodsList,
+            nowGoodsList: tempGoodsList.slice(0, 10)
           })
         })
     }
@@ -135,7 +181,8 @@ Page({
           }))
 
           this.setData({
-            goodsList: tempGoodsList
+            goodsList: tempGoodsList,
+            nowGoodsList: tempGoodsList.slice(0, 10)
           })
         })
     }
@@ -156,7 +203,8 @@ Page({
           }))
 
           this.setData({
-            goodsList: tempGoodsList
+            goodsList: tempGoodsList,
+            nowGoodsList: tempGoodsList.slice(0, 10)
           })
         })
     }
@@ -178,7 +226,8 @@ Page({
           }))
 
           this.setData({
-            goodsList: tempGoodsList
+            goodsList: tempGoodsList,
+            nowGoodsList: tempGoodsList.slice(0, 10)
           })
         })
     }
