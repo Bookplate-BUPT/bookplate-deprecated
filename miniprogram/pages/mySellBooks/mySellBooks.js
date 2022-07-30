@@ -40,6 +40,29 @@ Page({
     })
   },
 
+  deleteMyGoods(e) {
+    wx.showLoading({
+      title: '删除中'
+    })
+    wx.cloud.database().collection("goods").doc(e.currentTarget.dataset._id).remove()
+      .then(res => {
+        // 删除并更新数组
+        var that = this
+        that.data.MySellBooksList.splice(e.currentTarget.dataset.index, 1)
+        that.data.changeSellBooksList.splice(e.currentTarget.dataset.index, 1)
+        this.setData({
+          MySellBooksList: that.data.MySellBooksList,
+          changeSellBooksList: that.data.changeSellBooksList,
+        })
+        // 提示
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
+        })
+      })
+  },
+
   // 书籍介绍内容格式化
   introductionFormat(str, length) {
     // 过长则需要省略

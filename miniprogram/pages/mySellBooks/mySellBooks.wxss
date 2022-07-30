@@ -4,3 +4,8 @@
   /* 解决van-swipe-cell渲染层报错 */
   touch-action: pan-y;
 }
+
+.swiperCellButton {
+  min-height: 105px;
+  width: auto;
+}

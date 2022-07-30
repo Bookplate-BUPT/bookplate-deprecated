@@ -1,8 +1,9 @@
 <block wx:if="{{!MySellBooksList.length}}">
-  <van-empty description="没有卖书记录"></van-empty>
+  <van-empty description="没有卖书记录" style="margin-top: 160rpx;"></van-empty>
 </block>
 <block wx:else>
-  <van-cell-group inset custom-class="shadow" wx:for="{{MySellBooksList}}" wx:key="_id" style="margin-top: 20rpx;">
+<van-cell-group inset custom-class="shadow" wx:for="{{MySellBooksList}}" wx:key="_id" style="margin-top: 20rpx;">
+  <van-swipe-cell right-width="{{ 60 }}">
     <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
       <view slot="title" style="font-weight: bold;">
         {{ item.name }}
@@ -12,6 +13,8 @@
         {{ item.introduction }}
       </view>
     </van-card>
-  </van-cell-group>
-  <van-divider contentPosition="center" dashed>没有更多啦</van-divider>
+    <van-button block color="#878998" slot="right" custom-class="swiperCellButton" bind:click="deleteMyGoods" data-_id="{{item._id}}" data-index="{{index}}">删除</van-button>
+  </van-swipe-cell>
+</van-cell-group>
+<van-divider contentPosition="center" dashed>没有更多啦</van-divider>
 </block>
