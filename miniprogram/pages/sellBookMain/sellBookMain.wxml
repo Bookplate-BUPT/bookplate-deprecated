@@ -70,7 +70,7 @@
 <view class="footerRoot">
   <van-row>
     <van-col span="9" offset="2">
-      <van-button round type="primary" block plain color="#8ac286" size="small" bind:click="toSellBook">发布卖书信息
+      <van-button round type="primary" block plain color="#8ac286" size="small" bind:click="toSellBook" data-identification="transmission">发布卖书信息
       </van-button>
     </van-col>
     <van-col span="9" offset="2">

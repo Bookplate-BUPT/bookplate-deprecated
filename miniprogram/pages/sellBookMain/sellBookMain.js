@@ -36,9 +36,9 @@ Page({
   },
 
   // 发布卖书信息
-  toSellBook() {
+  toSellBook(e) {
     wx.navigateTo({
-      url: '../sellBook/sellBook',
+      url: '../sellBook/sellBook?identification=' + e.currentTarget.dataset.identification
     })
   },
 
