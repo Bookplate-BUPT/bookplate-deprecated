@@ -2,19 +2,38 @@
   <van-empty description="没有卖书记录" style="margin-top: 160rpx;"></van-empty>
 </block>
 <block wx:else>
-<van-cell-group inset custom-class="shadow" wx:for="{{MySellBooksList}}" wx:key="_id" style="margin-top: 20rpx;">
-  <van-swipe-cell right-width="{{ 60 }}">
-    <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
-      <view slot="title" style="font-weight: bold;">
-        {{ item.name }}
-        <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="gradeTag">{{ item.grade }}</van-tag>
-      </view>
-      <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
-        {{ item.introduction }}
-      </view>
-    </van-card>
-    <van-button block color="#878998" slot="right" custom-class="swiperCellButton" bind:click="deleteMyGoods" data-_id="{{item._id}}" data-index="{{index}}">删除</van-button>
-  </van-swipe-cell>
-</van-cell-group>
-<van-divider contentPosition="center" dashed>没有更多啦</van-divider>
+  <view wx:for="{{MySellBooksList}}" wx:key="_id">
+    <view wx:if="{{postDate[index-1]===postDate[index]?false:true}}">
+      <view class="time">{{ postDate[index]===today?'今天':utils.getDate(postDate[index],today) }}</view>
+    </view>
+    <view style="margin-top: 20rpx;">
+      <van-cell-group inset custom-class="shadow">
+        <van-swipe-cell right-width="{{ 60 }}">
+          <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
+            <view slot="title" style="font-weight: bold;">
+              {{ item.name }}
+              <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="gradeTag">{{ item.grade }}</van-tag>
+            </view>
+            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+              {{ item.introduction }}
+            </view>
+          </van-card>
+          <van-button block color="#878998" slot="right" custom-class="swiperCellButton" bind:click="deleteMyGoods" data-_id="{{item._id}}" data-index="{{index}}">删除</van-button>
+        </van-swipe-cell>
+      </van-cell-group>
+    </view>
+  </view>
+  <van-divider contentPosition="center" dashed>没有更多啦</van-divider>
 </block>
+
+<wxs module="utils">
+  module.exports.getDate = function (str, now) {
+    var datelist = str.split("/")
+    now = now.split("/")[0]
+    if (now == datelist[0]) {
+      return datelist[1] + '月' + datelist[2] + '日'
+    } else {
+      return datelist[0] + '年' + datelist[1] + '月' + datelist[2] + '日'
+    }
+  }
+</wxs>

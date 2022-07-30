@@ -5,7 +5,9 @@ Page({
 
   data: {
     MySellBooksList: [],    //我的卖书列表
-    changeSellBooksList: []     //存储没有经过格式化的回调卖书列表
+    changeSellBooksList: [],     //存储没有经过格式化的回调卖书列表
+    today: '', // 今天日期
+    postDate: '', // 上传日期
   },
 
   onShow(options) {
@@ -34,8 +36,19 @@ Page({
         // 书籍介绍自定义格式化，最长长度为24
         introduction: this.introductionFormat(i.introduction, 24),
       }))
+
+      // 按时间逆序
+      tempGoodsList.sort((a, b) => {
+        return b.post_date.toLocaleString() - a.post_date.toLocaleString()
+      })
+      
+      var postDate = tempGoodsList.map(i => {
+        return i.post_date.toLocaleDateString()
+      })
       this.setData({
-        MySellBooksList: tempGoodsList
+        MySellBooksList: tempGoodsList,
+        today: new Date().toLocaleDateString(),
+        postDate: postDate
       })
     })
   },

@@ -16,7 +16,8 @@
 }
 
 .time {
-  color: #222222;
+  color: #8C8C8C;
+  font-weight: 500;
   font-size: 15px;
   margin-top: 15px;
   margin-bottom: 10px;
