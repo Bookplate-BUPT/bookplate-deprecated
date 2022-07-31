@@ -95,7 +95,9 @@ Page({
     // 根据商品ID查询对应的商品详细信息
     const promiseArray = goodsIdList.map((i) => (
       wx.cloud.database().collection('goods')
-        .doc(i.goods_id)
+        .where({
+          _id: i.goods_id
+        })
         .get()
     ))
 
@@ -104,11 +106,16 @@ Page({
     // console.log('bookDetailList:',bookDetailList)
 
     // 将详细信息放入原商品ID列表
-    const tempHistoryList = goodsIdList.map((i, idx) => ({
+    var tempHistoryList = goodsIdList.map((i, idx) => ({
       ...i,
-      bookDetail: bookDetailList[idx].data,
+      bookDetail: bookDetailList[idx].data[0],
     }))
     // console.log('tempHistoryList:',tempHistoryList)
+
+    // 去除空的书籍
+    tempHistoryList = tempHistoryList.filter(i => {
+      return i.bookDetail != undefined
+    })
 
     // 书籍介绍内容格式化
     for (var tempHistory of tempHistoryList)
