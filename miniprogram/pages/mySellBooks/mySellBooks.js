@@ -41,7 +41,7 @@ Page({
 
       // 按时间逆序
       tempGoodsList.sort((a, b) => {
-        return b.post_date.toLocaleString() - a.post_date.toLocaleString()
+        return b.post_date.getTime() - a.post_date.getTime()
       })
 
       var postDate = tempGoodsList.map(i => {

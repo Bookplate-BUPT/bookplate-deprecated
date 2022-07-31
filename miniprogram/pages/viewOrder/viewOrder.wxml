@@ -2,7 +2,7 @@
 <van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable id="tabs" bind:change="changeActive">
   <van-tab title="全部">
     <view wx:if="{{ !nowTradeGoodsList.length }}" style="margin-top: 180rpx;">
-      <van-empty description="没有已确认的交易哦~"></van-empty>
+      <van-empty description="没有任何交易哦~"></van-empty>
     </view>
     <view wx:else>
       <view wx:for="{{nowTradeGoodsList}}" wx:key="goods_id" style="margin-top: 20rpx;">
