@@ -191,9 +191,29 @@ Page({
 
   // 删除展示列表里的某一张图片
   deleteImage(event) {
-    this.data.showList.splice(event.detail.index, 1)
-    this.setData({
-      showList: this.data.showList
+    if (this.data.showList[event.detail.index].url.slice(0, 8) === 'cloud://')
+      wx.cloud.deleteFile({
+        fileList: [this.data.showList[event.detail.index].url]
+      })
+        .then(res => {
+          this.data.showList.splice(event.detail.index, 1)
+          this.setData({
+            showList: this.data.showList
+          })
+        })
+    else {
+      this.data.showList.splice(event.detail.index, 1)
+      this.setData({
+        showList: this.data.showList
+      })
+    }
+  },
+
+  // 将图片上传至云存储
+  uploadFilePromise(cloudPath, filePath) {
+    return wx.cloud.uploadFile({
+      cloudPath: cloudPath,
+      filePath: filePath
     })
   },
 
@@ -219,42 +239,63 @@ Page({
       return
     }
 
-    // 上传数据库
-    wx.cloud.callFunction({
-      name: 'createGoods',
-      data: {
-        author: this.data.author,
-        introduction: this.data.introduction,
-        isbn: this.data.isbn,
-        name: this.data.name,
-        price: this.data.price,
-        publisher: this.data.publisher,
-        publishDate: this.data.publishDate,
-        imageList: this.data.imageList,
-        originalPrice: this.data.originalPrice,
-        price: this.data.price,
-        description: this.data.description,
-        openid: this.data.userOpenid,
-        grade: this.data.grade,
-        state: 0, // 表示未售出
-      },
-      success: res => {
-        wx.showToast({
-          title: '发布成功',
-          icon: 'success',
-        }).then(res => {
-          wx.switchTab({
-            url: '../sellBookMain/sellBookMain',
-          })
-        })
-      },
-      fail: res => {
-        wx.showToast({
-          title: '发布失败',
-          icon: 'error',
-        })
-      }
+    // 将临时图片路径转换为云存储文件ID
+    wx.showLoading({
+      title: '录入中',
     })
+    const uploadTasks = this.data.imageList.map((i, idx) => {
+      if (i.slice(0, 11) === 'http://tmp/') {
+        return this.uploadFilePromise(__user.getUserOpenid() + new Date().toLocaleTimeString() + idx + i.slice(-4), i)
+      } else {
+        return i
+      }
+    });
+    Promise.all(uploadTasks)
+      .then(res => {
+        res.forEach((i, idx) => {
+          if (i.fileID != undefined) {
+            res[idx] = i.fileID
+          }
+        })
+        console.log(res)
+        // 上传数据库
+          wx.cloud.callFunction({
+            name: 'createGoods',
+            data: {
+              author: this.data.author,
+              introduction: this.data.introduction,
+              isbn: this.data.isbn,
+              name: this.data.name,
+              price: this.data.price,
+              publisher: this.data.publisher,
+              publishDate: this.data.publishDate,
+              imageList: res,
+              originalPrice: this.data.originalPrice,
+              price: this.data.price,
+              description: this.data.description,
+              openid: this.data.userOpenid,
+              grade: this.data.grade,
+              state: 0, // 表示未售出
+            },
+            success: res => {
+              wx.hideLoading()
+              wx.showToast({
+                title: '发布成功',
+                icon: 'success',
+              }).then(res => {
+                wx.switchTab({
+                  url: '../sellBookMain/sellBookMain',
+                })
+              })
+            },
+            fail: res => {
+              wx.showToast({
+                title: '发布失败',
+                icon: 'error',
+              })
+            }
+          })
+      })
   },
 
   // 当slider发生拖动改变时调用
@@ -351,30 +392,51 @@ Page({
   //更新上传实时的我的卖书信息，通过选择判断决定是否进行上传更新我的卖书信息
   upDateMySellBooksMessages() {
     this.fromObjectToChar()
-    wx.cloud.database().collection('goods').doc(this.data._id).update({
-      data: {
-        name: this.data.name,
-        author: this.data.author,
-        introduction: this.data.introduction,
-        isbn: this.data.isbn,
-        publisher: this.data.publisher,
-        publishDate: this.data.publishDate,
-        originalPrice: this.data.originalPrice,
-        price: this.data.price,
-        image_list: this.data.imageList,
-        description: this.data.description,
-        grade: this.data.grade
+    // 将临时图片路径转换为云存储文件ID
+    wx.showLoading({
+      title: '修改中',
+    })
+    const uploadTasks = this.data.imageList.map((i, idx) => {
+      if (i.slice(0, 11) === 'http://tmp/') {
+        return this.uploadFilePromise(__user.getUserOpenid() + new Date().toLocaleTimeString() + idx + i.slice(-4), i)
+      } else {
+        return i
       }
-    }).then(res => {
-      wx.showToast({
-        title: '修改成功',
-        icon: 'success'
-      }).then(res => {
-        wx.navigateBack({
-          delta: 1,
+    });
+    Promise.all(uploadTasks)
+      .then(res => {
+        res.forEach((i, idx) => {
+          if (i.fileID != undefined) {
+            res[idx] = i.fileID
+          }
+        })
+        // 修改数据库
+        wx.cloud.database().collection('goods').doc(this.data._id).update({
+          data: {
+            name: this.data.name,
+            author: this.data.author,
+            introduction: this.data.introduction,
+            isbn: this.data.isbn,
+            publisher: this.data.publisher,
+            publishDate: this.data.publishDate,
+            originalPrice: this.data.originalPrice,
+            price: this.data.price,
+            image_list: res,
+            description: this.data.description,
+            grade: this.data.grade
+          }
+        }).then(res => {
+          wx.showToast({
+            title: '修改成功',
+            icon: 'success'
+          }).then(res => {
+            wx.navigateBack({
+              delta: 1,
+            })
+          })
         })
       })
-    })
+
   },
 
   // 对象数组映射成字符串数组
@@ -383,5 +445,5 @@ Page({
     this.setData({
       imageList: tempImageList,
     })
-  }
+  },
 })
