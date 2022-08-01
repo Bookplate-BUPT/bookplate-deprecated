@@ -50,7 +50,7 @@
     </van-grid-item>
   </van-grid>
 
-  <van-cell is-link title="我的卖书" link-type="navigateTo" url="../mySellBooks/mySellBooks">
+  <van-cell is-link title="我的卖书" bind:click="gotoMySellBooks">
     <van-icon name="shop-o" size="16px" slot="icon" style="margin-right: 4px;" />
   </van-cell>
 

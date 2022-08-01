@@ -76,6 +76,8 @@ Page({
                 })
 
               this.countViews()
+              this.countTrade()
+              this.countConfirmedTrade()
 
               // 检查用户是否是第一次使用
               this.userRegister()
@@ -103,6 +105,8 @@ Page({
       userInfo: '',
       userOpenid: '',
       viewsSum: '-',
+      tradeSum: '-',
+      unconfirmedTrade: false,
     })
     __user.userLogout()
   },
@@ -153,18 +157,34 @@ Page({
       })
   },
 
-  // 前往我的卖书页面
+  // 前往订单确认页面
   gotoConfirmOrder() {
-    wx.navigateTo({
-      url: '../confirmOrder/confirmOrder',
-    })
+    if (!__user.checkLoginStatus()) {
+      this.userLoginInMine()
+    } else
+      wx.navigateTo({
+        url: '../confirmOrder/confirmOrder',
+      })
   },
 
   // 前往买家相关页面
   gotoViewOrder(event) {
-    wx.navigateTo({
-      url: `../viewOrder/viewOrder?active=${event.currentTarget.dataset.active}`,
-    })
+    if (!__user.checkLoginStatus()) {
+      this.userLoginInMine()
+    } else
+      wx.navigateTo({
+        url: `../viewOrder/viewOrder?active=${event.currentTarget.dataset.active}`,
+      })
+  },
+
+  // 前往我的卖书页面
+  gotoMySellBooks() {
+    if (!__user.checkLoginStatus()) {
+      this.userLoginInMine()
+    } else
+      wx.navigateTo({
+        url: '../mySellBooks/mySellBooks',
+      })
   },
 
   // 前往交易查询页面
@@ -177,9 +197,12 @@ Page({
 
   // 前往浏览历史页面
   gotoHistory() {
-    wx.navigateTo({
-      url: '../history/history',
-    })
+    if (!__user.checkLoginStatus()) {
+      this.userLoginInMine()
+    } else
+      wx.navigateTo({
+        url: '../history/history',
+      })
   },
 
   // 计算书籍总浏览量
@@ -254,7 +277,7 @@ Page({
         })
         .get()
         .then(res => {
-          if(!res.data.length) return
+          if (!res.data.length) return
           this.setData({
             unconfirmedTrade: true
           })
