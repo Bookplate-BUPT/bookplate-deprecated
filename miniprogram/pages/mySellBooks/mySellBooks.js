@@ -68,10 +68,12 @@ Page({
         that.data.goodsList.splice(index, 1)
         that.data.changeSellBooksList.splice(index, 1)
         that.data.nowGoodsList.splice(index, 1)
+        that.data.postDate.splice(index, 1)
         this.setData({
           goodsList: that.data.goodsList,
           changeSellBooksList: that.data.changeSellBooksList,
           nowGoodsList: that.data.nowGoodsList,
+          postDate: that.data.postDate
         })
         // 提示
         wx.hideLoading()
