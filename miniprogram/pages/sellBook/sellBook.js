@@ -191,6 +191,14 @@ Page({
 
   // 删除展示列表里的某一张图片
   deleteImage(event) {
+    // 如果该图片不存在，则直接删除
+    if (this.data.showList[event.detail.index].url == undefined) {
+      this.data.showList.splice(event.detail.index, 1)
+      this.setData({
+        showList: this.data.showList
+      })
+      return
+    }
     if (this.data.showList[event.detail.index].url.slice(0, 8) === 'cloud://')
       wx.cloud.deleteFile({
         fileList: [this.data.showList[event.detail.index].url]
@@ -259,42 +267,42 @@ Page({
         })
         console.log(res)
         // 上传数据库
-          wx.cloud.callFunction({
-            name: 'createGoods',
-            data: {
-              author: this.data.author,
-              introduction: this.data.introduction,
-              isbn: this.data.isbn,
-              name: this.data.name,
-              price: this.data.price,
-              publisher: this.data.publisher,
-              publishDate: this.data.publishDate,
-              imageList: res,
-              originalPrice: this.data.originalPrice,
-              price: this.data.price,
-              description: this.data.description,
-              openid: this.data.userOpenid,
-              grade: this.data.grade,
-              state: 0, // 表示未售出
-            },
-            success: res => {
-              wx.hideLoading()
-              wx.showToast({
-                title: '发布成功',
-                icon: 'success',
-              }).then(res => {
-                wx.switchTab({
-                  url: '../sellBookMain/sellBookMain',
-                })
+        wx.cloud.callFunction({
+          name: 'createGoods',
+          data: {
+            author: this.data.author,
+            introduction: this.data.introduction,
+            isbn: this.data.isbn,
+            name: this.data.name,
+            price: this.data.price,
+            publisher: this.data.publisher,
+            publishDate: this.data.publishDate,
+            imageList: res,
+            originalPrice: this.data.originalPrice,
+            price: this.data.price,
+            description: this.data.description,
+            openid: this.data.userOpenid,
+            grade: this.data.grade,
+            state: 0, // 表示未售出
+          },
+          success: res => {
+            wx.hideLoading()
+            wx.showToast({
+              title: '发布成功',
+              icon: 'success',
+            }).then(res => {
+              wx.switchTab({
+                url: '../sellBookMain/sellBookMain',
               })
-            },
-            fail: res => {
-              wx.showToast({
-                title: '发布失败',
-                icon: 'error',
-              })
-            }
-          })
+            })
+          },
+          fail: res => {
+            wx.showToast({
+              title: '发布失败',
+              icon: 'error',
+            })
+          }
+        })
       })
   },
 
