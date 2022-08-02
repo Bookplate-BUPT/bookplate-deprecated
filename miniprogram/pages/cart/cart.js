@@ -1,5 +1,4 @@
 // pages/cart/cart.js
-import user from "../../utils/user";
 import __user from "../../utils/user"
 import __util from "../../utils/util"
 
@@ -43,10 +42,46 @@ Page({
   onReachBottom() {
     var res = __util.reachBottom('cart', this.data.cartSum, this.data.cartList, this.data.nowCartList, 'own')
     if (res == undefined) return
-    this.setData({
-      cartList: res.list,
-      nowCartList: res.nowList,
-    })
+
+    // 将新增加的记录取出
+    var len = this.data.cartList.length
+    var nowLen = this.data.nowCartList.length
+    var list = res.list.slice(len, len + 20)
+    var nowList = res.nowList.slice(len, len + 10)
+
+    if (nowLen < len)
+      this.setData({
+        cartList: res.list,
+        nowCartList: res.nowList,
+      })
+    else {
+      // 根据商品ID查询对应的商品详细信息
+      const promiseArray = list.map((i) => (
+        wx.cloud.database().collection('goods')
+          .where({
+            _id: i.goods_id
+          })
+          .get()
+      ))
+
+      // 等到所有的查询线程结束后再继续进行
+      Promise.all(promiseArray)
+
+      const tempCartList = list.map((i, idx) => ({
+        ...i,
+        bookDetail: promiseArray[idx].data[0]
+      }))
+
+      // 向原数组中添加新值
+      var cartList = [...this.data.cartList, tempCartList]
+      var nowCartList = [...this.data.nowCartList, tempCartList.slice(0, 10)]
+
+      // 更新页面
+      this.setData({
+        cartList: cartList,
+        nowCartList: nowCartList
+      })
+    }
   },
 
   // 获取购物车总商品量

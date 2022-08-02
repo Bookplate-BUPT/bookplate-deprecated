@@ -131,21 +131,6 @@ Page({
     })
   },
 
-  // 进入商品详情页
-  goToBookDetail(event) {
-    wx.cloud.database().collection('history').where({
-      goods_id: event.currentTarget.dataset.id
-    }).update({
-      data: {
-        view_time: new Date()
-      }
-    }).then(
-      wx.navigateTo({
-        url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
-      })
-    )
-  },
-
   // 将商品移除浏览历史
   deleteHistory(event) {
     wx.cloud.database().collection('history')
@@ -194,16 +179,50 @@ Page({
     else return str
   },
 
-  /**
-   * 上拉触底事件
-   */
+  // 上拉触底事件
   onReachBottom() {
     var res = __util.reachBottom('history', this.data.historySum, this.data.historyList, this.data.nowHistoryList, 'own')
     if (res == undefined) return
-    this.setData({
-      historyList: res.list,
-      nowHistoryList: res.nowList,
-    })
+
+    // 将新增加的记录取出
+    var len = this.data.historyList.length
+    var nowLen = this.data.nowHistoryList.length
+    var list = res.list.slice(len, len + 20)
+    var nowList = res.nowList.slice(len, len + 10)
+
+    if (nowLen < len)
+      this.setData({
+        historyList: res.list,
+        nowHistoryList: res.nowList,
+      })
+    else {
+      // 根据商品ID查询对应的商品详细信息
+      const promiseArray = list.map((i) => (
+        wx.cloud.database().collection('goods')
+          .where({
+            _id: i.goods_id
+          })
+          .get()
+      ))
+
+      // 等到所有的查询线程结束后再继续进行
+      Promise.all(promiseArray)
+
+      const tempHistoryList = list.map((i, idx) => ({
+        ...i,
+        bookDetail: promiseArray[idx].data[0]
+      }))
+
+      // 向原数组中添加新值
+      var historyList = [...this.data.historyList, tempHistoryList]
+      var nowHistoryList = [...this.data.nowHistoryList, tempHistoryList.slice(0, 10)]
+
+      // 更新页面
+      this.setData({
+        historyList: historyList,
+        nowHistoryList: nowHistoryList
+      })
+    }
   },
 
   // 获取浏览历史总数量
