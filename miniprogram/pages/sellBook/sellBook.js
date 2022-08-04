@@ -252,7 +252,7 @@ Page({
       title: '录入中',
     })
     const uploadTasks = this.data.imageList.map((i, idx) => {
-      if (i.slice(0, 11) === 'http://tmp/') {
+      if (i.slice(0, 11) === 'http://tmp/' || i.slice(0, 12) === 'wxfile://tmp') {
         return this.uploadFilePromise(__user.getUserOpenid() + new Date().toLocaleTimeString() + idx + i.slice(-4), i)
       } else {
         return i
@@ -297,6 +297,7 @@ Page({
             })
           },
           fail: res => {
+            wx.hideLoading()
             wx.showToast({
               title: '发布失败',
               icon: 'error',
@@ -405,7 +406,7 @@ Page({
       title: '修改中',
     })
     const uploadTasks = this.data.imageList.map((i, idx) => {
-      if (i.slice(0, 11) === 'http://tmp/') {
+      if (i.slice(0, 11) === 'http://tmp/' || i.slice(0, 12) === 'wxfile://tmp') {
         return this.uploadFilePromise(__user.getUserOpenid() + new Date().toLocaleTimeString() + idx + i.slice(-4), i)
       } else {
         return i
