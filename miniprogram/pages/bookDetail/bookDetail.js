@@ -30,6 +30,11 @@ Page({
         title: '该书已被预订',
         icon: 'error'
       })
+    } else if (this.data.bookDetail._openid == __user.getUserOpenid()) {
+      wx.showToast({
+        title: '不能购买自己的商品',
+        icon: 'none'
+      })
     } else {
       this.setData({
         show: true,
