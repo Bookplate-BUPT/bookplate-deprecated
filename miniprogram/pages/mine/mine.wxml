@@ -36,7 +36,7 @@
     </van-grid-item>
 
     <van-grid-item use-slot bind:click="gotoViewOrder" data-active="{{ 3 }}">
-      <van-icon name="/icons/unreceived.png" size="16px" />
+      <van-icon name="/icons/unreceived.png" size="16px" dot="{{unreceived}}"/>
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">暂未收货</text>
     </van-grid-item>
   </van-grid>

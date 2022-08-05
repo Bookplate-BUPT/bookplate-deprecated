@@ -14,7 +14,8 @@ Page({
 
     viewsSum: '-',    // 书籍总浏览量
     tradeSum: '-',    // 总交易成功量
-    unconfirmedTrade: false // 未处理的交易
+    unconfirmedTrade: false, // 未处理的交易
+    unreceived: false, // 暂未收货
   },
 
   onLoad() {
@@ -27,6 +28,7 @@ Page({
       this.countViews()
       this.countTrade()
       this.countConfirmedTrade()
+      this.countUnreceived()
     }
   },
 
@@ -78,6 +80,7 @@ Page({
               this.countViews()
               this.countTrade()
               this.countConfirmedTrade()
+              this.countUnreceived()
 
               // 检查用户是否是第一次使用
               this.userRegister()
@@ -107,6 +110,7 @@ Page({
       viewsSum: '-',
       tradeSum: '-',
       unconfirmedTrade: false,
+      unreceived: false,
     })
     __user.userLogout()
   },
@@ -246,7 +250,7 @@ Page({
         })
         .get()
         .then(res => {
-          console.log('res1', res)
+          // console.log('res1', res)
           tempTradeSum += res.data.length,
             wx.cloud.database().collection('trade')
               .where({
@@ -255,7 +259,7 @@ Page({
               })
               .get()
               .then(res => {
-                console.log('res2', res)
+                // console.log('res2', res)
                 tempTradeSum += res.data.length
                 this.setData({
                   tradeSum: tempTradeSum
@@ -267,21 +271,42 @@ Page({
 
   // 计算未处理的交易量
   countConfirmedTrade() {
-    if (!__user.checkLoginStatus()) {
-
-    } else {
-      wx.cloud.database().collection('trade')
-        .where({
-          seller_openid: app.globalData.userOpenid,
-          state: 0
-        })
-        .get()
-        .then(res => {
-          if (!res.data.length) return
+    wx.cloud.database().collection('trade')
+      .where({
+        seller_openid: __user.getUserOpenid(),
+        state: 0
+      })
+      .get()
+      .then(res => {
+        if (res.data.length) {
           this.setData({
             unconfirmedTrade: true
           })
-        })
-    }
+        } else {
+          this.setData({
+            unconfirmedTrade: false
+          })
+        }
+      })
   },
+
+  // 计算暂未收货的交易量
+  countUnreceived() {
+    wx.cloud.database().collection('trade')
+      .where({
+        _openid: __user.getUserOpenid(),
+        state: 1
+      })
+      .get()
+      .then(res => {
+        if (res.data.length)
+          this.setData({
+            unreceived: true
+          })
+        else
+          this.setData({
+            unreceived: false
+          })
+      })
+  }
 })
