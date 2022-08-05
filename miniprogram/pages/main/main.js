@@ -69,6 +69,15 @@ Page({
       icon: 'loading',
     })
     this.getGoodsList()
+      .then(res => {
+        wx.stopPullDownRefresh()
+          .then(resInner => {
+            wx.showToast({
+              title: '刷新成功',
+              icon: 'success'
+            })
+          })
+      })
   },
 
   // 上拉触底监听
@@ -125,90 +134,97 @@ Page({
 
   // 获取商品列表
   getGoodsList() {
-    // 无排序要求
-    if (!this.data.bookType && !this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .get()
-        .then(res => {
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, 24),
-          }))
+    var promise = new Promise((resolve, reject) => {
+      // 无排序要求
+      if (!this.data.bookType && !this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .get()
+          .then(res => {
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              // 书籍介绍自定义格式化，最长长度为24
+              introduction: this.introductionFormat(i.introduction, 24),
+            }))
 
-          this.setData({
-            goodsList: tempGoodsList,
-            nowGoodsList: tempGoodsList.slice(0, 10)
+            this.setData({
+              goodsList: tempGoodsList,
+              nowGoodsList: tempGoodsList.slice(0, 10)
+            })
+            resolve(res)
           })
-        })
-    }
-    // 书籍信息排序（时间、浏览、收藏等）
-    else if (!this.data.bookType && this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .orderBy(this.data.sortType, 'desc')
-        .get()
-        .then(res => {
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, 24),
-          }))
+      }
+      // 书籍信息排序（时间、浏览、收藏等）
+      else if (!this.data.bookType && this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .orderBy(this.data.sortType, 'desc')
+          .get()
+          .then(res => {
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              // 书籍介绍自定义格式化，最长长度为24
+              introduction: this.introductionFormat(i.introduction, 24),
+            }))
 
-          this.setData({
-            goodsList: tempGoodsList,
-            nowGoodsList: tempGoodsList.slice(0, 10)
+            this.setData({
+              goodsList: tempGoodsList,
+              nowGoodsList: tempGoodsList.slice(0, 10)
+            })
+            resolve(res)
           })
-        })
-    }
-    // 书籍类型排序（本科生、研究生）
-    else if (this.data.bookType && !this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .where({
-          grade: this.data.bookType
-        })
-        .get()
-        .then(res => {
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, 24),
-          }))
+      }
+      // 书籍类型排序（本科生、研究生）
+      else if (this.data.bookType && !this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .where({
+            grade: this.data.bookType
+          })
+          .get()
+          .then(res => {
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              // 书籍介绍自定义格式化，最长长度为24
+              introduction: this.introductionFormat(i.introduction, 24),
+            }))
 
-          this.setData({
-            goodsList: tempGoodsList,
-            nowGoodsList: tempGoodsList.slice(0, 10)
+            this.setData({
+              goodsList: tempGoodsList,
+              nowGoodsList: tempGoodsList.slice(0, 10)
+            })
+            resolve(res)
           })
-        })
-    }
-    // 都存在
-    else if (this.data.bookType && this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .where({
-          grade: this.data.bookType
-        })
-        .orderBy(this.data.sortType, 'asc')
-        .get()
-        .then(res => {
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, 24),
-          }))
+      }
+      // 都存在
+      else if (this.data.bookType && this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .where({
+            grade: this.data.bookType
+          })
+          .orderBy(this.data.sortType, 'asc')
+          .get()
+          .then(res => {
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              // 书籍介绍自定义格式化，最长长度为24
+              introduction: this.introductionFormat(i.introduction, 24),
+            }))
 
-          this.setData({
-            goodsList: tempGoodsList,
-            nowGoodsList: tempGoodsList.slice(0, 10)
+            this.setData({
+              goodsList: tempGoodsList,
+              nowGoodsList: tempGoodsList.slice(0, 10)
+            })
+            resolve(res)
           })
-        })
-    }
+      }
+    })
+    return promise
   },
 
   // 筛选书籍类型改变时调用
