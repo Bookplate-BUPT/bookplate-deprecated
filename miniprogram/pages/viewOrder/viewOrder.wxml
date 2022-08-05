@@ -30,7 +30,7 @@
     <view wx:else>
       <view wx:for="{{nowPendingTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-swipe-cell right-width="{{80}}">
+          <van-swipe-cell right-width="{{88}}">
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
               <view slot="title" style="font-weight: bold;">
                 {{ item.name }}
@@ -82,7 +82,7 @@
     <view wx:else>
       <view wx:for="{{nowConfirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-swipe-cell right-width="{{80}}">
+          <van-swipe-cell right-width="{{60}}">
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
               <view slot="title" style="font-weight: bold;">
                 {{ item.name }}
