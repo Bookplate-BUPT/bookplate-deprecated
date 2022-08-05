@@ -27,16 +27,9 @@
       <van-empty description="没有未处理的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <!-- <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}">
-        <view slot="left">选择</view>
-        <van-cell-group>
-          <van-cell title="单元格" value="内容" />
-        </van-cell-group>
-        <view slot="right">删除</view>
-      </van-swipe-cell> -->
       <view wx:for="{{nowPendingTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-swipe-cell right-width="{{80}}" left-width="{{80}}">
+          <van-swipe-cell right-width="{{88}}" left-width="{{88}}">
             <van-button block custom-class="swiperCellButton" slot="left" color="#FF596A" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
               取消交易
             </van-button>
@@ -73,8 +66,8 @@
             <van-field label="现价:" readonly value="{{ popup.trade_price }}" border="{{false}}" />
           </view>
           <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
-            <view bindtap="rejectForm" data-_id="{{popup._id}}" data-goodsid="{{popup.goods_id}}" style="color: rgb(247, 58, 58);">拒绝</view>
-            <view bindtap="commitForm" data-_id="{{popup._id}}" data-goodsid="{{popup.goods_id}}">确认</view>
+            <view bindtap="rejectForm" data-_id="{{popup._id}}" data-goodsid="{{popup.goods_id}}" style="color: rgb(247, 58, 58);">取消交易</view>
+            <view bindtap="commitForm" data-_id="{{popup._id}}" data-goodsid="{{popup.goods_id}}">确认交易</view>
           </view>
         </view>
       </van-popup>
