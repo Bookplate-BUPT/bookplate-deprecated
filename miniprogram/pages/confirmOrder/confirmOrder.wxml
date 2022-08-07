@@ -4,7 +4,7 @@
       <van-empty description="没有任何交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{nowTradeGoodsList}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{nowTradeGoodsList}}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup">
             <view slot="title" style="font-weight: bold;">
@@ -19,6 +19,8 @@
           </van-card>
         </van-cell-group>
       </view>
+
+      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 
@@ -71,6 +73,8 @@
           </view>
         </view>
       </van-popup>
+
+      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 
@@ -94,6 +98,8 @@
           </van-card>
         </van-cell-group>
       </view>
+
+      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 
@@ -117,6 +123,33 @@
           </van-card>
         </van-cell-group>
       </view>
+
+      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
+    </view>
+  </van-tab>
+
+  <van-tab title="已成交">
+    <view wx:if="{{ !nowSuccessfulTrade.length }}" style="margin-top: 180rpx;">
+      <van-empty description="没有已成交的书籍哦~"></van-empty>
+    </view>
+    <view wx:else>
+      <view wx:for="{{nowSuccessfulTrade}}" wx:key="_id" style="margin-top: 20rpx;">
+        <van-cell-group inset custom-class="shadow">
+          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
+            <view slot="title" style="font-weight: bold;">
+              {{ item.name }}
+              <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+            </view>
+            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+              <view>ISBN：{{ item.isbn }}</view>
+              <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
+              <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
+            </view>
+          </van-card>
+        </van-cell-group>
+      </view>
+
+      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 </van-tabs>

@@ -1,5 +1,6 @@
 
 import __user from "../../utils/user"
+import __util from "../../utils/util"
 
 Page({
 
@@ -9,14 +10,17 @@ Page({
     pendingTrade: [],
     confirmedTrade: [],
     rejectedTrade: [],
+    successfulTrade: [],      // 成功交易的书籍
     tradeGoodsListSum: '',
     pendingTradeSum: '',
     confirmedTradeSum: '',
     rejectedTradeSum: '',
+    successfulTradeSum: '',
     nowTradeGoodsList: [],
     nowPendingTrade: [],
     nowConfirmedTrade: [],
     nowRejectedTrade: [],
+    nowSuccessfulTrade: [],
     popup: {},
     show: false,
   },
@@ -36,6 +40,7 @@ Page({
       var pendingTrade = []
       var confirmedTrade = []
       var rejectedTrade = []
+      var successfulTrade = []
       tradeGoodsList.forEach(i => {
         switch (i.state) {
           case 0:
@@ -43,6 +48,9 @@ Page({
             break
           case 1:
             confirmedTrade.push(i)
+            break
+          case 2:
+            successfulTrade.push(i)
             break
           case 3:
             rejectedTrade.push(i)
@@ -54,16 +62,19 @@ Page({
       pendingTrade.sort((a, b) => { return b.trade_time - a.trade_time })
       confirmedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
       rejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
+      successfulTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
       this.setData({
         tradeGoodsList: tradeGoodsList,
         pendingTrade: pendingTrade,
         confirmedTrade: confirmedTrade,
         rejectedTrade: rejectedTrade,
+        successfulTrade: successfulTrade,
         nowTradeGoodsList: tradeGoodsList.slice(0, 10),
         nowPendingTrade: pendingTrade.slice(0, 10),
         nowConfirmedTrade: confirmedTrade.slice(0, 10),
         nowRejectedTrade: rejectedTrade.slice(0, 10),
+        nowSuccessfulTrade: successfulTrade.slice(0, 10)
       })
     })
   },
@@ -115,6 +126,18 @@ Page({
     })
   },
 
+  // 获取交易成功的书籍总数量
+  getSuccessfulTradeSum() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 2
+    }).count().then(res => {
+      this.setData({
+        successfulTradeSum: res.total
+      })
+    })
+  },
+
   // 上拉触底监听
   onReachBottom() {
     switch (this.data.active) {
@@ -127,7 +150,7 @@ Page({
         })
         return
       case 1:
-        var res = __util.reachBottom('trade', this.data.pendingTradeSum, this.data.pendingTrade, this.data.nowPendingTrade, 'seller',0)
+        var res = __util.reachBottom('trade', this.data.pendingTradeSum, this.data.pendingTrade, this.data.nowPendingTrade, 'seller', 0)
         if (res == undefined) return
         this.setData({
           pendingTrade: res.list,
@@ -135,7 +158,7 @@ Page({
         })
         return
       case 2:
-        var res = __util.reachBottom('trade', this.data.confirmedTradeSum, this.data.confirmedTrade, this.data.nowConfirmedTrade, 'seller',1)
+        var res = __util.reachBottom('trade', this.data.confirmedTradeSum, this.data.confirmedTrade, this.data.nowConfirmedTrade, 'seller', 1)
         if (res == undefined) return
         this.setData({
           confirmedTrade: res.list,
@@ -143,11 +166,19 @@ Page({
         })
         return
       case 3:
-        var res = __util.reachBottom('trade', this.data.rejectedTradeSum, this.data.rejectedTrade, this.data.nowRejectedTrade, 'seller',3)
+        var res = __util.reachBottom('trade', this.data.rejectedTradeSum, this.data.rejectedTrade, this.data.nowRejectedTrade, 'seller', 3)
         if (res == undefined) return
         this.setData({
           rejectedTrade: res.list,
           nowRejectedTrade: res.nowList,
+        })
+        return
+      case 4:
+        var res = __util.reachBottom('trade', this.data.successfulTradeSUm, this.data.successfulTrade, this.data.nowSuccessfulTrade, 'seller', 2)
+        if (res == undefined) return
+        this.setData({
+          successfulTrade: res.list,
+          nowSuccessfulTrade: res.nowList,
         })
         return
     }
@@ -268,11 +299,13 @@ Page({
     this.data.active = e.detail.index
   },
 
+  // 页面初始化数据
   onLoad: function (options) {
     this.getMyTrade()
     this.getTradeGoodsListSum()
     this.getPendingTradeSum()
     this.getConfirmedTradeSum()
     this.getRejectedTradeSum()
+    this.getSuccessfulTradeSum()
   },
 })
