@@ -50,6 +50,7 @@ Page({
     // 求书部分
     seekList: '',   // 求书列表
 
+    triggered: false   //关闭下拉刷新界面
   },
 
   onLoad() {
@@ -70,13 +71,15 @@ Page({
     })
     this.getGoodsList()
       .then(res => {
-        wx.stopPullDownRefresh()
-          .then(resInner => {
-            wx.showToast({
-              title: '刷新成功',
-              icon: 'success'
-            })
+        wx.showToast({
+          title: '刷新成功',
+          icon: 'success'
+        })
+        setTimeout(() => {
+          this.setData({
+            triggered: false,
           })
+        }, 900)
       })
   },
 
