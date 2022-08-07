@@ -6,7 +6,7 @@
 <block wx:else>
   <view wx:for="{{nowGoodsList}}" wx:key="_id">
     <view wx:if="{{postDate[index-1]===postDate[index]?false:true}}">
-      <view class="time">{{ postDate[index]===today?'今天':utils.getDate(postDate[index],today) }}</view>
+      <view class="time">{{ postDate[index]===today?'今天':utils.getDateOnly(postDate[index],today) }}</view>
     </view>
     <view style="margin-top: 20rpx;">
       <van-cell-group inset custom-class="shadow">

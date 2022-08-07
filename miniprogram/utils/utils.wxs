@@ -32,7 +32,7 @@ var newFormatTime = function (timestamp) {
  * @param str 表示需要显示的日期
  * @param now 表示当前日期
  */
-var getDate = function (str, now) {
+var getDateOnly = function (str, now) {
   var datelist = str.split("/")
   now = now.split("/")[0]
   if (now == datelist[0]) {
@@ -45,5 +45,5 @@ module.exports = {
   getInt: getInt,
   getFloat: getFloat,
   newFormatTime: newFormatTime,
-  getDate: getDate,
+  getDateOnly: getDateOnly,
 }
