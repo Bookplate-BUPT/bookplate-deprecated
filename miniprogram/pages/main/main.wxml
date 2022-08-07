@@ -21,7 +21,8 @@
       <van-dropdown-item value="{{ sortType }}" options="{{ sortTypeOption }}" bind:change="sortTypeChange" />
     </van-dropdown-menu>
 
-    <scroll-view scroll-y style="height: 800rpx;" refresher-enabled="{{true}}" refresher-triggered="{{triggered}}" bindrefresherrefresh="onPullDownRefresh">
+    <scroll-view scroll-y style="height: {{scrollViewHeight}}px;" refresher-enabled="{{true}}" refresher-triggered="{{triggered}}" bindrefresherrefresh="onPullDownRefresh"
+    bindscrolltolower="onReachBottom">
     <!-- 卖书书籍陈列 -->
     <view wx:for="{{ nowGoodsList }}" style="margin-top: 12px;" wx:key="_id">
       <MainBookCard right="{{ 100 }}" _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" grade="{{item.grade}}" introduction="{{item.introduction}}" isNew="{{ item.isNew }}">

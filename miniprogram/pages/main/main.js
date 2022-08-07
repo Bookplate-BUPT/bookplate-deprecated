@@ -10,6 +10,7 @@ Page({
   data: {
     // 页面显示
     active: 0,      // 标签栏索引
+    scrollViewHeight: '', // 页面高度
 
     // 卖书部分
     bookTypeOption: [
@@ -57,10 +58,20 @@ Page({
     this.getGoodsList()
     this.getGoodsSum()
     this.getSeekList()
+    this.getScrollViewHeight()
   },
 
   onShow() {
 
+  },
+
+  // 获取scroll-view的高度
+  getScrollViewHeight() {
+    const res = wx.getWindowInfo()
+    console.log(res)
+    this.setData({
+      scrollViewHeight: res.screenHeight-265
+    })
   },
 
   // 下拉刷新监听
