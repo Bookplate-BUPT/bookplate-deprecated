@@ -10,6 +10,7 @@ Page({
     changeSellBooksList: [],     //存储没有经过格式化的回调卖书列表
     today: '', // 今天日期
     postDate: '', // 上传日期
+    imageTempList: []
   },
 
   onShow(options) {
@@ -53,6 +54,9 @@ Page({
         today: new Date().toLocaleDateString(),
         postDate: postDate
       })
+      this.data.nowGoodsList.map((i , idx)=>{
+        this.data.imageTempList[idx] = i.image_list
+      })
     })
   },
 
@@ -60,6 +64,14 @@ Page({
     wx.showLoading({
       title: '删除中'
     })
+    var index = e.currentTarget.dataset.index
+    var length = this.data.imageTempList[index].length
+    for(var i = 0;i<length;i++){
+      if(this.data.imageTempList[index][i].slice(0, 8) === 'cloud://' || this.data.imageTempList[index][i].slice(0, 9) === 'wxfile://')
+      wx.cloud.deleteFile({
+        fileList: [this.data.imageTempList[index][i]]
+      })
+    }
     wx.cloud.database().collection("goods").doc(e.currentTarget.dataset._id).remove()
       .then(res => {
         // 删除并更新数组
