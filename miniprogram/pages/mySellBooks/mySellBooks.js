@@ -45,6 +45,13 @@ Page({
         return b.post_date.getTime() - a.post_date.getTime()
       })
 
+      this.data.changeSellBooksList.sort((a, b) => {
+        return b.post_date.getTime() - a.post_date.getTime()
+      })
+
+      var postDate = this.data.changeSellBooksList.map(i => {
+        return i.post_date.toLocaleDateString()
+      })
       var postDate = tempGoodsList.map(i => {
         return i.post_date.toLocaleDateString()
       })
