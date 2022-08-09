@@ -1,4 +1,20 @@
 // pages/scanISBN/scanISBN.js
+
+const citys = {
+  '未来学院': ['电子信息类（元班）', '计算机类（元班）','通信工程','电子科学与技术','计算机科学与技术','网路空间安全'],
+  '电子工程学院': ['电子信息类','电子信息科学与技术','电子科学与技术','光电信息科学与工程'],
+  '计算机学院': ['计算机类','软件工程','计算机科学与技术','网络工程','数据科学与大数据技术'],
+  '信息与通信工程学院': ['通信工程（大类招生）','通信工程','电子信息工程','空间信息与数字技术'],
+  '网络空间安全学院': ['网络空间安全（大类招生）','网络空间安全','信息安全','密码科学与技术'],
+  '人工智能学院': ['人工智能（大类招生）','信息工程','人工智能','自动化','智能医学工程'],
+  '现代邮政学院': ['自动化类', '管理科学与工程类','机械工程','邮政工程','电子商务','邮政管理'],
+  '经济管理学院': ['大数据管理与应用金融科技','工商管理类','工商管理','公共事业管理'],
+  '理学院': ['理科试验班','数学与应用数学','信息与计算科学','应用物理学'],
+  '人文学院': ['英语','日语','法学'],
+  '数字媒体与设计艺术学院': ['智能交互设计', '数字媒体技术','数字媒体艺术','网络与新媒体'],
+  '国际学院': ['电信工程及管理','物联网工程','电子信息工程','智能科学与技术'],
+  '北京邮电大学玛丽女王海南学院': ['信息与计算科学']
+};
 import __user from "../../utils/user"
 
 Page({
@@ -14,7 +30,7 @@ Page({
     originalPrice: '',  // 为了使初始化时原价那一栏什么也不写，这里需要为空字符串，而不是数字0
     price: '',          // 二手定价同理
     description: '',    // 用户对自己二手书的描述
-    grade: '',          // 书籍对应的学习水平（本科、研究生等）
+    grade: '',          // 书籍对应的专业状况（学院、专业）
 
     // 页面展示相关
     showList: [],       // 展示在页面上的图片列表，类型为对象数组
@@ -36,6 +52,41 @@ Page({
 
     userOpenid: '',
     showState: true,            //根据不同的页面判断呈现相应的页面
+    show: false,
+    columns: [
+      {
+        values: Object.keys(citys),
+      },
+      {
+        values: citys['未来学院'],
+      },
+    ],
+  },
+  //选择书籍的类型时调用
+  selectClassification(e){
+    this.setData({
+      show: true
+    })
+  },
+
+  onChange(event) {
+    const { picker, value } = event.detail;
+    picker.setColumnValues(1, citys[value[0]]);
+  },
+
+  onClose(){
+    this.setData({
+      show: false
+    })
+  },
+
+  onOrder(e){
+    var tempList = this.selectComponent('#classification').getValues()
+    this.data.grade = tempList[0] + tempList[1]
+    this.setData({
+      show: false,
+      grade: this.data.grade
+    })
   },
 
   //根据页面的不同，赋予不同的setdata
@@ -366,13 +417,6 @@ Page({
   //     price: tempPrice,
   //   })
   // },
-
-  // 更改书籍的年级时调用
-  bookGradeChange(event) {
-    this.setData({
-      grade: event.detail
-    })
-  },
 
   // 展示遇到困难遮罩层
   showDifficultyOverLay() {

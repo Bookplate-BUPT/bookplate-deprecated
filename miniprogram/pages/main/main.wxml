@@ -17,26 +17,27 @@
   <van-tab title="卖书">
     <!-- 卖书部分书籍分类菜单栏 -->
     <van-dropdown-menu active-color="#8ac286">
-      <van-dropdown-item value="{{ bookType }}" options="{{ bookTypeOption }}" bind:change="bookTypeChange" />
+      <van-dropdown-item title="{{bookType}}" id="identity">
+        <van-tree-select items="{{ bookTypeOption }}" main-active-index="{{ mainActiveIndex  }}" bind:click-nav="onClickNav" bind:click-item="onClickItem" />
+      </van-dropdown-item>
       <van-dropdown-item value="{{ sortType }}" options="{{ sortTypeOption }}" bind:change="sortTypeChange" />
     </van-dropdown-menu>
 
-    <scroll-view scroll-y style="height: {{scrollViewHeight}}px;" refresher-enabled="{{true}}" refresher-triggered="{{triggered}}" bindrefresherrefresh="onPullDownRefresh"
-    bindscrolltolower="onReachBottom">
-    <!-- 卖书书籍陈列 -->
-    <view wx:for="{{ nowGoodsList }}" style="margin-top: 12px;" wx:key="_id">
-      <MainBookCard right="{{ 100 }}" _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" grade="{{item.grade}}" introduction="{{item.introduction}}" isNew="{{ item.isNew }}">
+    <scroll-view scroll-y style="height: {{scrollViewHeight}}px;" refresher-enabled="{{true}}" refresher-triggered="{{triggered}}" bindrefresherrefresh="onPullDownRefresh" bindscrolltolower="onReachBottom">
+      <!-- 卖书书籍陈列 -->
+      <view wx:for="{{ nowGoodsList }}" style="margin-top: 12px;" wx:key="_id">
+        <MainBookCard right="{{ 100 }}" _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" grade="{{item.grade}}" introduction="{{item.introduction}}" isNew="{{ item.isNew }}">
 
-        <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
-          <van-icon name="shopping-cart" />
-          <view>加入购物车</view>
-        </van-button>
-      </MainBookCard>
-    </view>
+          <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
+            <van-icon name="shopping-cart" />
+            <view>加入购物车</view>
+          </van-button>
+        </MainBookCard>
+      </view>
 
-    <!-- 底部提示分隔线 -->
-    <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
-  </scroll-view>
+      <!-- 底部提示分隔线 -->
+      <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
+    </scroll-view>
   </van-tab>
 
   <!-- 求书部分 -->

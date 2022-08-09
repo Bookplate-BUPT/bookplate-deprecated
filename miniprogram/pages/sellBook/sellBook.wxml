@@ -32,14 +32,14 @@
     </view>
   </van-cell> -->
 
-  <van-cell title="书籍分类" required title-width="84px">
-    <view style="margin: 2px 0 0 4px;">
-      <van-radio-group value="{{ grade }}" bind:change="bookGradeChange" direction="horizontal">
-        <van-radio name="本科生" checked-color="#8ac286">本科生</van-radio>
-        <van-radio name="研究生" checked-color="#8ac286">研究生</van-radio>
-      </van-radio-group>
-    </view>
-  </van-cell>
+  <van-field model:value="{{ grade }}" placeholder="请选择书籍分类" label="书籍分类" required clearable clear-trigger="focus" bind:click-input="selectClassification" readonly></van-field>
+  <van-popup show="{{ show }}" bind:close="onClose" round overlay closeable custom-style="height: 60%; width: 80%">
+    <van-picker columns="{{ columns }}" bind:change="onChange" visible-item-count="8" id="classification"/>
+    <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
+        <view bindtap="onClose" style="color: #aaa; margin-top: 40rpx;">取消</view>
+        <view bindtap="onOrder" style="margin-top: 40rpx;">确认</view>
+      </view>
+  </van-popup>
 
   <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>

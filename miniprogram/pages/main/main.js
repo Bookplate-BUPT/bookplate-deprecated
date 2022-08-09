@@ -16,17 +16,290 @@ Page({
     bookTypeOption: [
       {
         text: '全部书籍',
-        value: '',
       },
       {
-        text: '本科生',
-        value: '本科生',
+        text: '未来学院',
+        children: [
+          {
+            text: '电子信息类（元班）',
+            value: '电子信息类（元班）',
+          },
+          {
+            text: '计算机类（元班）',
+            value: '计算机类（元班）',
+          },
+          {
+            text: '通信工程',
+            value: '通信工程',
+          },
+          {
+            text: '电子科学与技术',
+            value: '电子科学与技术',
+          },
+          {
+            text: '计算机科学与技术',
+            value: '计算机科学与技术',
+          },
+          {
+            text: '网路空间安全',
+            value: '网路空间安全',
+          },
+        ],
       },
       {
-        text: '研究生',
-        value: '研究生',
+        text: '信息与通信工程学院',
+        children: [
+          {
+            text: '通信工程（大类招生）',
+            value: '通信工程（大类招生）',
+          },
+          {
+            text: '通信工程',
+            value: '通信工程',
+          },
+          {
+            text: '电子信息工程',
+            value: '电子信息工程',
+          },
+          {
+            text: '空间信息与数字技术',
+            value: '空间信息与数字技术',
+          },
+        ],
+      },
+      {
+        text: '电子工程学院',
+        children: [
+          {
+            text: '电子信息类',
+            value: '电子信息类',
+          },
+          {
+            text: '电子信息科学与技术',
+            value: '电子信息科学与技术',
+          },
+          {
+            text: '电子科学与技术',
+            value: '电子科学与技术',
+          },
+          {
+            text: '光电信息科学与工程',
+            value: '光电信息科学与工程',
+          },
+        ],
+      },
+      {
+        text: '计算机学院',
+        children: [
+          {
+            text: '计算机类',
+            value: '计算机类',
+          },
+          {
+            text: '软件工程',
+            value: '软件工程',
+          },
+          {
+            text: '计算机科学与技术',
+            value: '计算机科学与技术',
+          },
+          {
+            text: '网络工程',
+            value: '网络工程',
+          },
+          {
+            text: '数据科学与大数据技术',
+            value: '数据科学与大数据技术',
+          },
+        ],
+      },
+      {
+        text: '网络空间安全学院',
+        children: [
+          {
+            text: '网络空间安全（大类招生）',
+            value: '网络空间安全（大类招生）',
+          },
+          {
+            text: '网络空间安全',
+            value: '网络空间安全',
+          },
+          {
+            text: '信息安全',
+            value: '信息安全',
+          },
+          {
+            text: '密码科学与技术',
+            value: '密码科学与技术',
+          },
+        ],
+      },
+      {
+        text: '人工智能学院',
+        children: [
+          {
+            text: '人工智能（大类招生）',
+            value: '人工智能（大类招生）',
+          },
+          {
+            text: '信息工程',
+            value: '信息工程',
+          },
+          {
+            text: '人工智能',
+            value: '人工智能',
+          },
+          {
+            text: '自动化',
+            value: '自动化',
+          },
+          {
+            text: '智能医学工程',
+            value: '智能医学工程',
+          },
+        ],
+      },
+      {
+        text: '现代邮政学院',
+        children: [
+          {
+            text: '自动化类',
+            value: '自动化类',
+          },
+          {
+            text: '管理科学与工程类',
+            value: '管理科学与工程类',
+          },
+          {
+            text: '机械工程',
+            value: '机械工程',
+          },
+          {
+            text: '邮政工程',
+            value: '邮政工程',
+          },
+          {
+            text: '电子商务',
+            value: '电子商务',
+          },
+          {
+            text: '邮政管理',
+            value: '邮政管理',
+          },
+        ],
+      },
+      {
+        text: '经济管理学院',
+        children: [
+          {
+            text: '大数据管理与应用金融科技',
+            value: '大数据管理与应用金融科技',
+          },
+          {
+            text: '工商管理类',
+            value: '工商管理类',
+          },
+          {
+            text: '工商管理',
+            value: '工商管理',
+          },
+          {
+            text: '公共事业管理',
+            value: '公共事业管理',
+          },
+        ],
+      },
+      {
+        text: '理学院',
+        children: [
+          {
+            text: '理科试验班',
+            value: '理科试验班',
+          },
+          {
+            text: '数学与应用数学',
+            value: '数学与应用数学',
+          },
+          {
+            text: '信息与计算科学',
+            value: '信息与计算科学',
+          },
+          {
+            text: '应用物理学',
+            value: '应用物理学',
+          },
+        ],
+      },
+      {
+        text: '人文学院',
+        children: [
+          {
+            text: '英语',
+            value: '英语',
+          },
+          {
+            text: '日语',
+            value: '日语',
+          },
+          {
+            text: '法学',
+            value: '法学',
+          },
+        ],
+      },
+      {
+        text: '数字媒体与设计艺术学院',
+        children: [
+          {
+            text: '智能交互设计',
+            value: '智能交互设计',
+          },
+          {
+            text: '数字媒体技术',
+            value: '数字媒体技术',
+          },
+          {
+            text: '数字媒体艺术',
+            value: '数字媒体艺术',
+          },
+          {
+            text: '网络与新媒体',
+            value: '网络与新媒体',
+          },
+        ],
+      },
+      {
+        text: '国际学院',
+        children: [
+          {
+            text: '电信工程及管理',
+            value: '电信工程及管理',
+          },
+          {
+            text: '物联网工程',
+            value: '物联网工程',
+          },
+          {
+            text: '电子信息工程',
+            value: '电子信息工程',
+          },
+          {
+            text: '智能科学与技术',
+            value: '智能科学与技术',
+          },
+        ],
+      },
+      {
+        text: '北京邮电大学玛丽女王海南学院',
+        children: [
+          {
+            text: '信息与计算科学',
+            value: '信息与计算科学',
+          },
+        ],
       },
     ],
+
     sortTypeOption: [
       {
         text: '默认排序',
@@ -41,7 +314,7 @@ Page({
         value: 'views',
       },
     ],
-    bookType: '',   // 书籍类型
+    bookType: '全部书籍',   // 书籍类型
     sortType: '',   // 排序类型
 
     goodsSum: '',    // 商品总数量
@@ -51,7 +324,10 @@ Page({
     // 求书部分
     seekList: '',   // 求书列表
 
-    triggered: false   //关闭下拉刷新界面
+    triggered: false,   //关闭下拉刷新界面
+    institute: '',      //选择的学院
+    major: '',          //选择的专业
+    mainActiveIndex: 0,
   },
 
   onLoad() {
@@ -65,12 +341,36 @@ Page({
 
   },
 
+  //获取学院信息
+  onClickNav({ detail = {} }) {
+    this.setData({
+      mainActiveIndex: detail.index || 0,
+    });
+    this.data.institute = this.data.bookTypeOption[this.data.mainActiveIndex].text
+    if (this.data.institute === '全部书籍') {
+      this.setData({
+        bookType: '全部书籍'
+      })
+      this.selectComponent('#identity').toggle(false)
+    }
+  },
+
+  //获取专业信息
+  onClickItem({ detail = {} }) {
+    this.data.major = detail.value
+    var booksClassification = this.data.institute + this.data.major
+    this.setData({
+      bookType: booksClassification
+    })
+    this.selectComponent('#identity').toggle(false)
+    this.getGoodsList()
+  },
+
   // 获取scroll-view的高度
   getScrollViewHeight() {
     const res = wx.getWindowInfo()
-    console.log(res)
     this.setData({
-      scrollViewHeight: res.screenHeight-265
+      scrollViewHeight: res.screenHeight - 265
     })
   },
 
@@ -150,7 +450,7 @@ Page({
   getGoodsList() {
     var promise = new Promise((resolve, reject) => {
       // 无排序要求
-      if (!this.data.bookType && !this.data.sortType) {
+      if (this.data.bookType === '全部书籍' && !this.data.sortType) {
         wx.cloud.database().collection('goods')
           .get()
           .then(res => {
@@ -170,7 +470,7 @@ Page({
           })
       }
       // 书籍信息排序（时间、浏览、收藏等）
-      else if (!this.data.bookType && this.data.sortType) {
+      else if (this.data.bookType === '全部书籍' && this.data.sortType) {
         wx.cloud.database().collection('goods')
           .orderBy(this.data.sortType, 'desc')
           .get()
@@ -190,8 +490,8 @@ Page({
             resolve(res)
           })
       }
-      // 书籍类型排序（本科生、研究生）
-      else if (this.data.bookType && !this.data.sortType) {
+      // 书籍类型排序（学院、专业）
+      else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
         wx.cloud.database().collection('goods')
           .where({
             grade: this.data.bookType
@@ -214,7 +514,7 @@ Page({
           })
       }
       // 都存在
-      else if (this.data.bookType && this.data.sortType) {
+      else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
         wx.cloud.database().collection('goods')
           .where({
             grade: this.data.bookType
@@ -239,14 +539,6 @@ Page({
       }
     })
     return promise
-  },
-
-  // 筛选书籍类型改变时调用
-  bookTypeChange(event) {
-    this.setData({
-      bookType: event.detail
-    })
-    this.getGoodsList()
   },
 
   // 排序类型改变时调用
