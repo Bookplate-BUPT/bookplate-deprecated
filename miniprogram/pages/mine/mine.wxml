@@ -54,7 +54,7 @@
     <van-icon name="shop-o" size="16px" slot="icon" style="margin-right: 4px;" />
   </van-cell>
 
-  <van-cell is-link title="我的求书" link-type="navigateTo" url="../editUserInfo/editUserInfo">
+  <van-cell is-link title="我的求书" link-type="navigateTo" bind:click="gotoMySeekBooks">
     <van-icon name="shop-collect-o" size="16px" slot="icon" style="margin-right: 4px;" />
   </van-cell>
 </van-cell-group>

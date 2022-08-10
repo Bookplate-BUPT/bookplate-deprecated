@@ -42,7 +42,10 @@
 
   <!-- 求书部分 -->
   <van-tab title="求书">
-    <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
+  <view style="margin-top: 200rpx;">
+    <van-empty description="此功能暂未开发"></van-empty>
+  </view>
+    <!-- <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
       <van-cell-group inset custom-class="shadow">
         <view>
           <van-row>
@@ -63,9 +66,9 @@
           <view style="color: #646566; font-size: xx-small; margin: 8px 16px; display: flex; justify-content: flex-end;">{{ item.date }}</view>
         </view>
       </van-cell-group>
-    </view>
+    </view> -->
 
     <!-- 底部提示分隔线 -->
-    <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
+    <!-- <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider> -->
   </van-tab>
 </van-tabs>

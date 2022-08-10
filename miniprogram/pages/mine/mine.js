@@ -191,6 +191,13 @@ Page({
       })
   },
 
+  gotoMySeekBooks(){
+    wx.showToast({
+      title: '此功能暂未开发',
+      icon: 'error'
+    })
+  },
+
   // 前往交易查询页面
   gotoTrade() {
     wx.showToast({

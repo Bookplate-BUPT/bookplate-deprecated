@@ -44,9 +44,13 @@ Page({
 
   // 发布求书信息
   toSeekBook() {
-    wx.navigateTo({
-      url: '../seekBook/seekBook',
+    wx.showToast({
+      title: '此功能暂未开发',
+      icon: 'error'
     })
+    // wx.navigateTo({
+    //   url: '../seekBook/seekBook',
+    // })
   },
 
   // 打开提示弹出层
