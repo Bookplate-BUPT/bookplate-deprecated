@@ -43,14 +43,6 @@ Page({
     }
   },
 
-  // 年级与学院picker的值发生改变时调用
-  gradeAndSchoolChange(event) {
-    this.setData({
-      userGrade: event.detail.value[0],
-      userSchool: event.detail.value[1],
-    })
-  },
-
   // 取用户的年级学院值，让picker的默认值设置为用户的值
   setPickerColumns() {
     wx.cloud.database().collection('users')
@@ -76,6 +68,11 @@ Page({
 
   // 确认编辑
   confirmEdit() {
+    var tempMessage = this.selectComponent('#identity').getValues()
+    this.setData({
+      userGrade: tempMessage[0],
+      userSchool: tempMessage[1],
+    })
     wx.cloud.database().collection('users')
       .where({
         _openid: __user.getUserOpenid()
