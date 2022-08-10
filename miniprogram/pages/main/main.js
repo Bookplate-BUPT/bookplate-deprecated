@@ -352,6 +352,7 @@ Page({
         bookType: '全部书籍'
       })
       this.selectComponent('#identity').toggle(false)
+      this.getGoodsList()
     }
   },
 
