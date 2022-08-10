@@ -57,10 +57,6 @@
   <van-cell is-link title="我的求书" link-type="navigateTo" url="../editUserInfo/editUserInfo">
     <van-icon name="shop-collect-o" size="16px" slot="icon" style="margin-right: 4px;" />
   </van-cell>
-
-  <van-cell is-link title="联系客服" link-type="navigateTo" url="../editUserInfo/editUserInfo">
-    <van-icon name="service-o" size="16px" slot="icon" style="margin-right: 4px;" />
-  </van-cell>
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
