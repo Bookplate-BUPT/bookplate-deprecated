@@ -37,16 +37,16 @@ Page({
     showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
     helpSteps: [        // 遇到困难遮罩层内容
       {
-        text: '一',
-        desc: 'AAA'
+        text: 'Q：提示今日查询已受限',
+        desc: 'A：每个用户每天查询书籍次数有最高限制'
       },
       {
-        text: '二',
-        desc: 'BBB'
+        text: 'Q：提示信息不完整',
+        desc: 'A：带星号为必填项'
       },
       {
-        text: '三',
-        desc: 'CCC'
+        text: 'Q：上传图片的图标消失',
+        desc: 'A：亲，图片最多只能上传9张哦~'
       },
     ],
 

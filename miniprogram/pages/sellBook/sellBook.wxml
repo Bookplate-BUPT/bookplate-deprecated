@@ -55,7 +55,7 @@
 
 <!-- 遇到困难遮罩层 -->
 <van-overlay show="{{ showDifficultyOverLay }}" bind:click="closeDifficultyOverLay" style="z-index: 1000;">
-  <view style="margin-top: 25%;">
+  <view style="margin-top: 60%;">
     <van-cell-group inset custom-class="shadow">
       <van-steps steps="{{ helpSteps }}" active="{{ -1 }}" direction="vertical" />
     </van-cell-group>
