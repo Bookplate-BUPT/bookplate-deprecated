@@ -371,7 +371,7 @@ Page({
   getScrollViewHeight() {
     const res = wx.getWindowInfo()
     this.setData({
-      scrollViewHeight: res.screenHeight - 265
+      scrollViewHeight: res.windowHeight - 153
     })
   },
 
