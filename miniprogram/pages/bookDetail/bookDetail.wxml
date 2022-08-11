@@ -73,7 +73,7 @@
         <van-field label="书名:" readonly value="{{ bookDetail.name }}" border="{{false}}"></van-field>
         <van-field label="ISBN:" readonly value="{{ bookDetail.isbn }}" border="{{false}}"></van-field>
         <van-field label="原价:" readonly value="{{ bookDetail.original_price }}" border="{{false}}"></van-field>
-        <van-field label="现价:" value="{{ trade_price }}" placeholder="请输入现价" bind:change="onChangeTradePrice" border="{{false}}" clearable />
+        <van-field label="现价:" required value="{{ trade_price }}" placeholder="请输入现价" bind:change="onChangeTradePrice" border="{{false}}" clearable />
         <van-field label="时间:" value="{{ trade_time }}" placeholder="请输入时间" bind:change="onChangeTradeTime" border="{{false}}" clearable />
         <van-field label="地点:" value="{{ trade_spot }}" placeholder="请输入地点" bind:change="onChangeTradeSpot" border="{{false}}" clearable />
       </view>
