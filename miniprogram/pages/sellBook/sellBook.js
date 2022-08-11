@@ -158,6 +158,11 @@ Page({
                 scrollTop: 9999,
                 duration: 200,
               })
+            } else if (JSON.parse(resInner.result).ret == 1) {
+              wx.showToast({
+                title: '今日查询已受限',
+                icon: 'error'
+              })
             } else {
               wx.showToast({
                 title: '未查询到书籍',
