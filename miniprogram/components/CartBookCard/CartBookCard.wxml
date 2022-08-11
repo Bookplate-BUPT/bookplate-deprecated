@@ -1,11 +1,7 @@
 <!--components/CartBookCard/CartBookCard.wxml-->
 <van-cell-group inset custom-class="shadow">
   <van-card price="{{ bookDetail.price }}" desc="{{ bookDetail.description }}" origin-price="{{ bookDetail.original_price }}" custom-class="goodsCardMargin">
-    <van-image wx:if="{{bookDetail.image_list[0]==null?false:true}}" slot="thumb" fit="heightFix" height="85" src="{{ bookDetail.image_list[0] }}"/>
-    <view wx:else slot="thumb" class="thumbAlt">
-      <van-icon name="warning-o" size="20"/>
-      <text>该书已被购买</text>
-    </view>
+    <van-image slot="thumb" fit="heightFix" height="{{85}}" src="{{bookDetail.image_list[0]==null?'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png':bookDetail.image_list[0]}}"/>
     <view slot="title" style="font-weight: bold;">
       {{ bookDetail.name==null?'已下架':bookDetail.name }}
       <block wx:if="{{bookDetail.grade==null?false:true}}">
@@ -13,8 +9,7 @@
       </block>
     </view>
     <view slot="desc">
-      {{bookDetail.description}}
-      <view wx:if="{{bookDetail.description==null?true:false}}" style="margin-top: 3px;margin-left: 1px;color: #646464;">非常抱歉，在您将该书加入购物车后，该书已被他人购买，现已下架</view>
+      {{bookDetail.description?bookDetail.description:'非常抱歉，在您将该书加入购物车后，该书已被他人购买，现已下架'}}
     </view>
     <view slot="num" style="display: flex; justify-content: space-between;">
       <van-button size="mini" round color="#f6a7af" bind:click="deleteGoods" data-id="{{ _id }}">删除
