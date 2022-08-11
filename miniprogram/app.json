@@ -14,6 +14,7 @@
     "pages/confirmOrder/confirmOrder",
     "pages/viewOrder/viewOrder",
     "pages/chatroom/chatroom",
+    "pages/sellDetail/sellDetail",
     "pages/mySellBooks/mySellBooks"
   ],
   "window": {

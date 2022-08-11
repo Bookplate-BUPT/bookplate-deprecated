@@ -32,7 +32,9 @@ Page({
 
   // 了解更多买卖二手书流程
   toSellDetail() {
-    console.log('暂未开发')
+    wx.navigateTo({
+      url: '../sellDetail/sellDetail',
+    })
   },
 
   // 发布卖书信息
