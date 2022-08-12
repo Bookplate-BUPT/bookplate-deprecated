@@ -463,6 +463,12 @@ Page({
               introduction: this.introductionFormat(i.introduction, 24),
             }))
 
+            tempGoodsList.forEach((i, idx) => {
+              if (i.image_list.length == 0) {
+                i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+              }
+            })
+
             this.setData({
               goodsList: tempGoodsList,
               nowGoodsList: tempGoodsList.slice(0, 10)
@@ -483,6 +489,12 @@ Page({
               // 书籍介绍自定义格式化，最长长度为24
               introduction: this.introductionFormat(i.introduction, 24),
             }))
+
+            tempGoodsList.forEach((i, idx) => {
+              if (i.image_list.length == 0) {
+                i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+              }
+            })
 
             this.setData({
               goodsList: tempGoodsList,
@@ -507,6 +519,12 @@ Page({
               introduction: this.introductionFormat(i.introduction, 24),
             }))
 
+            tempGoodsList.forEach((i, idx) => {
+              if (i.image_list.length == 0) {
+                i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+              }
+            })
+
             this.setData({
               goodsList: tempGoodsList,
               nowGoodsList: tempGoodsList.slice(0, 10)
@@ -530,6 +548,12 @@ Page({
               // 书籍介绍自定义格式化，最长长度为24
               introduction: this.introductionFormat(i.introduction, 24),
             }))
+
+            tempGoodsList.forEach((i, idx) => {
+              if (i.image_list.length == 0) {
+                i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+              }
+            })
 
             this.setData({
               goodsList: tempGoodsList,
