@@ -10,7 +10,7 @@
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
             <view slot="title" style="font-weight: bold;">
               {{ item.name }}
-              <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+              <van-tag color="#a0d911" plain custom-class="tagMargin">{{ item.college }}</van-tag>
             </view>
             <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
               <view>ISBN：{{ item.isbn }}</view>
@@ -36,7 +36,7 @@
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
               <view slot="title" style="font-weight: bold;">
                 {{ item.name }}
-                <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+                <van-tag color="#13c2c2" plain custom-class="tagMargin">{{ item.college }}</van-tag>
               </view>
               <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
                 <view>ISBN：{{ item.isbn }}</view>
@@ -66,7 +66,7 @@
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
             <view slot="title" style="font-weight: bold;">
               {{ item.name }}
-              <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+              <van-tag color="#a0d911" plain custom-class="tagMargin">{{ item.college }}</van-tag>
             </view>
             <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
               <view>ISBN：{{ item.isbn }}</view>
@@ -92,7 +92,7 @@
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
               <view slot="title" style="font-weight: bold;">
                 {{ item.name }}
-                <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+                <van-tag color="#13c2c2" plain custom-class="tagMargin">{{ item.college }}</van-tag>
               </view>
               <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
                 <view>ISBN：{{ item.isbn }}</view>
@@ -119,7 +119,7 @@
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
             <view slot="title" style="font-weight: bold;">
               {{ item.name }}
-              <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
+              <van-tag color="#13c2c2" plain custom-class="tagMargin">{{ item.college }}</van-tag>
             </view>
             <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
               <view>ISBN：{{ item.isbn }}</view>

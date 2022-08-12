@@ -8,7 +8,7 @@
     <van-card price="{{ price }}" thumb="{{ image_list[0] }}" origin-price="{{original_price }}" data-id="{{ _id }}" bindtap="goToBookDetail" tag="{{ isNew ? '最新' : '' }}">
       <view slot="title" style="font-weight: bold;">
         {{ name }}
-        <van-tag color="{{ grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="gradeTag">{{ grade }}</van-tag>
+        <van-tag color="#13c2c2" plain custom-class="gradeTag">{{ grade }}</van-tag>
       </view>
       <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
         {{ introduction }}

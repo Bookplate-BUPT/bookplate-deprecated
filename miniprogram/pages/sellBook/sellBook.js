@@ -31,6 +31,7 @@ Page({
     price: '',          // 二手定价同理
     description: '',    // 用户对自己二手书的描述
     grade: '',          // 书籍对应的专业状况（学院、专业）
+    college: '',
 
     // 页面展示相关
     showList: [],       // 展示在页面上的图片列表，类型为对象数组
@@ -85,7 +86,8 @@ Page({
     this.data.grade = tempList[0] + tempList[1]
     this.setData({
       show: false,
-      grade: this.data.grade
+      grade: this.data.grade,
+      college: tempList[0]
     })
   },
 
@@ -321,7 +323,6 @@ Page({
             res[idx] = i.fileID
           }
         })
-        console.log(res)
         // 上传数据库
         wx.cloud.callFunction({
           name: 'createGoods',
@@ -339,6 +340,7 @@ Page({
             description: this.data.description,
             openid: this.data.userOpenid,
             grade: this.data.grade,
+            college: this.data.college,
             state: 0, // 表示未售出
           },
           success: res => {
@@ -487,7 +489,8 @@ Page({
             price: this.data.price,
             image_list: res,
             description: this.data.description,
-            grade: this.data.grade
+            grade: this.data.grade,
+            college: this.data.college
           }
         }).then(res => {
           wx.showToast({
