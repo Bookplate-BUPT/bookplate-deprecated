@@ -35,7 +35,8 @@
 | post_date         | date           | not null |         | 商品的发布时间                       |
 | publisher         | string         | not null |         | 书本的出版社                         |
 | book_publish_date | date           | not null |         | 书本的发行时间                       |
-| grade             | string         | not null |         | 书本对应的年级                       |
+| grade             | string         | not null |         | 书本对应的学院专业                   |
+| college           | string         | not null |         | 书本对应的学院                       |
 
 
 
@@ -56,6 +57,7 @@
 | grade          | string         | not null |         | 卖家的年级                                                   |
 | name           | string         | not null |         | 交易书籍的名称                                               |
 | image_list     | array          | not null |         | 交易书籍的图片列表                                           |
+| college        | string         | not null |         | 交易书籍的学院                                               |
 
 
 
