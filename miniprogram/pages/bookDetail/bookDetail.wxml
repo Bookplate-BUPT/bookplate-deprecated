@@ -3,7 +3,7 @@
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
   <van-cell>
-    <swiper indicator-dots autoplay>
+    <swiper indicator-dots autoplay circular interval="3000">
       <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
         <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
       </swiper-item>
@@ -64,11 +64,15 @@
   <van-goods-action-button text="加入购物车" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="addGoodsToCart" data-state="{{bookDetail.state}}" />
   <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即购买' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="onShowPop" />
 
-  <van-popup show="{{ show }}" bind:close="onClose" round overlay closeable custom-style="height: 85%; width: 80% ">
+  <van-popup show="{{ show }}" bind:close="onClose" round overlay closeable custom-style="height: 76%; width: 80% ">
     <view style="display: flex; flex-direction: column; justify-content: space-between; height: 98%;">
       <view style="margin-top: 28rpx;">
-        <view style="display: flex; justify-content: center;">
-          <van-image src="{{ bookDetail.image_list[0] }}" height="{{200}}" fit="heightFix" alt="图片加载失败" />
+        <view style="margin: 60rpx auto; text-align: center;">
+          <swiper indicator-dots autoplay circular interval="3000">
+            <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
+              <van-image height="{{150}}" fit="heightFix" src="{{ item }}"/>
+            </swiper-item>
+          </swiper>
         </view>
         <van-field label="书名:" readonly value="{{ bookDetail.name }}" border="{{false}}"></van-field>
         <van-field label="ISBN:" readonly value="{{ bookDetail.isbn }}" border="{{false}}"></van-field>
