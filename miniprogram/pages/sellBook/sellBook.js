@@ -31,7 +31,7 @@ Page({
     price: '',          // 二手定价同理
     description: '',    // 用户对自己二手书的描述
     grade: '',          // 书籍对应的专业状况（学院、专业）
-    college: '',
+    college: '',         //书籍对应的学院
 
     // 页面展示相关
     showList: [],       // 展示在页面上的图片列表，类型为对象数组
@@ -99,7 +99,8 @@ Page({
       })
     }
     else {
-      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id } = JSON.parse(options.message)
+      console.log(JSON.parse(options.message))
+      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id , college} = JSON.parse(options.message)
       for (var i = 0; i < image_list.length; i++) {
         this.data.showList.push({
           url: image_list[i],
@@ -120,7 +121,8 @@ Page({
         originalPrice: original_price,
         price: price,
         publisher: publisher,
-        _id: _id
+        _id: _id,
+        college: college
       })
     }
   },
