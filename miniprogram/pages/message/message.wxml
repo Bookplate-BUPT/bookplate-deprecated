@@ -1,7 +1,7 @@
 <!--pages/message/message.wxml-->
 <wxs src="../../utils/utils.wxs" module="utils" />
 
-<van-notice-bar left-icon="info-o" text="您的聊天正在受监控，请注意文明用语。" />
+<!-- <van-notice-bar left-icon="info-o" text="您的聊天正在受监控，请注意文明用语。" /> -->
 
 <view wx:if="{{ !userList.length&&state }}" style="margin-top: 180rpx;">
   <van-empty description="暂时没有新消息"></van-empty>
