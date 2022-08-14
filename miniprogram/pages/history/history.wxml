@@ -30,8 +30,10 @@
   </van-tab>
 
   <van-tab title="求书">
-    <view style="display: flex; justify-content: center; margin-top: 200px;">暂未开发</view>
-    <van-divider contentPosition="center" dashed>没有更多啦</van-divider>
+    <view style="margin-top: 200rpx;">
+      <van-empty description="此功能暂未开发"></van-empty>
+    </view>
+    <!-- <van-divider contentPosition="center" dashed>没有更多啦</van-divider> -->
   </van-tab>
 
 </van-tabs>
