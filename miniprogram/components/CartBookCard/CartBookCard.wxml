@@ -4,9 +4,9 @@
     <van-image slot="thumb" fit="heightFix" height="{{85}}" src="{{bookDetail.image_list[0]==null?'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png':bookDetail.image_list[0]}}" />
     <view slot="title" style="font-weight: bold;">
       {{ bookDetail.name==null?'已下架':bookDetail.name }}
-      <block wx:if="{{bookDetail.grade==null?false:true}}">
-        <van-tag type="warning" plain color="{{ bookDetail.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" style="margin-left: 4px;">{{ bookDetail.grade }}</van-tag>
-      </block>
+      <view wx:if="{{bookDetail.grade==null?false:true}}" style="margin-top: 4px;">
+        <van-tag type="warning" plain color="#a0d911">{{ bookDetail.college }}</van-tag>
+      </view>
     </view>
     <view slot="num" style="display: flex; justify-content: center;">
       <van-button class="btnOne" size="mini" round color="rgba(246,167,175,0.90)" bind:click="deleteGoods" data-id="{{ _id }}">删除

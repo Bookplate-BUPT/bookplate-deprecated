@@ -5,7 +5,3 @@
   /* 解决van-swipe-cell渲染层报错 */
   touch-action: pan-y;
 }
-
-.gradeTag {
-  margin-left: 6px;
-}

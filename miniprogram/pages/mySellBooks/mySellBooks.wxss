@@ -18,3 +18,7 @@
   margin-bottom: 10px;
   margin-left: 25px;
 }
+
+.pictureStyle {
+  margin-top: 25rpx;
+}

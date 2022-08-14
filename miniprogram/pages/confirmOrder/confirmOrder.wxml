@@ -6,12 +6,14 @@
     <view wx:else>
       <view wx:for="{{nowTradeGoodsList}}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup">
-            <view slot="title" style="font-weight: bold;">
+          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" thumb-class="pictureStyle">
+            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
               {{ item.name }}
-              <van-tag color="#13c2c2" plain custom-class="tagMargin">{{ item.college }}</van-tag>
+              <view style="margin-top: 4px;">
+                <van-tag color="#13c2c2" plain>{{ item.college }}</van-tag>
+              </view>
             </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
               <view>ISBN：{{ item.isbn }}</view>
               <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
@@ -36,12 +38,14 @@
               取消交易
             </van-button>
 
-            <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" data-item="{{ item }}">
-              <view slot="title" style="font-weight: bold;">
+            <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" data-item="{{ item }}" thumb-class="pictureStyle">
+              <view slot="title" style="font-weight: bolder; font-size:30rpx;">
                 {{ item.name }}
-                <van-tag color="#13c2c2" plain custom-class="tagMargin">{{ item.college }}</van-tag>
+                <view style="margin-top: 4px;">
+                  <van-tag color="#13c2c2" plain>{{ item.college }}</van-tag>
+                </view>
               </view>
-              <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+              <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
                 <view>ISBN：{{ item.isbn }}</view>
                 <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
                 <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
@@ -85,12 +89,14 @@
     <view wx:else>
       <view wx:for="{{nowConfirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
-            <view slot="title" style="font-weight: bold;">
+          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
+            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
               {{ item.name }}
-              <van-tag color="#a0d911" plain custom-class="tagMargin">{{ item.college }}</van-tag>
+              <view style="margin-top: 4px;">
+                <van-tag color="#a0d911" plain>{{ item.college }}</van-tag>
+              </view>
             </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
               <view>ISBN：{{ item.isbn }}</view>
               <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
@@ -110,12 +116,14 @@
     <view wx:else>
       <view wx:for="{{nowRejectedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
-            <view slot="title" style="font-weight: bold;">
+          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
+            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
               {{ item.name }}
-              <van-tag color="#a0d911" plain custom-class="tagMargin">{{ item.college }}</van-tag>
+              <view style="margin-top: 4px;">
+                <van-tag color="#a0d911" plain>{{ item.college }}</van-tag>
+              </view>
             </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
               <view>ISBN：{{ item.isbn }}</view>
               <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
@@ -135,12 +143,14 @@
     <view wx:else>
       <view wx:for="{{nowSuccessfulTrade}}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}">
-            <view slot="title" style="font-weight: bold;">
+          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
+            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
               {{ item.name }}
-              <van-tag color="#a0d911" plain custom-class="tagMargin">{{ item.college }}</van-tag>
+              <view style="margin-top: 4px;">
+                <van-tag color="#a0d911" plain>{{ item.college }}</van-tag>
+              </view>
             </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
+            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
               <view>ISBN：{{ item.isbn }}</view>
               <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>

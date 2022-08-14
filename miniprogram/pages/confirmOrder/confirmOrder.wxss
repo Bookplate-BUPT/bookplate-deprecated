@@ -5,8 +5,8 @@
   touch-action: pan-y;
 }
 
-.tagMargin {
-  margin-left: 6px;
+.pictureStyle {
+  margin-top: 25rpx;
 }
 
 .swiperCellButton {
