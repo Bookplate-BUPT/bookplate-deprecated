@@ -278,9 +278,9 @@ Page({
   },
 
   // 将图片上传至云存储
-  uploadFilePromise(cloudPath, filePath) {
+  uploadFilePromise(timeStamp, idx, _openid, format, filePath) {
     return wx.cloud.uploadFile({
-      cloudPath: 'bookPicture/' + __user.getUserOpenid() + '/' + new Date().toISOString().slice(0, 10) + '/' + cloudPath,
+      cloudPath: 'bookPicture/' + _openid + '/' + timeStamp + '-' + idx + '-' + _openid + format,
       filePath: filePath
     })
   },
@@ -313,7 +313,7 @@ Page({
     })
     const uploadTasks = this.data.imageList.map((i, idx) => {
       if (i.slice(0, 11) === 'http://tmp/' || i.slice(0, 12) === 'wxfile://tmp') {
-        return this.uploadFilePromise(new Date().getTime() + idx + i.slice(-4), i)
+        return this.uploadFilePromise(new Date().getTime(), idx, __user.getUserOpenid(), i.slice(-4), i)
       } else {
         return i
       }
@@ -466,7 +466,7 @@ Page({
     })
     const uploadTasks = this.data.imageList.map((i, idx) => {
       if (i.slice(0, 11) === 'http://tmp/' || i.slice(0, 12) === 'wxfile://tmp') {
-        return this.uploadFilePromise(new Date().getTime() + idx + i.slice(-4), i)
+        return this.uploadFilePromise(new Date().getTime(), idx, __user.getUserOpenid(), i.slice(-4), i)
       } else {
         return i
       }
