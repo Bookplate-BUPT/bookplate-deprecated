@@ -49,16 +49,13 @@ Page({
         return b.post_date.getTime() - a.post_date.getTime()
       })
 
-      var postDate = this.data.changeSellBooksList.map(i => {
-        return i.post_date.toLocaleDateString()
-      })
       var postDate = tempGoodsList.map(i => {
-        return i.post_date.toLocaleDateString()
+        return i.post_date.toISOString().slice(0, 10)
       })
       this.setData({
         goodsList: tempGoodsList,
         nowGoodsList: tempGoodsList.slice(0, 10),
-        today: new Date().toLocaleDateString(),
+        today: new Date().toISOString().slice(0, 10),
         postDate: postDate
       })
       this.data.nowGoodsList.map((i , idx)=>{

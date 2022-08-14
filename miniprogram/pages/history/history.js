@@ -121,13 +121,14 @@ Page({
     for (var tempHistory of tempHistoryList)
       tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, 24)
 
+    // 将时间改为字符串
     tempHistoryList.forEach(i => {
-      i.view_time = i.view_time.toLocaleDateString()
+      i.view_time = i.view_time.toISOString().slice(0, 10)
     })
     this.setData({
       historyList: tempHistoryList,
       nowHistoryList: tempHistoryList.slice(0, 10),
-      today: new Date().toLocaleDateString(),
+      today: new Date().toISOString().slice(0, 10),
     })
   },
 

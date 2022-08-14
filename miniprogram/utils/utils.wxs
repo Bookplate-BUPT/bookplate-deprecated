@@ -33,8 +33,8 @@ var newFormatTime = function (timestamp) {
  * @param now 表示当前日期
  */
 var getDateOnly = function (str, now) {
-  var datelist = str.split("/")
-  now = now.split("/")[0]
+  var datelist = [(+str.slice(0, 4)), (+str.slice(5, 7)), (+str.slice(8, 10))]
+  now = (+now.slice(0, 4))
   if (now == datelist[0]) {
     return datelist[1] + '月' + datelist[2] + '日'
   } else {
