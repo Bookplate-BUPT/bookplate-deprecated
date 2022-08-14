@@ -14,6 +14,7 @@ Page({
     nowHistoryList: '', // 当前浏览历史记录
     historySum: '',
     today: '', // 今天的日期
+    formatLength: '', //格式化的字符串字数
   },
 
   onLoad() {
@@ -31,6 +32,7 @@ Page({
 
     this.getHistoryList()
     this.getHistorySum()
+    this.getIntroductionFormatLength()
   },
 
   // 用户登录，认证用户信息
@@ -119,7 +121,7 @@ Page({
 
     // 书籍介绍内容格式化
     for (var tempHistory of tempHistoryList)
-      tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, 24)
+      tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, this.data.formatLength)
 
     // 将时间改为字符串
     tempHistoryList.forEach(i => {
@@ -148,9 +150,9 @@ Page({
 
         // 书籍介绍内容格式化
         for (var tempHistory of tempHistoryList)
-          tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, 24)
+          tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, this.data.formatLength)
         for (var tempNowHistory of tempNowHistoryList)
-          tempNowHistory.bookDetail.introduction = this.introductionFormat(tempNowHistory.bookDetail.introduction, 24)
+          tempNowHistory.bookDetail.introduction = this.introductionFormat(tempNowHistory.bookDetail.introduction, this.data.formatLength)
 
         this.setData({
           nowHistoryList: tempNowHistoryList,
@@ -168,6 +170,15 @@ Page({
           icon: 'error',
         })
       })
+  },
+
+  // 获取书籍内容格式化后的字数
+  getIntroductionFormatLength() {
+    var res = wx.getWindowInfo()
+    this.setData({
+      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+    })
+    console.log(parseInt(this.data.formatLength))
   },
 
   // 书籍介绍内容格式化

@@ -11,6 +11,7 @@ Page({
     // 页面显示
     active: 0,      // 标签栏索引
     scrollViewHeight: '', // 页面高度
+    formatLength: '',     // 格式化内容后的文字数量
 
     // 卖书部分
     bookTypeOption: [
@@ -335,6 +336,7 @@ Page({
     this.getGoodsSum()
     this.getSeekList()
     this.getScrollViewHeight()
+    this.getIntroductionFormatLength()
   },
 
   onShow() {
@@ -460,7 +462,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, 24),
+              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -487,7 +489,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, 24),
+              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -516,7 +518,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, 24),
+              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -546,7 +548,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, 24),
+              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -663,6 +665,14 @@ Page({
       return '无二手书具体要求'
     }
     else return str
+  },
+
+  // 获取书籍内容格式化后的字数
+  getIntroductionFormatLength() {
+    var res = wx.getWindowInfo()
+    this.setData({
+      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+    })
   },
 
   // 书籍介绍内容格式化

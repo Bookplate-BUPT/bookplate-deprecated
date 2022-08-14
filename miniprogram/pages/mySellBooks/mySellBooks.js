@@ -10,11 +10,13 @@ Page({
     changeSellBooksList: [],     //存储没有经过格式化的回调卖书列表
     today: '', // 今天日期
     postDate: '', // 上传日期
-    imageTempList: []
+    imageTempList: [],
+    formatLength: [], // 介绍内容格式化的长度
   },
 
   onShow(options) {
     this.getMySellBooksList()
+    this.getIntroductionFormatLength()
   },
 
   //携带参数将对应的数组信息传递到修改信息页面
@@ -37,7 +39,7 @@ Page({
       let tempGoodsList = res.data.map((i, idx) => ({
         ...i,
         // 书籍介绍自定义格式化，最长长度为24
-        introduction: this.introductionFormat(i.introduction, 24),
+        introduction: this.introductionFormat(i.introduction, this.data.formatLength),
       }))
 
       // 按时间逆序
@@ -58,23 +60,24 @@ Page({
         today: new Date().toISOString().slice(0, 10),
         postDate: postDate
       })
-      this.data.nowGoodsList.map((i , idx)=>{
+      this.data.nowGoodsList.map((i, idx) => {
         this.data.imageTempList[idx] = i.image_list
       })
     })
   },
 
+  // 删除商品
   deleteMyGoods(e) {
     wx.showLoading({
       title: '删除中'
     })
     var index = e.currentTarget.dataset.index
     var length = this.data.imageTempList[index].length
-    for(var i = 0;i<length;i++){
-      if(this.data.imageTempList[index][i].slice(0, 8) === 'cloud://' || this.data.imageTempList[index][i].slice(0, 9) === 'wxfile://')
-      wx.cloud.deleteFile({
-        fileList: [this.data.imageTempList[index][i]]
-      })
+    for (var i = 0; i < length; i++) {
+      if (this.data.imageTempList[index][i].slice(0, 8) === 'cloud://' || this.data.imageTempList[index][i].slice(0, 9) === 'wxfile://')
+        wx.cloud.deleteFile({
+          fileList: [this.data.imageTempList[index][i]]
+        })
     }
     wx.cloud.database().collection("goods").doc(e.currentTarget.dataset._id).remove()
       .then(res => {
@@ -98,6 +101,14 @@ Page({
           icon: 'success',
         })
       })
+  },
+
+  // 获取书籍内容格式化后的字数
+  getIntroductionFormatLength() {
+    var res = wx.getWindowInfo()
+    this.setData({
+      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+    })
   },
 
   // 书籍介绍内容格式化

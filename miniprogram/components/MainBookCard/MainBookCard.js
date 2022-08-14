@@ -4,7 +4,8 @@ Component({
 
   // 组件的设置选项
   options: {
-    multipleSlots: true
+    multipleSlots: true,
+    formatLength: ''
   },
 
   // 组件的属性列表
@@ -57,6 +58,16 @@ Component({
         })
       })
     },
+
+    // 获取书籍内容格式化后的字数
+    getIntroductionFormatLength() {
+      var res = wx.getWindowInfo()
+      this.setData({
+        formatLength: parseInt((res.screenWidth - 168) / 14 * 2 -3 - 3)
+      })
+      console.log(parseInt(this.data.formatLength))
+    },
+
     // 书籍介绍内容格式化
     introductionFormat(str, length) {
       // 过长则需要省略
@@ -72,8 +83,9 @@ Component({
      * 生命周期函数：在组件实例进入页面节点树时执行
      */
     attached() {
+      this.getIntroductionFormatLength()
       this.setData({
-        introduction: this.introductionFormat(this.properties.introduction, 24)
+        introduction: this.introductionFormat(this.properties.introduction, this.data.formatLength)
       })
     }
   }
