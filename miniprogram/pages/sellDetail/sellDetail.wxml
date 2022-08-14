@@ -96,7 +96,8 @@
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">确认第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>在我的页面打开订单确认</view>
+            <view>在我的页面打开“我是卖家”页面</view>
+            <view>点击未处理标签</view>
             <view>查看未处理订单</view>
           </view>
         </view>
@@ -139,9 +140,9 @@
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">买家收货后：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>在订单确认页面</view>
-            <view>已成交处</view>
-            <view>可查看一成功交易的书籍</view>
+            <view>在我的页面打开“我是卖家”页面</view>
+            <view>点击已成交标签</view>
+            <view>可查看已成功交易的书籍</view>
           </view>
         </view>
       </van-col>
@@ -263,8 +264,8 @@
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">收货第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>在我的页面</view>
-            <view>打开暂未收货</view>
+            <view>在我的页面点击“我是买家”</view>
+            <view>点击暂未收货标签</view>
           </view>
         </view>
       </van-col>
