@@ -174,6 +174,12 @@ Page({
       bookDetail: bookDetailList[idx].data[0],
     }))
 
+    tempCartList.forEach((i, idx) => {
+      if (i.bookDetail != undefined && i.bookDetail.image_list.length == 0) {
+        i.bookDetail.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+      }
+    })
+
     this.setData({
       cartList: tempCartList,
       nowCartList: tempCartList.slice(0, 10),
