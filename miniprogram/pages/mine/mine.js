@@ -171,13 +171,13 @@ Page({
       })
   },
 
-  // 前往买家相关页面
+  // 前往我的订单页面
   gotoViewOrder(event) {
     if (!__user.checkLoginStatus()) {
       this.userLoginInMine()
     } else
       wx.navigateTo({
-        url: `../viewOrder/viewOrder?active=${event.currentTarget.dataset.active}`,
+        url: '../viewOrder/viewOrder',
       })
   },
 

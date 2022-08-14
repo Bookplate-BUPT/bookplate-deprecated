@@ -81,7 +81,7 @@
     </view>
   </van-tab>
 
-  <van-tab title="待收货">
+  <van-tab title="待收货" dot="{{unreceived}}">
     <view wx:if="{{ !nowConfirmedTrade.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有待收货的交易哦~"></van-empty>
     </view>
@@ -103,9 +103,8 @@
             <van-button slot='right' color="#8AC286" custom-class="swiperCellButton" bind:click="confirmReceipt" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">收货</van-button>
           </van-swipe-cell>
         </van-cell-group>
-
-        <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
       </view>
+      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 

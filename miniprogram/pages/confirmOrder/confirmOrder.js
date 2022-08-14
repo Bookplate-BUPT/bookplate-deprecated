@@ -5,7 +5,7 @@ import __util from "../../utils/util"
 Page({
 
   data: {
-    active: 1,
+    active: 0,
     tradeGoodsList: [],
     pendingTrade: [],
     confirmedTrade: [],

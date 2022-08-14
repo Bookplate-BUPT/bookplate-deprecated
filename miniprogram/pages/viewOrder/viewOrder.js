@@ -24,10 +24,8 @@ Page({
   },
 
   onLoad(options) {
+    this.countUnreceived()
     this.getMyTrade()
-    this.setData({
-      active: parseInt(options.active),
-    })
     this.getTradeGoodsListSum()
     this.getPendingTradeSum()
     this.getConfirmedTradeSum()
@@ -168,6 +166,11 @@ Page({
           confirmedTrade: tempconfirmedTrade,
           nowConfirmedTrade: tempNowconfirmedTrade,
         })
+        if(!tempconfirmedTrade.length){
+          this.setData({
+            unreceived: false
+          })
+        }
 
         // 在goods集合中删除书籍
         wx.cloud.callFunction({
@@ -289,4 +292,24 @@ Page({
   changeActive(e) {
     this.data.active = e.detail.index
   },
+
+  // 计算暂未收货的交易量
+  countUnreceived() {
+    wx.cloud.database().collection('trade')
+      .where({
+        _openid: __user.getUserOpenid(),
+        state: 1
+      })
+      .get()
+      .then(res => {
+        if (res.data.length)
+          this.setData({
+            unreceived: true
+          })
+        else
+          this.setData({
+            unreceived: false
+          })
+      })
+  }
 })
