@@ -20,3 +20,20 @@
   color: #C8C8C8;
   border: 1px solid #E6E6E6;
 }
+
+.btnOne {
+  --button-round-border-radius: 505px 0 0 505px;
+  --button-default-background-color: rgba(246,167,175,0.05);
+}
+
+.btnTwo {
+  --button-round-border-radius: 0
+}
+
+.btnThree {
+  --button-round-border-radius: 0 505px 505px 0
+}
+
+page {
+  --button-mini-min-width: 65px
+}

@@ -1,22 +1,19 @@
 <!--components/CartBookCard/CartBookCard.wxml-->
 <van-cell-group inset custom-class="shadow">
-  <van-card price="{{ bookDetail.price }}" desc="{{ bookDetail.description }}" origin-price="{{ bookDetail.original_price }}" custom-class="goodsCardMargin">
-    <van-image slot="thumb" fit="heightFix" height="{{85}}" src="{{bookDetail.image_list[0]==null?'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png':bookDetail.image_list[0]}}"/>
+  <van-card price="{{ bookDetail.price }}" desc="{{ bookDetail.description?bookDetail.description:'非常抱歉，在您将该书加入购物车后，该书已被他人购买，现已下架' }}" origin-price="{{ bookDetail.original_price }}" custom-class="goodsCardMargin">
+    <van-image slot="thumb" fit="heightFix" height="{{85}}" src="{{bookDetail.image_list[0]==null?'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png':bookDetail.image_list[0]}}" />
     <view slot="title" style="font-weight: bold;">
       {{ bookDetail.name==null?'已下架':bookDetail.name }}
       <block wx:if="{{bookDetail.grade==null?false:true}}">
         <van-tag type="warning" plain color="{{ bookDetail.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" style="margin-left: 4px;">{{ bookDetail.grade }}</van-tag>
       </block>
     </view>
-    <view slot="desc">
-      {{bookDetail.description?bookDetail.description:'非常抱歉，在您将该书加入购物车后，该书已被他人购买，现已下架'}}
-    </view>
-    <view slot="num" style="display: flex; justify-content: space-between;">
-      <van-button size="mini" round color="#f6a7af" bind:click="deleteGoods" data-id="{{ _id }}">删除
+    <view slot="num" style="display: flex; justify-content: center;">
+      <van-button class="btnOne" size="mini" round color="rgba(246,167,175,0.90)" bind:click="deleteGoods" data-id="{{ _id }}">删除
       </van-button>
-      <van-button size="mini" round color="#b0c2db" bind:click="goToBookDetail" data-id="{{ bookDetail._id }}">查看
+      <van-button class="btnTwo" size="mini" round color="rgba(176,194,219,0.90)" bind:click="goToBookDetail" data-id="{{ bookDetail._id }}">查看
       </van-button>
-      <van-button size="mini" round color="#8ac286" bind:click="buyGoods" data-id="{{ bookDetail._id }}" data-openid="{{ bookDetail._openid }}">购买
+      <van-button class="btnThree" size="mini" round color="rgba(138,194,134,0.90)" bind:click="buyGoods" data-id="{{ bookDetail._id }}" data-openid="{{ bookDetail._openid }}">联系卖家
       </van-button>
     </view>
   </van-card>
