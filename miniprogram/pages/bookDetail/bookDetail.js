@@ -304,4 +304,11 @@ Page({
       })
     })
   },
+  // 点击轮播图片可以进行预览
+  preview (e) {
+    let that = this
+    wx.previewImage({
+      urls: [that.data.bookDetail.image_list[e.currentTarget.dataset.id]]
+    })
+  },
 })
