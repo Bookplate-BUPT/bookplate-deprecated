@@ -401,6 +401,11 @@ Page({
     if (this.data.goodsList.length < this.data.goodsSum)
       wx.cloud.database().collection('goods').skip(this.data.goodsList.length).get()
         .then(res => {
+          res.data.forEach((i, idx) => {
+            if (i.image_list.length == 0) {
+              i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+            }
+          })
           this.data.goodsList = [...this.data.goodsList, ...res.data]
           // 更新页面
           this.setData({

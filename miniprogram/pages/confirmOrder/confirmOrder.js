@@ -31,6 +31,11 @@ Page({
     wx.cloud.database().collection('trade').where({
       seller_openid: __user.getUserOpenid(),
     }).get().then(res => {
+      res.data.forEach((i, idx) => {
+        if (i.image_list.length == 0) {
+          i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+        }
+      })
       var tradeGoodsList = res.data
       var pendingTrade = []
       var confirmedTrade = []
@@ -135,6 +140,11 @@ Page({
         if (this.data.tradeGoodsList.length < this.data.tradeGoodsListSum)
           wx.cloud.database().collection('trade').skip(this.data.tradeGoodsList.length).get()
             .then(res => {
+              res.data.forEach((i, idx) => {
+                if (i.image_list.length == 0) {
+                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+                }
+              })
               this.data.tradeGoodsList = [...this.data.tradeGoodsList, ...res.data]
               // 更新页面
               this.setData({
@@ -146,6 +156,11 @@ Page({
         if (this.data.pendingTrade.length < this.data.pendingTradeSum)
           wx.cloud.database().collection('trade').skip(this.data.pendingTrade.length).get()
             .then(res => {
+              res.data.forEach((i, idx) => {
+                if (i.image_list.length == 0) {
+                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+                }
+              })
               this.data.pendingTrade = [...this.data.pendingTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -157,6 +172,11 @@ Page({
         if (this.data.confirmedTrade.length < this.data.confirmedTradeSum)
           wx.cloud.database().collection('trade').skip(this.data.confirmedTrade.length).get()
             .then(res => {
+              res.data.forEach((i, idx) => {
+                if (i.image_list.length == 0) {
+                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+                }
+              })
               this.data.confirmedTrade = [...this.data.confirmedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -168,6 +188,11 @@ Page({
         if (this.data.rejectedTrade.length < this.data.rejectedTradeSum)
           wx.cloud.database().collection('trade').skip(this.data.rejectedTrade.length).get()
             .then(res => {
+              res.data.forEach((i, idx) => {
+                if (i.image_list.length == 0) {
+                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+                }
+              })
               this.data.rejectedTrade = [...this.data.rejectedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -179,6 +204,11 @@ Page({
         if (this.data.successfulTrade.length < this.data.successfulTradeSum)
           wx.cloud.database().collection('trade').skip(this.data.successfulTrade.length).get()
             .then(res => {
+              res.data.forEach((i, idx) => {
+                if (i.image_list.length == 0) {
+                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+                }
+              })
               this.data.successfulTrade = [...this.data.successfulTrade, ...res.data]
               // 更新页面
               this.setData({
