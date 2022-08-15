@@ -5,65 +5,65 @@ import __util from "../../utils/util"
 Page({
 
   data: {
-    goodsList: [],    //我的卖书列表
-    nowGoodsList: [],    //当前我的卖书列表
-    changeSellBooksList: [],     //存储没有经过格式化的回调卖书列表
+    goodsList: [],    // 我的卖书列表
+    unChangedGoodList: [],     // 存储没有经过格式化的回调卖书列表
+    goodsSum: '', //所有的书籍数量
     today: '', // 今天日期
     postDate: '', // 上传日期
     imageTempList: [],
     formatLength: [], // 介绍内容格式化的长度
   },
 
-  onShow(options) {
+  onLoad(options) {
     this.getMySellBooksList()
     this.getIntroductionFormatLength()
+    this.getGoodsSum()
   },
 
-  //携带参数将对应的数组信息传递到修改信息页面
+  // 携带参数将对应的数组信息传递到修改信息页面
   goToUpDateMyBookDetail(e) {
     var index = e.currentTarget.dataset.index
     wx.navigateTo({
-      url: '../sellBook/sellBook?message=' + JSON.stringify(this.data.changeSellBooksList[index]),
+      url: '../sellBook/sellBook?message=' + JSON.stringify(this.data.unChangedGoodList[index]),
     })
   },
 
-  //按照要求找到我发布的卖书信息
+  // 按照要求找到我发布的卖书信息
   getMySellBooksList() {
     wx.cloud.database().collection('goods').where({
       _openid: __user.getUserOpenid(),
-    }).get().then(res => {
-      res.data.forEach((item, index) => {       //为每一个列表对象增加相同的辨识标志
-        Object.assign(item, { identification: 'mySellBooks' })
-      })
-      this.data.changeSellBooksList = res.data       //存储为格式化的卖书列表
-      let tempGoodsList = res.data.map((i, idx) => ({
-        ...i,
-        // 书籍介绍自定义格式化，最长长度为24
-        introduction: this.introductionFormat(i.introduction, this.data.formatLength),
-      }))
-
-      // 按时间逆序
-      tempGoodsList.sort((a, b) => {
-        return b.post_date.getTime() - a.post_date.getTime()
-      })
-
-      this.data.changeSellBooksList.sort((a, b) => {
-        return b.post_date.getTime() - a.post_date.getTime()
-      })
-
-      var postDate = tempGoodsList.map(i => {
-        return i.post_date.toISOString().slice(0, 10)
-      })
-      this.setData({
-        goodsList: tempGoodsList,
-        nowGoodsList: tempGoodsList.slice(0, 10),
-        today: new Date().toISOString().slice(0, 10),
-        postDate: postDate
-      })
-      this.data.nowGoodsList.map((i, idx) => {
-        this.data.imageTempList[idx] = i.image_list
-      })
     })
+      .orderBy('post_date', 'desc')
+      .get()
+      .then(res => {
+        // 为每一个列表对象增加相同的辨识标志
+        res.data.forEach((item, index) => {
+          Object.assign(item, { identification: 'mySellBooks' })
+        })
+
+        // 存储为未格式化的卖书列表
+        this.data.unChangedGoodList = res.data
+
+        let tempGoodsList = res.data.map((i, idx) => ({
+          ...i,
+          // 书籍介绍自定义格式化，最长长度为24
+          introduction: this.introductionFormat(i.introduction, this.data.formatLength),
+        }))
+
+        var postDate = tempGoodsList.map(i => {
+          return i.post_date.toISOString().slice(0, 10)
+        })
+
+        this.setData({
+          goodsList: tempGoodsList,
+          today: new Date().toISOString().slice(0, 10),
+          postDate: postDate
+        })
+
+        this.data.goodsList.forEach((i, idx) => {
+          this.data.imageTempList[idx] = i.image_list
+        })
+      })
   },
 
   // 删除商品
@@ -72,27 +72,24 @@ Page({
       title: '删除中'
     })
     var index = e.currentTarget.dataset.index
-    var length = this.data.imageTempList[index].length
-    for (var i = 0; i < length; i++) {
-      if (this.data.imageTempList[index][i].slice(0, 8) === 'cloud://' || this.data.imageTempList[index][i].slice(0, 9) === 'wxfile://')
+    this.data.imageTempList[index].forEach((i, idx) => {
+      if (i.slice(0, 8) === 'cloud://')
         wx.cloud.deleteFile({
-          fileList: [this.data.imageTempList[index][i]]
+          fileList: [i]
         })
-    }
-    wx.cloud.database().collection("goods").doc(e.currentTarget.dataset._id).remove()
+    })
+    wx.cloud.database().collection("goods").doc(e.currentTarget.dataset._id)
+      .remove()
       .then(res => {
         // 删除并更新数组
-        var that = this
         var index = e.currentTarget.dataset.index
-        that.data.goodsList.splice(index, 1)
-        that.data.changeSellBooksList.splice(index, 1)
-        that.data.nowGoodsList.splice(index, 1)
-        that.data.postDate.splice(index, 1)
+        this.data.goodsList.splice(index, 1)
+        this.data.unChangedGoodList.splice(index, 1)
+        this.data.postDate.splice(index, 1)
         this.setData({
-          goodsList: that.data.goodsList,
-          changeSellBooksList: that.data.changeSellBooksList,
-          nowGoodsList: that.data.nowGoodsList,
-          postDate: that.data.postDate
+          goodsList: this.data.goodsList,
+          unChangedGoodList: this.data.unChangedGoodList,
+          postDate: this.data.postDate
         })
         // 提示
         wx.hideLoading()
@@ -123,12 +120,51 @@ Page({
 
   // 上拉触底监听
   onReachBottom() {
-    var res = __util.reachBottom('goods', this.data.goodsSum, this.data.goodsList, this.data.nowGoodsList, 'own')
-    if (res == undefined) return
-    this.setData({
-      goodsList: res.list,
-      nowGoodsList: res.nowList,
-    })
+    if (this.data.goodsList.length < this.data.goodsSum) {
+      wx.cloud.database().collection('goods').where({
+        _openid: __user.getUserOpenid(),
+      })
+        .orderBy('post_date', 'desc')
+        .skip(this.data.goodsList.length)
+        .get()
+        .then(res => {
+          // 为每一个列表对象增加相同的辨识标志
+          res.data.forEach((item, index) => {
+            Object.assign(item, { identification: 'mySellBooks' })
+          })
+
+          // 存储为格式化的卖书列表
+          var unChangedGoodList = res.data
+
+          let tempGoodsList = res.data.map((i, idx) => ({
+            ...i,
+            // 书籍介绍自定义格式化，最长长度为24
+            introduction: this.introductionFormat(i.introduction, this.data.formatLength),
+          }))
+
+          var postDate = tempGoodsList.map(i => {
+            return i.post_date.toISOString().slice(0, 10)
+          })
+
+          // 将新数据添加至原始数据
+          this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+          this.data.unChangedGoodList = [...this.data.unChangedGoodList, ...unChangedGoodList]
+          this.data.postDate = [...this.data.postDate, ...postDate]
+
+          // 更新页面
+          this.setData({
+            goodsList: this.data.goodsList,
+            today: new Date().toISOString().slice(0, 10),
+            postDate: this.data.postDate
+          })
+          console.log(this.data.goodsList)
+
+          this.data.goodsList.forEach((i, idx) => {
+            this.data.imageTempList[idx] = i.image_list
+          })
+        })
+    } else
+      console.log('this is else')
   },
 
   // 获取商品总数量
