@@ -5,7 +5,7 @@
       <van-empty description="没有任何交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{tradeGoodsList}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{tradeGoodsList}}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
             <view slot="title" style="font-weight: bolder; font-size:30rpx;">
@@ -32,7 +32,7 @@
       <van-empty description="没有未处理的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{pendingTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{pendingTrade}}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-swipe-cell right-width="{{88}}">
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
@@ -65,7 +65,7 @@
       <van-empty description="没有已取消的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{rejectedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{rejectedTrade}}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
             <view slot="title" style="font-weight: bolder; font-size:30rpx;">
@@ -92,7 +92,7 @@
       <van-empty description="没有待收货的交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{confirmedTrade}}" wx:key="goods_id" style="margin-top: 20rpx;">
+      <view wx:for="{{confirmedTrade}}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-swipe-cell right-width="{{60}}">
             <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">

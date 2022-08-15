@@ -38,7 +38,9 @@ Page({
       .where({
         _openid: __user.getUserOpenid(),
       })
-      .get().then(res => {
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
         res.data.forEach((i, idx) => {
           if (i.image_list.length == 0) {
             i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
@@ -64,13 +66,6 @@ Page({
               rejectedTrade.push(i)
           }
         })
-
-        // 按时间逆序
-        tradeGoodsList.sort((a, b) => { return b.trade_time - a.trade_time })
-        pendingTrade.sort((a, b) => { return b.trade_time - a.trade_time })
-        confirmedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
-        rejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
-        successfulTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
         this.setData({
           tradeGoodsList: tradeGoodsList,
@@ -233,7 +228,12 @@ Page({
     switch (this.data.active) {
       case 0:
         if (this.data.tradeGoodsList.length < this.data.tradeGoodsListSum)
-          wx.cloud.database().collection('trade').skip(this.data.tradeGoodsList.length).get()
+          wx.cloud.database().collection('trade').where({
+            _openid: __user.getUserOpenid()
+          })
+            .orderBy('trade_time', 'desc')
+            .skip(this.data.tradeGoodsList.length)
+            .get()
             .then(res => {
               res.data.forEach((i, idx) => {
                 if (i.image_list.length == 0) {
@@ -245,11 +245,20 @@ Page({
               this.setData({
                 tradeGoodsList: this.data.tradeGoodsList
               })
+              return
             })
-        return
+            .catch()
+        else
+          console.log('this is else')
       case 1:
         if (this.data.pendingTrade.length < this.data.pendingTradeSum)
-          wx.cloud.database().collection('trade').skip(this.data.pendingTrade.length).get()
+          wx.cloud.database().collection('trade').where({
+            _openid: __user.getUserOpenid(),
+            state: 0
+          })
+            .orderBy('trade_time', 'desc')
+            .skip(this.data.pendingTrade.length)
+            .get()
             .then(res => {
               res.data.forEach((i, idx) => {
                 if (i.image_list.length == 0) {
@@ -261,11 +270,18 @@ Page({
               this.setData({
                 pendingTrade: this.data.pendingTrade
               })
+              return
             })
-        return
+            .catch()
       case 2:
         if (this.data.confirmedTrade.length < this.data.confirmedTradeSum)
-          wx.cloud.database().collection('trade').skip(this.data.confirmedTrade.length).get()
+          wx.cloud.database().collection('trade').where({
+            _openid: __user.getUserOpenid(),
+            state: 1
+          })
+            .orderBy('trade_time', 'desc')
+            .skip(this.data.confirmedTrade.length)
+            .get()
             .then(res => {
               res.data.forEach((i, idx) => {
                 if (i.image_list.length == 0) {
@@ -277,11 +293,18 @@ Page({
               this.setData({
                 confirmedTrade: this.data.confirmedTrade
               })
+              return
             })
-        return
+            .catch()
       case 3:
         if (this.data.rejectedTrade.length < this.data.rejectedTradeSum)
-          wx.cloud.database().collection('trade').skip(this.data.rejectedTrade.length).get()
+          wx.cloud.database().collection('trade').where({
+            _openid: __user.getUserOpenid(),
+            state: 3
+          })
+            .orderBy('trade_time', 'desc')
+            .skip(this.data.rejectedTrade.length)
+            .get()
             .then(res => {
               res.data.forEach((i, idx) => {
                 if (i.image_list.length == 0) {
@@ -293,11 +316,18 @@ Page({
               this.setData({
                 rejectedTrade: this.data.rejectedTrade
               })
+              return
             })
-        return
+            .catch()
       case 4:
         if (this.data.successfulTrade.length < this.data.successfulTradeSum)
-          wx.cloud.database().collection('trade').skip(this.data.successfulTrade.length).get()
+          wx.cloud.database().collection('trade').where({
+            _openid: __user.getUserOpenid(),
+            state: 2
+          })
+            .orderBy('trade_time', 'desc')
+            .skip(this.data.successfulTrade.length)
+            .get()
             .then(res => {
               res.data.forEach((i, idx) => {
                 if (i.image_list.length == 0) {
@@ -309,8 +339,9 @@ Page({
               this.setData({
                 successfulTrade: this.data.successfulTrade
               })
+              return
             })
-        return
+            .catch()
     }
   },
 
