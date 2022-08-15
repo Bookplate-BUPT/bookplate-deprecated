@@ -16,11 +16,6 @@ Page({
     confirmedTradeSum: '',
     rejectedTradeSum: '',
     successfulTradeSum: '',
-    nowTradeGoodsList: [],
-    nowPendingTrade: [],
-    nowConfirmedTrade: [],
-    nowRejectedTrade: [],
-    nowSuccessfulTrade: [],
   },
 
   onLoad(options) {
@@ -78,11 +73,6 @@ Page({
           confirmedTrade: confirmedTrade,
           rejectedTrade: rejectedTrade,
           successfulTrade: successfulTrade,
-          nowTradeGoodsList: tradeGoodsList.slice(0, 10),
-          nowPendingTrade: pendingTrade.slice(0, 10),
-          nowConfirmedTrade: confirmedTrade.slice(0, 10),
-          nowRejectedTrade: rejectedTrade.slice(0, 10),
-          nowSuccessfulTrade: successfulTrade.slice(0, 10)
         })
       })
   },
@@ -103,28 +93,21 @@ Page({
 
         // 找到需要确认元素的索引
         var tempPendingTrade = this.data.pendingTrade
-        var tempNowPendingTrade = this.data.nowPendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
 
         // 在已取消中添加元素
         var tempRejectedTrade = this.data.rejectedTrade
-        var tempNowRejectedTrade = this.data.nowRejectedTrade
         tempRejectedTrade.push(tempPendingTrade[idx])
-        tempNowRejectedTrade.push(tempPendingTrade[idx])
         // 已取消按时间逆序
         tempRejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
-        tempNowRejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
         // 在未处理中删除元素
         tempPendingTrade.splice(idx, 1)
-        tempNowPendingTrade.splice(idx, 1)
 
         // 更新页面
         this.setData({
           pendingTrade: tempPendingTrade,
-          nowPendingTrade: tempNowPendingTrade,
-          rejectedTrade: tempRejectedTrade,
-          nowRejectedTrade: tempNowRejectedTrade,
+          rejectedTrade: tempRejectedTrade
         })
 
         wx.cloud.callFunction({
@@ -154,19 +137,16 @@ Page({
       }).then(res => {
         // 找到需要确认元素的索引
         var tempconfirmedTrade = this.data.confirmedTrade
-        var tempNowconfirmedTrade = this.data.nowConfirmedTrade
         var idx = tempconfirmedTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
 
         // 在待收货中删除元素
         tempconfirmedTrade.splice(idx, 1)
-        tempNowconfirmedTrade.splice(idx, 1)
 
         // 更新页面
         this.setData({
-          confirmedTrade: tempconfirmedTrade,
-          nowConfirmedTrade: tempNowconfirmedTrade,
+          confirmedTrade: tempconfirmedTrade
         })
-        if(!tempconfirmedTrade.length){
+        if (!tempconfirmedTrade.length) {
           this.setData({
             unreceived: false
           })
@@ -247,44 +227,59 @@ Page({
   onReachBottom() {
     switch (this.data.active) {
       case 0:
-        var res = __util.reachBottom('trade', this.data.tradeGoodsListSum, this.data.tradeGoodsList, this.data.nowTradeGoodsList, 'seller')
-        if (res == undefined) return
-        this.setData({
-          tradeGoodsList: res.list,
-          nowTradeGoodsList: res.nowList,
-        })
+        if (this.data.tradeGoodsList.length < this.data.tradeGoodsListSum)
+          wx.cloud.database().collection('trade').skip(this.data.tradeGoodsList.length).get()
+            .then(res => {
+              this.data.tradeGoodsList = [...this.data.tradeGoodsList, ...res.data]
+              // 更新页面
+              this.setData({
+                tradeGoodsList: this.data.tradeGoodsList
+              })
+            })
         return
       case 1:
-        var res = __util.reachBottom('trade', this.data.pendingTradeSum, this.data.pendingTrade, this.data.nowPendingTrade, 'seller', 0)
-        if (res == undefined) return
-        this.setData({
-          pendingTrade: res.list,
-          nowPendingTrade: res.nowList,
-        })
+        if (this.data.pendingTrade.length < this.data.pendingTradeSum)
+          wx.cloud.database().collection('trade').skip(this.data.pendingTrade.length).get()
+            .then(res => {
+              this.data.pendingTrade = [...this.data.pendingTrade, ...res.data]
+              // 更新页面
+              this.setData({
+                pendingTrade: this.data.pendingTrade
+              })
+            })
         return
       case 2:
-        var res = __util.reachBottom('trade', this.data.confirmedTradeSum, this.data.confirmedTrade, this.data.nowConfirmedTrade, 'seller', 1)
-        if (res == undefined) return
-        this.setData({
-          confirmedTrade: res.list,
-          nowConfirmedTrade: res.nowList,
-        })
+        if (this.data.confirmedTrade.length < this.data.confirmedTradeSum)
+          wx.cloud.database().collection('trade').skip(this.data.confirmedTrade.length).get()
+            .then(res => {
+              this.data.confirmedTrade = [...this.data.confirmedTrade, ...res.data]
+              // 更新页面
+              this.setData({
+                confirmedTrade: this.data.confirmedTrade
+              })
+            })
         return
       case 3:
-        var res = __util.reachBottom('trade', this.data.rejectedTradeSum, this.data.rejectedTrade, this.data.nowRejectedTrade, 'seller', 3)
-        if (res == undefined) return
-        this.setData({
-          rejectedTrade: res.list,
-          nowRejectedTrade: res.nowList,
-        })
+        if (this.data.rejectedTrade.length < this.data.rejectedTradeSum)
+          wx.cloud.database().collection('trade').skip(this.data.rejectedTrade.length).get()
+            .then(res => {
+              this.data.rejectedTrade = [...this.data.rejectedTrade, ...res.data]
+              // 更新页面
+              this.setData({
+                rejectedTrade: this.data.rejectedTrade
+              })
+            })
         return
       case 4:
-        var res = __util.reachBottom('trade', this.data.successfulTradeSUm, this.data.successfulTrade, this.data.nowSuccessfulTrade, 'seller', 2)
-        if (res == undefined) return
-        this.setData({
-          successfulTrade: res.list,
-          nowSuccessfulTrade: res.nowList,
-        })
+        if (this.data.successfulTrade.length < this.data.successfulTradeSum)
+          wx.cloud.database().collection('trade').skip(this.data.successfulTrade.length).get()
+            .then(res => {
+              this.data.successfulTrade = [...this.data.successfulTrade, ...res.data]
+              // 更新页面
+              this.setData({
+                successfulTrade: this.data.successfulTrade
+              })
+            })
         return
     }
   },
