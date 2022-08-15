@@ -320,7 +320,6 @@ Page({
 
     goodsSum: '',    // 商品总数量
     goodsList: '',  // 卖书商品列表
-    nowGoodsList: '', // 当前买书商品列表
 
     // 求书部分
     seekList: '',   // 求书列表
@@ -399,12 +398,18 @@ Page({
 
   // 上拉触底监听
   onReachBottom() {
-    var res = __util.reachBottom('goods', this.data.goodsSum, this.data.goodsList, this.data.nowGoodsList, 'collection')
-    if (res == undefined) return
-    this.setData({
-      goodsList: res.list,
-      nowGoodsList: res.nowList,
-    })
+    if (this.data.goodsList.length < this.data.goodsSum)
+      wx.cloud.database().collection('goods').skip(this.data.goodsList.length).get()
+        .then(res => {
+          this.data.goodsList = [...this.data.goodsList, ...res.data]
+          // 更新页面
+          this.setData({
+            goodsList: this.data.goodsList
+          })
+        })
+        .catch(err => {
+          console.error(err)
+        })
   },
 
   // 关键字搜索
@@ -473,7 +478,6 @@ Page({
 
             this.setData({
               goodsList: tempGoodsList,
-              nowGoodsList: tempGoodsList.slice(0, 10)
             })
             resolve(res)
           })
@@ -500,7 +504,6 @@ Page({
 
             this.setData({
               goodsList: tempGoodsList,
-              nowGoodsList: tempGoodsList.slice(0, 10)
             })
             resolve(res)
           })
@@ -528,8 +531,7 @@ Page({
             })
 
             this.setData({
-              goodsList: tempGoodsList,
-              nowGoodsList: tempGoodsList.slice(0, 10)
+              goodsList: tempGoodsList
             })
             resolve(res)
           })
@@ -558,8 +560,7 @@ Page({
             })
 
             this.setData({
-              goodsList: tempGoodsList,
-              nowGoodsList: tempGoodsList.slice(0, 10)
+              goodsList: tempGoodsList
             })
             resolve(res)
           })
