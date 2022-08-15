@@ -65,7 +65,6 @@ Component({
       this.setData({
         formatLength: parseInt((res.screenWidth - 168) / 14 * 2 -3 - 3)
       })
-      console.log(parseInt(this.data.formatLength))
     },
 
     // 书籍介绍内容格式化

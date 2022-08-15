@@ -11,7 +11,6 @@ Page({
     userOpenid: '',
     showNoLoginPopup: false,
     historyList: '', // 总浏览历史记录
-    nowHistoryList: '', // 当前浏览历史记录
     historySum: '',
     today: '', // 今天的日期
     formatLength: '', //格式化的字符串字数
@@ -79,20 +78,15 @@ Page({
 
   // 获取已浏览的书籍
   async getHistoryList() {
-    // 获取浏览历史内的商品ID列表
+    // 按降序获取浏览历史内的商品ID列表
     var goodsIdList = await wx.cloud.database().collection('history')
       .where({
         _openid: __user.getUserOpenid(),
-      }).get()
+      }).orderBy('view_time', 'desc')
+      .get()
 
-    // 将其中的数据取出
+    // 将返回结果映射为数组
     goodsIdList = goodsIdList.data
-
-    // 按照浏览时间逆序排列
-    goodsIdList.sort((a, b) => {
-      return b.view_time.getTime() - a.view_time.getTime()
-    })
-    // console.log('goodsIdList:',goodsIdList)
 
     // 根据商品ID查询对应的商品详细信息
     const promiseArray = goodsIdList.map((i) => (
@@ -105,31 +99,30 @@ Page({
 
     // 等到所有的查询线程结束后再继续进行
     const bookDetailList = await Promise.all(promiseArray)
-    // console.log('bookDetailList:',bookDetailList)
 
     // 将详细信息放入原商品ID列表
     var tempHistoryList = goodsIdList.map((i, idx) => ({
       ...i,
       bookDetail: bookDetailList[idx].data[0],
     }))
-    // console.log('tempHistoryList:',tempHistoryList)
 
-    // 去除空的书籍
-    tempHistoryList = tempHistoryList.filter(i => {
-      return i.bookDetail != undefined
-    })
-
-    // 书籍介绍内容格式化
-    for (var tempHistory of tempHistoryList)
-      tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, this.data.formatLength)
-
-    // 将时间改为字符串
     tempHistoryList.forEach(i => {
+      if (i.bookDetail == undefined)
+        i.bookDetail = {
+          introduction: '非常抱歉，该书已被他人购买，现已下架',
+          image_list: ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png'],
+          name: '已下架',
+          college: '无'
+        }
+      else
+        // 书籍介绍内容格式化
+        i.bookDetail.introduction = this.introductionFormat(i.bookDetail.introduction, this.data.formatLength)
+      // 将时间改为字符串
       i.view_time = i.view_time.toISOString().slice(0, 10)
     })
+
     this.setData({
       historyList: tempHistoryList,
-      nowHistoryList: tempHistoryList.slice(0, 10),
       today: new Date().toISOString().slice(0, 10),
     })
   },
@@ -140,23 +133,22 @@ Page({
       .doc(event.currentTarget.dataset.id)
       .remove()
       .then(res => {
+        // 将操作数组取出
+        var historyList = this.data.historyList
+        // 寻找被删除书籍索引
+        const index = historyList.findIndex(i => i._id === event.currentTarget.dataset.id)
 
-        let tempNowHistoryList = this.data.nowHistoryList
-        let tempHistoryList = this.data.historyList
-        const index = this.data.nowHistoryList.findIndex(i => i._id === event.currentTarget.dataset.id)
-
-        tempNowHistoryList.splice(index, 1)
-        tempHistoryList.splice(index, 1)
+        // 删除书籍
+        historyList.splice(index, 1)
 
         // 书籍介绍内容格式化
-        for (var tempHistory of tempHistoryList)
-          tempHistory.bookDetail.introduction = this.introductionFormat(tempHistory.bookDetail.introduction, this.data.formatLength)
-        for (var tempNowHistory of tempNowHistoryList)
-          tempNowHistory.bookDetail.introduction = this.introductionFormat(tempNowHistory.bookDetail.introduction, this.data.formatLength)
+        historyList.forEach((i, idx) => {
+          i.bookDetail.introduction = this.introductionFormat(i.bookDetail.introduction, this.data.formatLength)
+        })
 
+        // 更新页面
         this.setData({
-          nowHistoryList: tempNowHistoryList,
-          historyList: tempHistoryList
+          historyList: historyList
         })
 
         wx.showToast({
@@ -164,7 +156,8 @@ Page({
           icon: 'success',
         })
       })
-      .catch(res => {
+      .catch(err => {
+        console.error(err)
         wx.showToast({
           title: '删除失败',
           icon: 'error',
@@ -178,7 +171,6 @@ Page({
     this.setData({
       formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
     })
-    console.log(parseInt(this.data.formatLength))
   },
 
   // 书籍介绍内容格式化
@@ -192,22 +184,17 @@ Page({
   },
 
   // 上拉触底事件
-  onReachBottom() {
-    var res = __util.reachBottom('history', this.data.historySum, this.data.historyList, this.data.nowHistoryList, 'own')
-    if (res == undefined) return
+  async onReachBottom() {
+    if (this.data.historyList.length < this.data.historySum) {
+      var res = await wx.cloud.database().collection('history').where({
+        _openid: __user.getUserOpenid()
+      }).orderBy('view_time', 'desc')
+        .skip(this.data.historyList.length)
+        .get()
 
-    // 将新增加的记录取出
-    var len = this.data.historyList.length
-    var nowLen = this.data.nowHistoryList.length
-    var list = res.list.slice(len, len + 20)
-    var nowList = res.nowList.slice(len, len + 10)
+      // 将返回结果映射为数组
+      var list = res.data
 
-    if (nowLen < len)
-      this.setData({
-        historyList: res.list,
-        nowHistoryList: res.nowList,
-      })
-    else {
       // 根据商品ID查询对应的商品详细信息
       const promiseArray = list.map((i) => (
         wx.cloud.database().collection('goods')
@@ -218,21 +205,35 @@ Page({
       ))
 
       // 等到所有的查询线程结束后再继续进行
-      Promise.all(promiseArray)
+      const bookDetailList = await Promise.all(promiseArray)
 
+      // 将书籍信息放进原浏览历史列表
       const tempHistoryList = list.map((i, idx) => ({
         ...i,
-        bookDetail: promiseArray[idx].data[0]
+        bookDetail: bookDetailList[idx].data[0]
       }))
 
+      tempHistoryList.forEach(i => {
+        if (i.bookDetail == undefined)
+          i.bookDetail = {
+            introduction: '非常抱歉，该书已被他人购买，现已下架',
+            image_list: ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png'],
+            name: '已下架',
+            college: '无'
+          }
+        else
+          // 书籍介绍内容格式化
+          i.bookDetail.introduction = this.introductionFormat(i.bookDetail.introduction, this.data.formatLength)
+        // 将时间改为字符串
+        i.view_time = i.view_time.toISOString().slice(0, 10)
+      })
+
       // 向原数组中添加新值
-      var historyList = [...this.data.historyList, tempHistoryList]
-      var nowHistoryList = [...this.data.nowHistoryList, tempHistoryList.slice(0, 10)]
+      this.data.historyList = [...this.data.historyList, ...tempHistoryList]
 
       // 更新页面
       this.setData({
-        historyList: historyList,
-        nowHistoryList: nowHistoryList
+        historyList: this.data.historyList
       })
     }
   },
