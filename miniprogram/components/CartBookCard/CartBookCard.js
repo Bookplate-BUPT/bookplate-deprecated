@@ -6,8 +6,6 @@ Component({
   properties: {
     bookDetail: Object,
     _id: String,
-    Height: '',         //显示图片的高度
-    Width: ''           //显示图片的宽度
   },
 
   /**
@@ -67,21 +65,5 @@ Component({
           url: '../chatroom/chatroom?openid=' + event.currentTarget.dataset.openid,
         })
     },
-
-    //处理图片的显示问题
-    imageLoad(e) {
-      var ratio = e.detail.width / e.detail.height
-      if (85 * ratio > 85) {
-        this.setData({
-          Width: 85,
-          Height: 85 / ratio
-        })
-      } else {
-        this.setData({
-          Height: 85,
-          Width: 85 * ratio
-        })
-      }
-    }
   }
 })
