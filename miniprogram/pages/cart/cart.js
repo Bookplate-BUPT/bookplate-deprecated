@@ -10,7 +10,6 @@ Page({
     userOpenid: '',
     showNoLoginPopup: false,
     cartList: '',
-    nowCartList: '',
     cartSum: '',
   },
 
@@ -39,22 +38,18 @@ Page({
   },
 
   // 上拉触底监听
-  onReachBottom() {
-    var res = __util.reachBottom('cart', this.data.cartSum, this.data.cartList, this.data.nowCartList, 'own')
-    if (res == undefined) return
+  async onReachBottom() {
+    // 如果数据不全再向数据库请求
+    if (this.data.cartList.length < this.data.cartSum) {
+      var res = await wx.cloud.database().collection('cart').where({
+        _openid: __user.getUserOpenid()
+      }).orderBy('add_time', 'desc')
+        .skip(this.data.cartList.length)
+        .get()
 
-    // 将新增加的记录取出
-    var len = this.data.cartList.length
-    var nowLen = this.data.nowCartList.length
-    var list = res.list.slice(len, len + 20)
-    var nowList = res.nowList.slice(len, len + 10)
+      // 将返回结果映射为数组
+      var list = res.data
 
-    if (nowLen < len)
-      this.setData({
-        cartList: res.list,
-        nowCartList: res.nowList,
-      })
-    else {
       // 根据商品ID查询对应的商品详细信息
       const promiseArray = list.map((i) => (
         wx.cloud.database().collection('goods')
@@ -65,21 +60,25 @@ Page({
       ))
 
       // 等到所有的查询线程结束后再继续进行
-      Promise.all(promiseArray)
+      const bookDetailList = await Promise.all(promiseArray)
 
       const tempCartList = list.map((i, idx) => ({
         ...i,
-        bookDetail: promiseArray[idx].data[0]
+        bookDetail: bookDetailList[idx].data[0]
       }))
 
+      // 若无图片信息，给定默认图片
+      tempCartList.forEach((i, idx) => {
+        if (i.bookDetail != undefined && i.bookDetail.image_list.length == 0)
+          i.bookDetail.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+      })
+
       // 向原数组中添加新值
-      var cartList = [...this.data.cartList, tempCartList]
-      var nowCartList = [...this.data.nowCartList, tempCartList.slice(0, 10)]
+      this.data.cartList = [...this.data.cartList, ...tempCartList]
 
       // 更新页面
       this.setData({
-        cartList: cartList,
-        nowCartList: nowCartList
+        cartList: this.data.cartList
       })
     }
   },
@@ -154,6 +153,7 @@ Page({
       .where({
         _openid: __user.getUserOpenid(),
       })
+      .orderBy('add_time', 'desc')
       .get()
 
     // 根据商品ID查询对应的商品详细信息
@@ -181,21 +181,18 @@ Page({
     })
 
     this.setData({
-      cartList: tempCartList,
-      nowCartList: tempCartList.slice(0, 10),
+      cartList: tempCartList
     })
   },
 
   // 将商品移除购物车
   deleteGoods(event) {
-    let tempCartList = this.data.nowCartList
-    const index = this.data.nowCartList.findIndex(i => i._id === event.detail._id)
+    const index = this.data.cartList.findIndex(i => i._id === event.detail._id)
 
-    tempCartList.splice(index, 1)
+    this.data.cartList.splice(index, 1)
 
     this.setData({
-      nowCartList: tempCartList,
-      cartList: tempCartList
+      cartList: this.data.cartList
     })
   }
 })
