@@ -38,7 +38,7 @@ Page({
     } else {
       this.setData({
         show: true,
-        trade_time: new Date().toLocaleDateString(),
+        trade_time: new Date().toISOString().slice(0, 10),
       })
     }
   },
@@ -305,7 +305,7 @@ Page({
     })
   },
   // 点击轮播图片可以进行预览
-  preview (e) {
+  preview(e) {
     let that = this
     wx.previewImage({
       urls: [that.data.bookDetail.image_list[e.currentTarget.dataset.id]]
