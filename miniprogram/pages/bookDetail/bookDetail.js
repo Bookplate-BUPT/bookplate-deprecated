@@ -208,12 +208,44 @@ Page({
         message: '该书籍目前已被预定，被购买后将下架',
         closeOnClickOverlay: true,
       })
-        .then(() => {
-          this.addGoodsToCart()
-        })
-        .catch(() => {
+        .then(res => {
+          wx.cloud.database().collection('cart')
+            .where({
+              _openid: __user.getUserOpenid(),
+              goods_id: this.data.goodsID,
+            })
+            .get()
+            .then(res => {
 
-        });
+              // 已经在购物车内
+              if (res.data.length) {
+                wx.showToast({
+                  title: '已在购物车中',
+                  icon: 'error',
+                })
+              } else {
+                // 不在购物车内
+                wx.cloud.database().collection('cart')
+                  .add({
+                    data: {
+                      goods_id: this.data.goodsID,
+                      add_time: new Date(),
+                    }
+                  })
+                  .then(res => {
+                    wx.showToast({
+                      title: '添加成功',
+                      icon: 'success',
+                    })
+
+                    this.getNumOfUserCartGoods()
+                  })
+              }
+            })
+        })
+        .catch(err => {
+
+        })
     }
   },
 
