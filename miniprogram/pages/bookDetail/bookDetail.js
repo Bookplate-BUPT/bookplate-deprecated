@@ -145,7 +145,7 @@ Page({
       })
     } else {
       // 不允许添加自己的商品进购物车
-      if (this.data.sellerDetail._openid === app.globalData.userOpenid) {
+      if (this.data.sellerDetail._openid === __user.getUserOpenid()) {
         wx.showToast({
           title: '不能添加自己的商品进购物车',
           icon: 'none',
@@ -196,17 +196,25 @@ Page({
 
   // 商品被锁定时加入购物车的确认
   lockedGoodsConfirm() {
-    Dialog.confirm({
-      title: '确定加入购物车吗？',
-      message: '该书籍目前已被预定，被购买后将下架',
-      closeOnClickOverlay: true,
-    })
-      .then(() => {
-        this.addGoodsToCart()
+    // 不允许添加自己的商品进购物车
+    if (this.data.sellerDetail._openid === __user.getUserOpenid()) {
+      wx.showToast({
+        title: '不能添加自己的商品进购物车',
+        icon: 'none',
       })
-      .catch(() => {
+    } else {
+      Dialog.confirm({
+        title: '确定加入购物车吗？',
+        message: '该书籍目前已被预定，被购买后将下架',
+        closeOnClickOverlay: true,
+      })
+        .then(() => {
+          this.addGoodsToCart()
+        })
+        .catch(() => {
 
-      });
+        });
+    }
   },
 
   // 联系卖家
