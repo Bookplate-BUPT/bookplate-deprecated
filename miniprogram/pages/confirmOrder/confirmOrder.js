@@ -29,8 +29,9 @@ Page({
   //查找trade表里面的数据
   getMyTrade() {
     wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-    }).orderBy('trade_time', 'desc')
+      seller_openid: __user.getUserOpenid()
+    })
+      .orderBy('trade_time', 'desc')
       .get()
       .then(res => {
         res.data.forEach((i, idx) => {
@@ -39,35 +40,92 @@ Page({
           }
         })
 
-        var tradeGoodsList = res.data
-        var pendingTrade = []
-        var confirmedTrade = []
-        var rejectedTrade = []
-        var successfulTrade = []
-        tradeGoodsList.forEach(i => {
-          switch (i.state) {
-            case 0:
-              pendingTrade.push(i)
-              break
-            case 1:
-              confirmedTrade.push(i)
-              break
-            case 2:
-              successfulTrade.push(i)
-              break
-            case 3:
-              rejectedTrade.push(i)
+        // 更新页面
+        this.setData({
+          tradeGoodsList: res.data
+        })
+      })
+      .catch()
+
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 0
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        res.data.forEach((i, idx) => {
+          if (i.image_list.length == 0) {
+            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
           }
         })
 
+        // 更新页面
         this.setData({
-          tradeGoodsList: tradeGoodsList,
-          pendingTrade: pendingTrade,
-          confirmedTrade: confirmedTrade,
-          rejectedTrade: rejectedTrade,
-          successfulTrade: successfulTrade
+          pendingTrade: res.data
         })
       })
+      .catch()
+
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 1
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        res.data.forEach((i, idx) => {
+          if (i.image_list.length == 0) {
+            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+          }
+        })
+
+        // 更新页面
+        this.setData({
+          confirmedTrade: res.data
+        })
+      })
+      .catch()
+
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 3
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        res.data.forEach((i, idx) => {
+          if (i.image_list.length == 0) {
+            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+          }
+        })
+
+        // 更新页面
+        this.setData({
+          rejectedTrade: res.data
+        })
+      })
+      .catch()
+
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 2
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        res.data.forEach((i, idx) => {
+          if (i.image_list.length == 0) {
+            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+          }
+        })
+
+        // 更新页面
+        this.setData({
+          successfulTrade: res.data
+        })
+      })
+      .catch()
   },
 
   // 获取全部订单总数量
@@ -151,9 +209,11 @@ Page({
               this.setData({
                 tradeGoodsList: this.data.tradeGoodsList
               })
-              return
             })
             .catch()
+        else
+          console.log('this is else')
+        return
       case 1:
         if (this.data.pendingTrade.length < this.data.pendingTradeSum)
           wx.cloud.database().collection('trade').where({
@@ -174,9 +234,11 @@ Page({
               this.setData({
                 pendingTrade: this.data.pendingTrade
               })
-              return
             })
             .catch()
+        else
+          console.log('this is else')
+        return
       case 2:
         if (this.data.confirmedTrade.length < this.data.confirmedTradeSum)
           wx.cloud.database().collection('trade').where({
@@ -197,9 +259,11 @@ Page({
               this.setData({
                 confirmedTrade: this.data.confirmedTrade
               })
-              return
             })
             .catch()
+        else
+          console.log('this is else')
+        return
       case 3:
         if (this.data.rejectedTrade.length < this.data.rejectedTradeSum)
           wx.cloud.database().collection('trade').where({
@@ -220,9 +284,11 @@ Page({
               this.setData({
                 rejectedTrade: this.data.rejectedTrade
               })
-              return
             })
             .catch()
+        else
+          console.log('this is else')
+        return
       case 4:
         if (this.data.successfulTrade.length < this.data.successfulTradeSum)
           wx.cloud.database().collection('trade').where({
@@ -243,9 +309,11 @@ Page({
               this.setData({
                 successfulTrade: this.data.successfulTrade
               })
-              return
             })
             .catch()
+        else
+          console.log('this is else')
+        return
     }
   },
 
