@@ -9,6 +9,7 @@ Page({
   data: {
     keyword: '',    // 搜索关键字
     goodsList: '',  // 商品列表
+    goodsSum: '',   // 商品总数量
   },
 
   onLoad(options) {
@@ -16,6 +17,7 @@ Page({
       keyword: options.keyword
     })
     this.getGoodsList()
+    this.getGoodsSum()
   },
 
 
@@ -62,6 +64,62 @@ Page({
           })
         })
     }
+  },
+
+  onReachBottom() {
+    if (this.data.goodsList.length < this.data.goodsSum) {
+      if (!isNaN(Number(this.data.keyword))) {
+        wx.cloud.database().collection('goods')
+          .where({
+            isbn: this.data.keyword
+          })
+          .skip(this.data.goodsList.length)
+          .get()
+          .then(res => {
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              // 书籍介绍自定义格式化，最长长度为24
+              introduction: this.introductionFormat(i.introduction, 24),
+            }))
+
+            // 拼接数组
+            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
+            this.setData({
+              goodsList: this.data.goodsList
+            })
+          })
+      } else {
+        wx.cloud.database().collection('goods')
+          .where({
+            name: wx.cloud.database().RegExp({
+              regexp: this.data.keyword,
+              options: 'i',
+            })
+          })
+          .skip(this.data.goodsList.length)
+          .get()
+          .then(res => {
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              // 书籍介绍自定义格式化，最长长度为24
+              introduction: this.introductionFormat(i.introduction, 24),
+            }))
+
+            // 拼接数组
+            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
+            this.setData({
+              goodsList: this.data.goodsList
+            })
+          })
+      }
+    }else
+    console.log('this is else')
   },
 
   // 书籍介绍内容格式化
@@ -123,4 +181,34 @@ Page({
         })
     }
   },
+
+  // 获取商品总数量
+  getGoodsSum() {
+    if (!isNaN(Number(this.data.keyword))) {
+      wx.cloud.database().collection('goods')
+        .where({
+          isbn: this.data.keyword
+        })
+        .count()
+        .then(res => {
+          this.setData({
+            goodsSum: res.total
+          })
+        })
+    } else {
+      wx.cloud.database().collection('goods')
+        .where({
+          name: wx.cloud.database().RegExp({
+            regexp: this.data.keyword,
+            options: 'i',
+          })
+        })
+        .count()
+        .then(res => {
+          this.setData({
+            goodsSum: res.total
+          })
+        })
+    }
+  }
 })
