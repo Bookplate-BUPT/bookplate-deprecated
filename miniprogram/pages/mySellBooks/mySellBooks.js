@@ -86,10 +86,12 @@ Page({
         this.data.goodsList.splice(index, 1)
         this.data.unChangedGoodList.splice(index, 1)
         this.data.postDate.splice(index, 1)
+        // 更新页面
         this.setData({
           goodsList: this.data.goodsList,
           unChangedGoodList: this.data.unChangedGoodList,
-          postDate: this.data.postDate
+          postDate: this.data.postDate,
+          goodsSum: this.data.goodsSum - 1,
         })
         // 提示
         wx.hideLoading()
