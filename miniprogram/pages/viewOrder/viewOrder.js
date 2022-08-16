@@ -9,8 +9,8 @@ Page({
     tradeGoodsList: [],   // 全部买书
     pendingTrade: [],     // 未处理的买书
     confirmedTrade: [],   // 待收货的买书
-    rejectedTrade: [],    // 已拒绝的买书
-    successfulTrade: [],  // 成功交易的书籍
+    rejectedTrade: [],    // 已取消的买书
+    successfulTrade: [],  // 已成交的书籍
     tradeGoodsListSum: '',
     pendingTradeSum: '',
     confirmedTradeSum: '',
@@ -107,7 +107,9 @@ Page({
         // 更新页面
         this.setData({
           pendingTrade: tempPendingTrade,
-          rejectedTrade: tempRejectedTrade
+          rejectedTrade: tempRejectedTrade,
+          pendingTradeSum: this.data.pendingTradeSum - 1,
+          rejectedTradeSum: this.data.rejectedTradeSum + 1,
         })
 
         wx.cloud.callFunction({
@@ -144,7 +146,9 @@ Page({
 
         // 更新页面
         this.setData({
-          confirmedTrade: tempconfirmedTrade
+          confirmedTrade: tempconfirmedTrade,
+          confirmedTradeSum: this.data.confirmedTrade - 1,
+          successfulTradeSum: this.data.successfulTradeSum + 1,
         })
         if (!tempconfirmedTrade.length) {
           this.setData({

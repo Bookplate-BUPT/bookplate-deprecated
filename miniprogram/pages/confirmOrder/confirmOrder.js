@@ -259,6 +259,7 @@ Page({
 
   //确认交易
   commitForm(event) {
+    // 更新交易记录的state
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
@@ -291,6 +292,8 @@ Page({
         this.setData({
           pendingTrade: tempPendingTrade,
           confirmedTrade: tempConfirmedTrade,
+          pendingTradeSum: this.data.pendingTradeSum - 1,
+          confirmedTradeSum: this.data.confirmedTradeSum + 1,
         })
       })
     })
@@ -298,7 +301,7 @@ Page({
 
   //取消交易
   rejectForm(event) {
-    console.log(event)
+    // 更新交易记录的state
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
@@ -313,7 +316,6 @@ Page({
         this.setData({
           show: false
         })
-
 
         // 找到需要确认元素的索引
         var tempPendingTrade = this.data.pendingTrade
@@ -332,6 +334,8 @@ Page({
         this.setData({
           pendingTrade: tempPendingTrade,
           rejectedTrade: tempRejectedTrade,
+          pendingTradeSum: this.data.pendingTradeSum - 1,
+          rejectedTradeSum: this.data.rejectedTradeSum + 1,
         })
 
         wx.cloud.callFunction({
