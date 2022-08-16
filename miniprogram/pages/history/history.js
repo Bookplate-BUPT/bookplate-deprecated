@@ -14,24 +14,20 @@ Page({
     historySum: '',
     today: '', // 今天的日期
     formatLength: '', //格式化的字符串字数
+
+    // 页面展示
+    scrollViewHeight: '', // 页面的显示高度
+    triggered: false,     // 页面是否下拉刷新
   },
 
   onLoad() {
-    // this.getHistoryList()
-  },
-
-  onShow() {
-    this.setData({
-      userInfo: app.globalData.userInfo,
-      userOpenid: app.globalData.userOpenid,
-    })
-
-    if (!this.data.userInfo || !this.data.userOpenid)
-      this.setData({ showNoLoginPopup: true })
-
     this.getHistoryList()
     this.getHistorySum()
     this.getIntroductionFormatLength()
+  },
+
+  onShow() {
+
   },
 
   // 用户登录，认证用户信息
@@ -125,6 +121,7 @@ Page({
       historyList: tempHistoryList,
       today: new Date().toISOString().slice(0, 10),
     })
+    return tempHistoryList
   },
 
   // 将商品移除浏览历史
@@ -165,7 +162,7 @@ Page({
       })
   },
 
-  // 获取书籍内容格式化后的字数
+  // 获取书籍内容格式化后的字数，注：此函数每个手机只需执行一遍
   getIntroductionFormatLength() {
     var res = wx.getWindowInfo()
     this.setData({
@@ -236,6 +233,34 @@ Page({
         historyList: this.data.historyList
       })
     }
+  },
+
+  // 下拉刷新事件
+  onPullDownRefresh() {
+    wx.showToast({
+      title: '正在刷新...',
+      icon: 'loading'
+    })
+    this.getHistoryList()
+      .then(res => {
+        wx.showToast({
+          title: '刷新成功',
+          icon: 'success'
+        })
+        setTimeout(() => {
+          this.setData({
+            triggered: false
+          })
+        }, 1000)
+      })
+  },
+
+  // 获取scroll-view的高度
+  getScrollViewHeight() {
+    const res = wx.getWindowInfo()
+    this.setData({
+      scrollViewHeight: res.windowHeight - 153
+    })
   },
 
   // 获取浏览历史总数量
