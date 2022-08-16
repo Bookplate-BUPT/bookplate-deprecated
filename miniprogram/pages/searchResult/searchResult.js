@@ -7,9 +7,11 @@ const app = getApp()
 Page({
 
   data: {
-    keyword: '',    // 搜索关键字
-    goodsList: '',  // 商品列表
-    goodsSum: '',   // 商品总数量
+    keyword: '',      // 搜索关键字
+    goodsList: '',    // 商品列表
+    goodsSum: '',     // 商品总数量
+
+    formatLength: '', // 介绍内容格式化后的字数
   },
 
   onLoad(options) {
@@ -18,9 +20,10 @@ Page({
     })
     this.getGoodsList()
     this.getGoodsSum()
+    this.getIntroductionFormatLength()
   },
 
-
+  // 获取商品列表
   getGoodsList() {
     if (!isNaN(Number(this.data.keyword))) {
       wx.cloud.database().collection('goods')
@@ -34,7 +37,7 @@ Page({
             // 5天内将书籍设置为最新
             isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, 24),
+            introduction: this.introductionFormat(i.introduction, this.data.formatLength),
           }))
 
           this.setData({
@@ -56,7 +59,7 @@ Page({
             // 5天内将书籍设置为最新
             isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, 24),
+            introduction: this.introductionFormat(i.introduction, this.data.formatLength),
           }))
 
           this.setData({
@@ -66,6 +69,7 @@ Page({
     }
   },
 
+  // 上拉触底监听事件
   onReachBottom() {
     if (this.data.goodsList.length < this.data.goodsSum) {
       if (!isNaN(Number(this.data.keyword))) {
@@ -81,7 +85,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, 24),
+              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             // 拼接数组
@@ -107,7 +111,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, 24),
+              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             // 拼接数组
@@ -130,6 +134,14 @@ Page({
     }
     // 不用格式化
     else return str
+  },
+
+  // 获取书籍内容格式化后的字数
+  getIntroductionFormatLength() {
+    var res = wx.getWindowInfo()
+    this.setData({
+      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+    })
   },
 
   // 添加商品到购物车
