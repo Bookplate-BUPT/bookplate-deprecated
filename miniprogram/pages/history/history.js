@@ -145,7 +145,8 @@ Page({
 
         // 更新页面
         this.setData({
-          historyList: historyList
+          historyList: historyList,
+          historySum: this.data.historySum - 1
         })
 
         wx.showToast({
