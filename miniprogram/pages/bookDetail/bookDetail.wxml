@@ -78,7 +78,7 @@
         <van-field label="ISBN:" readonly value="{{ bookDetail.isbn }}" border="{{false}}"></van-field>
         <van-field label="原价:" readonly value="{{ bookDetail.original_price }}" border="{{false}}"></van-field>
         <van-field label="现价:" required value="{{ trade_price }}" placeholder="请输入现价" bind:change="onChangeTradePrice" border="{{false}}" clearable />
-        <van-field label="时间:" value="{{ trade_time }}" placeholder="请输入时间" bind:change="onChangeTradeTime" border="{{false}}" clearable />
+        <van-field value="{{ trade_time }}" label="时间：" clearable border="{{false}}" clear-trigger="focus" bind:click-input="openCalendar" readonly></van-field>
         <van-field label="地点:" value="{{ trade_spot }}" placeholder="请输入地点" bind:change="onChangeTradeSpot" border="{{false}}" clearable />
       </view>
       <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
@@ -89,4 +89,5 @@
   </van-popup>
 </van-goods-action>
 
+<van-calendar show="{{ showcalendar }}" bind:close="onClosecalendar" bind:confirm="onConfirmcalendar" />
 <van-dialog id="van-dialog" />

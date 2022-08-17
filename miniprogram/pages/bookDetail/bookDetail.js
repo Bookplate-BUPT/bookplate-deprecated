@@ -13,9 +13,36 @@ Page({
     numOfUserCartGoods: '',
     eventID: '',
     show: false,
+    showcalendar: false,  //打开日历选择日期
     trade_price: '', // 交易确认的价格
     trade_time: '', // 交易确认的时间
     trade_spot: '', // 交易确认的地点
+  },
+
+  //关闭弹出层，打开日历
+  openCalendar() {
+    this.setData({
+      show: false,
+      showcalendar: true
+    })
+  },
+
+  //关闭日历，打开弹出层
+  onClosecalendar() {
+    this.setData({
+      showcalendar: false,
+      show: true
+    })
+  },
+
+  //确认按钮，修改交易时间
+  onConfirmcalendar(e) {
+    var month = e.detail.getMonth() + 1
+    this.setData({
+      showcalendar: false,
+      show: true,
+      trade_time: e.detail.getFullYear() + '-' + month + '-' + e.detail.getDate()
+    })
   },
 
   onClose() {
@@ -48,11 +75,7 @@ Page({
       trade_price: e.detail
     })
   },
-  onChangeTradeTime(e) {
-    this.setData({
-      trade_time: e.detail
-    })
-  },
+
   onChangeTradeSpot(e) {
     this.setData({
       trade_spot: e.detail
