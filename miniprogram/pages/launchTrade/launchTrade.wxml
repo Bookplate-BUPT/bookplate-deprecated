@@ -1,0 +1,40 @@
+<!--pages/launchTrade/launchTrade.wxml-->
+<van-cell-group inset custom-class="shadow" style="margin-top: 12px;">
+  <van-cell>
+    <swiper indicator-dots autoplay circular interval="3000">
+      <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
+        <van-image height="100%" width="100%" src="{{ item }}" fit="contain" bind:click="preview" data-index="{{index}}" />
+      </swiper-item>
+    </swiper>
+  </van-cell>
+
+  <van-cell use-label-slot>
+    <view slot="label">
+      <view class="book-name" slot="label">
+        <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag>
+        <text style="margin-left: 8px;">{{ bookDetail.name }}</text>
+      </view>
+      <view style="margin-top: 6px;">{{ bookDetail.isbn }}</view>
+    </view>
+  </van-cell>
+
+  <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
+</van-cell-group>
+
+<van-cell-group inset title="书籍信息" custom-class="shadow">
+  <!-- <van-cell title="书名" label="{{ bookDetail.name }}元" /> -->
+  <van-cell title="原价" label="{{ bookDetail.original_price }}元" />
+  <!-- <van-cell title="卖家描述" label="{{ bookDetail.description }}" /> -->
+</van-cell-group>
+
+<van-cell-group inset title="订单详情" custom-class="shadow" style="margin-bottom: 75px;">
+  <van-field label="现价" value="{{ bookDetail.price }}" placeholder="请输入现价" bind:change="onChangeTradePrice" clearable />
+  <!-- 日期选择 -->
+  <van-field label="时间" value="{{ trade_time }}" clearable clear-trigger="focus" bind:click-input="displayCalendar" readonly></van-field>
+  <van-calendar show="{{ showCalendar }}" title="交易日期选择" bind:close="closeCalendar" bind:confirm="confirmCalendar" />
+
+  <van-field label="地点" value="{{ trade_spot }}" placeholder="请输入地点（可选）" bind:change="onChangeTradeSpot" clearable />
+</van-cell-group>
+
+<!-- commitForm -->
+<button class="confirmBtn" bindtap="commitForm">发送订单请求</button>

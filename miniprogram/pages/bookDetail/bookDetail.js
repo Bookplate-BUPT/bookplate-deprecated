@@ -12,46 +12,10 @@ Page({
     isExisted: false,
     numOfUserCartGoods: '',
     eventID: '',
-    show: false,
-    showcalendar: false,  //打开日历选择日期
-    trade_price: '', // 交易确认的价格
-    trade_time: '', // 交易确认的时间
-    trade_spot: '', // 交易确认的地点
   },
 
-  //关闭弹出层，打开日历
-  openCalendar() {
-    this.setData({
-      show: false,
-      showcalendar: true
-    })
-  },
-
-  //关闭日历，打开弹出层
-  onClosecalendar() {
-    this.setData({
-      showcalendar: false,
-      show: true
-    })
-  },
-
-  //确认按钮，修改交易时间
-  onConfirmcalendar(e) {
-    var month = e.detail.getMonth() + 1
-    this.setData({
-      showcalendar: false,
-      show: true,
-      trade_time: e.detail.getFullYear() + '-' + month + '-' + e.detail.getDate()
-    })
-  },
-
-  onClose() {
-    this.setData({
-      show: false
-    })
-  },
-
-  onShowPop() {
+  // 跳转至发起交易页面
+  gotoLaunchTrade() {
     if (this.data.bookDetail.state == 1) {
       wx.showToast({
         title: '该书已被预订',
@@ -63,23 +27,11 @@ Page({
         icon: 'none'
       })
     } else {
-      this.setData({
-        show: true,
-        trade_time: new Date().toISOString().slice(0, 10),
+      // 跳转至新页面
+      wx.navigateTo({
+        url: `../launchTrade/launchTrade?bookDetail=${JSON.stringify(this.data.bookDetail)}`,
       })
     }
-  },
-
-  onChangeTradePrice(e) {
-    this.setData({
-      trade_price: e.detail
-    })
-  },
-
-  onChangeTradeSpot(e) {
-    this.setData({
-      trade_spot: e.detail
-    })
   },
 
   onLoad(options) {
@@ -291,82 +243,6 @@ Page({
     }
   },
 
-  // 确认提交交易信息
-  commitForm(event) {
-    if (!this.data.trade_price) {
-      wx.showToast({
-        title: '现价不能为空',
-        icon: 'error'
-      })
-    }
-    else {
-      wx.cloud.database().collection('trade').where({
-        goods_id: event.currentTarget.dataset.goods_id,
-      }).get().then(res => {
-        if (res.data.length) {
-          if (res.data.some(i => { return i.state == 0 })) {
-            wx.showToast({
-              title: '该书已被预订',
-              icon: 'error'
-            }).then(res => {
-              this.setData({
-                'bookDetail.state': 1
-              })
-            })
-          } else {
-            this.addTradeRecord(event.currentTarget.dataset)
-          }
-        } else {
-          this.addTradeRecord(event.currentTarget.dataset)
-        }
-      })
-    }
-  },
-
-  // 向trade集合中添加记录
-  addTradeRecord(i) {
-    this.data.bookDetail.image_list.forEach((i, idx) => {
-      if (this.data.bookDetail.image_list[idx] === 'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg') {
-        this.data.bookDetail.image_list.splice(idx, 1)
-      }
-    })
-    wx.cloud.database().collection('trade').add({
-      data: {
-        goods_id: i.goods_id,
-        state: 0,
-        trade_price: i.trade_price,
-        trade_time: i.trade_time,
-        trade_spot: i.trade_spot,
-        original_price: this.data.bookDetail.original_price,
-        seller_openid: this.data.bookDetail._openid,
-        grade: this.data.bookDetail.grade,
-        college: this.data.bookDetail.college,
-        name: this.data.bookDetail.name,
-        isbn: this.data.bookDetail.isbn,
-        image_list: this.data.bookDetail.image_list,
-      }
-    }).then(res => {
-      wx.showToast({
-        title: '交易请求已发送',
-        icon: 'success'
-      }).then(res => {
-        // 调用云函数修改数据库
-        wx.cloud.callFunction({
-          name: 'updateGoods',
-          data: {
-            type: 'updateState',
-            goodsID: this.data.goodsID,
-            state: 1,
-          }
-        }).then(res => {
-          this.setData({
-            show: false,
-            'bookDetail.state': 1
-          })
-        })
-      })
-    })
-  },
   // 点击轮播图片可以进行预览
   preview(e) {
     let that = this

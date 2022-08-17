@@ -62,31 +62,7 @@
   <van-goods-action-icon icon="cart-o" text="购物车" info="{{ numOfUserCartGoods === 0 ? '' : numOfUserCartGoods }}" bind:click="gotoCart" />
   <van-goods-action-icon icon="chat-o" text="联系卖家" bind:click="contactSeller" />
   <van-goods-action-button text="加入购物车" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="addGoodsToCart" data-state="{{bookDetail.state}}" />
-  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即购买' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="onShowPop" />
-
-  <van-popup show="{{ show }}" bind:close="onClose" round overlay closeable custom-style="height: 76%; width: 80% ">
-    <view style="display: flex; flex-direction: column; justify-content: space-between; height: 98%;">
-      <view style="margin-top: 28rpx;">
-        <view style="margin: 60rpx auto; text-align: center;">
-          <swiper indicator-dots autoplay circular interval="3000">
-            <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
-              <van-image height="{{150}}" fit="heightFix" src="{{ item }}" />
-            </swiper-item>
-          </swiper>
-        </view>
-        <van-field label="书名:" readonly value="{{ bookDetail.name }}" border="{{false}}"></van-field>
-        <van-field label="ISBN:" readonly value="{{ bookDetail.isbn }}" border="{{false}}"></van-field>
-        <van-field label="原价:" readonly value="{{ bookDetail.original_price }}" border="{{false}}"></van-field>
-        <van-field label="现价:" required value="{{ trade_price }}" placeholder="请输入现价" bind:change="onChangeTradePrice" border="{{false}}" clearable />
-        <van-field value="{{ trade_time }}" label="时间：" clearable border="{{false}}" clear-trigger="focus" bind:click-input="openCalendar" readonly></van-field>
-        <van-field label="地点:" value="{{ trade_spot }}" placeholder="请输入地点" bind:change="onChangeTradeSpot" border="{{false}}" clearable />
-      </view>
-      <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
-        <view bindtap="onClose" style="color: #aaa;">取消</view>
-        <view bindtap="commitForm" data-goods_id="{{goodsID}}" data-trade_price="{{trade_price}}" data-trade_time="{{trade_time}}" data-trade_spot="{{trade_spot}}">确认</view>
-      </view>
-    </view>
-  </van-popup>
+  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即购买' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="gotoLaunchTrade" />
 </van-goods-action>
 
 <van-calendar show="{{ showcalendar }}" bind:close="onClosecalendar" bind:confirm="onConfirmcalendar" />
