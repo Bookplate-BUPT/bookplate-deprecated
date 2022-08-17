@@ -6,18 +6,23 @@ Page({
    */
   data: {
     bookDetail: {},       // 书籍详细信息
-    showCalendar: false,  // 显示日期弹出层
+    sellerDetail: {},     // 卖家详细信息
     trade_time: '',       // 交易日期（或时间）
     trade_spot: '',       // 交易地点
-    minDate: '',          // 可选日期的最小时间
+
+    showCalendar: false,  // 显示日期弹出层
   },
 
   // 生命周期函数--监听页面加载
   onLoad(options) {
     this.setData({
       bookDetail: JSON.parse(options.bookDetail),
-      trade_time: `${new Date().getFullYear()}/${new Date().getMonth() + 1}/${new Date().getDate()}`,
+      sellerDetail: JSON.parse(options.sellerDetail),
+      trade_time: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
     })
+
+    console.log(options.sellerDetail)
+
   },
 
   // 打开日期弹出层
@@ -33,7 +38,7 @@ Page({
   // 格式化日期
   formatDate(date) {
     date = new Date(date);
-    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+    return `${date.getFullYear()}年 ${date.getMonth() + 1}月${date.getDate()}日`;
   },
 
   // 确认选择日期

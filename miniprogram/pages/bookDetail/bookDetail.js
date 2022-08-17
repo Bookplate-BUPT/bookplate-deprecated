@@ -29,7 +29,7 @@ Page({
     } else {
       // 跳转至新页面
       wx.navigateTo({
-        url: `../launchTrade/launchTrade?bookDetail=${JSON.stringify(this.data.bookDetail)}`,
+        url: `../launchTrade/launchTrade?bookDetail=${JSON.stringify(this.data.bookDetail)}&sellerDetail=${JSON.stringify(this.data.sellerDetail)}`,
       })
     }
   },
