@@ -317,7 +317,7 @@ Page({
         original_price: this.data.bookDetail.original_price,
         seller_openid: this.data.bookDetail._openid,
         grade: this.data.bookDetail.grade,
-        college: this.data.college,
+        college: this.data.bookDetail.college,
         name: this.data.bookDetail.name,
         isbn: this.data.bookDetail.isbn,
         image_list: this.data.bookDetail.image_list,
