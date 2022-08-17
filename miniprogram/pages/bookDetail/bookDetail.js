@@ -245,9 +245,11 @@ Page({
 
   // 点击轮播图片可以进行预览
   preview(e) {
-    let that = this
+    var image_list = this.data.bookDetail.image_list
     wx.previewImage({
-      urls: [that.data.bookDetail.image_list[e.currentTarget.dataset.id]]
+      urls: image_list,
+      showmenu: true,
+      current: image_list[e.currentTarget.dataset.index],
     })
   },
 })
