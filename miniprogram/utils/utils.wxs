@@ -9,7 +9,7 @@ var getFloat = function (n) {
   if (n !== undefined) {
     var numList = n.split(".")
 
-    if (numList.length == 1) {
+    if (numList.length == 1 || numList[1].length == 0) {
       return "00"
     } else if (numList.length == 2) {
       if (numList[1].length == 1) return numList[1] + "0"
@@ -41,6 +41,7 @@ var getDateOnly = function (str, now) {
     return datelist[0] + '年' + datelist[1] + '月' + datelist[2] + '日'
   }
 }
+
 module.exports = {
   getInt: getInt,
   getFloat: getFloat,
