@@ -384,15 +384,18 @@ Page({
     })
     this.getGoodsList()
       .then(res => {
-        wx.showToast({
-          title: '刷新成功',
-          icon: 'success'
-        })
-        setTimeout(() => {
-          this.setData({
-            triggered: false,
+        this.getGoodsSum()
+          .then(resInner => {
+            wx.showToast({
+              title: '刷新成功',
+              icon: 'success'
+            })
+            setTimeout(() => {
+              this.setData({
+                triggered: false,
+              })
+            }, 900)
           })
-        }, 900)
       })
   },
 
@@ -452,11 +455,17 @@ Page({
 
   // 获取商品总数量
   getGoodsSum() {
-    wx.cloud.database().collection('goods').count().then(res => {
-      this.setData({
-        goodsSum: res.total
-      })
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('goods')
+        .count()
+        .then(res => {
+          this.setData({
+            goodsSum: res.total
+          })
+          resolve(res)
+        })
     })
+    return promise
   },
 
   // 获取商品列表
