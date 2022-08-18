@@ -1,4 +1,5 @@
-<!--pages/viewOrder/viewOrder.wxml-->
+<wxs src="../../utils/utils.wxs" module="utils" />
+
 <van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable id="tabs" bind:change="changeActive">
   <van-tab title="全部">
     <view wx:if="{{ !tradeGoodsList.length }}" style="margin-top: 180rpx;">
@@ -20,6 +21,10 @@
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
             </view>
           </van-card>
+
+          <view class="{{ 'order-state-' + item.state }}">
+            {{ utils.orderStateToStr(item.state, 1) }}
+          </view>
         </van-cell-group>
       </view>
 
@@ -27,9 +32,9 @@
     </view>
   </van-tab>
 
-  <van-tab title="未处理">
+  <van-tab title="待处理">
     <view wx:if="{{ !pendingTrade.length }}" style="margin-top: 180rpx;">
-      <van-empty description="没有未处理的交易哦~"></van-empty>
+      <van-empty description="没有待处理的交易哦~"></van-empty>
     </view>
     <view wx:else>
       <view wx:for="{{pendingTrade}}" wx:key="_id" style="margin-top: 20rpx;">
@@ -48,6 +53,10 @@
                 <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
               </view>
             </van-card>
+
+            <view class="{{ 'order-state-' + item.state }}">
+              {{ utils.orderStateToStr(item.state, 1) }}
+            </view>
 
             <van-button slot="right" color="#FF596A" custom-class="swiperCellButton" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
               取消交易
@@ -80,6 +89,10 @@
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
             </view>
           </van-card>
+
+          <view class="{{ 'order-state-' + item.state }}">
+            {{ utils.orderStateToStr(item.state, 1) }}
+          </view>
         </van-cell-group>
       </view>
 
@@ -108,6 +121,11 @@
                 <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
               </view>
             </van-card>
+
+            <view class="{{ 'order-state-' + item.state }}">
+              {{ utils.orderStateToStr(item.state, 1) }}
+            </view>
+
             <van-button slot='right' color="#8AC286" custom-class="swiperCellButton" bind:click="confirmReceipt" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">收货</van-button>
           </van-swipe-cell>
         </van-cell-group>
@@ -136,6 +154,10 @@
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
             </view>
           </van-card>
+
+          <view class="{{ 'order-state-' + item.state }}">
+            {{ utils.orderStateToStr(item.state, 1) }}
+          </view>
         </van-cell-group>
       </view>
 

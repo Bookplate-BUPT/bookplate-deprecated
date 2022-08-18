@@ -8,7 +8,7 @@
     <view wx:else>
       <view wx:for="{{ tradeGoodsList }}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" thumb-class="pictureStyle">
+          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
             <view slot="title" style="font-weight: bolder; font-size: 14px;">
               {{ item.name }}
               <view style="margin-top: 4px;">
@@ -23,7 +23,7 @@
           </van-card>
 
           <view class="{{ 'order-state-' + item.state }}">
-            {{ utils.orderStateToStr(item.state) }}
+            {{ utils.orderStateToStr(item.state, 0) }}
           </view>
         </van-cell-group>
       </view>
@@ -32,9 +32,9 @@
     </view>
   </van-tab>
 
-  <van-tab title="未处理">
+  <van-tab title="待处理">
     <view wx:if="{{ !pendingTrade.length }}" style="margin-top: 180rpx;">
-      <van-empty description="没有未处理的交易哦~"></van-empty>
+      <van-empty description="没有待处理的交易哦~"></van-empty>
     </view>
     <view wx:else>
       <view wx:for="{{pendingTrade}}" wx:key="_id" style="margin-top: 20rpx;">
@@ -57,6 +57,10 @@
                 <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
               </view>
             </van-card>
+
+            <view class="{{ 'order-state-' + item.state }}">
+              {{ utils.orderStateToStr(item.state, 0) }}
+            </view>
 
             <van-button block custom-class="swiperCellButton" slot="right" color="#8AC286" bind:click="commitForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
               确认交易
@@ -108,6 +112,10 @@
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
             </view>
           </van-card>
+
+          <view class="{{ 'order-state-' + item.state }}">
+            {{ utils.orderStateToStr(item.state, 0) }}
+          </view>
         </van-cell-group>
       </view>
 
@@ -135,6 +143,10 @@
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
             </view>
           </van-card>
+
+          <view class="{{ 'order-state-' + item.state }}">
+            {{ utils.orderStateToStr(item.state, 0) }}
+          </view>
         </van-cell-group>
       </view>
 
@@ -162,6 +174,10 @@
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
             </view>
           </van-card>
+
+          <view class="{{ 'order-state-' + item.state }}">
+            {{ utils.orderStateToStr(item.state, 0) }}
+          </view>
         </van-cell-group>
       </view>
 
