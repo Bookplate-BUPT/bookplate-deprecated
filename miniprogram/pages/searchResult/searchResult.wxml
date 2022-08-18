@@ -13,4 +13,4 @@
   </MainBookCard>
 </view>
 
-<van-divider wx:if="{{ goodsList.length == goodsSum }}" contentPosition="center" dashed>共有{{goodsList.length}}条结果</van-divider>
+<van-divider wx:if="{{ goodsList.length && goodsList.length == goodsSum }}" contentPosition="center" dashed>共有{{goodsList.length}}条结果</van-divider>

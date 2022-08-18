@@ -36,7 +36,7 @@
       </view>
 
       <!-- 底部提示分隔线 -->
-      <van-divider wx:if="{{goodsList.length == goodsSum}}" contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
+      <van-divider wx:if="{{ goodsList.length && goodsList.length == goodsSum }}" contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
     </scroll-view>
   </van-tab>
 

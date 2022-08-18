@@ -44,8 +44,8 @@ var getDateOnly = function (str, now) {
 
 /**
  * 根据订单枚举状态返回字符串
- * @param state 表示订单的状态
- * @param page 0表示“我是卖家”页面，1表示“我是买家”页面
+ * @param {string|number} state 表示订单的状态
+ * @param {string|number} page 0表示“我是卖家”页面，1表示“我是买家”页面
  */
 var orderStateToStr = function (state, page) {
   switch (state) {
@@ -63,11 +63,14 @@ var orderStateToStr = function (state, page) {
         case 1:
         case '1':
           return '待收货'
+
+        default:
+          return '错误'
       }
 
     case 2:
     case '2':
-      return '已完成'
+      return '已成交'
 
     case 3:
     case '3':

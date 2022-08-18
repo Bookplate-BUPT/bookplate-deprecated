@@ -17,6 +17,6 @@
   <CartBookCard bookDetail="{{item.bookDetail}}" _id="{{item._id}}" bind:delete="deleteGoods"></CartBookCard>
 </view>
 
-<van-divider wx:if="{{ cartList.length == cartSum }}" contentPosition="center" dashed>共有{{ cartList.length }}件商品</van-divider>
+<van-divider wx:if="{{ cartList.length && cartList.length == cartSum }}" contentPosition="center" dashed>共有{{ cartList.length }}件商品</van-divider>
 
 <view style="margin-bottom: 5%;" />
