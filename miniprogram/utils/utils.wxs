@@ -42,9 +42,36 @@ var getDateOnly = function (str, now) {
   }
 }
 
+/**
+ * 根据订单枚举状态返回字符串
+ */
+var orderStateToStr = function (state) {
+  switch (state) {
+    case 0:
+    case '0':
+      return '待确认'
+
+    case 1:
+    case '1':
+      return '待收货'
+
+    case 2:
+    case '2':
+      return '已完成'
+
+    case 3:
+    case '3':
+      return '已取消'
+
+    default:
+      return '错误'
+  }
+}
+
 module.exports = {
   getInt: getInt,
   getFloat: getFloat,
   newFormatTime: newFormatTime,
   getDateOnly: getDateOnly,
+  orderStateToStr: orderStateToStr,
 }

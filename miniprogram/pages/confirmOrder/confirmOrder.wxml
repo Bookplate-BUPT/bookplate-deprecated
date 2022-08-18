@@ -1,13 +1,15 @@
+<wxs src="../../utils/utils.wxs" module="utils" />
+
 <van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable bind:change="changeActive">
   <van-tab title="全部">
     <view wx:if="{{ !tradeGoodsList.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有任何交易哦~"></van-empty>
     </view>
     <view wx:else>
-      <view wx:for="{{tradeGoodsList}}" wx:key="_id" style="margin-top: 20rpx;">
+      <view wx:for="{{ tradeGoodsList }}" wx:key="_id" style="margin-top: 20rpx;">
         <van-cell-group inset custom-class="shadow">
           <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" thumb-class="pictureStyle">
-            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
+            <view slot="title" style="font-weight: bolder; font-size: 14px;">
               {{ item.name }}
               <view style="margin-top: 4px;">
                 <van-tag color="#13c2c2" plain>{{ item.college }}</van-tag>
@@ -19,6 +21,10 @@
               <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
             </view>
           </van-card>
+
+          <view class="{{ 'order-state-' + item.state }}">
+            {{ utils.orderStateToStr(item.state) }}
+          </view>
         </van-cell-group>
       </view>
 

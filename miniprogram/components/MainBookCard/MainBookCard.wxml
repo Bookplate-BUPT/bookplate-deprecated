@@ -6,15 +6,19 @@
     </view>
 
     <van-card price="{{ price }}" thumb="{{ image_list[0] }}" origin-price="{{original_price }}" data-id="{{ _id }}" bindtap="goToBookDetail" tag="{{ isNew ? '最新' : '' }}">
-      <view slot="title" style="font-weight: bolder; font-size:30rpx;">
+      <view slot="title" style="font-weight: bolder; font-size: 14px;">
         {{ name }}
-        <view style="margin-top: 4px;">
-        <van-tag color="#13c2c2" plain>{{ grade }}</van-tag>
+        <!-- <view style="margin-top: 4px;">
+          <van-tag color="#13c2c2" plain>{{ grade }}</van-tag>
+        </view> -->
       </view>
-      </view>
-      <view slot="desc" style="color: #a1a1a1; font-size: 28rpx; margin-top: 4px;">
+      <view slot="desc" style="color: #a1a1a1; margin-top: 4px;">
         {{ introduction }}
       </view>
+
+      <!-- <view slot="price-top">
+        <van-tag color="#13c2c2" plain>{{ grade }}</van-tag>
+      </view> -->
     </van-card>
 
     <view slot="right">
