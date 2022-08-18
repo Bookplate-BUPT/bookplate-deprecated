@@ -28,7 +28,7 @@
         </van-cell-group>
       </view>
 
-      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
+      <van-divider wx:if="{{tradeGoodsList.length == tradeGoodsListSum}}" contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 
@@ -88,7 +88,7 @@
         </view>
       </van-popup>
 
-      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
+      <van-divider wx:if="{{pendingTrade.length == pendingTradeSum}}" contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 
@@ -119,7 +119,7 @@
         </van-cell-group>
       </view>
 
-      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
+      <van-divider wx:if="{{ confirmedTrade.length == confirmedTradeSum }}" contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 
@@ -150,7 +150,7 @@
         </van-cell-group>
       </view>
 
-      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
+      <van-divider wx:if="{{ rejectedTrade.length == rejectedTradeSum }}" contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 
@@ -181,7 +181,7 @@
         </van-cell-group>
       </view>
 
-      <van-divider contentPosition="center" dashed>没有更多了~</van-divider>
+      <van-divider wx:if="{{successfulTrade.length == successfulTradeSum}}" contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
   </van-tab>
 </van-tabs>

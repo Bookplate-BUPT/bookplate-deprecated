@@ -25,7 +25,8 @@
           <van-button block color="#878998" custom-class="swiperCellButton" slot="right" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
         </MainBookCard>
       </view>
-      <van-divider contentPosition="center" dashed>没有更多啦</van-divider>
+
+      <van-divider wx:if="{{ historyList.length == historySum }}" contentPosition="center" dashed>没有更多啦</van-divider>
     </scroll-view>
   </van-tab>
 
