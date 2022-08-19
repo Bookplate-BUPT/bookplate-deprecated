@@ -16,7 +16,12 @@ Page({
 
   // 跳转至发起交易页面
   gotoLaunchTrade() {
-    if (this.data.bookDetail.state == 1) {
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error',
+      })
+    } else if (this.data.bookDetail.state == 1) {
       wx.showToast({
         title: '该书已被预订',
         icon: 'error'
@@ -49,7 +54,7 @@ Page({
       })
 
     this.getBookDetail()
-    this.getNumOfUserCartGoods()
+    // this.getNumOfUserCartGoods()
   },
 
   onShow() {
@@ -87,7 +92,7 @@ Page({
       })
   },
 
-  // 获取用户购物车内商品总数
+  // 获取用户购物车内商品总数 - 已无用
   getNumOfUserCartGoods() {
     // 如果没登录则直接返回
     if (!__user.checkLoginStatus()) return
@@ -159,7 +164,7 @@ Page({
                       icon: 'success',
                     })
 
-                    this.getNumOfUserCartGoods()
+                    // this.getNumOfUserCartGoods()
                   })
               }
             })
@@ -171,57 +176,50 @@ Page({
 
   // 商品被锁定时加入购物车的确认
   lockedGoodsConfirm() {
-    // 不允许添加自己的商品进购物车
-    if (this.data.sellerDetail._openid === __user.getUserOpenid()) {
-      wx.showToast({
-        title: '不能添加自己的商品进购物车',
-        icon: 'none',
-      })
-    } else {
-      Dialog.confirm({
-        title: '确定加入购物车吗？',
-        message: '该书籍目前已被预定，被购买后将下架',
-        closeOnClickOverlay: true,
-      })
-        .then(res => {
-          wx.cloud.database().collection('cart')
-            .where({
-              _openid: __user.getUserOpenid(),
-              goods_id: this.data.goodsID,
-            })
-            .get()
-            .then(res => {
+    Dialog.confirm({
+      title: '确定加入购物车吗？',
+      message: '该书籍目前已被预定，被购买后将下架',
+      closeOnClickOverlay: true,
+    })
+      .then(res => {
+        wx.cloud.database().collection('cart')
+          .where({
+            _openid: __user.getUserOpenid(),
+            goods_id: this.data.goodsID,
+          })
+          .get()
+          .then(res => {
 
-              // 已经在购物车内
-              if (res.data.length) {
-                wx.showToast({
-                  title: '已在购物车中',
-                  icon: 'error',
+            // 已经在购物车内
+            if (res.data.length) {
+              wx.showToast({
+                title: '已在购物车中',
+                icon: 'error',
+              })
+            } else {
+              // 不在购物车内
+              wx.cloud.database().collection('cart')
+                .add({
+                  data: {
+                    goods_id: this.data.goodsID,
+                    add_time: new Date(),
+                  }
                 })
-              } else {
-                // 不在购物车内
-                wx.cloud.database().collection('cart')
-                  .add({
-                    data: {
-                      goods_id: this.data.goodsID,
-                      add_time: new Date(),
-                    }
+                .then(res => {
+                  wx.showToast({
+                    title: '添加成功',
+                    icon: 'success',
                   })
-                  .then(res => {
-                    wx.showToast({
-                      title: '添加成功',
-                      icon: 'success',
-                    })
 
-                    this.getNumOfUserCartGoods()
-                  })
-              }
-            })
-        })
-        .catch(err => {
+                  // this.getNumOfUserCartGoods()
+                })
+            }
+          })
+      })
+      .catch(err => {
 
-        })
-    }
+      })
+
   },
 
   // 联系卖家

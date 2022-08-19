@@ -27,8 +27,8 @@
     </view>
   </van-cell>
 
-  <van-cell title="学院" title-width="36px" value="{{ bookDetail.college }}" />
-  <van-cell title="专业" title-width="36px" value="{{ bookDetail.grade }}" />
+  <van-cell title="适用学院" title-width="36px" value="{{ bookDetail.college }}" />
+  <van-cell title="适用专业" title-width="36px" value="{{ bookDetail.major }}" />
   <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
 </van-cell-group>
 
@@ -62,9 +62,9 @@
 
 <van-goods-action>
   <van-goods-action-icon style="margin-left: 6px;" icon="cart-o" text="加入购物车" bind:click="addGoodsToCart" data-state="{{bookDetail.state}}" />
-  <!-- <van-goods-action-icon icon="chat-o" text="联系卖家" bind:click="gotoCart" /> -->
-  <van-goods-action-button text="立即交易" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="gotoLaunchTrade" />
-  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '联系卖家' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="contactSeller" />
+  <!-- <van-goods-action-icon icon="cart-o" text="购物车" bind:click="gotoCart" /> -->
+  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即交易' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="gotoLaunchTrade" />
+  <van-goods-action-button text="联系卖家" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="contactSeller" />
 </van-goods-action>
 
 <van-dialog id="van-dialog" />
