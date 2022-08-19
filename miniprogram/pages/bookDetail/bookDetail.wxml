@@ -21,12 +21,14 @@
       </view>
 
       <view class="book-name">
-        <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag>
+        <!-- <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag> -->
         <text style="margin-left: 8px;">{{ bookDetail.name }}</text>
       </view>
     </view>
   </van-cell>
 
+  <van-cell title="学院" title-width="36px" value="{{ bookDetail.college }}" />
+  <van-cell title="专业" title-width="36px" value="{{ bookDetail.grade }}" />
   <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
 </van-cell-group>
 
@@ -59,11 +61,10 @@
 <view style="margin-bottom: 25%;" />
 
 <van-goods-action>
-  <van-goods-action-icon icon="cart-o" text="购物车" info="{{ numOfUserCartGoods === 0 ? '' : numOfUserCartGoods }}" bind:click="gotoCart" />
-  <van-goods-action-icon icon="chat-o" text="联系卖家" bind:click="contactSeller" />
-  <van-goods-action-button text="加入购物车" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="addGoodsToCart" data-state="{{bookDetail.state}}" />
-  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即购买' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="gotoLaunchTrade" />
+  <van-goods-action-icon style="margin-left: 6px;" icon="cart-o" text="加入购物车" bind:click="addGoodsToCart" data-state="{{bookDetail.state}}" />
+  <!-- <van-goods-action-icon icon="chat-o" text="联系卖家" bind:click="gotoCart" /> -->
+  <van-goods-action-button text="立即交易" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="gotoLaunchTrade" />
+  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '联系卖家' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="contactSeller" />
 </van-goods-action>
 
-<van-calendar show="{{ showcalendar }}" bind:close="onClosecalendar" bind:confirm="onConfirmcalendar" />
 <van-dialog id="van-dialog" />
