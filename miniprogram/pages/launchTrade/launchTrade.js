@@ -7,10 +7,21 @@ Page({
   data: {
     bookDetail: {},       // 书籍详细信息
     sellerDetail: {},     // 卖家详细信息
-    trade_time: '',       // 交易日期（或时间）
+    trade_date: '',       // 交易日期
+    trade_time: '',       // 交易时间
     trade_spot: '',       // 交易地点
 
     showCalendar: false,  // 显示日期弹出层
+    showTime: false,      // 显示时间弹出层
+
+    // 时间选择的过滤器
+    filter(type, options) {
+      if (type === 'minute') {
+        return options.filter((option) => option % 10 === 0);
+      }
+
+      return options;
+    },
   },
 
   // 生命周期函数--监听页面加载
@@ -18,7 +29,8 @@ Page({
     this.setData({
       bookDetail: JSON.parse(options.bookDetail),
       sellerDetail: JSON.parse(options.sellerDetail),
-      trade_time: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
+      trade_date: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
+      trade_time: new Date().toISOString().slice(11, 16),
     })
 
     console.log(options.sellerDetail)
@@ -45,7 +57,7 @@ Page({
   confirmCalendar(event) {
     this.setData({
       showCalendar: false,
-      trade_time: this.formatDate(event.detail),
+      trade_date: this.formatDate(event.detail),
     });
   },
 
@@ -60,6 +72,28 @@ Page({
   onChangeTradeSpot(e) {
     this.setData({
       trade_spot: e.detail
+    })
+  },
+
+  // 显示时间弹出层
+  displayTime() {
+    this.setData({
+      showTime: true
+    })
+  },
+
+  // 关闭时间弹出层
+  closeTime() {
+    this.setData({
+      showTime: false
+    })
+  },
+
+  // 确认选择时间
+  confirmTime(e) {
+    this.setData({
+      trade_time: e.detail,
+      showTime: false
     })
   },
 
@@ -104,6 +138,9 @@ Page({
 
   // 向trade集合中添加记录
   addTradeRecord() {
+    // 连接完整的交易时间
+    var trade_time = this.data.trade_date + this.data.trade_time
+
     this.data.bookDetail.image_list.forEach((i, idx) => {
       if (i === 'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg') {
         this.data.bookDetail.image_list.splice(idx, 1)
@@ -114,7 +151,7 @@ Page({
         goods_id: this.data.bookDetail._id,
         state: 0,
         trade_price: this.data.bookDetail.price,
-        trade_time: this.data.trade_time,
+        trade_time: trade_time,
         trade_spot: this.data.trade_spot,
         original_price: this.data.bookDetail.original_price,
         seller_openid: this.data.bookDetail._openid,
