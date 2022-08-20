@@ -14,3 +14,12 @@
   /* 解决van-swipe-cell渲染层报错 */
   touch-action: none;
 }
+
+.help {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 7px 0;
+  /* padding-left: 8%; */
+  /* height: 36px; */
+}

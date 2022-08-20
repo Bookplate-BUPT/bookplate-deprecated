@@ -69,17 +69,21 @@
 
 <view class="footerRoot">
   <van-row>
-    <van-col span="9" offset="2">
-      <van-button round block color="linear-gradient(to right, #8ac286, #659c64)" size="small" bind:click="toSellBook" data-identification="transmission">发布卖书信息
+    <van-col span="10" offset="7">
+      <van-button round block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="toSellBook" data-identification="transmission">
+        <view style="display: flex;align-items: center;">
+          <van-icon name="scan" size="23px" />
+          <text style="margin-left: 10px; font-size: 15px;">扫码卖书</text>
+        </view>
       </van-button>
     </van-col>
-    <van-col span="9" offset="2">
-      <van-button round block plain color="#8ac286" size="small" bind:click="toSeekBook">发布求书信息
-      </van-button>
-    </van-col>
+    <!-- <van-col span="9" offset="2"> -->
+    <!-- <van-button round block plain color="#8ac286" size="small" bind:click="toSeekBook">发布求书信息
+      </van-button> -->
+    <!-- </van-col> -->
   </van-row>
 
-  <view style="padding-left: 8%; height: 36px; align-items: center; display: flex;" bindtap="toSellDetail">
+  <view bindtap="toSellDetail" class="help">
     <van-icon name="question-o" style="margin: 5px 0 0 0;" />
     <text style="font-size: 14px; color: #323233; margin:4px 0 0 4px;">了解更多买卖二手书流程</text>
   </view>
