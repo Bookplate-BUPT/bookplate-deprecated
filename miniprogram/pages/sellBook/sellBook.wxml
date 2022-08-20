@@ -3,7 +3,7 @@
 <!-- 顶栏通知 -->
 <block wx:if="{{ showState }}">
   <van-sticky>
-    <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="请准确填写要求的书籍信息或使用扫码加书一键填写。" />
+    <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="支持扫码录入信息，可以使用扫码加书一键填写哦~" />
   </van-sticky>
 </block>
 
@@ -45,7 +45,7 @@
 </van-cell-group>
 
 <!-- 书籍图片 -->
-<van-cell-group inset title="书籍图片" custom-class="shadow">
+<van-cell-group inset title="书籍图片（封面、破损程度等）" custom-class="shadow">
   <view style="margin: 2% 0 0 3%;">
     <van-uploader file-list="{{ showList }}" bind:after-read="addImage" max-count="9" bind:delete="deleteImage" />
   </view>
