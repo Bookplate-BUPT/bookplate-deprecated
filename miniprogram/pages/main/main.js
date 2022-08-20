@@ -325,7 +325,7 @@ Page({
     seekList: '',   // 求书列表
 
     triggered: false,   //关闭下拉刷新界面
-    institute: '',      //选择的学院
+    college: '',      //选择的学院
     major: '',          //选择的专业
     mainActiveIndex: 0,
   },
@@ -347,8 +347,8 @@ Page({
     this.setData({
       mainActiveIndex: detail.index || 0,
     });
-    this.data.institute = this.data.bookTypeOption[this.data.mainActiveIndex].text
-    if (this.data.institute === '全部书籍') {
+    this.data.college = this.data.bookTypeOption[this.data.mainActiveIndex].text
+    if (this.data.college === '全部书籍') {
       this.setData({
         bookType: '全部书籍'
       })
@@ -360,7 +360,7 @@ Page({
   //获取专业信息
   onClickItem({ detail = {} }) {
     this.data.major = detail.value
-    var booksClassification = this.data.institute + this.data.major
+    var booksClassification = this.data.college + this.data.major
     this.setData({
       bookType: booksClassification
     })
@@ -526,7 +526,8 @@ Page({
       else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
         wx.cloud.database().collection('goods')
           .where({
-            grade: this.data.bookType
+            college: this.data.college,
+            major: this.data.major,
           })
           .get()
           .then(res => {
@@ -554,7 +555,8 @@ Page({
       else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
         wx.cloud.database().collection('goods')
           .where({
-            grade: this.data.bookType
+            college: this.data.college,
+            major: this.data.major,
           })
           .orderBy(this.data.sortType, 'asc')
           .get()
