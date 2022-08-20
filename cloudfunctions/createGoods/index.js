@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
         post_date: new Date(),
         publisher: event.publisher,
         book_publish_date: event.publishDate,
-        grade: event.grade,
+        major: event.major,
         college: event.college,
         state: event.state,
       }
