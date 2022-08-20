@@ -10,8 +10,9 @@
 | _openid  | string         | not null |         | 用户设备的唯一标识符   |
 | username | string         | not null |         | 用户昵称，可以随意更改 |
 | avatar   | string         | not null |         | 用户头像的src          |
-| grade    | string         | not null |         | 表示用户的年级         |
-| school   | string         | not null |         | 表示用户的学院         |
+| grade    | string         | not null |         | 表示用户的届级         |
+| college  | string         | not null |         | 表示用户的学院         |
+| major    | string         | not null |         | 表示用户的专业         |
 
 
 
@@ -35,8 +36,8 @@
 | post_date         | date           | not null |         | 商品的发布时间                       |
 | publisher         | string         | not null |         | 书本的出版社                         |
 | book_publish_date | date           | not null |         | 书本的发行时间                       |
-| grade             | string         | not null |         | 书本对应的学院专业                   |
-| college           | string         | not null |         | 书本对应的学院                       |
+| college           | string         | not null |         | 书本适用的学院                       |
+| major             | string         | not null |         | 书本适用的专业                       |
 
 
 
