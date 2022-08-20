@@ -14,3 +14,7 @@
   /* 解决van-swipe-cell渲染层报错 */
   touch-action: pan-y;
 }
+
+.styler{
+  --notice-bar-font-size: 28rpx
+}
