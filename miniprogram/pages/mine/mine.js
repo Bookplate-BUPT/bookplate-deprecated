@@ -12,10 +12,13 @@ Page({
     userGrade: '',
     userSchool: '',
 
-    viewsSum: '-',    // 书籍总浏览量
-    tradeSum: '-',    // 总交易成功量
-    unconfirmedTrade: false, // 未处理的交易
-    unreceived: false, // 暂未收货
+    viewsSum: '-',              // 书籍总浏览量
+    tradeSum: '-',              // 总交易成功量
+    unconfirmedTrade: false,    // 未处理的交易
+    unreceived: false,          // 暂未收货
+
+    numOfMysellbook: 0,         // 我卖出的数量
+    numOfMybuybook: 0,          // 我买到的数量
   },
 
   onLoad() {
@@ -26,9 +29,9 @@ Page({
     if (__user.checkLoginStatus()) {
       this.getUserDetail()
       this.countViews()
-      this.countTrade()
       this.countConfirmedTrade()
       this.countUnreceived()
+      this.countSum()
     }
   },
 
@@ -191,7 +194,7 @@ Page({
       })
   },
 
-  gotoMySeekBooks(){
+  gotoMySeekBooks() {
     wx.showToast({
       title: '此功能暂未开发',
       icon: 'error'
@@ -242,38 +245,28 @@ Page({
     }
   },
 
+  // 计算一系列的数量（不包括红点显示与书籍被浏览量）
+  countSum() {
+    this.countNumOfMysellbook()
+      .then(res => {
+        this.countNumOfMybuybook()
+          .then(resInner => {
+            this.countTrade()
+          })
+          .catch(errInner => {
+            console.error(errInner)
+          })
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  },
+
   // 计算交易总成功量
   countTrade() {
-    if (!__user.checkLoginStatus()) {
-      this.setData({
-        tradeSum: '-',
-      })
-    } else {
-      let tempTradeSum = 0
-      wx.cloud.database().collection('trade')
-        .where({
-          seller_openid: app.globalData.userOpenid,
-          state: 2
-        })
-        .get()
-        .then(res => {
-          // console.log('res1', res)
-          tempTradeSum += res.data.length,
-            wx.cloud.database().collection('trade')
-              .where({
-                _openid: app.globalData.userOpenid,
-                state: 2
-              })
-              .get()
-              .then(res => {
-                // console.log('res2', res)
-                tempTradeSum += res.data.length
-                this.setData({
-                  tradeSum: tempTradeSum
-                })
-              })
-        })
-    }
+    this.setData({
+      tradeSum: this.data.numOfMysellbook + this.data.numOfMybuybook
+    })
   },
 
   // 计算未处理的交易量
@@ -315,5 +308,43 @@ Page({
             unreceived: false
           })
       })
-  }
+  },
+
+  // 计算我卖出的数量
+  countNumOfMysellbook() {
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade')
+        .where({
+          seller_openid: __user.getUserOpenid(),
+          state: 2
+        })
+        .get()
+        .then(res => {
+          this.setData({
+            numOfMysellbook: res.data.length
+          })
+          resolve(res)
+        })
+    })
+    return promise
+  },
+
+  // 计算我买到的数量
+  countNumOfMybuybook() {
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade')
+        .where({
+          _openid: __user.getUserOpenid(),
+          state: 2
+        })
+        .get()
+        .then(res => {
+          this.setData({
+            numOfMybuybook: res.data.length
+          })
+          resolve(res)
+        })
+    })
+    return promise
+  },
 })

@@ -27,14 +27,16 @@
   <van-grid direction="horizontal" column-num="3" clickable>
     <van-grid-item use-slot bind:click="gotoConfirmOrder">
       <van-icon name="manager-o" size="16px" dot="{{unconfirmedTrade}}" />
-      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我是卖家</text>
+      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我卖出的</text>
+      <text style="margin-left: 4px;color: #afafaf;font-size: 18px;">{{ numOfMysellbook }}</text>
     </van-grid-item>
 
     <van-grid-item use-slot bind:click="gotoViewOrder">
-      <van-icon name="/icons/mybook.png" size="16px" dot="{{unreceived}}"/>
-      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我是买家</text>
+      <van-icon name="/icons/mybook.png" size="16px" dot="{{unreceived}}" />
+      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我买到的</text>
+      <text style="margin-left: 4px;color: #afafaf;font-size: 18px;">{{ numOfMybuybook }}</text>
     </van-grid-item>
-    
+
     <van-grid-item use-slot bind:click="gotoHistory">
       <van-icon name="clock-o" size="16px" />
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">浏览历史</text>
@@ -50,13 +52,13 @@
     </van-grid-item>
   </van-grid>
 
-  <van-cell is-link title="我的卖书" bind:click="gotoMySellBooks">
+  <van-cell is-link title="我发布的" bind:click="gotoMySellBooks">
     <van-icon name="shop-o" size="16px" slot="icon" style="margin-right: 4px;" />
   </van-cell>
 
-  <van-cell is-link title="我的求书" link-type="navigateTo" bind:click="gotoMySeekBooks">
+  <!-- <van-cell is-link title="我的求书" link-type="navigateTo" bind:click="gotoMySeekBooks">
     <van-icon name="shop-collect-o" size="16px" slot="icon" style="margin-right: 4px;" />
-  </van-cell>
+  </van-cell> -->
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
