@@ -27,8 +27,9 @@
     </view>
   </van-cell>
 
-  <van-cell title="适用学院" title-width="36px" value="{{ bookDetail.college }}" />
-  <van-cell title="适用专业" title-width="36px" value="{{ bookDetail.major }}" />
+
+  <van-field label="适用学院" value="{{ bookDetail.college }}" readonly input-align="right" class="styler" />
+  <van-field label="适用专业" value="{{ bookDetail.major }}" readonly input-align="right" class="styler" />
   <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
 </van-cell-group>
 
@@ -42,7 +43,7 @@
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">
   <van-cell title="昵称" value="{{ sellerDetail.nickName }}" />
-  <van-cell title="年级" value="{{ sellerDetail.grade }}" />
+  <van-cell title="届级" value="{{ sellerDetail.grade }}" />
   <van-cell title="学院" value="{{ sellerDetail.school }}" />
   <view style="display: flex; align-items: center; margin: 0 0 3% 5%;">
     <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 10%" />
