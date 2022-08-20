@@ -3,7 +3,7 @@
 <!-- 顶栏通知 -->
 <block wx:if="{{ showState }}">
   <van-sticky>
-    <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="支持扫码录入信息，可以使用扫码加书一键填写哦~" />
+    <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="扫码填写更加便捷哦~" />
   </van-sticky>
 </block>
 

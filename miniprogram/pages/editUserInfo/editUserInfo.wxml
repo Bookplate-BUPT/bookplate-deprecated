@@ -1,6 +1,6 @@
 <!--pages/editUserInfo/editUserInfo.wxml-->
 <van-cell-group inset title="编辑个人信息" custom-class="shadow">
-  <van-picker columns="{{ columns }}" id="identity"/>
+  <van-picker columns="{{ columns }}" id="identity" bind:change="changeUserInfoInSchool" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
