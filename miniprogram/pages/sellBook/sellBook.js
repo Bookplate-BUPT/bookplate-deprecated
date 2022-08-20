@@ -15,6 +15,22 @@ const citys = {
   '国际学院': ['电信工程及管理', '物联网工程', '电子信息工程', '智能科学与技术'],
   '北京邮电大学玛丽女王海南学院': ['信息与计算科学']
 };
+
+const college = {
+  '未来学院': 0,
+  '电子工程学院': 1,
+  '计算机学院': 2,
+  '信息与通信工程学院': 3,
+  '网络空间安全学院': 4,
+  '人工智能学院': 5,
+  '现代邮政学院': 6,
+  '经济管理学院': 7,
+  '理学院': 8,
+  '人文学院': 9,
+  '数字媒体与设计艺术学院': 10,
+  '国际学院': 11,
+  '北京邮电大学玛丽女王海南学院': 12,
+}
 import __user from "../../utils/user"
 
 Page({
@@ -30,7 +46,7 @@ Page({
     originalPrice: '',  // 为了使初始化时原价那一栏什么也不写，这里需要为空字符串，而不是数字0
     price: '',          // 二手定价同理
     description: '',    // 用户对自己二手书的描述
-    grade: '',          // 书籍对应的专业状况（学院、专业）
+    major: '',          // 书籍对应的专业
     college: '',         //书籍对应的学院
 
     // 页面展示相关
@@ -54,54 +70,81 @@ Page({
 
     userOpenid: '',
     showState: true,            //根据不同的页面判断呈现相应的页面
-    show: false,
-    columns: [
+    showCollege: false,
+    showMajor: false,
+    columnsCollege: [
       {
-        values: Object.keys(citys),
-      },
-      {
-        values: citys['未来学院'],
+        values: Object.keys(college),
       },
     ],
+    columnsMajor: [],
   },
   //选择书籍的类型时调用
-  selectClassification(e) {
+  selectCollege(e) {
     this.setData({
-      show: true
+      showCollege: true
     })
   },
 
-  onChange(event) {
-    const { picker, value } = event.detail;
-    picker.setColumnValues(1, citys[value[0]]);
-  },
-
-  onClose() {
+  //选择书籍的类型时调用
+  selectMajor(e) {
     this.setData({
-      show: false
+      showMajor: true,
+      columnsMajor: citys[this.data.college]
     })
   },
 
-  onOrder(e) {
-    var tempList = this.selectComponent('#classification').getValues()
-    this.data.grade = tempList[0] + tempList[1]
+  onCloseCollege() {
     this.setData({
-      show: false,
-      grade: this.data.grade,
-      college: tempList[0]
+      showCollege: false
+    })
+  },
+
+  onCloseMajor() {
+    this.setData({
+      showMajor: false
+    })
+  },
+
+  onOrderCollege(e) {
+    var tempList = this.selectComponent('#Collegeclassification').getValues()
+    if (this.data.college !== tempList[0]) {
+      this.setData({
+        showCollege: false,
+        college: tempList,
+        major: '',
+      })
+    }
+    this.setData({
+      showCollege: false,
+      college: tempList,
+    })
+  },
+
+  onOrderMajor(e) {
+    var tempList = this.selectComponent('#Majorclassification').getValues()
+    this.setData({
+      showMajor: false,
+      major: tempList
     })
   },
 
   //根据页面的不同，赋予不同的setdata
   onLoad(options) {
     if (options.identification == 'transmission' || !(JSON.parse(options.message).identification == 'mySellBooks')) {
-      this.setData({
-        userOpenid: __user.getUserOpenid(),
+      wx.cloud.database().collection('users').where({
+        _openid: __user.getUserOpenid()
+      }).get().then(res => {
+        this.setData({
+          userOpenid: __user.getUserOpenid(),
+          major: res.data[0].major,
+          college: res.data[0].college,
+        })
       })
     }
     else {
       console.log(JSON.parse(options.message))
-      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id, college } = JSON.parse(options.message)
+      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major } = JSON.parse(options.message)
       for (var i = 0; i < image_list.length; i++) {
         this.data.showList.push({
           url: image_list[i],
@@ -116,7 +159,6 @@ Page({
         author: author,
         publishDate: book_publish_date,
         description: description,
-        grade: grade,
         showList: this.data.showList,
         showListToo: showListToo,
         introduction: introduction,
@@ -125,7 +167,8 @@ Page({
         price: price,
         publisher: publisher,
         _id: _id,
-        college: college
+        college: college,
+        major: major,
       })
     }
   },
@@ -236,7 +279,8 @@ Page({
       originalPrice: '',
       price: '',
       description: '',
-      grade: '',
+      college: '',
+      major: '',
     })
   },
 
@@ -310,7 +354,7 @@ Page({
     this.fromObjectToChar()
 
     // 信息是否完整
-    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.grade || this.data.price === '') {
+    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.college || !this.data.major || this.data.price === '') {
       wx.showToast({
         title: '信息不完整',
         icon: 'error',
@@ -352,7 +396,7 @@ Page({
             price: this.data.price,
             description: this.data.description,
             openid: this.data.userOpenid,
-            grade: this.data.grade,
+            major: this.data.major,
             college: this.data.college,
             state: 0, // 表示未售出
           },
@@ -517,8 +561,8 @@ Page({
             price: this.data.price,
             image_list: res,
             description: this.data.description,
-            grade: this.data.grade,
-            college: this.data.college
+            major: this.data.major,
+            college: this.data.college,
           }
         }).then(res => {
           wx.showToast({
