@@ -6,5 +6,5 @@
 }
 
 .styler {
-  --picker-option-font-size: 9px
+  --picker-option-font-size: 14px
 }
