@@ -73,16 +73,19 @@ Page({
       const chatMessage = [...this.data.chatMessage]
 
       for (const docChange of snapshot.docChanges) {
+        if (docChange.doc.sender === this.data.openid && docChange.doc.recipient === this.data.otherid
+          || docChange.doc.sender === this.data.otherid && docChange.doc.recipient === this.data.openid) {
 
-        // queueType表示列表更新的类型，更新事件对监听列表的影响
-        switch (docChange.queueType) {
-          // init     初始化列表
-          // update   列表中的记录内容有更新，但列表包含的记录不变
-          // enqueue  记录进入列表
-          // dequeue  记录离开列表
-          case 'enqueue': // 有新消息进入
-            chatMessage.push(docChange.doc)
-            break
+          // queueType表示列表更新的类型，更新事件对监听列表的影响
+          switch (docChange.queueType) {
+            // init     初始化列表
+            // update   列表中的记录内容有更新，但列表包含的记录不变
+            // enqueue  记录进入列表
+            // dequeue  记录离开列表
+            case 'enqueue': // 有新消息进入
+              chatMessage.push(docChange.doc)
+              break
+          }
         }
       }
 
@@ -132,18 +135,7 @@ Page({
 
         // 消息发送成功后，需要更新一下双方的关系
         wx.cloud.database().collection('relationship')
-          .where(
-            wx.cloud.database().command.or([
-              {
-                user1: app.globalData.userOpenid,
-                user2: this.data.otherid,
-              },
-              {
-                user1: this.data.otherid,
-                user2: app.globalData.userOpenid,
-              }
-            ])
-          )
+          .doc(this.data.relationshipID)
           .update({
             data: {
               last_content: doc.content,
@@ -182,8 +174,6 @@ Page({
         )
         .get()
         .then(res => {
-          console.log(res)
-
           // 如果先前没有记录双方的关系，则需创建
           if (res.data.length === 0) {
             wx.cloud.database().collection('relationship')
@@ -202,7 +192,7 @@ Page({
               })
           } else { // 如果关系已存在
             this.setData({
-              relationshipID: res._id
+              relationshipID: res.data[0]._id
             })
           }
         })
@@ -224,6 +214,5 @@ Page({
         })
       })
     }
-
   }
 })
