@@ -1,0 +1,60 @@
+/* pages/order/order.wxss */
+.shadow {
+  box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  /* 解决van-swipe-cell渲染层报错 */
+  /* touch-action: none; */
+}
+
+.usernameCol {
+  margin-top: 8px;
+}
+
+.tagCol {
+  margin-top: 4px;
+}
+
+.price-show {
+  background-attachment: scroll;
+}
+
+.price-mark {
+  color: #ee0a24;
+  font-size: 16px;
+  /* margin-left: 10px; */
+  font-weight: 600;
+}
+
+.price-int {
+  font-size: 25px;
+  color: #ee0a24;
+  font-weight: 600;
+  /* margin-top: 7px; */
+  margin-left: 2px;
+}
+
+.price-float {
+  font-size: 18px;
+  color: #ee0a24;
+  font-weight: 600;
+  /* margin-top: 7px; */
+}
+
+.original-price {
+  color: #969799;
+  text-decoration: line-through;
+  /* padding-left: 5px; */
+  font-size: 12px;
+  /* line-height: 30px; */
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.book-name {
+  color: #323233;
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 4px;
+  /* margin-left: 12px; */
+  /* margin-bottom: 7px; */
+}

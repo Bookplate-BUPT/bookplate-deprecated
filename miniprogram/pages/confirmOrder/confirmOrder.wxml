@@ -7,25 +7,7 @@
     </view>
     <view wx:else>
       <view wx:for="{{ tradeGoodsList }}" wx:key="_id" style="margin-top: 20rpx;">
-        <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
-            <view slot="title" style="font-weight: bolder; font-size: 14px;">
-              {{ item.name }}
-              <view style="margin-top: 4px;">
-                <van-tag color="#13c2c2" plain>{{ item.college }}</van-tag>
-              </view>
-            </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
-              <view>ISBN：{{ item.isbn }}</view>
-              <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
-              <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
-            </view>
-          </van-card>
-
-          <view class="{{ 'order-state-' + item.state }}">
-            {{ utils.orderStateToStr(item.state, 0) }}
-          </view>
-        </van-cell-group>
+        <OrderCard state="{{ item.state }}" trade_price="{{ item.trade_price }}" trade_time="{{ item.trade_time }}" trade_spot="{{ item.trade_spot }}" bookDetail="{{ item.bookDetail }}" _id="{{ item._id }}" ></OrderCard>
       </view>
 
       <van-divider wx:if="{{ tradeGoodsList.length == tradeGoodsListSum}}" contentPosition="center" dashed>没有更多了~</van-divider>
@@ -38,55 +20,15 @@
     </view>
     <view wx:else>
       <view wx:for="{{pendingTrade}}" wx:key="_id" style="margin-top: 20rpx;">
-        <van-cell-group inset custom-class="shadow">
-          <van-swipe-cell right-width="{{88}}" left-width="{{88}}">
-            <van-button block custom-class="swiperCellButton" slot="left" color="#FF596A" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
-              取消交易
-            </van-button>
-
-            <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="ShowPopup" data-item="{{ item }}" thumb-class="pictureStyle">
-              <view slot="title" style="font-weight: bolder; font-size:30rpx;">
-                {{ item.name }}
-                <view style="margin-top: 4px;">
-                  <van-tag color="#13c2c2" plain>{{ item.college }}</van-tag>
-                </view>
-              </view>
-              <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
-                <view>ISBN：{{ item.isbn }}</view>
-                <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
-                <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
-              </view>
-            </van-card>
-
-            <view class="{{ 'order-state-' + item.state }}">
-              {{ utils.orderStateToStr(item.state, 0) }}
-            </view>
-
-            <van-button block custom-class="swiperCellButton" slot="right" color="#8AC286" bind:click="commitForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
-              确认交易
-            </van-button>
-          </van-swipe-cell>
-        </van-cell-group>
+        <OrderCard state="{{ item.state }}" left="{{ 88 }}" right="{{ 88 }}" link trade_price="{{ item.trade_price }}" trade_time="{{ item.trade_time }}" trade_spot="{{ item.trade_spot }}" bookDetail="{{ item.bookDetail }}" _id="{{ item._id }}" >
+          <van-button slot="left" block custom-class="swiperCellButton" color="#FF596A" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+            取消交易
+          </van-button>
+          <van-button slot="right" block custom-class="swiperCellButton" color="#8AC286" bind:click="confirmForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+            确认交易
+          </van-button>
+        </OrderCard>
       </view>
-      <van-popup bind:close="onClose" show="{{ show }}" round overlay closeable custom-style="height: 85%; width: 80% ">
-        <view style="display: flex; flex-direction: column; justify-content: space-between; height: 98%;">
-          <view style="margin-top: 28rpx;">
-            <view style="display: flex; justify-content: center;">
-              <van-image src="{{ popup.image_list[0] }}" height="{{200}}" fit="heightFix" alt="图片加载失败" />
-            </view>
-            <van-field label="书名:" readonly value="{{ popup.name }}" border="{{false}}" />
-            <van-field label="ISBN:" readonly value="{{ popup.isbn }}" border="{{false}}" />
-            <van-field label="时间:" readonly value="{{ popup.trade_time }}" border="{{false}}" />
-            <van-field label="地点:" readonly value="{{ popup.trade_spot }}" border="{{false}}" />
-            <van-field label="原价:" readonly value="{{ popup.original_price }}" border="{{false}}" />
-            <van-field label="现价:" readonly value="{{ popup.trade_price }}" border="{{false}}" />
-          </view>
-          <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
-            <view bindtap="rejectForm" data-_id="{{popup._id}}" data-goodsid="{{popup.goods_id}}" style="color: rgb(247, 58, 58);">取消交易</view>
-            <view bindtap="commitForm" data-_id="{{popup._id}}" data-goodsid="{{popup.goods_id}}">确认交易</view>
-          </view>
-        </view>
-      </van-popup>
 
       <van-divider wx:if="{{ pendingTrade.length == pendingTradeSum }}" contentPosition="center" dashed>没有更多了~</van-divider>
     </view>
@@ -98,25 +40,7 @@
     </view>
     <view wx:else>
       <view wx:for="{{confirmedTrade}}" wx:key="_id" style="margin-top: 20rpx;">
-        <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
-            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
-              {{ item.name }}
-              <view style="margin-top: 4px;">
-                <van-tag color="#a0d911" plain>{{ item.college }}</van-tag>
-              </view>
-            </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
-              <view>ISBN：{{ item.isbn }}</view>
-              <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
-              <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
-            </view>
-          </van-card>
-
-          <view class="{{ 'order-state-' + item.state }}">
-            {{ utils.orderStateToStr(item.state, 0) }}
-          </view>
-        </van-cell-group>
+        <OrderCard state="{{ item.state }}" trade_price="{{ item.trade_price }}" trade_time="{{ item.trade_time }}" trade_spot="{{ item.trade_spot }}" bookDetail="{{ item.bookDetail }}" _id="{{ item._id }}" ></OrderCard>
       </view>
 
       <van-divider wx:if="{{ confirmedTrade.length == confirmedTradeSum }}" contentPosition="center" dashed>没有更多了~</van-divider>
@@ -129,25 +53,7 @@
     </view>
     <view wx:else>
       <view wx:for="{{rejectedTrade}}" wx:key="_id" style="margin-top: 20rpx;">
-        <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
-            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
-              {{ item.name }}
-              <view style="margin-top: 4px;">
-                <van-tag color="#a0d911" plain>{{ item.college }}</van-tag>
-              </view>
-            </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
-              <view>ISBN：{{ item.isbn }}</view>
-              <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
-              <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
-            </view>
-          </van-card>
-
-          <view class="{{ 'order-state-' + item.state }}">
-            {{ utils.orderStateToStr(item.state, 0) }}
-          </view>
-        </van-cell-group>
+        <OrderCard state="{{ item.state }}" trade_price="{{ item.trade_price }}" trade_time="{{ item.trade_time }}" trade_spot="{{ item.trade_spot }}" bookDetail="{{ item.bookDetail }}" _id="{{ item._id }}" ></OrderCard>
       </view>
 
       <van-divider wx:if="{{ rejectedTrade.length == rejectedTradeSum }}" contentPosition="center" dashed>没有更多了~</van-divider>
@@ -160,25 +66,7 @@
     </view>
     <view wx:else>
       <view wx:for="{{successfulTrade}}" wx:key="_id" style="margin-top: 20rpx;">
-        <van-cell-group inset custom-class="shadow">
-          <van-card price="{{ item.trade_price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" thumb-class="pictureStyle">
-            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
-              {{ item.name }}
-              <view style="margin-top: 4px;">
-                <van-tag color="#a0d911" plain>{{ item.college }}</van-tag>
-              </view>
-            </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
-              <view>ISBN：{{ item.isbn }}</view>
-              <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ item.trade_time }}</view>
-              <view style="margin-bottom: 5rpx;">交易地点：{{ item.trade_spot }}</view>
-            </view>
-          </van-card>
-
-          <view class="{{ 'order-state-' + item.state }}">
-            {{ utils.orderStateToStr(item.state, 0) }}
-          </view>
-        </van-cell-group>
+        <OrderCard state="{{ item.state }}" trade_price="{{ item.trade_price }}" trade_time="{{ item.trade_time }}" trade_spot="{{ item.trade_spot }}" bookDetail="{{ item.bookDetail }}" _id="{{ item._id }}" ></OrderCard>
       </view>
 
       <van-divider wx:if="{{ successfulTrade.length == successfulTradeSum }}" contentPosition="center" dashed>没有更多了~</van-divider>

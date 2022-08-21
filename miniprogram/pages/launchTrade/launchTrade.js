@@ -154,6 +154,9 @@ Page({
         this.data.bookDetail.image_list.splice(idx, 1)
       }
     })
+    var bookDetail = this.data.bookDetail
+    delete bookDetail.views
+
     wx.cloud.database().collection('trade').add({
       data: {
         goods_id: this.data.bookDetail._id,
@@ -161,13 +164,8 @@ Page({
         trade_price: this.data.bookDetail.price,
         trade_time: trade_time,
         trade_spot: this.data.trade_spot,
-        original_price: this.data.bookDetail.original_price,
         seller_openid: this.data.bookDetail._openid,
-        grade: this.data.bookDetail.grade,
-        college: this.data.bookDetail.college,
-        name: this.data.bookDetail.name,
-        isbn: this.data.bookDetail.isbn,
-        image_list: this.data.bookDetail.image_list,
+        bookDetail: bookDetail
       }
     }).then(res => {
       wx.showToast({

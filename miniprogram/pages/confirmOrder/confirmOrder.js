@@ -16,14 +16,20 @@ Page({
     confirmedTradeSum: '',
     rejectedTradeSum: '',
     successfulTradeSum: '',
-    popup: {},
-    show: false,
+    isRefresh: false,         // 是否刷新页面
   },
 
-  onClose(e) {
-    this.setData({
-      show: false
-    })
+  onShow() {
+    if (this.data.isRefresh) {
+      this.setData({
+        tradeGoodsList: this.data.tradeGoodsList,
+        pendingTrade: this.data.pendingTrade,
+        confirmedTrade: this.data.confirmedTrade,
+        rejectedTrade: this.data.rejectedTrade,
+        successfulTrade: this.data.successfulTrade,
+        isRefresh: false
+      })
+    }
   },
 
   //查找trade表里面的数据
@@ -34,12 +40,6 @@ Page({
       .orderBy('trade_time', 'desc')
       .get()
       .then(res => {
-        res.data.forEach((i, idx) => {
-          if (i.image_list.length == 0) {
-            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-          }
-        })
-
         // 更新页面
         this.setData({
           tradeGoodsList: res.data
@@ -54,12 +54,6 @@ Page({
       .orderBy('trade_time', 'desc')
       .get()
       .then(res => {
-        res.data.forEach((i, idx) => {
-          if (i.image_list.length == 0) {
-            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-          }
-        })
-
         // 更新页面
         this.setData({
           pendingTrade: res.data
@@ -75,14 +69,10 @@ Page({
       .get()
       .then(res => {
         res.data.forEach((i, idx) => {
-          if (i.image_list.length == 0) {
-            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-          }
-        })
-
-        // 更新页面
-        this.setData({
-          confirmedTrade: res.data
+          // 更新页面
+          this.setData({
+            confirmedTrade: res.data
+          })
         })
       })
       .catch()
@@ -94,12 +84,6 @@ Page({
       .orderBy('trade_time', 'desc')
       .get()
       .then(res => {
-        res.data.forEach((i, idx) => {
-          if (i.image_list.length == 0) {
-            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-          }
-        })
-
         // 更新页面
         this.setData({
           rejectedTrade: res.data
@@ -114,12 +98,6 @@ Page({
       .orderBy('trade_time', 'desc')
       .get()
       .then(res => {
-        res.data.forEach((i, idx) => {
-          if (i.image_list.length == 0) {
-            i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-          }
-        })
-
         // 更新页面
         this.setData({
           successfulTrade: res.data
@@ -199,11 +177,6 @@ Page({
             .skip(this.data.tradeGoodsList.length)
             .get()
             .then(res => {
-              res.data.forEach((i, idx) => {
-                if (i.image_list.length == 0) {
-                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-                }
-              })
               this.data.tradeGoodsList = [...this.data.tradeGoodsList, ...res.data]
               // 更新页面
               this.setData({
@@ -224,11 +197,6 @@ Page({
             .skip(this.data.pendingTrade.length)
             .get()
             .then(res => {
-              res.data.forEach((i, idx) => {
-                if (i.image_list.length == 0) {
-                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-                }
-              })
               this.data.pendingTrade = [...this.data.pendingTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -249,11 +217,6 @@ Page({
             .skip(this.data.confirmedTrade.length)
             .get()
             .then(res => {
-              res.data.forEach((i, idx) => {
-                if (i.image_list.length == 0) {
-                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-                }
-              })
               this.data.confirmedTrade = [...this.data.confirmedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -274,11 +237,6 @@ Page({
             .skip(this.data.rejectedTrade.length)
             .get()
             .then(res => {
-              res.data.forEach((i, idx) => {
-                if (i.image_list.length == 0) {
-                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-                }
-              })
               this.data.rejectedTrade = [...this.data.rejectedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -299,11 +257,6 @@ Page({
             .skip(this.data.successfulTrade.length)
             .get()
             .then(res => {
-              res.data.forEach((i, idx) => {
-                if (i.image_list.length == 0) {
-                  i.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-                }
-              })
               this.data.successfulTrade = [...this.data.successfulTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -326,7 +279,7 @@ Page({
   },
 
   //确认交易
-  commitForm(event) {
+  confirmForm(event) {
     // 更新交易记录的state
     wx.cloud.callFunction({
       name: 'updateTradeState',
@@ -339,10 +292,6 @@ Page({
         title: '已确认',
         icon: 'success'
       }).then(res => {
-        this.setData({
-          show: false
-        })
-
         // 找到需要确认元素的索引
         var tempPendingTrade = this.data.pendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
@@ -381,10 +330,6 @@ Page({
         title: '已取消',
         icon: 'success'
       }).then(res => {
-        this.setData({
-          show: false
-        })
-
         // 找到需要确认元素的索引
         var tempPendingTrade = this.data.pendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })

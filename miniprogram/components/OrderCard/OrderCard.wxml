@@ -1,0 +1,28 @@
+<wxs src="../../utils/utils.wxs" module="utils" />
+
+<van-cell-group inset custom-class="shadow">
+  <van-swipe-cell right-width="{{ right }}" left-width="{{ left }}">
+    <view slot="left">
+      <slot name="left"></slot>
+    </view>
+
+    <van-card title="{{ bookDetail.name }}" price="{{ trade_price }}" thumb="{{ bookDetail.image_list[0]==null?'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg':bookDetail.image_list[0] }}" origin-price="{{ bookDetail.original_price }}" bindtap="gotoNewPage" data-id="{{ _id }}" thumb-class="pictureStyle">
+      <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
+        <view>ISBN：{{ bookDetail.isbn }}</view>
+        <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ trade_time }}</view>
+        <view style="margin-bottom: 5rpx;">交易地点：{{ trade_spot }}</view>
+      </view>
+      <view slot="footer">
+        <van-button size="small" round bind:click="contactSeller">联系卖家</van-button>
+      </view>
+    </van-card>
+
+    <view class="{{ 'order-state-' + state }}">
+      {{ utils.orderStateToStr(state, 0) }}
+    </view>
+
+    <view slot="right">
+      <slot name="right"></slot>
+    </view>
+  </van-swipe-cell>
+</van-cell-group>
