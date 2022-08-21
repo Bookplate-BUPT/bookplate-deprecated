@@ -20,11 +20,11 @@ var getFloat = function (n) {
 
 // 自定义时间戳转成时间，形式如下
 // x月x日 hh:mm
-var newFormatTime = function (timestamp) {
-  // 此处的先除以1000再乘以1000不可删除
-  var date = getDate(timestamp / 1000 * 1000)
-  return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
-}
+// var newFormatTime = function (timestamp) {
+//   // 此处的先除以1000再乘以1000不可删除
+//   var date = getDate(timestamp / 1000 * 1000)
+//   return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+// }
 
 /**
  * 自定义日期显示，形式如下
@@ -84,7 +84,7 @@ var orderStateToStr = function (state, page) {
 module.exports = {
   getInt: getInt,
   getFloat: getFloat,
-  newFormatTime: newFormatTime,
+  // newFormatTime: newFormatTime,
   getDateOnly: getDateOnly,
   orderStateToStr: orderStateToStr,
 }
