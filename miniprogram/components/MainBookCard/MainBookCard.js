@@ -1,11 +1,12 @@
 // components/mainBook/mainBook.js
 
+import __util from "../../utils/util"
+
 Component({
 
   // 组件的设置选项
   options: {
     multipleSlots: true,
-    formatLength: ''
   },
 
   // 组件的属性列表
@@ -27,7 +28,9 @@ Component({
     right: {
       type: Number,
       value: 0
-    }
+    },
+
+    bookDetail: Object,
   },
 
   data: {
@@ -58,33 +61,16 @@ Component({
         })
       })
     },
-
-    // 获取书籍内容格式化后的字数
-    getIntroductionFormatLength() {
-      var res = wx.getWindowInfo()
-      this.setData({
-        formatLength: parseInt((res.screenWidth - 168) / 14 * 2 -3 - 3)
-      })
-    },
-
-    // 书籍介绍内容格式化
-    introductionFormat(str, length) {
-      // 过长则需要省略
-      if (str.length > length) {
-        return str.substr(0, length) + '……'
-      }
-      // 不用格式化
-      else return str
-    }
   },
+
   lifetimes: {
-    /**
-     * 生命周期函数：在组件实例进入页面节点树时执行
-     */
+    // 生命周期函数：在组件实例进入页面节点树时执行
     attached() {
-      this.getIntroductionFormatLength()
+      console.log(this.data.bookDetail)
+
       this.setData({
-        introduction: this.introductionFormat(this.properties.introduction, this.data.formatLength)
+        
+        introduction: __util.format(this.properties.introduction, 110, 14, 2)
       })
     }
   }

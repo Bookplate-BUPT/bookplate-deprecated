@@ -5,11 +5,11 @@
       <slot name="left"></slot>
     </view>
 
-    <van-card price="{{ price }}" thumb="{{ image_list[0] }}" origin-price="{{original_price }}" data-id="{{ _id }}" bindtap="goToBookDetail" tag="{{ isNew ? '最新' : '' }}">
+    <van-card price="{{ price }}" thumb="{{ image_list[0] }}" origin-price="{{ original_price }}" data-id="{{ _id }}" bindtap="goToBookDetail" tag="{{ isNew ? '最新' : '' }}">
       <view slot="title" style="font-weight: bolder; font-size: 14px;">
         {{ name }}
         <!-- <view style="margin-top: 4px;">
-          <van-tag color="#13c2c2" plain>{{ grade }}</van-tag>
+          <van-tag color="#8AC286" plain>{{ bookDetail.college }}</van-tag>
         </view> -->
       </view>
       <view slot="desc" style="color: #a1a1a1; margin-top: 4px;">

@@ -46,6 +46,7 @@ Component({
           url: `../../pages/order/order?bookDetail=${JSON.stringify(this.properties.bookDetail)}&trade_price=${this.properties.trade_price}&trade_time=${this.properties.trade_time}&trade_spot=${this.properties.trade_spot}&_id=${this.properties._id}`,
         })
     },
+
     // 购买商品，联系卖家
     contactSeller() {
       if (this.properties.bookDetail._openid == undefined) {

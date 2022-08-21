@@ -1,7 +1,7 @@
 <!--components/CartBookCard/CartBookCard.wxml-->
 <van-cell-group inset custom-class="shadow">
   <van-card price="{{ bookDetail.price }}" desc="{{ bookDetail.description ? bookDetail.description : '非常抱歉，在您将该书加入购物车后，该书已被他人购买，现已下架' }}" origin-price="{{ bookDetail.original_price }}" thumb="{{ bookDetail.image_list[0] == null ? 'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png' : bookDetail.image_list[0] }}" custom-class="goodsCardMargin">
-    <view slot="title" style="font-weight: bolder;">
+    <view slot="title" style="font-weight: bolder; font-size: 14px;">
       {{ bookDetail.name == null ? '已下架' : bookDetail.name }}
       <!-- <view wx:if="{{ bookDetail.grade==null?false:true }}" style="margin-top: 4px;">
         <van-tag type="warning" plain color="#a0d911">{{ bookDetail.college }}</van-tag>
