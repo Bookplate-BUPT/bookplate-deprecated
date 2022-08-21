@@ -15,10 +15,6 @@
       <view slot="desc" style="color: #a1a1a1; margin-top: 4px;">
         {{ introduction }}
       </view>
-
-      <!-- <view slot="price-top">
-        <van-tag color="#13c2c2" plain>{{ grade }}</van-tag>
-      </view> -->
     </van-card>
 
     <view slot="right">
