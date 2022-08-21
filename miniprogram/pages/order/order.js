@@ -106,8 +106,7 @@ Page({
           pendingTrade: tempPendingTrade,
           rejectedTrade: tempRejectedTrade,
           pendingTradeSum: prePage.data.pendingTradeSum - 1,
-          rejectedTradeSum: prePage.data.rejectedTradeSum + 1,
-          isRefresh: true
+          rejectedTradeSum: prePage.data.rejectedTradeSum + 1
         })
         wx.cloud.callFunction({
           name: 'updateGoods',

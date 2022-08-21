@@ -168,12 +168,17 @@ Page({
         var tempconfirmedTrade = this.data.confirmedTrade
         var idx = tempconfirmedTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
 
+        // 在已成交中添加元素并排序
+        this.data.successfulTrade.push(tempconfirmedTrade[idx])
+        this.data.successfulTrade.sort((a, b) => b.trade_time - a.trade_time)
+        
         // 在待收货中删除元素
         tempconfirmedTrade.splice(idx, 1)
 
         // 更新页面
         this.setData({
           confirmedTrade: tempconfirmedTrade,
+          successfulTrade: this.data.successfulTrade,
           confirmedTradeSum: this.data.confirmedTrade - 1,
           successfulTradeSum: this.data.successfulTradeSum + 1,
         })

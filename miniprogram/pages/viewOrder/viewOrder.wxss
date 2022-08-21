@@ -1,4 +1,4 @@
 .swiperCellButton {
-  min-height: 117px;
+  --button-default-height: 142px;
   width: auto;
 }

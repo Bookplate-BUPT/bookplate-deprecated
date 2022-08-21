@@ -50,7 +50,7 @@
     </view>
     <view wx:else>
       <view wx:for="{{confirmedTrade}}" wx:key="_id" style="margin-top: 20rpx;">
-        <OrderCard state="{{ item.state }}" right="{{ 88 }}" trade_price="{{ item.trade_price }}" trade_time="{{ item.trade_time }}" trade_spot="{{ item.trade_spot }}" bookDetail="{{ item.bookDetail }}" _id="{{ item._id }}" >
+        <OrderCard state="{{ item.state }}" right="{{ 60 }}" trade_price="{{ item.trade_price }}" trade_time="{{ item.trade_time }}" trade_spot="{{ item.trade_spot }}" bookDetail="{{ item.bookDetail }}" _id="{{ item._id }}" >
           <van-button slot='right' color="#8AC286" custom-class="swiperCellButton" bind:click="confirmReceipt" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">收货</van-button>
         </OrderCard>
       </view>

@@ -20,16 +20,7 @@ Page({
   },
 
   onShow() {
-    if (this.data.isRefresh) {
-      this.setData({
-        tradeGoodsList: this.data.tradeGoodsList,
-        pendingTrade: this.data.pendingTrade,
-        confirmedTrade: this.data.confirmedTrade,
-        rejectedTrade: this.data.rejectedTrade,
-        successfulTrade: this.data.successfulTrade,
-        isRefresh: false
-      })
-    }
+
   },
 
   //查找trade表里面的数据
