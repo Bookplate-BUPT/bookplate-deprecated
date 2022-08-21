@@ -28,13 +28,13 @@
     <van-grid-item use-slot bind:click="gotoConfirmOrder">
       <van-icon name="manager-o" size="16px" dot="{{unconfirmedTrade}}" />
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">我卖出的</text>
-      <text style="margin-left: 4px;color: #afafaf;font-size: 18px;">{{ numOfMysellbook }}</text>
+      <text style="margin-left: 4px;color: #afafaf;font-size: x-small;">{{ numOfMysellbook }}</text>
     </van-grid-item>
 
     <van-grid-item use-slot bind:click="gotoViewOrder">
       <van-icon name="/icons/mybook.png" size="16px" dot="{{unreceived}}" />
       <text style="font-size: x-small; color: #323233; margin-left: 3px;">我买到的</text>
-      <text style="margin-left: 4px;color: #afafaf;font-size: 18px;">{{ numOfMybuybook }}</text>
+      <text style="margin-left: 4px;color: #afafaf;font-size: x-small;">{{ numOfMybuybook }}</text>
     </van-grid-item>
 
     <van-grid-item use-slot bind:click="gotoHistory">
