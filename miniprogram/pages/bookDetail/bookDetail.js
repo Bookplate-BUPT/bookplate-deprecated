@@ -75,20 +75,17 @@ Page({
           trade_price: res.data.price
         })
 
-        // TODO: 应该卖家在上传商品的时候就把部分用于显示
-        // 的个人信息塞入其中
-
         // 获取卖家详细信息
-        wx.cloud.database().collection('users')
-          .where({
-            _openid: res.data._openid
+        wx.cloud.callFunction({
+          name: 'getUserPublicInfo',
+          data: {
+            openid: this.data.bookDetail._openid
+          }
+        }).then(res => {
+          this.setData({
+            sellerDetail: res.result
           })
-          .get()
-          .then(resInner => {
-            this.setData({
-              sellerDetail: resInner.data[0]
-            })
-          })
+        })
       })
   },
 
@@ -125,7 +122,7 @@ Page({
       })
     } else {
       // 不允许添加自己的商品进购物车
-      if (this.data.sellerDetail._openid === __user.getUserOpenid()) {
+      if (this.data.bookDetail._openid === __user.getUserOpenid()) {
         wx.showToast({
           title: '不能添加自己的商品进购物车',
           icon: 'none',
@@ -229,14 +226,14 @@ Page({
         title: '请先登录',
         icon: 'error',
       })
-    } else if (this.data.sellerDetail._openid === app.globalData.userOpenid) {
+    } else if (this.data.bookDetail._openid === app.globalData.userOpenid) {
       wx.showToast({
         title: '无法联系自己',
         icon: 'error',
       })
     } else {
       wx.navigateTo({
-        url: '../chatroom/chatroom?openid=' + this.data.sellerDetail._openid,
+        url: '../chatroom/chatroom?otherid=' + this.data.bookDetail._openid,
       })
     }
   },

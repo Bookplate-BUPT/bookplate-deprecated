@@ -10,26 +10,27 @@ Page({
 
     openid: '',       // 用户自己的openid
     otherid: '',      // 当前对话对方的openid
+
     avatarLeft: '',   // 对方用户的头像url
     avatarRight: '',  // 自己的头像url
+
+    relationshipID: '',   // 记录关系在数据库中的 docID
   },
 
   onLoad(options) {
     this.setData({
       openid: app.globalData.userOpenid,
-      otherid: options.openid,
+      otherid: options.otherid,
+
+      avatarLeft: options.avatarLeft,
+      avatarRight: app.globalData.userInfo.avatarUrl,
+
+      relationshipID: options.relationshipID,
     })
 
     this.checkRelationship()
-    this.getBothAvatar()
-  },
+    this.checkUserInfo()
 
-  onShow() {
-
-  },
-
-  // 生命周期函数--监听页面初次渲染完成
-  onReady() {
     // 监听chatroom数据库里符合两人对话的消息
     // 当这一些消息发生变更（即某人可能发送了消息）时
     // 调用onChange()函数
@@ -86,7 +87,7 @@ Page({
       }
 
       this.setData({
-        chatMessage: chatMessage.sort((x, y) => x.sendTimeTS - y.sendTimeTS)
+        chatMessage: chatMessage.sort((x, y) => x.sendTime - y.sendTime)
       })
     }
 
@@ -116,7 +117,6 @@ Page({
     const doc = {
       content: this.data.textInputValue,
       sendTime: new Date(),
-      sendTimeTS: Date.now(),
       sender: this.data.openid,
       recipient: this.data.otherid,
     }
@@ -147,7 +147,7 @@ Page({
           .update({
             data: {
               last_content: doc.content,
-              last_conversation_time: doc.sendTimeTS,
+              last_conversation_time: doc.sendTime,
             }
           })
       })
@@ -163,70 +163,67 @@ Page({
     }).exec()
   },
 
-  // 获取双方的头像
-  getBothAvatar() {
-    // 获取对方的头像
-    wx.cloud.database().collection('users')
-      .where({
-        _openid: this.data.otherid
-      })
-      .get()
-      .then(res => {
-        if (res.data.length == 0) {
-          wx.showToast({
-            title: '用户不存在',
-            icon: 'error',
-          })
-        } else {
-          this.setData({
-            avatarLeft: res.data[0].avatarUrl
-          })
-        }
-      })
+  // 检查 relationship 数据库里是否已经建立了与该用户的关系
+  checkRelationship() {
+    // 如果页面传参不带关系ID
+    if (!this.data.relationshipID) {
+      wx.cloud.database().collection('relationship')
+        .where(
+          wx.cloud.database().command.or([
+            {
+              user1: app.globalData.userOpenid,
+              user2: this.data.otherid,
+            },
+            {
+              user1: this.data.otherid,
+              user2: app.globalData.userOpenid,
+            }
+          ])
+        )
+        .get()
+        .then(res => {
+          console.log(res)
 
-    // 获取自己的头像
-    wx.cloud.database().collection('users')
-      .where({
-        _openid: this.data.openid
-      })
-      .get()
-      .then(res => {
-        this.setData({
-          avatarRight: res.data[0].avatarUrl
+          // 如果先前没有记录双方的关系，则需创建
+          if (res.data.length === 0) {
+            wx.cloud.database().collection('relationship')
+              .add({
+                data: {
+                  last_content: '',
+                  last_conversation_time: new Date(),
+                  user1: app.globalData.userOpenid,
+                  user2: this.data.otherid,
+                }
+              })
+              .then(resInner => {
+                this.setData({
+                  relationshipID: resInner._id
+                })
+              })
+          } else { // 如果关系已存在
+            this.setData({
+              relationshipID: res._id
+            })
+          }
         })
-      })
+    }
   },
 
-  // 检查relationship数据库里是否已经建立了与该用户的关系
-  // 如果没有，则需要创建关系
-  checkRelationship() {
-    wx.cloud.database().collection('relationship')
-      .where(
-        wx.cloud.database().command.or([
-          {
-            user1: app.globalData.userOpenid,
-            user2: this.data.otherid,
-          },
-          {
-            user1: this.data.otherid,
-            user2: app.globalData.userOpenid,
-          }
-        ])
-      )
-      .get()
-      .then(res => {
-        // 如果先前没有记录双方的关系，则需创建
-        if (res.data.length === 0) {
-          wx.cloud.database().collection('relationship')
-            .add({
-              data: {
-                last_content: '',
-                last_conversation_time: Date.now(),
-                user1: app.globalData.userOpenid,
-                user2: this.data.otherid,
-              }
-            })
+  // 检查用户数据是否完整（头像）
+  checkUserInfo() {
+    // 如果页面跳转不带完整用户信息
+    if (!this.data.avatarLeft) {
+      wx.cloud.callFunction({
+        name: 'getUserPublicInfo',
+        data: {
+          openid: this.data.otherid
         }
+      }).then(res => {
+        this.setData({
+          avatarLeft: res.result.avatarUrl
+        })
       })
+    }
+
   }
 })

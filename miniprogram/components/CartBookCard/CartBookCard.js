@@ -62,7 +62,7 @@ Component({
         })
       } else
         wx.navigateTo({
-          url: '../chatroom/chatroom?openid=' + event.currentTarget.dataset.openid,
+          url: '../chatroom/chatroom?otherid=' + event.currentTarget.dataset.openid,
         })
     },
   }

@@ -1,19 +1,19 @@
 <!--pages/message/message.wxml-->
-<wxs src="../../utils/utils.wxs" module="utils" />
+<!-- <wxs src="../../utils/utils.wxs" module="utils" /> -->
 
 <van-notice-bar left-icon="info-o" text="建议线下当面进行交易，祝您购书愉快~" />
 
-<view wx:if="{{ !userList.length&&state }}" style="margin-top: 180rpx;">
-  <van-empty description="暂时没有新消息"></van-empty>
+<view wx:if="{{ !relationshipList.length }}" style="height: 80vh; display: flex; align-items: center; justify-content: center;">
+  <van-empty description="暂时没有新消息" />
 </view>
-<view wx:elif="{{userList.length}}">
-  <view wx:for="{{ userList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-id="{{ item.otherid }}">
-    <van-image round width="40px" height="40px" src="{{ item.avatar }}" />
+<view wx:elif="{{ relationshipList.length }}">
+  <view wx:for="{{ relationshipList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-otherid="{{ item.userInfo[0]._openid }}" data-avatar="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" data-relationshipid="{{ item._id }}">
+    <van-image round width="40px" height="40px" src="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" />
 
     <view style="margin-left: 16px; width: 100%;">
       <view style="margin-top: -8px;">
-        <text>{{ item.nickName }}</text>
-        <text class="date">{{ utils.newFormatTime(item.last_conversation_time) }}</text>
+        <text>{{ item.userInfo.length ? item.userInfo[0].nickName : '用户不存在' }}</text>
+        <text class="date">{{ item.formatTime }}</text>
       </view>
 
       <view style="margin-top: 8px; font-size: small; color: #999999; padding-right: 16px;">{{ item.last_content }}</view>
