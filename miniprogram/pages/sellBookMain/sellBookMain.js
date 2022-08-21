@@ -40,7 +40,7 @@ Page({
   // 发布卖书信息
   toSellBook(e) {
     wx.navigateTo({
-      url: '../sellBook/sellBook?identification=' + e.currentTarget.dataset.identification
+      url: `../sellBook/sellBook?identification=${e.currentTarget.dataset.identification}&scan_isbn=${e.currentTarget.dataset.scan_isbn}`
     })
   },
 

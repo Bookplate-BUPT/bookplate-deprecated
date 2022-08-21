@@ -140,6 +140,9 @@ Page({
           major: res.data[0].major,
           college: res.data[0].college,
         })
+        if (options.scan_isbn === 'true')
+          // 调用函数进行扫码
+          this.scanISBN()
       })
     }
     else {
