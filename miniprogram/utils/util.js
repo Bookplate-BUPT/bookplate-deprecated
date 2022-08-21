@@ -33,6 +33,7 @@ const getFormatLength = (nearWidth, fontSize, line) => {
  * @param {string} str 需要格式化的内容
  * @param {number} nearWidth 旁边的组件宽度
  * @param {number} fontSize 字体大小，单位为像素
+ * @param {number} line 内容行数
  */
 const format = (str, nearWidth, fontSize, line) => {
   const length = getFormatLength(nearWidth, fontSize, line)
