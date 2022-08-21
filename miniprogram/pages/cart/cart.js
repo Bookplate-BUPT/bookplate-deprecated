@@ -45,7 +45,7 @@ Page({
       wx.cloud.callFunction({
         name: 'getCartList',
         data: {
-          skip_num: this.data.cartList.length
+          skipNum: this.data.cartList.length
         }
       })
         .then(res => {
@@ -139,7 +139,7 @@ Page({
     wx.cloud.callFunction({
       name: 'getCartList',
       data: {
-        skip_num: 0
+        skipNum: 0
       }
     })
       .then(res => {

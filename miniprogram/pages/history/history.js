@@ -38,7 +38,7 @@ Page({
       wx.cloud.callFunction({
         name: 'getHistoryList',
         data: {
-          skip_num: 0
+          skipNum: 0
         }
       })
         .then(res => {
@@ -133,7 +133,7 @@ Page({
       wx.cloud.callFunction({
         name: 'getHistoryList',
         data: {
-          skip_num: this.data.historyList.length
+          skipNum: this.data.historyList.length
         }
       })
         .then(res => {

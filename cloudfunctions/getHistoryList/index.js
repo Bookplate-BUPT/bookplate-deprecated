@@ -16,7 +16,7 @@ exports.main = async (event, context) => {
     .sort({
       view_time: -1
     })
-    .skip(event.skip_num)
+    .skip(event.skipNum)
     .limit(20)
     .lookup({
       from: 'goods',
