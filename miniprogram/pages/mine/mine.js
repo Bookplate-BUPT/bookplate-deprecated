@@ -133,8 +133,9 @@ Page({
               data: {
                 avatarUrl: __user.getUserInfo().avatarUrl,
                 nickName: __user.getUserInfo().nickName,
-                grade: '大一',
-                school: '信息与通信工程学院',
+                grade: '2022',
+                college: '信息与通信工程学院',
+                major: '（通信工程）大类招生'
               }
             })
 
@@ -158,13 +159,13 @@ Page({
             userInfo: __user.getUserInfo(),
             userOpenid: __user.getUserOpenid(),
             userGrade: res.data[0].grade,
-            userSchool: res.data[0].school,
+            userSchool: res.data[0].college,
           })
         }
       })
   },
 
-  // 前往订单确认页面
+  // 前往我是卖家页面
   gotoConfirmOrder() {
     if (!__user.checkLoginStatus()) {
       this.userLoginInMine()
@@ -174,7 +175,7 @@ Page({
       })
   },
 
-  // 前往我的订单页面
+  // 前往我是买家页面
   gotoViewOrder(event) {
     if (!__user.checkLoginStatus()) {
       this.userLoginInMine()
@@ -184,7 +185,7 @@ Page({
       })
   },
 
-  // 前往我的卖书页面
+  // 前往我发布的页面
   gotoMySellBooks() {
     if (!__user.checkLoginStatus()) {
       this.userLoginInMine()
