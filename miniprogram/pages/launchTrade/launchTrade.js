@@ -105,6 +105,12 @@ Page({
         icon: 'error'
       })
     }
+    else if (!this.data.bookDetail.trade_spot) {
+      wx.showToast({
+        title: '地点不能为空',
+        icon: 'error'
+      })
+    }
     else {
       wx.cloud.database().collection('trade').where({
         goods_id: this.data.bookDetail._id,
