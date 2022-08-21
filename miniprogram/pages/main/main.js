@@ -481,7 +481,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
+              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -507,7 +507,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
+              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -536,7 +536,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
+              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -566,7 +566,7 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
               // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
+              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
