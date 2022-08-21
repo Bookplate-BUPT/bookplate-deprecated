@@ -4,7 +4,7 @@
 <van-cell-group inset custom-class="shadow" title="商品概要">
   <view style="display: flex; align-items: center; margin-top: 16px; margin-left: 12px;">
     <van-image width="1.5rem" height="1.5rem" round src="{{ sellerDetail.avatarUrl }}" style="margin-left: 8px;" />
-    <view style="margin-left: 12px; font-size: 14px; font-weight: 600;">{{ sellerDetail.nickName }}
+    <view style="margin-left: 12px; font-size: 14px; font-weight: 500;">{{ sellerDetail.nickName }}
       <van-tag color="#f6a7af" style="margin-left: 4px;">{{ sellerDetail.grade }}</van-tag>
     </view>
   </view>
@@ -41,7 +41,7 @@
 
   <!-- 日期选择 -->
   <van-field label="日期" value="{{ trade_date }}" clearable clear-trigger="focus" bind:click-input="displayCalendar" readonly required />
-  <van-calendar show="{{ showCalendar }}" title="交易日期选择" bind:close="closeCalendar" bind:confirm="confirmCalendar" />
+  <van-calendar color="#8AC286" show="{{ showCalendar }}" title="交易日期选择" bind:close="closeCalendar" bind:confirm="confirmCalendar" />
 
   <!-- 时间选择 -->
   <van-field label="时间" value="{{ trade_time }}" clearable clear-trigger="focus" bind:click-input="displayTime" readonly required />

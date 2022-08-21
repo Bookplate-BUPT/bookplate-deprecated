@@ -32,9 +32,6 @@ Page({
       trade_date: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
       trade_time: new Date().toISOString().slice(11, 16),
     })
-
-    console.log(options.sellerDetail)
-
   },
 
   // 打开日期弹出层
