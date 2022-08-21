@@ -22,6 +22,7 @@ Page({
       bookDetail: JSON.parse(options.bookDetail),
     })
   },
+
   //确认交易
   confirmForm(event) {
     // 更新交易记录的state
@@ -116,14 +117,14 @@ Page({
             state: 0,
           }
         })
-        .then(res=>{
-          wx.navigateBack({
-            delta: 1,
+          .then(res => {
+            wx.navigateBack({
+              delta: 1,
+            })
           })
-        })
-        .catch(err=>{
-          console.error(err)
-        })
+          .catch(err => {
+            console.error(err)
+          })
       })
     })
   },

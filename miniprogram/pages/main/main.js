@@ -333,9 +333,7 @@ Page({
   onLoad() {
     this.getGoodsList()
     this.getGoodsSum()
-    this.getSeekList()
     this.getScrollViewHeight()
-    this.getIntroductionFormatLength()
   },
 
   onShow() {
@@ -480,8 +478,6 @@ Page({
               ...i,
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-              // 书籍介绍自定义格式化，最长长度为24
-              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -506,8 +502,6 @@ Page({
               ...i,
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-              // 书籍介绍自定义格式化，最长长度为24
-              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -535,8 +529,6 @@ Page({
               ...i,
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-              // 书籍介绍自定义格式化，最长长度为24
-              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -565,8 +557,6 @@ Page({
               ...i,
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-              // 书籍介绍自定义格式化，最长长度为24
-              introduction: __util.format(i.introduction, 168, 14, 2),
             }))
 
             tempGoodsList.forEach((i, idx) => {
@@ -594,27 +584,27 @@ Page({
   },
 
   // 获取求书列表
-  getSeekList() {
-    wx.cloud.database().collection('seek')
-      .get()
-      .then(res => {
-        let tempSeekList = res.data.map((i, idx) => ({
-          ...i,
-          // 5天内将书籍设置为最新
-          isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-          // 将日期自定义格式化
-          date: this.dateFormat(i.post_date),
-          // 书籍介绍自定义格式化，最长长度为50
-          introduction: this.introductionFormat(i.introduction, 50),
-          // 二手书需求内容格式化
-          needs: this.needsFormat(i.needs),
-        }))
+  // getSeekList() {
+  //   wx.cloud.database().collection('seek')
+  //     .get()
+  //     .then(res => {
+  //       let tempSeekList = res.data.map((i, idx) => ({
+  //         ...i,
+  //         // 5天内将书籍设置为最新
+  //         isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+  //         // 将日期自定义格式化
+  //         date: this.dateFormat(i.post_date),
+  //         // 书籍介绍自定义格式化，最长长度为50
+  //         introduction: this.introductionFormat(i.introduction, 50),
+  //         // 二手书需求内容格式化
+  //         needs: this.needsFormat(i.needs),
+  //       }))
 
-        this.setData({
-          seekList: tempSeekList
-        })
-      })
-  },
+  //       this.setData({
+  //         seekList: tempSeekList
+  //       })
+  //     })
+  // },
 
   // 添加商品到购物车
   addGoodsToCart(event) {
@@ -623,6 +613,7 @@ Page({
         title: '请先登录',
         icon: 'error',
       })
+      return
     } else {
       // 查询用户购物车里是否已有此商品
       wx.cloud.database().collection('cart')
@@ -666,39 +657,34 @@ Page({
     }
   },
 
-  // 自定义格式化日期
-  dateFormat(date) {
-    return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
-  },
-
   // 用户需求内容格式化
-  needsFormat(str) {
-    // 过长则需要省略
-    if (str.length > 50) {
-      return str.substr(0, 50) + '……'
-    }
-    // 为空则需要提示
-    else if (str.length === 0) {
-      return '无二手书具体要求'
-    }
-    else return str
-  },
+  // needsFormat(str) {
+  //   // 过长则需要省略
+  //   if (str.length > 50) {
+  //     return str.substr(0, 50) + '……'
+  //   }
+  //   // 为空则需要提示
+  //   else if (str.length === 0) {
+  //     return '无二手书具体要求'
+  //   }
+  //   else return str
+  // },
 
   // 获取书籍内容格式化后的字数
-  getIntroductionFormatLength() {
-    var res = wx.getWindowInfo()
-    this.setData({
-      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-    })
-  },
+  // getIntroductionFormatLength() {
+  //   var res = wx.getWindowInfo()
+  //   this.setData({
+  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+  //   })
+  // },
 
   // 书籍介绍内容格式化
-  introductionFormat(str, length) {
-    // 过长则需要省略
-    if (str.length > length) {
-      return str.substr(0, length) + '……'
-    }
-    // 不用格式化
-    else return str
-  },
+  // introductionFormat(str, length) {
+  //   // 过长则需要省略
+  //   if (str.length > length) {
+  //     return str.substr(0, length) + '……'
+  //   }
+  //   // 不用格式化
+  //   else return str
+  // },
 })

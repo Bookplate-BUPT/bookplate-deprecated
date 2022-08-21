@@ -22,7 +22,7 @@
 
       <view class="book-name">
         <!-- <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag> -->
-        <text style="margin-left: 8px;">{{ bookDetail.name }}</text>
+        <text style="margin-left: 2px;">{{ bookDetail.name }}</text>
       </view>
     </view>
   </van-cell>

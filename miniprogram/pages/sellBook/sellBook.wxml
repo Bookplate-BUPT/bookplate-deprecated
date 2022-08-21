@@ -3,7 +3,7 @@
 <!-- 顶栏通知 -->
 <block wx:if="{{ showState }}">
   <van-sticky>
-    <van-notice-bar color="#ed6a0c" background="#fffbe8" left-icon="info-o" text="扫码填写更加便捷哦~" />
+    <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" text="扫码填写更加便捷哦~" />
   </van-sticky>
 </block>
 
@@ -47,6 +47,8 @@
     <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
       <view bindtap="onCloseMajor" style="color: #aaa; margin-top: 40rpx;">取消</view>
       <view bindtap="onOrderMajor" style="margin-top: 40rpx;">确认</view>
+
+
     </view>
   </van-popup>
 

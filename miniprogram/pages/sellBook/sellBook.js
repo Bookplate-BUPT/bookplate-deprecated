@@ -79,6 +79,7 @@ Page({
     ],
     columnsMajor: [],
   },
+
   //选择书籍的类型时调用
   selectCollege(e) {
     this.setData({
@@ -108,6 +109,7 @@ Page({
 
   onOrderCollege(e) {
     var tempList = this.selectComponent('#Collegeclassification').getValues()
+
     if (this.data.college !== tempList[0]) {
       this.setData({
         showCollege: false,
@@ -115,6 +117,7 @@ Page({
         major: '',
       })
     }
+
     this.setData({
       showCollege: false,
       college: tempList,
@@ -132,28 +135,34 @@ Page({
   //根据页面的不同，赋予不同的setdata
   onLoad(options) {
     if (options.identification == 'transmission' || !(JSON.parse(options.message).identification == 'mySellBooks')) {
-      wx.cloud.database().collection('users').where({
-        _openid: __user.getUserOpenid()
-      }).get().then(res => {
-        this.setData({
-          userOpenid: __user.getUserOpenid(),
-          major: res.data[0].major,
-          college: res.data[0].college,
+      wx.cloud.database().collection('users')
+        .where({
+          _openid: __user.getUserOpenid()
         })
-        if (options.scan_isbn === 'true')
-          // 调用函数进行扫码
-          this.scanISBN()
-      })
+        .get()
+        .then(res => {
+          this.setData({
+            userOpenid: __user.getUserOpenid(),
+            major: res.data[0].major,
+            college: res.data[0].college,
+          })
+
+          if (options.scan_isbn === 'true')
+            // 调用函数进行扫码
+            this.scanISBN()
+        })
     }
     else {
-      console.log(JSON.parse(options.message))
+      // console.log(JSON.parse(options.message))
       var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major } = JSON.parse(options.message)
+
       for (var i = 0; i < image_list.length; i++) {
         this.data.showList.push({
           url: image_list[i],
           isImage: true,
         })
       }
+
       var showListToo = this.data.showList.map(i => (i))
       this.setData({
         userOpenid: __user.getUserOpenid(),
@@ -195,7 +204,7 @@ Page({
             isbn: res.result
           },
           success: resInner => {
-            console.log(JSON.parse(resInner.result).data)
+            // console.log(JSON.parse(resInner.result).data)
 
             let tempRes = JSON.parse(resInner.result).data
 
@@ -369,6 +378,7 @@ Page({
     wx.showLoading({
       title: '录入中',
     })
+
     const uploadTasks = this.data.imageList.map((i, idx) => {
       if (i.slice(0, 11) === 'http://tmp/' || i.slice(0, 12) === 'wxfile://tmp') {
         return this.uploadFilePromise(new Date().getTime(), idx, __user.getUserOpenid(), i.slice(-4), i)
@@ -376,6 +386,7 @@ Page({
         return i
       }
     });
+
     Promise.all(uploadTasks)
       .then(res => {
         res.forEach((i, idx) => {
