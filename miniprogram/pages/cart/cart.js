@@ -38,48 +38,35 @@ Page({
   },
 
   // 上拉触底监听
-  async onReachBottom() {
+  onReachBottom() {
     // 如果数据不全再向数据库请求
     if (this.data.cartList.length < this.data.cartSum) {
-      var res = await wx.cloud.database().collection('cart').where({
-        _openid: __user.getUserOpenid()
-      }).orderBy('add_time', 'desc')
-        .skip(this.data.cartList.length)
-        .get()
+      // 获取购物车列表
+      wx.cloud.callFunction({
+        name: 'getCartList',
+        data: {
+          skip_num: this.data.cartList.length
+        }
+      })
+        .then(res => {
+          var tempCartList = res.result.list
 
-      // 将返回结果映射为数组
-      var list = res.data
-
-      // 根据商品ID查询对应的商品详细信息
-      const promiseArray = list.map((i) => (
-        wx.cloud.database().collection('goods')
-          .where({
-            _id: i.goods_id
+          // 若无图片信息，给定默认图片
+          tempCartList.forEach((i, idx) => {
+            if (i.bookDetail.length != 0 && i.bookDetail[0].image_list.length == 0) {
+              i.bookDetail[0].image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+            }
           })
-          .get()
-      ))
 
-      // 等到所有的查询线程结束后再继续进行
-      const bookDetailList = await Promise.all(promiseArray)
+          // 向原数组中添加新值
+          this.data.cartList = [...this.data.cartList, ...tempCartList]
 
-      const tempCartList = list.map((i, idx) => ({
-        ...i,
-        bookDetail: bookDetailList[idx].data[0]
-      }))
-
-      // 若无图片信息，给定默认图片
-      tempCartList.forEach((i, idx) => {
-        if (i.bookDetail != undefined && i.bookDetail.image_list.length == 0)
-          i.bookDetail.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-      })
-
-      // 向原数组中添加新值
-      this.data.cartList = [...this.data.cartList, ...tempCartList]
-
-      // 更新页面
-      this.setData({
-        cartList: this.data.cartList
-      })
+          // 更新页面
+          this.setData({
+            cartList: this.data.cartList
+          })
+        })
+        .catch(err => console.error(err))
     }
   },
 
@@ -147,42 +134,29 @@ Page({
   },
 
   // 获取购物车内的所有商品
-  async getCartList() {
-    // 获取购物车内的商品ID列表
-    const goodsIdList = await wx.cloud.database().collection('cart')
-      .where({
-        _openid: __user.getUserOpenid(),
-      })
-      .orderBy('add_time', 'desc')
-      .get()
-
-    // 根据商品ID查询对应的商品详细信息
-    const promiseArray = goodsIdList.data.map((i) => (
-      wx.cloud.database().collection('goods')
-        .where({
-          _id: i.goods_id
-        })
-        .get()
-    ))
-
-    // 等到所有的查询线程结束后再继续进行
-    const bookDetailList = await Promise.all(promiseArray)
-
-    // 将详细信息放入原商品ID列表
-    const tempCartList = goodsIdList.data.map((i, idx) => ({
-      ...i,
-      bookDetail: bookDetailList[idx].data[0],
-    }))
-
-    tempCartList.forEach((i, idx) => {
-      if (i.bookDetail != undefined && i.bookDetail.image_list.length == 0) {
-        i.bookDetail.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+  getCartList() {
+    // 获取购物车列表
+    wx.cloud.callFunction({
+      name: 'getCartList',
+      data: {
+        skip_num: 0
       }
     })
+      .then(res => {
+        var tempCartList = res.result.list
+        console.log(tempCartList)
 
-    this.setData({
-      cartList: tempCartList
-    })
+        tempCartList.forEach((i, idx) => {
+          if (i.bookDetail.length != 0 && i.bookDetail[0].image_list.length == 0) {
+            i.bookDetail[0].image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
+          }
+        })
+
+        this.setData({
+          cartList: tempCartList
+        })
+      })
+      .catch(err => console.error(err))
   },
 
   // 将商品移除购物车
@@ -192,7 +166,8 @@ Page({
     this.data.cartList.splice(index, 1)
 
     this.setData({
-      cartList: this.data.cartList
+      cartList: this.data.cartList,
+      cartSum: this.data.cartSum - 1
     })
   }
 })
