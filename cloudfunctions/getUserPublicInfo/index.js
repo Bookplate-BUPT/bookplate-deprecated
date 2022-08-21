@@ -16,9 +16,10 @@ exports.main = async (event, context) => {
     .get()
 
   return {
-    grade: result.data[0].grade,
-    nickName: result.data[0].nickName,
-    school: result.data[0].school,
     avatarUrl: result.data[0].avatarUrl,
+    college: result.data[0].college,
+    grade: result.data[0].grade,
+    major: result.data[0].major,
+    nickName: result.data[0].nickName,
   }
 }
