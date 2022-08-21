@@ -54,7 +54,6 @@ Page({
       })
 
     this.getBookDetail()
-    // this.getNumOfUserCartGoods()
   },
 
   onShow() {
@@ -90,28 +89,28 @@ Page({
   },
 
   // 获取用户购物车内商品总数 - 已无用
-  getNumOfUserCartGoods() {
-    // 如果没登录则直接返回
-    if (!__user.checkLoginStatus()) return
+  // getNumOfUserCartGoods() {
+  //   // 如果没登录则直接返回
+  //   if (!__user.checkLoginStatus()) return
 
-    wx.cloud.database().collection('cart')
-      .where({
-        _openid: app.globalData.userOpenid
-      })
-      .get()
-      .then(res => {
-        this.setData({
-          numOfUserCartGoods: res.data.length
-        })
-      })
-  },
+  //   wx.cloud.database().collection('cart')
+  //     .where({
+  //       _openid: app.globalData.userOpenid
+  //     })
+  //     .get()
+  //     .then(res => {
+  //       this.setData({
+  //         numOfUserCartGoods: res.data.length
+  //       })
+  //     })
+  // },
 
   // 前往购物车页面 
-  gotoCart() {
-    wx.switchTab({
-      url: '../cart/cart',
-    })
-  },
+  // gotoCart() {
+  //   wx.switchTab({
+  //     url: '../cart/cart',
+  //   })
+  // },
 
   // 添加商品到购物车
   addGoodsToCart(event) {
@@ -207,8 +206,6 @@ Page({
                     title: '添加成功',
                     icon: 'success',
                   })
-
-                  // this.getNumOfUserCartGoods()
                 })
             }
           })

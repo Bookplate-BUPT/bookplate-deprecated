@@ -54,7 +54,6 @@
   color: #323233;
   font-size: 17px;
   font-weight: 600;
-  margin-top: 4px;
-  /* margin-left: 12px; */
-  /* margin-bottom: 7px; */
+  margin-top: 6px;
+  margin-left: 2px;
 }
