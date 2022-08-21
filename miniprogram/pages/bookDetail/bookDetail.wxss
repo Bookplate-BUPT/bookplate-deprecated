@@ -58,7 +58,3 @@
   /* margin-left: 12px; */
   /* margin-bottom: 7px; */
 }
-
-.styler{
-  --field-input-text-color: #969799;
-}

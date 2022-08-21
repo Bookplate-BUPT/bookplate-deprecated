@@ -1,6 +1,8 @@
 <!--pages/bookDetail/bookDetail.wxml-->
 <wxs src="../../utils/utils.wxs" module="utils" />
 
+<van-notice-bar left-icon="info-o" text="建议先与卖家联系交流后，再进行交易哦~" />
+
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
   <van-cell>
     <swiper indicator-dots autoplay circular interval="3000">
@@ -27,9 +29,8 @@
     </view>
   </van-cell>
 
-
-  <van-field label="适用学院" value="{{ bookDetail.college }}" readonly input-align="right" class="styler" />
-  <van-field label="适用专业" value="{{ bookDetail.major }}" readonly input-align="right" class="styler" />
+  <van-cell title="适用学院" value="{{ bookDetail.college }}" title-width="60px" />
+  <van-cell title="适用专业" value="{{ bookDetail.major }}" title-width="60px" />
   <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
 </van-cell-group>
 
@@ -64,8 +65,8 @@
 <van-goods-action>
   <van-goods-action-icon style="margin-left: 6px;" icon="cart-o" text="加入购物车" bind:click="addGoodsToCart" data-state="{{bookDetail.state}}" />
   <!-- <van-goods-action-icon icon="cart-o" text="购物车" bind:click="gotoCart" /> -->
-  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即交易' }}" color="{{ bookDetail.state == 1 ? 'linear-gradient(to right, #818385, #636566)' : 'linear-gradient(to right, #8ac286, #659c64)'}}" bind:click="gotoLaunchTrade" />
-  <van-goods-action-button text="联系卖家" type="warning" plain color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="contactSeller" />
+  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即交易' }}" plain="{{ bookDetail.state == 1 ? fasle : true }}" color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="gotoLaunchTrade" />
+  <van-goods-action-button text="联系卖家" type="warning" color="{{ bookDetail.state == 1 ? '#808385' : 'linear-gradient(to right, #8ac286, #659c64)' }}" plain="{{ bookDetail.state == 1 ? true : fasle }}" bind:click="contactSeller" />
 </van-goods-action>
 
 <van-dialog id="van-dialog" />
