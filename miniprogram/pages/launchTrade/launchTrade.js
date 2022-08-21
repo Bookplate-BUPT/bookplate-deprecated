@@ -105,7 +105,7 @@ Page({
         icon: 'error'
       })
     }
-    else if (!this.data.bookDetail.trade_spot) {
+    else if (!this.data.trade_spot) {
       wx.showToast({
         title: '地点不能为空',
         icon: 'error'
@@ -121,16 +121,18 @@ Page({
               title: '该书已被预订',
               icon: 'error'
             }).then(res => {
-              //获取当前页面栈
-              const pages = getCurrentPages();
-              //获取上一页面对象
-              let prePage = pages[pages.length - 2];
-              prePage.setData({
-                'bookDetail.state': 1
-              })
-              wx.navigateBack({
-                delta: 1,
-              })
+              setTimeout(() => {
+                //获取当前页面栈
+                const pages = getCurrentPages();
+                //获取上一页面对象
+                let prePage = pages[pages.length - 2];
+                prePage.setData({
+                  'bookDetail.state': 1
+                })
+                wx.navigateBack({
+                  delta: 1,
+                })
+              }, 1500)
             })
           } else {
             this.addTradeRecord()
