@@ -15,6 +15,6 @@
   touch-action: pan-y;
 }
 
-.styler{
-  --notice-bar-font-size: 28rpx
+.styler {
+  --notice-bar-font-size: small
 }

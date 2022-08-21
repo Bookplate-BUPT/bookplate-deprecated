@@ -12,42 +12,48 @@
   </view>
 </van-sticky>
 
-<van-notice-bar left-icon="info-o" scrollable="{{ false }}" text="本平台仅涉及二手书意向沟通，不涉及金钱交易。" style="margin-top: -8px" class="styler"/>
+<van-notice-bar left-icon="info-o" scrollable="{{ false }}" text="本平台仅涉及二手书意向沟通，不涉及金钱交易。" style="margin-top: -8px" class="styler" />
 
 <!-- <van-tabs active="{{ active }}" style="margin-top: -8px" sticky animated offset-top="{{ 50 }}" swipeable color="#659c64"> -->
-  <!-- 卖书部分 -->
-  <!-- <van-tab title="卖书"> -->
-    <!-- 卖书部分书籍分类菜单栏 -->
-    <van-dropdown-menu active-color="#8ac286">
-      <van-dropdown-item title="{{bookType}}" id="identity">
-        <van-tree-select items="{{ bookTypeOption }}" main-active-index="{{ mainActiveIndex  }}" bind:click-nav="onClickNav" bind:click-item="onClickItem" />
-      </van-dropdown-item>
-      <van-dropdown-item value="{{ sortType }}" options="{{ sortTypeOption }}" bind:change="sortTypeChange" />
-    </van-dropdown-menu>
+<!-- 卖书部分 -->
+<!-- <van-tab title="卖书"> -->
+<!-- 卖书部分书籍分类菜单栏 -->
 
-    <scroll-view scroll-y style="height: {{scrollViewHeight}}px;" refresher-enabled="{{true}}" refresher-triggered="{{triggered}}" bindrefresherrefresh="onPullDownRefresh" bindscrolltolower="onReachBottom">
-      <!-- 卖书书籍陈列 -->
-      <view wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
-        <MainBookCard right="{{ 100 }}" _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" introduction="{{item.introduction}}" isNew="{{ item.isNew }}">
+<van-dropdown-menu active-color="#8ac286">
+  <van-dropdown-item title="{{bookType}}" id="identity">
+    <van-tree-select items="{{ bookTypeOption }}" main-active-index="{{ mainActiveIndex  }}" bind:click-nav="onClickNav" bind:click-item="onClickItem" />
+  </van-dropdown-item>
+  <van-dropdown-item value="{{ sortType }}" options="{{ sortTypeOption }}" bind:change="sortTypeChange" />
+</van-dropdown-menu>
 
-          <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
-            <van-icon name="shopping-cart" />
-            <view>加入购物车</view>
-          </van-button>
-        </MainBookCard>
-      </view>
+<scroll-view scroll-y style="height: {{ scrollViewHeight }}px;" refresher-enabled="{{ true }}" refresher-triggered="{{ triggered }}" bindrefresherrefresh="onPullDownRefresh" bindscrolltolower="onReachBottom">
+  <!-- 卖书书籍陈列 -->
+  <view wx:if="{{ goodsList.length }}" wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
+    <MainBookCard right="{{ 100 }}" _id="{{item._id}}" _openid="{{item._openid}}" price="{{item.price}}" image_list="{{item.image_list}}" original_price="{{item.original_price}}" name="{{item.name}}" introduction="{{item.introduction}}" isNew="{{ item.isNew }}">
 
-      <!-- 底部提示分隔线 -->
-      <van-divider wx:if="{{ goodsList.length && goodsList.length == goodsSum }}" contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
-    </scroll-view>
-  <!-- </van-tab> -->
+      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
+        <van-icon name="shopping-cart" />
+        <view>加入购物车</view>
+      </van-button>
+    </MainBookCard>
+  </view>
+  <view wx:if="{{ !goodsList.length }}" style="height: 60vh; display: flex; align-items: center; justify-content: center;">
+    <van-empty image="https://img.yzcdn.cn/vant/custom-empty-image.png" description="这里没有商品呀" />
+  </view>
 
-  <!-- 求书部分 -->
-  <!-- <van-tab title="求书">
+  <!-- 底部提示分隔线 -->
+  <van-divider wx:if="{{ goodsList.length && goodsList.length == goodsSum }}" contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
+</scroll-view>
+
+
+<!-- </van-tab> -->
+
+<!-- 求书部分 -->
+<!-- <van-tab title="求书">
   <view style="margin-top: 200rpx;">
     <van-empty description="此功能暂未开发"></van-empty>
   </view> -->
-    <!-- <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
+<!-- <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
       <van-cell-group inset custom-class="shadow">
         <view>
           <van-row>
@@ -70,7 +76,7 @@
       </van-cell-group>
     </view> -->
 
-    <!-- 底部提示分隔线 -->
-    <!-- <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider> -->
-  <!-- </van-tab> -->
+<!-- 底部提示分隔线 -->
+<!-- <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider> -->
+<!-- </van-tab> -->
 <!-- </van-tabs> -->
