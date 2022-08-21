@@ -24,6 +24,7 @@ Page({
     this.getHistoryList()
     this.getHistorySum()
     this.getIntroductionFormatLength()
+    this.getScrollViewHeight()
   },
 
   onShow() {
@@ -260,7 +261,7 @@ Page({
   getScrollViewHeight() {
     const res = wx.getWindowInfo()
     this.setData({
-      scrollViewHeight: res.windowHeight - 153
+      scrollViewHeight: res.windowHeight - 50
     })
   },
 
