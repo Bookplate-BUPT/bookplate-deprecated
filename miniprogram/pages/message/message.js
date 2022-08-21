@@ -7,10 +7,32 @@ const app = getApp();
 Page({
   data: {
     relationshipList: [],   // 用户列表
+
+    watcher: '',  // 页面关系表监听器
   },
 
   onLoad() {
-    this.getRelationshipList()
+    const watcher = wx.cloud.database().collection('relationship')
+      .where(
+        wx.cloud.database().command.or([
+          {
+            user1: app.globalData.userOpenid,
+          },
+          {
+            user2: app.globalData.userOpenid,
+          }
+        ])
+      )
+      .watch({
+        onChange: this.getRelationshipList.bind(this),
+        onError(err) {
+          console.log(err)
+        }
+      })
+
+    this.setData({
+      watcher: watcher
+    })
   },
 
   onShow() {
@@ -22,9 +44,13 @@ Page({
     // }
   },
 
+  async onHide() {
+    await this.data.watcher.close()
+  },
+
   // 获取用户关系列表
-  async getRelationshipList() {
-    console.log(__user.getUserOpenid())
+  getRelationshipList(snapshot) {
+    // console.log(snapshot)
 
     wx.cloud.callFunction({
       name: 'getRelationshipList'
@@ -36,7 +62,7 @@ Page({
       }))
 
       this.setData({
-        relationshipList: tempList
+        relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
       })
     })
   },
