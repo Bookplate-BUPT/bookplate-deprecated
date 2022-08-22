@@ -5,21 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    trade_price: '',
-    trade_time: '',
-    trade_spot: '',
-    _id: '',
-    bookDetail: {},
+    trade: {}
   },
 
   // 生命周期函数--监听页面加载
   onLoad(options) {
     this.setData({
-      trade_price: options.trade_price,
-      trade_time: options.trade_time,
-      trade_spot: options.trade_spot,
-      _id: options._id,
-      bookDetail: JSON.parse(options.bookDetail),
+      trade: JSON.parse(options.trade),
     })
   },
 
@@ -29,7 +21,7 @@ Page({
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
-        _id: this.data._id,
+        _id: this.data.trade._id,
         state: 1,
       }
     }).then(res => {
@@ -44,7 +36,7 @@ Page({
 
         // 找到需要确认元素的索引
         var tempPendingTrade = prePage.data.pendingTrade
-        var idx = tempPendingTrade.findIndex(i => { return i._id == this.data._id })
+        var idx = tempPendingTrade.findIndex(i => { return i._id == this.data.trade._id })
 
         // 在已确认中添加元素
         var tempConfirmedTrade = prePage.data.confirmedTrade
@@ -76,7 +68,7 @@ Page({
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
-        _id: this.data._id,
+        _id: this.data.trade._id,
         state: 3,
       }
     }).then(res => {
@@ -91,7 +83,7 @@ Page({
 
         // 找到需要确认元素的索引
         var tempPendingTrade = prePage.data.pendingTrade
-        var idx = tempPendingTrade.findIndex(i => { return i._id == this.data._id })
+        var idx = tempPendingTrade.findIndex(i => { return i._id == this.data.trade._id })
 
         // 在已取消中添加元素
         var tempRejectedTrade = prePage.data.rejectedTrade
@@ -113,7 +105,7 @@ Page({
           name: 'updateGoods',
           data: {
             type: 'updateState',
-            goodsID: this.data.bookDetail._id,
+            goodsID: this.data.trade.bookDetail._id,
             state: 0,
           }
         })

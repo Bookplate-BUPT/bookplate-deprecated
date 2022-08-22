@@ -4,7 +4,7 @@
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
   <van-cell>
     <swiper indicator-dots autoplay circular interval="3000">
-      <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
+      <swiper-item wx:for="{{ trade.bookDetail.image_list }}" wx:key="key">
         <van-image height="100%" width="100%" src="{{ item }}" fit="contain" bind:click="preview" data-index="{{index}}" />
       </swiper-item>
     </swiper>
@@ -14,28 +14,28 @@
     <view class="price-show" slot="label">
       <view>
         <text class="price-mark">￥</text>
-        <text class="price-int">{{ utils.getInt(bookDetail.price) }}</text>
-        <text class="price-float">.{{ utils.getFloat(bookDetail.price) }}</text>
-        <text class="original-price">￥{{ bookDetail.original_price }}</text>
+        <text class="price-int">{{ utils.getInt(trade.bookDetail.price) }}</text>
+        <text class="price-float">.{{ utils.getFloat(trade.bookDetail.price) }}</text>
+        <text class="original-price">￥{{ trade.bookDetail.original_price }}</text>
         <!-- <van-tag plain style="margin-left: 4px;">原价</van-tag> -->
       </view>
 
       <view class="book-name">
         <!-- <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag> -->
-        <text style="margin-left: 2px;">{{ bookDetail.name }}</text>
+        <text style="margin-left: 2px;">{{ trade.bookDetail.name }}</text>
       </view>
     </view>
   </van-cell>
 
-  <van-cell title="适用学院" value="{{ bookDetail.college }}" title-width="60px" />
-  <van-cell title="适用专业" value="{{ bookDetail.major }}" title-width="60px" />
-  <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
+  <van-cell title="适用学院" value="{{ trade.bookDetail.college }}" title-width="60px" />
+  <van-cell title="适用专业" value="{{ trade.bookDetail.major }}" title-width="60px" />
+  <van-cell title="卖家描述" label="{{ trade.bookDetail.description }}" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" title="交易信息">
-  <van-cell title="现价" label="{{ trade_price }}" />
-  <van-cell title="交易时间" label="{{ trade_time }}" />
-  <van-cell title="交易地点" label="{{ trade_spot }}" />
+  <van-cell title="现价" label="{{ trade.trade_price }}" />
+  <van-cell title="交易时间" label="{{ trade.trade_time }}" />
+  <van-cell title="交易地点" label="{{ trade.trade_spot }}" />
 </van-cell-group>
 
 <view style="margin-bottom: 25%;" />

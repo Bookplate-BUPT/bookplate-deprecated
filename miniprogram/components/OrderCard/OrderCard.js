@@ -7,15 +7,7 @@ Component({
 
   // 组件的属性列表
   properties: {
-    trade_price: '',
-    trade_time: '',
-    trade_spot: '',
-    _id: '',
-    state: '',
-    bookDetail: {
-      type: Object,
-      value: {}
-    },
+    trade: {},
 
     link: {
       type: Boolean,
@@ -34,7 +26,7 @@ Component({
 
   // 组件的初始数据
   data: {
-    showPopup: false
+
   },
 
   // 组件的方法列表
@@ -43,20 +35,20 @@ Component({
     gotoNewPage() {
       if (this.properties.link)
         wx.navigateTo({
-          url: `../../pages/order/order?bookDetail=${JSON.stringify(this.properties.bookDetail)}&trade_price=${this.properties.trade_price}&trade_time=${this.properties.trade_time}&trade_spot=${this.properties.trade_spot}&_id=${this.properties._id}`,
+          url: `../../pages/order/order?trade=${JSON.stringify(this.properties.trade)}`,
         })
     },
 
     // 购买商品，联系卖家
     contactSeller() {
-      if (this.properties.bookDetail._openid == undefined) {
+      if (this.properties.trade.bookDetail._openid == undefined) {
         wx.showToast({
           title: '该书已下架',
           icon: 'error'
         })
       } else
         wx.navigateTo({
-          url: '../../pages/chatroom/chatroom?otherid=' + this.properties.bookDetail._openid,
+          url: '../../pages/chatroom/chatroom?otherid=' + this.properties.trade.bookDetail._openid,
         })
     },
   }
