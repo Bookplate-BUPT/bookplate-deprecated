@@ -133,7 +133,7 @@ Page({
               data: {
                 avatarUrl: __user.getUserInfo().avatarUrl,
                 nickName: __user.getUserInfo().nickName,
-                grade: '2022',
+                grade: '2022级',
                 college: '信息与通信工程学院',
                 major: '（通信工程）大类招生'
               }
