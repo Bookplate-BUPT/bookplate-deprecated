@@ -45,7 +45,7 @@
 <van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">
   <van-cell title="昵称" value="{{ sellerDetail.nickName }}" />
   <van-cell title="届级" value="{{ sellerDetail.grade }}" />
-  <van-cell title="学院" value="{{ sellerDetail.school }}" />
+  <van-cell title="学院" value="{{ sellerDetail.college }}" />
   <view style="display: flex; align-items: center; margin: 0 0 3% 5%;">
     <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 10%" />
     <van-row>
