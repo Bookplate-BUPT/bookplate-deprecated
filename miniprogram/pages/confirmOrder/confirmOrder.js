@@ -279,7 +279,7 @@ Page({
 
   /**
     * 查找已确认数据
-    * @returns 无返回值
+    * @returns 返回 Promise 类型
     */
   getConfirmedTrade() {
     var promise = new Promise((resolve, reject) => {
@@ -303,7 +303,7 @@ Page({
 
   /**
     * 查找已取消数据
-    * @returns 返回<Promise>类型
+    * @returns 返回 Promise 类型
     */
   getRejectedTrade() {
     var promise = new Promise((resolve, reject) => {
@@ -404,7 +404,7 @@ Page({
 
   /**
    * 获取已取消订单总数量
-   * @returns 返回<Promise>
+   * @returns 返回 Promise 
    */
   getRejectedTradeSum() {
     var promise = new Promise((resolve, reject) => {
