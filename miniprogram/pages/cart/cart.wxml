@@ -10,7 +10,7 @@
 </view>
 
 <view wx:if="{{ !cartList.length }}" style="margin-top: 25%;">
-  <van-empty image="https://img.yzcdn.cn/vant/custom-empty-image.png" description="购物车还没有商品噢" />
+  <van-empty image="https://img.yzcdn.cn/vant/custom-empty-image.png" description="还没有收藏商品噢" />
 </view>
 
 <view wx:if="{{ cartList.length }}" wx:for="{{ cartList }}" style="margin-top: 8px;" wx:key="_id">

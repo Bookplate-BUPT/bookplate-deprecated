@@ -62,6 +62,6 @@
       <text>.{{ utils.getFloat(bookDetail.price) }}</text>
     </view>
 
-    <van-button round color="linear-gradient(to right, #8ac286, #659c64)" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="commitForm">提交订单</van-button>
+    <van-button round color="linear-gradient(to right, #8ac286, #659c64)" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="commitForm">提交</van-button>
   </view>
 </van-goods-action>

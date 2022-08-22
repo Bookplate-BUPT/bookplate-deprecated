@@ -621,14 +621,14 @@ Page({
           // 不允许添加自己的商品进购物车
           if (event.currentTarget.dataset.openid === app.globalData.userOpenid) {
             wx.showToast({
-              title: '不能添加自己的商品进购物车',
+              title: '不能收藏自己的商品',
               icon: 'none',
             })
           } else {
             // 已经在购物车内
             if (res.data.length) {
               wx.showToast({
-                title: '已在购物车中',
+                title: '已收藏',
                 icon: 'error',
               })
             } else {
