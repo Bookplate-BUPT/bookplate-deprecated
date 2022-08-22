@@ -7,7 +7,7 @@
     </view>
     <view wx:else>
       <view wx:for="{{ tradeGoodsList }}" wx:key="_id" style="margin-top: 20rpx;">
-        <OrderCard trade="{{ item }}"></OrderCard>
+        <OrderCard link="{{ item.state===0 }}" trade="{{ item }}"></OrderCard>
       </view>
 
       <van-divider wx:if="{{ tradeGoodsList.length == tradeGoodsListSum}}" contentPosition="center" dashed>没有更多了~</van-divider>
