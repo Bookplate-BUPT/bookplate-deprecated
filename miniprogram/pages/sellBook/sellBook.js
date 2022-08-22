@@ -366,7 +366,7 @@ Page({
     this.fromObjectToChar()
 
     // 信息是否完整
-    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.college || !this.data.major || this.data.price === '') {
+    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.college || !this.data.major || this.data.price === '' || !this.data.imageList.length) {
       wx.showToast({
         title: '信息不完整',
         icon: 'error',

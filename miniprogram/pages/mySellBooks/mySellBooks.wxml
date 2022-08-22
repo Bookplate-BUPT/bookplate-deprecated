@@ -11,7 +11,7 @@
     <view style="margin-top: 20rpx;">
       <van-cell-group inset custom-class="shadow">
         <van-swipe-cell right-width="{{ 60 }}">
-          <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] != null? item.image_list[0] :'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg' }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
+          <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
             <view slot="title" style="font-weight: bolder; font-size:30rpx;">
               {{ item.name }}
               <view style="margin-top: 4px;">
