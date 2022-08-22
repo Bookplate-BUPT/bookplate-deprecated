@@ -126,6 +126,10 @@ Page({
 
   //确认交易
   confirmForm(event) {
+    wx.showLoading({
+      title: '确认中……',
+    })
+
     // 更新交易记录的state
     wx.cloud.callFunction({
       name: 'updateTradeState',
@@ -133,42 +137,41 @@ Page({
         _id: event.currentTarget.dataset._id,
         state: 1,
       }
-    }).then(res => {
-      wx.showToast({
-        title: '已确认',
-        icon: 'success'
-      }).then(res => {
-        // 找到需要确认元素的索引
-        var tempPendingTrade = this.data.pendingTrade
-        var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
-
-        // 更改确认元素的state为1
-        tempPendingTrade[idx].state = 1
+    })
+      .then(res => {
+        // 在全部标签中将要确认元素的state改为1
         this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 1
 
-        // 在已确认中添加元素
-        var tempConfirmedTrade = this.data.confirmedTrade
-        tempConfirmedTrade.push(tempPendingTrade[idx])
-        // 已确认按时间逆序
-        tempConfirmedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
-
         // 在未处理中删除元素
-        tempPendingTrade.splice(idx, 1)
+        this.data.pendingTrade.splice(this.data.pendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id }), 1)
 
         // 更新页面
         this.setData({
-          pendingTrade: tempPendingTrade,
-          confirmedTrade: tempConfirmedTrade,
+          pendingTrade: this.data.pendingTrade,
           tradeGoodsList: this.data.tradeGoodsList,
           pendingTradeSum: this.data.pendingTradeSum - 1,
-          confirmedTradeSum: this.data.confirmedTradeSum + 1,
         })
+        return
       })
-    })
+      .then(res => {
+        // 更新已确认的tab栏
+        return this.getConfirmedTrade()
+      })
+      .then(res => {
+        return this.getConfirmedTradeSum()
+      })
+      .then(res => wx.showToast({
+        title: '确认成功',
+      }))
+      .catch(err => console.error(err))
   },
 
   //取消交易
   rejectForm(event) {
+    wx.showLoading({
+      title: '取消中……',
+    })
+
     // 更新交易记录的state
     wx.cloud.callFunction({
       name: 'updateTradeState',
@@ -176,39 +179,24 @@ Page({
         _id: event.currentTarget.dataset._id,
         state: 3,
       }
-    }).then(res => {
-      wx.showToast({
-        title: '已取消',
-        icon: 'success'
-      }).then(res => {
-        // 找到需要取消的元素的索引
-        var tempPendingTrade = this.data.pendingTrade
-        var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
-
-        // 将取消的元素state改为3
-        tempPendingTrade[idx].state = 3
-        this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
-
-        // 在已取消中添加元素
-        var tempRejectedTrade = this.data.rejectedTrade
-        tempRejectedTrade.push(tempPendingTrade[idx])
-
-        // 已取消按时间逆序
-        tempRejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
-
+    })
+      .then(res => {
         // 在待处理中删除元素
-        tempPendingTrade.splice(idx, 1)
+        this.data.pendingTrade.splice(this.data.pendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id }), 1)
+
+        // 将全部中要取消的元素的state改为3
+        this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
 
         // 更新页面
         this.setData({
-          pendingTrade: tempPendingTrade,
-          rejectedTrade: tempRejectedTrade,
+          pendingTrade: this.data.pendingTrade,
           tradeGoodsList: this.data.tradeGoodsList,
           pendingTradeSum: this.data.pendingTradeSum - 1,
-          rejectedTradeSum: this.data.rejectedTradeSum + 1,
         })
-
-        wx.cloud.callFunction({
+        return
+      })
+      .then(res => {
+        return wx.cloud.callFunction({
           name: 'updateGoods',
           data: {
             type: 'updateState',
@@ -217,7 +205,17 @@ Page({
           }
         })
       })
-    })
+      .then(res => {
+        // 更新已取消的tab栏
+        return this.getRejectedTrade()
+      })
+      .then(res => {
+        return this.getRejectedTradeSum()
+      })
+      .then(res => wx.showToast({
+        title: '取消成功',
+      }))
+      .catch(err => console.error(err))
   },
 
   changeActive(e) {
@@ -284,41 +282,47 @@ Page({
     * @returns 无返回值
     */
   getConfirmedTrade() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 1
-    })
-      .orderBy('trade_time', 'desc')
-      .get()
-      .then(res => {
-        res.data.forEach((i, idx) => {
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade').where({
+        seller_openid: __user.getUserOpenid(),
+        state: 1
+      })
+        .orderBy('trade_time', 'desc')
+        .get()
+        .then(res => {
           // 更新页面
           this.setData({
             confirmedTrade: res.data
           })
+          resolve(res)
         })
-      })
-      .catch()
+        .catch()
+    })
+    return promise
   },
 
   /**
     * 查找已取消数据
-    * @returns 无返回值
+    * @returns 返回<Promise>类型
     */
   getRejectedTrade() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 3
-    })
-      .orderBy('trade_time', 'desc')
-      .get()
-      .then(res => {
-        // 更新页面
-        this.setData({
-          rejectedTrade: res.data
-        })
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade').where({
+        seller_openid: __user.getUserOpenid(),
+        state: 3
       })
-      .catch()
+        .orderBy('trade_time', 'desc')
+        .get()
+        .then(res => {
+          // 更新页面
+          this.setData({
+            rejectedTrade: res.data
+          })
+          resolve(res)
+        })
+        .catch()
+    })
+    return promise
   },
 
   /**
@@ -353,7 +357,9 @@ Page({
     this.getSuccessfulTradeSum()
   },
 
-  // 获取全部订单总数量
+  /**
+   * 获取全部订单总数量
+   */
   getTradeGoodsListSum() {
     wx.cloud.database().collection('trade').where({
       seller_openid: __user.getUserOpenid(),
@@ -364,7 +370,9 @@ Page({
     })
   },
 
-  // 获取未处理订单总数量
+  /**
+   * 获取未处理订单总数量
+   */
   getPendingTradeSum() {
     wx.cloud.database().collection('trade').where({
       seller_openid: __user.getUserOpenid(),
@@ -376,31 +384,46 @@ Page({
     })
   },
 
-  // 获取已确认订单总数量
+  /**
+   * 获取已确认订单总数量
+   */
   getConfirmedTradeSum() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 1
-    }).count().then(res => {
-      this.setData({
-        confirmedTradeSum: res.total
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade').where({
+        seller_openid: __user.getUserOpenid(),
+        state: 1
+      }).count().then(res => {
+        this.setData({
+          confirmedTradeSum: res.total
+        })
+        resolve(res)
       })
     })
+    return promise
   },
 
-  // 获取已取消订单总数量
+  /**
+   * 获取已取消订单总数量
+   * @returns 返回<Promise>
+   */
   getRejectedTradeSum() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 3
-    }).count().then(res => {
-      this.setData({
-        rejectedTradeSum: res.total
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade').where({
+        seller_openid: __user.getUserOpenid(),
+        state: 3
+      }).count().then(res => {
+        this.setData({
+          rejectedTradeSum: res.total
+        })
+        resolve(res)
       })
     })
+    return promise
   },
 
-  // 获取交易成功的书籍总数量
+  /**
+   * 获取交易成功的书籍总数量
+   */
   getSuccessfulTradeSum() {
     wx.cloud.database().collection('trade').where({
       seller_openid: __user.getUserOpenid(),
