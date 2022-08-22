@@ -153,13 +153,8 @@ Page({
         })
         return
       })
-      .then(res => {
-        // 更新已确认的tab栏
-        return this.getConfirmedTrade()
-      })
-      .then(res => {
-        return this.getConfirmedTradeSum()
-      })
+      .then(res => this.getConfirmedTrade())
+      .then(res => this.getConfirmedTradeSum())
       .then(res => wx.showToast({
         title: '确认成功',
       }))
@@ -205,13 +200,8 @@ Page({
           }
         })
       })
-      .then(res => {
-        // 更新已取消的tab栏
-        return this.getRejectedTrade()
-      })
-      .then(res => {
-        return this.getRejectedTradeSum()
-      })
+      .then(res => this.getRejectedTrade())
+      .then(res => this.getRejectedTradeSum())
       .then(res => wx.showToast({
         title: '取消成功',
       }))
