@@ -366,10 +366,19 @@ Page({
     this.fromObjectToChar()
 
     // 信息是否完整
-    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.college || !this.data.major || this.data.price === '' || !this.data.imageList.length) {
+    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.college || !this.data.major || this.data.price === '') {
       wx.showToast({
         title: '信息不完整',
         icon: 'error',
+      })
+      return
+    }
+
+    // 提醒用户没有上传图片信息
+    if(!this.data.imageList.length){
+      wx.showToast({
+        title: '图片不能为空哦~',
+        icon: 'none'
       })
       return
     }
