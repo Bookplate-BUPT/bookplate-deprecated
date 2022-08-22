@@ -62,7 +62,7 @@
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
-  <van-cell is-link title="编辑个人信息" link-type="navigateTo" url="../editUserInfo/editUserInfo" icon="edit" />
+  <van-cell is-link title="编辑个人信息" link-type="navigateTo" bind:click="gotoeditUserInfo" icon="edit" />
 </van-cell-group>
 
 <!-- <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">

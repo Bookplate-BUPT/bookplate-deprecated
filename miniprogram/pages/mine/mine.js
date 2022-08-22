@@ -175,6 +175,16 @@ Page({
       })
   },
 
+  // 前往编辑个人信息页面
+  gotoeditUserInfo() {
+    if (!__user.checkLoginStatus()) {
+      this.userLoginInMine()
+    } else
+      wx.navigateTo({
+        url: '../editUserInfo/editUserInfo',
+      })
+  },
+
   // 前往我是买家页面
   gotoViewOrder(event) {
     if (!__user.checkLoginStatus()) {
