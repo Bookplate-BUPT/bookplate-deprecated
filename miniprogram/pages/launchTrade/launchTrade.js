@@ -1,4 +1,7 @@
 // pages/launchTrade/launchTrade.js
+
+import __util from "../../utils/util"
+
 Page({
 
   /**
@@ -30,7 +33,7 @@ Page({
       bookDetail: JSON.parse(options.bookDetail),
       sellerDetail: JSON.parse(options.sellerDetail),
       trade_date: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
-      trade_time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+      trade_time: __util.formatTime(new Date()).slice(11, 16),
     })
   },
 
