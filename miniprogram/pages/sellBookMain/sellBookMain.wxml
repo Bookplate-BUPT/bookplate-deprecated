@@ -77,7 +77,7 @@
       <van-button round block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="toSellBook" data-identification="transmission" data-scan_isbn="{{true}}" custom-class="scan-code-button">
         <view style="display: flex; align-items: center;">
           <van-icon name="scan" size="22px" />
-          <text style="margin-left: 10px; font-size: 14px;">扫码卖书</text>
+          <text style="margin-left: 10px; font-size: 14px;">扫码发布</text>
         </view>
       </van-button>
     </van-col>

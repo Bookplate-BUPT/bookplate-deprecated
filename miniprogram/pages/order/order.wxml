@@ -41,8 +41,8 @@
 <view style="margin-bottom: 25%;" />
 
 <van-goods-action>
-  <van-goods-action-button text="取消交易" plain color="#FF596A" bind:click="rejectForm" />
-  <van-goods-action-button text="确认交易" color="#8AC286" bind:click="confirmForm" />
+  <van-goods-action-button text="拒绝请求" plain color="#FF596A" bind:click="rejectForm" />
+  <van-goods-action-button text="同意请求" color="#8AC286" bind:click="confirmForm" />
 </van-goods-action>
 
 <van-dialog id="van-dialog" />
