@@ -38,6 +38,10 @@ Page({
         var tempPendingTrade = prePage.data.pendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == this.data.trade._id })
 
+        // 更改确认元素的state为1
+        tempPendingTrade[idx].state = 1
+        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].state = 1
+
         // 在已确认中添加元素
         var tempConfirmedTrade = prePage.data.confirmedTrade
         tempConfirmedTrade.push(tempPendingTrade[idx])
@@ -51,6 +55,7 @@ Page({
         prePage.setData({
           pendingTrade: tempPendingTrade,
           confirmedTrade: tempConfirmedTrade,
+          tradeGoodsList: prePage.data.tradeGoodsList,
           pendingTradeSum: prePage.data.pendingTradeSum - 1,
           confirmedTradeSum: prePage.data.confirmedTradeSum + 1,
         })
@@ -81,25 +86,31 @@ Page({
         //获取上一页面对象
         let prePage = pages[pages.length - 2];
 
-        // 找到需要确认元素的索引
+        // 找到需要取消的元素的索引
         var tempPendingTrade = prePage.data.pendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == this.data.trade._id })
+
+        // 将取消的元素state改为3
+        tempPendingTrade[idx].state = 3
+        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].state = 3
 
         // 在已取消中添加元素
         var tempRejectedTrade = prePage.data.rejectedTrade
         tempRejectedTrade.push(tempPendingTrade[idx])
+
         // 已取消按时间逆序
         tempRejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
-        // 在未处理中删除元素
+        // 在待处理中删除元素
         tempPendingTrade.splice(idx, 1)
 
         // 更新页面
         prePage.setData({
           pendingTrade: tempPendingTrade,
           rejectedTrade: tempRejectedTrade,
+          tradeGoodsList: prePage.data.tradeGoodsList,
           pendingTradeSum: prePage.data.pendingTradeSum - 1,
-          rejectedTradeSum: prePage.data.rejectedTradeSum + 1
+          rejectedTradeSum: prePage.data.rejectedTradeSum + 1,
         })
         wx.cloud.callFunction({
           name: 'updateGoods',
