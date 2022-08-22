@@ -19,143 +19,6 @@ Page({
     isRefresh: false,         // 是否刷新页面
   },
 
-  onShow() {
-
-  },
-
-  //查找trade表里面的数据
-  getMyTrade() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid()
-    })
-      .orderBy('trade_time', 'desc')
-      .get()
-      .then(res => {
-        // 更新页面
-        this.setData({
-          tradeGoodsList: res.data
-        })
-      })
-      .catch()
-
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 0
-    })
-      .orderBy('trade_time', 'desc')
-      .get()
-      .then(res => {
-        // 更新页面
-        this.setData({
-          pendingTrade: res.data
-        })
-      })
-      .catch()
-
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 1
-    })
-      .orderBy('trade_time', 'desc')
-      .get()
-      .then(res => {
-        res.data.forEach((i, idx) => {
-          // 更新页面
-          this.setData({
-            confirmedTrade: res.data
-          })
-        })
-      })
-      .catch()
-
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 3
-    })
-      .orderBy('trade_time', 'desc')
-      .get()
-      .then(res => {
-        // 更新页面
-        this.setData({
-          rejectedTrade: res.data
-        })
-      })
-      .catch()
-
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 2
-    })
-      .orderBy('trade_time', 'desc')
-      .get()
-      .then(res => {
-        // 更新页面
-        this.setData({
-          successfulTrade: res.data
-        })
-      })
-      .catch()
-  },
-
-  // 获取全部订单总数量
-  getTradeGoodsListSum() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-    }).count().then(res => {
-      this.setData({
-        tradeGoodsListSum: res.total
-      })
-    })
-  },
-
-  // 获取未处理订单总数量
-  getPendingTradeSum() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 0
-    }).count().then(res => {
-      this.setData({
-        pendingTradeSum: res.total
-      })
-    })
-  },
-
-  // 获取已确认订单总数量
-  getConfirmedTradeSum() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 1
-    }).count().then(res => {
-      this.setData({
-        confirmedTradeSum: res.total
-      })
-    })
-  },
-
-  // 获取已取消订单总数量
-  getRejectedTradeSum() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 3
-    }).count().then(res => {
-      this.setData({
-        rejectedTradeSum: res.total
-      })
-    })
-  },
-
-  // 获取交易成功的书籍总数量
-  getSuccessfulTradeSum() {
-    wx.cloud.database().collection('trade').where({
-      seller_openid: __user.getUserOpenid(),
-      state: 2
-    }).count().then(res => {
-      this.setData({
-        successfulTradeSum: res.total
-      })
-    })
-  },
-
   // 上拉触底监听
   onReachBottom() {
     switch (this.data.active) {
@@ -261,14 +124,6 @@ Page({
     }
   },
 
-  //打开弹出层
-  ShowPopup(e) {
-    this.setData({
-      popup: e.currentTarget.dataset.item,
-      show: true
-    })
-  },
-
   //确认交易
   confirmForm(event) {
     // 更新交易记录的state
@@ -372,10 +227,188 @@ Page({
   // 页面初始化数据
   onLoad: function (options) {
     this.getMyTrade()
+    this.getAllSum()
+  },
+
+  //查找trade表里面的数据
+  getMyTrade() {
+    this.getTradeGoodsList()
+    this.getPendingTrade()
+    this.getConfirmedTrade()
+    this.getRejectedTrade()
+    this.getSuccessfulTrade()
+  },
+
+  /**
+   * 查找全部数据
+   * @returns 无返回值
+   */
+  getTradeGoodsList() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid()
+    })
+      .orderBy('trade_time', 'desc')
+      .limit(20)
+      .get()
+      .then(res => {
+        // 更新页面
+        this.setData({
+          tradeGoodsList: res.data
+        })
+      })
+      .catch()
+  },
+
+  /**
+    * 查找待处理数据
+    * @returns 无返回值
+    */
+  getPendingTrade() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 0
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        // 更新页面
+        this.setData({
+          pendingTrade: res.data
+        })
+      })
+      .catch()
+  },
+
+  /**
+    * 查找已确认数据
+    * @returns 无返回值
+    */
+  getConfirmedTrade() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 1
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        res.data.forEach((i, idx) => {
+          // 更新页面
+          this.setData({
+            confirmedTrade: res.data
+          })
+        })
+      })
+      .catch()
+  },
+
+  /**
+    * 查找已取消数据
+    * @returns 无返回值
+    */
+  getRejectedTrade() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 3
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        // 更新页面
+        this.setData({
+          rejectedTrade: res.data
+        })
+      })
+      .catch()
+  },
+
+  /**
+    * 查找已成交数据
+    * @returns 无返回值
+    */
+  getSuccessfulTrade() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 2
+    })
+      .orderBy('trade_time', 'desc')
+      .get()
+      .then(res => {
+        // 更新页面
+        this.setData({
+          successfulTrade: res.data
+        })
+      })
+      .catch()
+  },
+
+  /**
+   * 获取本页面所有的总数量
+   * @returns 无返回值
+   */
+  getAllSum() {
     this.getTradeGoodsListSum()
     this.getPendingTradeSum()
     this.getConfirmedTradeSum()
     this.getRejectedTradeSum()
     this.getSuccessfulTradeSum()
+  },
+
+  // 获取全部订单总数量
+  getTradeGoodsListSum() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+    }).count().then(res => {
+      this.setData({
+        tradeGoodsListSum: res.total
+      })
+    })
+  },
+
+  // 获取未处理订单总数量
+  getPendingTradeSum() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 0
+    }).count().then(res => {
+      this.setData({
+        pendingTradeSum: res.total
+      })
+    })
+  },
+
+  // 获取已确认订单总数量
+  getConfirmedTradeSum() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 1
+    }).count().then(res => {
+      this.setData({
+        confirmedTradeSum: res.total
+      })
+    })
+  },
+
+  // 获取已取消订单总数量
+  getRejectedTradeSum() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 3
+    }).count().then(res => {
+      this.setData({
+        rejectedTradeSum: res.total
+      })
+    })
+  },
+
+  // 获取交易成功的书籍总数量
+  getSuccessfulTradeSum() {
+    wx.cloud.database().collection('trade').where({
+      seller_openid: __user.getUserOpenid(),
+      state: 2
+    }).count().then(res => {
+      this.setData({
+        successfulTradeSum: res.total
+      })
+    })
   },
 })
