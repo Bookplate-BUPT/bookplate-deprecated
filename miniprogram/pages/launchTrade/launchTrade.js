@@ -146,11 +146,6 @@ Page({
     // 连接完整的交易时间
     var trade_time = this.data.trade_date + this.data.trade_time
 
-    this.data.bookDetail.image_list.forEach((i, idx) => {
-      if (i === 'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg') {
-        this.data.bookDetail.image_list.splice(idx, 1)
-      }
-    })
     var bookDetail = this.data.bookDetail
     delete bookDetail.views
 

@@ -51,13 +51,6 @@ Page({
         .then(res => {
           var tempCartList = res.result.list
 
-          // 若无图片信息，给定默认图片
-          tempCartList.forEach((i, idx) => {
-            if (i.bookDetail.length != 0 && i.bookDetail[0].image_list.length == 0) {
-              i.bookDetail[0].image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-            }
-          })
-
           // 向原数组中添加新值
           this.data.cartList = [...this.data.cartList, ...tempCartList]
 
@@ -148,13 +141,6 @@ Page({
     })
       .then(res => {
         var tempCartList = res.result.list
-        console.log(tempCartList)
-
-        tempCartList.forEach((i, idx) => {
-          if (i.bookDetail.length != 0 && i.bookDetail[0].image_list.length == 0) {
-            i.bookDetail[0].image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-          }
-        })
 
         this.setData({
           cartList: tempCartList

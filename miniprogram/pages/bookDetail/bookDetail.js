@@ -66,9 +66,6 @@ Page({
       .doc(this.data.goodsID)
       .get()
       .then(res => {
-        if (res.data.image_list.length === 0) {
-          res.data.image_list = ['cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/undefined.jpg']
-        }
         this.setData({
           bookDetail: res.data,
           trade_price: res.data.price
