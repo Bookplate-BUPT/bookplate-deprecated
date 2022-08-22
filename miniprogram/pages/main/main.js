@@ -402,6 +402,10 @@ Page({
     if (this.data.goodsList.length < this.data.goodsSum)
       wx.cloud.database().collection('goods').skip(this.data.goodsList.length).get()
         .then(res => {
+          // 书籍内容格式化
+          res.data.forEach(i => {
+            i.introduction = __util.format(i.introduction, 110, 14, 2)
+          })
           this.data.goodsList = [...this.data.goodsList, ...res.data]
           // 更新页面
           this.setData({
@@ -475,6 +479,11 @@ Page({
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
 
+            // 书籍内容格式化
+            tempGoodsList.forEach(i => {
+              i.introduction = __util.format(i.introduction, 110, 14, 2)
+            })
+
             this.setData({
               goodsList: tempGoodsList,
             })
@@ -492,6 +501,11 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
+
+            // 书籍内容格式化
+            tempGoodsList.forEach(i => {
+              i.introduction = __util.format(i.introduction, 110, 14, 2)
+            })
 
             this.setData({
               goodsList: tempGoodsList,
@@ -514,6 +528,11 @@ Page({
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
 
+            // 书籍内容格式化
+            tempGoodsList.forEach(i => {
+              i.introduction = __util.format(i.introduction, 110, 14, 2)
+            })
+
             this.setData({
               goodsList: tempGoodsList
             })
@@ -535,6 +554,11 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
+
+            // 书籍内容格式化
+            tempGoodsList.forEach(i => {
+              i.introduction = __util.format(i.introduction, 110, 14, 2)
+            })
 
             this.setData({
               goodsList: tempGoodsList
