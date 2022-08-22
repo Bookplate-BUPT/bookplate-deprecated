@@ -537,6 +537,15 @@ Page({
 
   //更新上传实时的我的卖书信息，通过选择判断决定是否进行上传更新我的卖书信息
   upDateMySellBooksMessages() {
+
+    if(!this.data.showList.length){
+      wx.showToast({
+        title: '图片不能为空哦~',
+        icon: 'none'
+      })
+      return
+    }
+
     wx.showLoading({
       title: '修改中',
     })
@@ -592,9 +601,7 @@ Page({
             title: '修改成功',
             icon: 'success'
           }).then(res => {
-            wx.navigateBack({
-              delta: 1,
-            })
+            wx.navigateBack()
           })
         })
       })

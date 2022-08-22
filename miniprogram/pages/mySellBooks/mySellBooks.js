@@ -15,9 +15,13 @@ Page({
   },
 
   onLoad(options) {
-    this.getMySellBooksList()
+    // this.getMySellBooksList()
     this.getIntroductionFormatLength()
     this.getGoodsSum()
+  },
+
+  onShow(){
+    this.getMySellBooksList()
   },
 
   // 携带参数将对应的数组信息传递到修改信息页面
