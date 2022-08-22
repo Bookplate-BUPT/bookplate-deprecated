@@ -57,7 +57,7 @@ Page({
   },
 
   onShow() {
-
+    this.checkcartStatus()
   },
 
   // 获取书籍详细信息
@@ -109,7 +109,35 @@ Page({
   //   })
   // },
 
-  // 添加商品到购物车
+  // 判断商品收藏状态，以控制收藏图标的状态 
+  checkcartStatus() {
+    // 如果没登录的话直接设为未收藏 
+    if (!__user.checkLoginStatus()) {
+      this.setData({
+        isExisted: false
+      })
+    } else {
+      wx.cloud.database().collection('cart')
+        .where({
+          goods_id: this.data.goodsID,
+          _openid: __user.getUserOpenid()
+        })
+        .get()
+        .then(res => {
+          if (res.data.length === 1) {
+            this.setData({
+              isExisted: true
+            })
+          } else {
+            this.setData({
+              isExisted: false
+            })
+          }
+        })
+    }
+  },
+
+  // 添加商品到收藏
   addGoodsToCart(event) {
     if (!__user.checkLoginStatus()) {
       wx.showToast({
@@ -117,52 +145,78 @@ Page({
         icon: 'error',
       })
     } else {
-      // 不允许添加自己的商品进购物车
+      // 不允许添加自己的商品进收藏
       if (this.data.bookDetail._openid === __user.getUserOpenid()) {
         wx.showToast({
-          title: '不能添加自己的商品进购物车',
+          title: '不能添加自己的商品进收藏',
           icon: 'none',
         })
       } else {
         if (event.currentTarget.dataset.state == 1) {
           this.lockedGoodsConfirm()
         } else {
-          // 查询用户购物车里是否已有此商品
+          // 查询用户收藏里是否已有此商品
           wx.cloud.database().collection('cart')
             .where({
-              _openid: app.globalData.userOpenid,
+              _openid: __user.getUserOpenid(),
               goods_id: this.data.goodsID,
             })
             .get()
             .then(res => {
+              // 如果已经收藏此商品，则需要取消收藏 
+              if (res.data.length === 1) {
+                wx.cloud.database().collection('cart')
+                  .doc(res.data[0]._id)
+                  .remove()
+                  .then(res => {
+                    this.setData({
+                      isExisted: false
+                    })
+                    wx.showToast({
+                      title: '已取消收藏',
+                      icon: 'success'
+                    })
 
-              // 已经在购物车内
-              if (res.data.length) {
-                wx.showToast({
-                  title: '已在购物车中',
-                  icon: 'error',
-                })
-              } else {
-                // 不在购物车内
+                    // 商品的被收藏数减1 
+                    wx.cloud.database().collection('goods')
+                      .doc(this.data.goodsID)
+                      .update({
+                        data: {
+                          favorites: wx.cloud.database().command.inc(-1)
+                        }
+                      })
+                  })
+              }
+              // 收藏此商品 
+              else {
                 wx.cloud.database().collection('cart')
                   .add({
                     data: {
                       goods_id: this.data.goodsID,
-                      add_time: new Date(),
+                      add_time: new Date()
                     }
                   })
                   .then(res => {
+                    this.setData({
+                      isExisted: true
+                    })
                     wx.showToast({
-                      title: '添加成功',
-                      icon: 'success',
+                      title: '收藏成功',
+                      icon: 'success'
                     })
 
-                    // this.getNumOfUserCartGoods()
+                    // 商品的被收藏数加1 
+                    wx.cloud.database().collection('goods')
+                      .doc(this.data.goodsID)
+                      .update({
+                        data: {
+                          favorites: wx.cloud.database().command.inc(1)
+                        }
+                      })
                   })
               }
             })
         }
-
       }
     }
   },
@@ -170,7 +224,7 @@ Page({
   // 商品被锁定时加入购物车的确认
   lockedGoodsConfirm() {
     Dialog.confirm({
-      title: '确定加入购物车吗？',
+      title: '确定加入收藏吗？',
       message: '该书籍目前已被预定，被购买后将下架',
       closeOnClickOverlay: true,
     })
@@ -186,7 +240,7 @@ Page({
             // 已经在购物车内
             if (res.data.length) {
               wx.showToast({
-                title: '已在购物车中',
+                title: '已在收藏中',
                 icon: 'error',
               })
             } else {
@@ -199,6 +253,9 @@ Page({
                   }
                 })
                 .then(res => {
+                  this.setData({
+                    isExisted: true
+                  })
                   wx.showToast({
                     title: '添加成功',
                     icon: 'success',

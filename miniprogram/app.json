@@ -48,8 +48,8 @@
       },
       {
         "pagePath": "pages/cart/cart",
-        "iconPath": "/icons/cart.png",
-        "selectedIconPath": "/icons/cart_1.png"
+        "iconPath": "/icons/star.png",
+        "selectedIconPath": "/icons/star_1.png"
       },
       {
         "pagePath": "pages/mine/mine",

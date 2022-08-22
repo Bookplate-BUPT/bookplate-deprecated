@@ -57,3 +57,7 @@
   margin-top: 6px;
   margin-left: 2px;
 }
+
+.star { 
+  color: #ffc125; 
+}

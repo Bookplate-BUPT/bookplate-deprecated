@@ -63,9 +63,10 @@
 <view style="margin-bottom: 25%;" />
 
 <van-goods-action>
-  <van-goods-action-icon style="margin-left: 6px;" icon="cart-o" text="加入购物车" bind:click="addGoodsToCart" data-state="{{bookDetail.state}}" />
+  <van-goods-action-icon icon="{{ isExisted ? 'star' : 'star-o' }}" text="{{ isExisted ? '已收藏' : '收藏' }}" bind:click="addGoodsToCart" icon-class="{{ isExisted ? 'star' : ''}}" data-state="{{bookDetail.state}}">
+  </van-goods-action-icon>
   <!-- <van-goods-action-icon icon="cart-o" text="购物车" bind:click="gotoCart" /> -->
-  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '立即交易' }}" plain="{{ bookDetail.state == 1 ? fasle : true }}" color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="gotoLaunchTrade" />
+  <van-goods-action-button text="{{ bookDetail.state == 1 ? '已被预定' : '我想要' }}" plain="{{ bookDetail.state == 1 ? fasle : true }}" color="{{ bookDetail.state == 1 ? '#818385' : '#8ac286' }}" bind:click="gotoLaunchTrade" />
   <van-goods-action-button text="联系卖家" type="warning" color="{{ bookDetail.state == 1 ? '#808385' : 'linear-gradient(to right, #8ac286, #659c64)' }}" plain="{{ bookDetail.state == 1 ? true : fasle }}" bind:click="contactSeller" />
 </van-goods-action>
 
