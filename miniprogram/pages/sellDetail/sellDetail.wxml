@@ -68,7 +68,7 @@
   <view style="background-color: white; padding: 12px;">
     <van-row>
       <van-col span="10" offset="1">
-        <van-image width="84px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller03.png" />
+        <van-image width="84px" height="84px" fit="contain" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/seller/Seller03.jpg" />
       </van-col>
       <van-col span="10" offset="1">
         <view style="margin-top: 10px;">
@@ -192,13 +192,13 @@
           <view style="font-size: 14px; font-weight: bold; color: #333333;">查找第二步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>联系卖家可与卖家沟通</view>
-            <view>加入购物车可选择待购书籍</view>
+            <view>加入收藏可存储收藏书籍</view>
           </view>
         </view>
       </van-col>
       <van-col span="5" offset="1">
         <view style="height: 84px;display: flex;align-items: center;">
-          <van-image fit="heightFix" height="50px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer02.png" />
+          <van-image fit="heightFix" height="28px" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/buyer/Buyer02.jpg" />
         </view>
       </van-col>
     </van-row>
@@ -211,14 +211,14 @@
     <van-row>
       <van-col span="10" offset="1">
         <view style="height: 84px;display: flex;align-items: center;">
-          <van-image fit="heightFix" height="35px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer03.png" />
+          <van-image fit="heightFix" height="35px" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/buyer/Buyer03.jpg" />
         </view>
       </van-col>
       <van-col span="12" offset="0">
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">购买第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>点击购买</view>
+            <view>点击我想要</view>
           </view>
         </view>
       </van-col>
@@ -233,18 +233,18 @@
         <view style="height: 100%;margin-top: 10px;display: flex;flex-direction: column;justify-content: center;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">购买第二步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>之后在弹出层中填写相关信息</view>
+            <view>在交易信息页面填写相关信息</view>
             <view>确认无误后即可提交</view>
             <view>提示：</view>
             <view>  1.现价以发布时的价格为默认值,可手动更改（必填项）</view>
             <view>  2.时间以购买当天时间为默认值,可手动更改（选填项）</view>
-            <view>  3.地点为线下交易地点（选填项）</view>
+            <view>  3.地点为线下交易地点（必填项）</view>
           </view>
         </view>
       </van-col>
       <van-col span="5" offset="1">
         <view style="height: 200px;display: flex;align-items: center;">
-          <van-image fit="heightFix" height="200px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer04.png" />
+          <van-image fit="heightFix" height="200px" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/buyer/Buyer04.jpg" />
         </view>
       </van-col>
     </van-row>
