@@ -18,7 +18,7 @@
     </van-card>
 
     <view class="{{ 'order-state-' + trade.state }}">
-      {{ utils.orderStateToStr(trade.state, 0) }}
+      {{ utils.orderStateToStr(trade.state, page) }}
     </view>
 
     <view slot="right">

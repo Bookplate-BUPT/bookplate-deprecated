@@ -8,6 +8,10 @@ Component({
   // 组件的属性列表
   properties: {
     trade: {},
+    page: {
+      type: Number,
+      value: 0
+    },
 
     link: {
       type: Boolean,
