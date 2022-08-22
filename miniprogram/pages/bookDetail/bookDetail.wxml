@@ -44,14 +44,14 @@
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">
   <van-cell title="昵称" value="{{ sellerDetail.nickName }}" />
-  <van-cell title="届级" value="{{ sellerDetail.grade }}" />
+  <van-cell title="届级" value="{{ sellerDetail.grade }}级" />
   <van-cell title="学院" value="{{ sellerDetail.college }}" />
   <view style="display: flex; align-items: center; margin: 0 0 3% 5%;">
     <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 10%" />
     <van-row>
       <van-col custom-class="usernameCol">
         <text style="font-size: 14px; margin-left: 16px;">{{ sellerDetail.nickName }}</text>
-        <van-tag color="#f6a7af" style="margin-left: 12px;">{{ sellerDetail.grade }}</van-tag>
+        <van-tag color="#f6a7af" style="margin-left: 12px;">{{ sellerDetail.grade }}级</van-tag>
       </van-col>
       <van-col offset="2" custom-class="tagCol">
         <van-tag color="#b0c2db">{{ sellerDetail.college }}</van-tag>
