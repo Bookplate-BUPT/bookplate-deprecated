@@ -122,6 +122,10 @@ Page({
         var tempPendingTrade = this.data.pendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
 
+        // 将取消的元素state改为3
+        tempPendingTrade[idx].state = 3
+        this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
+
         // 在已取消中添加元素
         var tempRejectedTrade = this.data.rejectedTrade
         tempRejectedTrade.push(tempPendingTrade[idx])
@@ -135,6 +139,7 @@ Page({
         this.setData({
           pendingTrade: tempPendingTrade,
           rejectedTrade: tempRejectedTrade,
+          tradeGoodsList: this.data.tradeGoodsList,
           pendingTradeSum: this.data.pendingTradeSum - 1,
           rejectedTradeSum: this.data.rejectedTradeSum + 1,
         })
@@ -164,14 +169,18 @@ Page({
         title: '收货成功',
         icon: 'success'
       }).then(res => {
-        // 找到需要确认元素的索引
+        // 找到需要收货元素的索引
         var tempconfirmedTrade = this.data.confirmedTrade
         var idx = tempconfirmedTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
+
+        // 将收货的元素state改为2
+        tempconfirmedTrade[idx].state = 2
+        this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 2
 
         // 在已成交中添加元素并排序
         this.data.successfulTrade.push(tempconfirmedTrade[idx])
         this.data.successfulTrade.sort((a, b) => b.trade_time - a.trade_time)
-        
+
         // 在待收货中删除元素
         tempconfirmedTrade.splice(idx, 1)
 
@@ -179,6 +188,7 @@ Page({
         this.setData({
           confirmedTrade: tempconfirmedTrade,
           successfulTrade: this.data.successfulTrade,
+          tradeGoodsList: this.data.tradeGoodsList,
           confirmedTradeSum: this.data.confirmedTrade - 1,
           successfulTradeSum: this.data.successfulTradeSum + 1,
         })

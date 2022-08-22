@@ -287,6 +287,10 @@ Page({
         var tempPendingTrade = this.data.pendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
 
+        // 更改确认元素的state为1
+        tempPendingTrade[idx].state = 1
+        this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 1
+
         // 在已确认中添加元素
         var tempConfirmedTrade = this.data.confirmedTrade
         tempConfirmedTrade.push(tempPendingTrade[idx])
@@ -300,6 +304,7 @@ Page({
         this.setData({
           pendingTrade: tempPendingTrade,
           confirmedTrade: tempConfirmedTrade,
+          tradeGoodsList: this.data.tradeGoodsList,
           pendingTradeSum: this.data.pendingTradeSum - 1,
           confirmedTradeSum: this.data.confirmedTradeSum + 1,
         })
@@ -321,23 +326,29 @@ Page({
         title: '已取消',
         icon: 'success'
       }).then(res => {
-        // 找到需要确认元素的索引
+        // 找到需要取消的元素的索引
         var tempPendingTrade = this.data.pendingTrade
         var idx = tempPendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id })
+
+        // 将取消的元素state改为3
+        tempPendingTrade[idx].state = 3
+        this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
 
         // 在已取消中添加元素
         var tempRejectedTrade = this.data.rejectedTrade
         tempRejectedTrade.push(tempPendingTrade[idx])
+
         // 已取消按时间逆序
         tempRejectedTrade.sort((a, b) => { return b.trade_time - a.trade_time })
 
-        // 在未处理中删除元素
+        // 在待处理中删除元素
         tempPendingTrade.splice(idx, 1)
 
         // 更新页面
         this.setData({
           pendingTrade: tempPendingTrade,
           rejectedTrade: tempRejectedTrade,
+          tradeGoodsList: this.data.tradeGoodsList,
           pendingTradeSum: this.data.pendingTradeSum - 1,
           rejectedTradeSum: this.data.rejectedTradeSum + 1,
         })
