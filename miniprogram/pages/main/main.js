@@ -613,52 +613,74 @@ Page({
       })
       return
     } else {
-      // 查询用户购物车里是否已有此商品
-      wx.cloud.database().collection('cart')
+      wx.cloud.database().collection('goods')
         .where({
-          _openid: __user.getUserOpenid(),
-          goods_id: event.currentTarget.dataset.id,
+          _id: event.currentTarget.dataset.id
         })
-        .get()
+        .count()
         .then(res => {
-          // 不允许添加自己的商品进购物车
-          if (event.currentTarget.dataset.openid === app.globalData.userOpenid) {
-            wx.showToast({
-              title: '不能收藏自己的商品',
-              icon: 'none',
-            })
-          } else {
-            // 已经在购物车内
-            if (res.data.length) {
-              wx.showToast({
-                title: '已收藏',
-                icon: 'error',
+          // 查看书籍是否存在
+          if (res.total) {
+            // 查询用户购物车里是否已有此商品
+            wx.cloud.database().collection('cart')
+              .where({
+                _openid: __user.getUserOpenid(),
+                goods_id: event.currentTarget.dataset.id,
               })
-            } else {
-              // 不在购物车内
-              wx.cloud.database().collection('cart')
-                .add({
-                  data: {
-                    goods_id: event.currentTarget.dataset.id,
-                    add_time: new Date(),
-                  }
-                })
-                .then(res => {
-                  // this.setData({
-                  //   cartSum: this.data.cartSum + 1
-                  // })
-                  // wx.setTabBarBadge({
-                  //   index: 3,
-                  //   text: this.data.cartSum.toString()
-                  // })
+              .count()
+              .then(res => {
+                // 不允许添加自己的商品进购物车
+                if (event.currentTarget.dataset.openid === app.globalData.userOpenid) {
                   wx.showToast({
-                    title: '添加成功',
-                    icon: 'success',
+                    title: '不能收藏自己的商品',
+                    icon: 'none',
                   })
-                })
-            }
+                } else {
+                  // 已经在购物车内
+                  if (res.total) {
+                    wx.showToast({
+                      title: '已收藏',
+                      icon: 'error',
+                    })
+                  } else {
+                    // 不在购物车内
+                    wx.cloud.database().collection('cart')
+                      .add({
+                        data: {
+                          goods_id: event.currentTarget.dataset.id,
+                          add_time: new Date(),
+                        }
+                      })
+                      .then(res => {
+                        // this.setData({
+                        //   cartSum: this.data.cartSum + 1
+                        // })
+                        // wx.setTabBarBadge({
+                        //   index: 3,
+                        //   text: this.data.cartSum.toString()
+                        // })
+                        wx.showToast({
+                          title: '添加成功',
+                          icon: 'success',
+                        })
+                      })
+                  }
+                }
+              })
+          } else {
+            this.data.goodsList.splice(event.currentTarget.dataset.index, 1)
+            this.setData({
+              goodsList: this.data.goodsList
+            })
+
+            wx.showToast({
+              title: '该书籍已被购买，建议下拉刷新',
+              icon: 'none',
+              duration: 2000
+            })
           }
         })
+        .catch(err => console.error(err))
     }
   },
 
