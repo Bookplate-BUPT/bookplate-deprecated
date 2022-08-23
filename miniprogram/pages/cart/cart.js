@@ -71,12 +71,12 @@ Page({
       this.setData({
         cartSum: res.total
       })
-      if (this.data.cartSum) {
-        wx.setTabBarBadge({
-          index: 3,
-          text: this.data.cartSum.toString()
-        })
-      }
+      // if (this.data.cartSum) {
+      //   wx.setTabBarBadge({
+      //     index: 3,
+      //     text: this.data.cartSum.toString()
+      //   })
+      // }
     })
   },
 
@@ -165,15 +165,15 @@ Page({
       cartList: this.data.cartList,
       cartSum: this.data.cartSum - 1
     })
-    if (this.data.cartSum) {
-      wx.setTabBarBadge({
-        index: 3,
-        text: this.data.cartSum.toString()
-      })
-    }else{
-      wx.removeTabBarBadge({
-        index: 3,
-      })
-    }
+    // if (this.data.cartSum) {
+    //   wx.setTabBarBadge({
+    //     index: 3,
+    //     text: this.data.cartSum.toString()
+    //   })
+    // }else{
+    //   wx.removeTabBarBadge({
+    //     index: 3,
+    //   })
+    // }
   }
 })

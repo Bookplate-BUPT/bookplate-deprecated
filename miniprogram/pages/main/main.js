@@ -329,7 +329,7 @@ Page({
     major: '',          //选择的专业
     mainActiveIndex: 0,
     StateSum: 0,                //收藏tabbar展示的数字
-    cartSum: 0,                 //我的tabbar展示的数字
+    // cartSum: 0,                 //我的tabbar展示的数字
   },
 
   onLoad() {
@@ -340,7 +340,7 @@ Page({
 
   onShow() {
     this.countNumOfStateSum()
-    this.getCartSum()
+    // this.getCartSum()
   },
 
   //获取学院信息
@@ -644,13 +644,13 @@ Page({
                   }
                 })
                 .then(res => {
-                  this.setData({
-                    cartSum: this.data.cartSum + 1
-                  })
-                  wx.setTabBarBadge({
-                    index: 3,
-                    text: this.data.cartSum.toString()
-                  })
+                  // this.setData({
+                  //   cartSum: this.data.cartSum + 1
+                  // })
+                  // wx.setTabBarBadge({
+                  //   index: 3,
+                  //   text: this.data.cartSum.toString()
+                  // })
                   wx.showToast({
                     title: '添加成功',
                     icon: 'success',
@@ -701,19 +701,19 @@ Page({
           _openid: __user.getUserOpenid(),
           state: 1
         })
-        .get()
+        .count()
         .then(res => {
           this.setData({
-            StateSum: res.data.length
+            StateSum: res.total
           })
           wx.cloud.database().collection('trade')
             .where({
               seller_openid: __user.getUserOpenid(),
               state: 0
             })
-            .get()
+            .count()
             .then(resner => {
-              var tempnum = this.data.StateSum + resner.data.length
+              var tempnum = this.data.StateSum + resner.total
               if (tempnum) {
                 wx.setTabBarBadge({
                   index: 4,
@@ -731,20 +731,20 @@ Page({
     return promise
   },
 
-  // 获取购物车总商品量
-  getCartSum() {
-    wx.cloud.database().collection('cart').where({
-      _openid: __user.getUserOpenid()
-    }).count().then(res => {
-      this.setData({
-        cartSum: res.total
-      })
-      if (this.data.cartSum) {
-        wx.setTabBarBadge({
-          index: 3,
-          text: this.data.cartSum.toString()
-        })
-      }
-    })
-  },
+  // // 获取购物车总商品量
+  // getCartSum() {
+  //   wx.cloud.database().collection('cart').where({
+  //     _openid: __user.getUserOpenid()
+  //   }).count().then(res => {
+  //     this.setData({
+  //       cartSum: res.total
+  //     })
+  //     if (this.data.cartSum) {
+  //       wx.setTabBarBadge({
+  //         index: 3,
+  //         text: this.data.cartSum.toString()
+  //       })
+  //     }
+  //   })
+  // },
 })

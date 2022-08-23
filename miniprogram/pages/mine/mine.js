@@ -373,19 +373,19 @@ Page({
           _openid: __user.getUserOpenid(),
           state: 1
         })
-        .get()
+        .count()
         .then(res => {
           this.setData({
-            StateSum: res.data.length
+            StateSum: res.total
           })
           wx.cloud.database().collection('trade')
             .where({
               seller_openid: __user.getUserOpenid(),
               state: 0
             })
-            .get()
+            .count()
             .then(resner => {
-              var tempnum = this.data.StateSum + resner.data.length
+              var tempnum = this.data.StateSum + resner.total
               if (tempnum) {
                 wx.setTabBarBadge({
                   index: 4,
