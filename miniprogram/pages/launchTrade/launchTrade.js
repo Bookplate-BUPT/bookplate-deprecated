@@ -160,7 +160,8 @@ Page({
         trade_time: trade_time,
         trade_spot: this.data.trade_spot,
         seller_openid: this.data.bookDetail._openid,
-        bookDetail: bookDetail
+        bookDetail: bookDetail,
+        state_zero_time: new Date()
       }
     }).then(res => {
       wx.showToast({

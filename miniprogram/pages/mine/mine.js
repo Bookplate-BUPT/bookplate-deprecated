@@ -141,7 +141,8 @@ Page({
                 nickName: __user.getUserInfo().nickName,
                 grade: '2022',
                 college: '信息与通信工程学院',
-                major: '（通信工程）大类招生'
+                major: '（通信工程）大类招生',
+                registration_time: new Date()
               }
             })
 

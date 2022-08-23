@@ -30,6 +30,7 @@ Page({
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
+        type: 1,
         _id: this.data.trade._id,
         state: 1,
       }
@@ -79,6 +80,7 @@ Page({
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
+        type: 3,
         _id: this.data.trade._id,
         state: 3,
       }

@@ -134,6 +134,7 @@ Page({
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
+        type: 1,
         _id: event.currentTarget.dataset._id,
         state: 1,
       }
@@ -171,6 +172,7 @@ Page({
     wx.cloud.callFunction({
       name: 'updateTradeState',
       data: {
+        type: 3,
         _id: event.currentTarget.dataset._id,
         state: 3,
       }

@@ -9,9 +9,27 @@ cloud.init({
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
-  return cloud.database().collection('trade').doc(event._id).update({
-    data: {
-      state: event.state
-    }
-  })
+  switch (event.type) {
+    case 1:
+      return cloud.database().collection('trade').doc(event._id).update({
+        data: {
+          state: event.state,
+          state_one_time: new Date()
+        }
+      })
+    case 2:
+      return cloud.database().collection('trade').doc(event._id).update({
+        data: {
+          state: event.state,
+          state_two_time: new Date()
+        }
+      })
+    case 3:
+      return cloud.database().collection('trade').doc(event._id).update({
+        data: {
+          state: event.state,
+          state_three_time: new Date()
+        }
+      })
+  }
 }
