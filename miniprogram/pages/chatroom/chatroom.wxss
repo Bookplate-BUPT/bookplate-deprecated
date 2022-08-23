@@ -10,19 +10,46 @@
 }
 
 .chatContent-left {
-  background-color: white;
-  margin-left: 8px;
+  background-color: #00B0FF;
+  margin-left: 16px;
   margin-right: 16px;
-  border-radius: 8px;
-  padding: 4px 8px 4px;
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: #FFFFFF;
+}
+
+.chatContent-left::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: #00B0FF;
+  display: block;
+
+  position: absolute;
+  top: 17px;
+  left: 64px;
+  transform: rotate(45deg);
 }
 
 .chatContent-right {
-  background-color: white;
-  margin-right: 8px;
+  background-color: #FFFFFF;
+  margin-right: 16px;
   margin-left: 16px;
-  border-radius: 8px;
-  padding: 4px 8px 4px;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.chatContent-right::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: #FFFFFF;
+  display: block;
+
+  position: absolute;
+  top: 17px;
+  right: 64px;
+  transform: rotate(45deg);
 }
 
 Page {
