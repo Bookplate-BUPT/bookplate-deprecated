@@ -123,9 +123,7 @@ Page({
       })
       .then(res => {
         // 返回上一页面
-        wx.redirectTo({
-          url: '../mine/mine',
-        })
+        wx.navigateBack()
       })
   }
 })
