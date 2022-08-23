@@ -8,31 +8,12 @@ Page({
   data: {
     relationshipList: [],   // 用户列表
 
-    watcher: '',  // 页面关系表监听器
+    watcher: '',          // 页面关系表监听器
+    watcherIsSet: false,  // 监听器是否已经建立
   },
 
   onLoad() {
-    const watcher = wx.cloud.database().collection('relationship')
-      .where(
-        wx.cloud.database().command.or([
-          {
-            user1: app.globalData.userOpenid,
-          },
-          {
-            user2: app.globalData.userOpenid,
-          }
-        ])
-      )
-      .watch({
-        onChange: this.getRelationshipList.bind(this),
-        onError(err) {
-          console.log(err)
-        }
-      })
 
-    this.setData({
-      watcher: watcher
-    })
   },
 
   onShow() {
@@ -42,28 +23,60 @@ Page({
     // if (__user.checkLoginStatus()) {
     //   this.getUserList()
     // }
+
+    if (__user.checkLoginStatus() && !this.data.watcherIsSet) {
+      const watcher = wx.cloud.database().collection('relationship')
+        .where(
+          wx.cloud.database().command.or([
+            {
+              user1: app.globalData.userOpenid,
+            },
+            {
+              user2: app.globalData.userOpenid,
+            }
+          ])
+        )
+        .watch({
+          onChange: this.getRelationshipList.bind(this),
+          onError(err) {
+            console.log(err)
+          }
+        })
+
+      this.setData({
+        watcher: watcher,
+        watcherIsSet: true,
+      })
+    }
   },
 
-  async onHide() {
-    await this.data.watcher.close()
-  },
+  // async onHide() {
+  //   await this.data.watcher.close()
+  // },
 
   // 获取用户关系列表
   getRelationshipList(snapshot) {
     // console.log(snapshot)
 
     wx.cloud.callFunction({
-      name: 'getRelationshipList'
+      name: 'getRelationshipList',
+      data: {
+        openid: __user.getUserOpenid()
+      }
     }).then(res => {
-      // 增加一个自定义的格式化时间
-      const tempList = res.result.map((i) => ({
-        ...i,
-        formatTime: __util.newFormatTime(new Date(i.last_conversation_time))
-      }))
+      // console.log(res.result)
 
-      this.setData({
-        relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
-      })
+      if (res.result.length) {
+        // 增加一个自定义的格式化时间
+        const tempList = res.result.map((i) => ({
+          ...i,
+          formatTime: __util.newFormatTime(new Date(i.last_conversation_time))
+        }))
+
+        this.setData({
+          relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
+        })
+      }
     })
   },
 

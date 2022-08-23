@@ -9,11 +9,15 @@ cloud.init({
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
+  if (wxContext.OPENID !== event.openid) {
+    return []
+  }
+
   // 先拿到 user1 为自己，对方的用户数据
   result1 = await cloud.database().collection('relationship')
     .aggregate()
     .match({
-      user1: wxContext.OPENID,
+      user1: event.openid,
       last_content: cloud.database().command.neq('')
     })
     .sort({
@@ -31,7 +35,7 @@ exports.main = async (event, context) => {
   result2 = await cloud.database().collection('relationship')
     .aggregate()
     .match({
-      user2: wxContext.OPENID,
+      user2: event.openid,
       last_content: cloud.database().command.neq('')
     })
     .sort({
