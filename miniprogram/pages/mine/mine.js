@@ -19,6 +19,7 @@ Page({
 
     numOfMysellbook: 0,         // 我卖出的数量
     numOfMybuybook: 0,          // 我买到的数量
+    showState: ''
   },
 
   onLoad() {
@@ -32,6 +33,9 @@ Page({
       this.countConfirmedTrade()
       this.countUnreceived()
       this.countSum()
+      this.setData({
+        showState: '级'
+      })
     }
   },
 
