@@ -328,6 +328,8 @@ Page({
     college: '',      //选择的学院
     major: '',          //选择的专业
     mainActiveIndex: 0,
+    StateSum: 0,                //收藏tabbar展示的数字
+    cartSum: 0,                 //我的tabbar展示的数字
   },
 
   onLoad() {
@@ -337,7 +339,8 @@ Page({
   },
 
   onShow() {
-
+    this.countNumOfStateSum()
+    this.getCartSum()
   },
 
   //获取学院信息
@@ -641,6 +644,13 @@ Page({
                   }
                 })
                 .then(res => {
+                  this.setData({
+                    cartSum: this.data.cartSum + 1
+                  })
+                  wx.setTabBarBadge({
+                    index: 3,
+                    text: this.data.cartSum.toString()
+                  })
                   wx.showToast({
                     title: '添加成功',
                     icon: 'success',
@@ -682,4 +692,59 @@ Page({
   //   // 不用格式化
   //   else return str
   // },
+
+  // 计算tabbar展示的商品数量
+  countNumOfStateSum() {
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade')
+        .where({
+          _openid: __user.getUserOpenid(),
+          state: 1
+        })
+        .get()
+        .then(res => {
+          this.setData({
+            StateSum: res.data.length
+          })
+          wx.cloud.database().collection('trade')
+            .where({
+              seller_openid: __user.getUserOpenid(),
+              state: 0
+            })
+            .get()
+            .then(resner => {
+              var tempnum = this.data.StateSum + resner.data.length
+              if (tempnum) {
+                wx.setTabBarBadge({
+                  index: 4,
+                  text: tempnum.toString()
+                })
+              } else {
+                wx.removeTabBarBadge({
+                  index: 4,
+                })
+              }
+              resolve(res)
+            })
+        })
+    })
+    return promise
+  },
+
+  // 获取购物车总商品量
+  getCartSum() {
+    wx.cloud.database().collection('cart').where({
+      _openid: __user.getUserOpenid()
+    }).count().then(res => {
+      this.setData({
+        cartSum: res.total
+      })
+      if (this.data.cartSum) {
+        wx.setTabBarBadge({
+          index: 3,
+          text: this.data.cartSum.toString()
+        })
+      }
+    })
+  },
 })

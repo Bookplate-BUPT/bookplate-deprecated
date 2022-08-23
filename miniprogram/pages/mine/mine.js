@@ -19,7 +19,8 @@ Page({
 
     numOfMysellbook: 0,         // 我卖出的数量
     numOfMybuybook: 0,          // 我买到的数量
-    showState: ''
+    showState: '',
+    StateSum: 0,                //tabbar展示的数字
   },
 
   onLoad() {
@@ -32,6 +33,7 @@ Page({
       this.countViews()
       this.countConfirmedTrade()
       this.countUnreceived()
+      this.countNumOfStateSum()
       this.countSum()
       this.setData({
         showState: '级'
@@ -362,4 +364,42 @@ Page({
     })
     return promise
   },
+
+  // 计算tabbar展示的商品数量
+  countNumOfStateSum() {
+    var promise = new Promise((resolve, reject) => {
+      wx.cloud.database().collection('trade')
+        .where({
+          _openid: __user.getUserOpenid(),
+          state: 1
+        })
+        .get()
+        .then(res => {
+          this.setData({
+            StateSum: res.data.length
+          })
+          wx.cloud.database().collection('trade')
+            .where({
+              seller_openid: __user.getUserOpenid(),
+              state: 0
+            })
+            .get()
+            .then(resner => {
+              var tempnum = this.data.StateSum + resner.data.length
+              if (tempnum) {
+                wx.setTabBarBadge({
+                  index: 4,
+                  text: tempnum.toString()
+                })
+              } else {
+                wx.removeTabBarBadge({
+                  index: 4,
+                })
+              }
+              resolve(res)
+            })
+        })
+    })
+    return promise
+  }
 })
