@@ -5,7 +5,9 @@ const app = getApp()
 
 Page({
   data: {
-    textInputValue: '',
+    textInputValue: '', // 待发送的消息
+    temptextInput: '',  // 消息发送防抖所用的临时变量
+
     chatMessage: [],  // 聊天记录对象数组
 
     openid: '',       // 用户自己的openid
@@ -124,15 +126,17 @@ Page({
       recipient: this.data.otherid,
     }
 
+    // 消息发送防抖
+    this.setData({
+      temptextInput: this.data.textInputValue,
+      textInputValue: '',
+    })
+
     wx.cloud.database().collection('chatroom')
       .add({
         data: doc,
       })
       .then(res => {
-        this.setData({
-          textInputValue: '',
-        })
-
         // 消息发送成功后，需要更新一下双方的关系
         wx.cloud.database().collection('relationship')
           .doc(this.data.relationshipID)
@@ -142,6 +146,13 @@ Page({
               last_conversation_time: doc.sendTime,
             }
           })
+      })
+      .catch(res => {
+        // 发送失败的话需要把数据恢复一下
+        this.setData({
+          textInputValue: this.data.temptextInput,
+          temptextInput: '',
+        })
       })
   },
 
