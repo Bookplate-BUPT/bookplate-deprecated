@@ -1,11 +1,13 @@
 <!--pages/launchTrade/launchTrade.wxml-->
 <wxs src="../../utils/utils.wxs" module="utils" />
 
+<van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" text="地点优先校内当面交易，谨防上当！" />
+
 <van-cell-group inset custom-class="shadow" title="商品概要">
   <view style="display: flex; align-items: center; margin-top: 16px; margin-left: 12px;">
     <van-image width="1.5rem" height="1.5rem" round src="{{ sellerDetail.avatarUrl }}" style="margin-left: 8px;" />
     <view style="margin-left: 12px; font-size: 14px; font-weight: 500;">{{ sellerDetail.nickName }}
-      <van-tag color="#f6a7af" style="margin-left: 4px;">{{ sellerDetail.grade }}</van-tag>
+      <van-tag color="#f6a7af" style="margin-left: 4px;">{{ sellerDetail.grade }}级</van-tag>
     </view>
   </view>
 
