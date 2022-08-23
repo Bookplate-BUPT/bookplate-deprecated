@@ -80,18 +80,18 @@ Page({
 
     if (options.isMainPage == "true")
       this.refreshMainPage(options.id, options.deleteBookIndex)
-    else {
-      // 商品被浏览量加1
-      wx.cloud.database().collection('goods')
-        .doc(options.id)
-        .update({
-          data: {
-            views: wx.cloud.database().command.inc(1)
-          }
-        })
 
-      this.getBookDetail()
-    }
+    // 商品被浏览量加1
+    wx.cloud.database().collection('goods')
+      .doc(options.id)
+      .update({
+        data: {
+          views: wx.cloud.database().command.inc(1)
+        }
+      })
+
+    this.getBookDetail()
+
   },
 
   onShow() {
