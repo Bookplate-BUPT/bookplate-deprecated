@@ -64,10 +64,10 @@ Page({
       .catch(err => console.error(err))
   },
 
-  //取消交易
+  //拒绝请求
   rejectForm(event) {
     wx.showLoading({
-      title: '取消中……',
+      title: '拒绝中……',
     })
 
     //获取当前页面栈
@@ -84,7 +84,7 @@ Page({
       }
     })
       .then(res => {
-        // 将全部中要取消的元素的state改为3
+        // 将全部中要拒绝的元素的state改为3
         prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].state = 3
 
         // 在待处理中删除元素
@@ -109,14 +109,14 @@ Page({
         })
       })
       .then(res => {
-        // 更新已取消的tab栏
+        // 更新已拒绝的tab栏
         return prePage.getRejectedTrade()
       })
       .then(res => {
         return prePage.getRejectedTradeSum()
       })
       .then(res => wx.showToast({
-        title: '取消成功',
+        title: '拒绝成功',
       }))
       .then(res => wx.navigateBack())
       .catch(err => console.error(err))

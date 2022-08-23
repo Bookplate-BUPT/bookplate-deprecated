@@ -39,7 +39,7 @@
   background-color: #8FCA84;
 }
 
-/* 已取消 */
+/* 已拒绝 */
 .order-state-3 {
   background-color: #C0C2C5;
 }

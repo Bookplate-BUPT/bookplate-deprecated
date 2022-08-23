@@ -47,9 +47,9 @@
     </view>
   </van-tab>
 
-  <van-tab title="已取消">
+  <van-tab title="已拒绝">
     <view wx:if="{{ !rejectedTrade.length }}" style="margin-top: 180rpx;">
-      <van-empty description="没有已取消的交易哦~"></van-empty>
+      <van-empty description="没有已拒绝的交易哦~"></van-empty>
     </view>
     <view wx:else>
       <view wx:for="{{rejectedTrade}}" wx:key="_id" style="margin-top: 20rpx;">

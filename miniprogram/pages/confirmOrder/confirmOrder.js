@@ -161,10 +161,10 @@ Page({
       .catch(err => console.error(err))
   },
 
-  //取消交易
+  //拒绝请求
   rejectForm(event) {
     wx.showLoading({
-      title: '取消中……',
+      title: '拒绝中……',
     })
 
     // 更新交易记录的state
@@ -179,7 +179,7 @@ Page({
         // 在待处理中删除元素
         this.data.pendingTrade.splice(this.data.pendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id }), 1)
 
-        // 将全部中要取消的元素的state改为3
+        // 将全部中要拒绝的元素的state改为3
         this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
 
         // 更新页面
@@ -203,7 +203,7 @@ Page({
       .then(res => this.getRejectedTrade())
       .then(res => this.getRejectedTradeSum())
       .then(res => wx.showToast({
-        title: '取消成功',
+        title: '拒绝成功',
       }))
       .catch(err => console.error(err))
   },
@@ -292,7 +292,7 @@ Page({
   },
 
   /**
-    * 查找已取消数据
+    * 查找已拒绝数据
     * @returns 返回 Promise 类型
     */
   getRejectedTrade() {
@@ -393,7 +393,7 @@ Page({
   },
 
   /**
-   * 获取已取消订单总数量
+   * 获取已拒绝订单总数量
    * @returns 返回 Promise 
    */
   getRejectedTradeSum() {

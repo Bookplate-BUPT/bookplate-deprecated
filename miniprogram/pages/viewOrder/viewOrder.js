@@ -10,13 +10,13 @@ Page({
     tradeGoodsList: [],   // 全部的书籍
     pendingTrade: [],     // 待处理的书籍
     confirmedTrade: [],   // 待收货的书籍
-    rejectedTrade: [],    // 已取消的书籍
+    rejectedTrade: [],    // 已拒绝的书籍
     successfulTrade: [],  // 已成交的书籍
 
     tradeGoodsListSum: '',  // 全部的书籍数量
     pendingTradeSum: '',    // 待处理的书籍数量
     confirmedTradeSum: '',  // 待收货的书籍数量
-    rejectedTradeSum: '',   // 已取消的书籍数量
+    rejectedTradeSum: '',   // 已拒绝的书籍数量
     successfulTradeSum: '', // 已成交的书籍数量
   },
 
@@ -130,10 +130,10 @@ Page({
     }
   },
 
-  //取消交易
+  //拒绝请求
   rejectForm(event) {
     wx.showLoading({
-      title: '取消中……',
+      title: '拒绝中……',
     })
 
     wx.cloud.callFunction({
@@ -144,7 +144,7 @@ Page({
       }
     })
       .then(res => {
-        // 将全部中需要取消的元素的state改为3
+        // 将全部中需要拒绝的元素的state改为3
         this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
 
         // 在待处理中删除元素
@@ -169,7 +169,7 @@ Page({
       .then(res => this.getRejectedTrade())
       .then(res => this.getRejectedTradeSum())
       .then(res => wx.showToast({
-        title: '取消成功',
+        title: '拒绝成功',
       }))
       .catch(err => console.error(err))
   },
@@ -294,7 +294,7 @@ Page({
   },
 
   /**
-    * 查找已取消数据
+    * 查找已拒绝数据
     * @returns 返回 Promise 类型
     */
   getRejectedTrade() {
@@ -395,7 +395,7 @@ Page({
   },
 
   /**
-   * 获取已取消订单总数量
+   * 获取已拒绝订单总数量
    * @returns 返回 Promise 类型
    */
   getRejectedTradeSum() {

@@ -74,7 +74,7 @@ var orderStateToStr = function (state, page) {
 
     case 3:
     case '3':
-      return '已取消'
+      return '已拒绝'
 
     default:
       return '错误'

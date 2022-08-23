@@ -22,7 +22,7 @@
       <view wx:for="{{pendingTrade}}" wx:key="_id" style="margin-top: 20rpx;">
         <OrderCard right="{{ 88 }}" trade="{{ item }}" page="{{ 1 }}">
           <van-button slot="right" color="#FF596A" custom-class="swiperCellButton" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
-            取消交易
+            拒绝请求
           </van-button>
         </OrderCard>
       </view>
@@ -31,9 +31,9 @@
     </view>
   </van-tab>
 
-  <van-tab title="已取消">
+  <van-tab title="已拒绝">
     <view wx:if="{{ !rejectedTrade.length }}" style="margin-top: 180rpx;">
-      <van-empty description="没有已取消的交易哦~"></van-empty>
+      <van-empty description="没有已拒绝的交易哦~"></van-empty>
     </view>
     <view wx:else>
       <view wx:for="{{rejectedTrade}}" wx:key="_id" style="margin-top: 20rpx;">

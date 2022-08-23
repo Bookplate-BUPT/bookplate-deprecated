@@ -113,7 +113,7 @@
         <view style="margin-top: 10px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">确认第二步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>左滑确认，右滑取消</view>
+            <view>左滑确认，右滑拒绝</view>
             <view>选择后等待买家收货</view>
           </view>
         </view>
