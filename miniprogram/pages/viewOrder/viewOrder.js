@@ -6,20 +6,21 @@ import __util from "../../utils/util"
 Page({
   data: {
     active: 0,
-    tradeGoodsList: [],   // 全部买书
-    pendingTrade: [],     // 未处理的买书
-    confirmedTrade: [],   // 待收货的买书
-    rejectedTrade: [],    // 已取消的买书
+
+    tradeGoodsList: [],   // 全部的书籍
+    pendingTrade: [],     // 待处理的书籍
+    confirmedTrade: [],   // 待收货的书籍
+    rejectedTrade: [],    // 已取消的书籍
     successfulTrade: [],  // 已成交的书籍
-    tradeGoodsListSum: '',
-    pendingTradeSum: '',
-    confirmedTradeSum: '',
-    rejectedTradeSum: '',
-    successfulTradeSum: '',
+
+    tradeGoodsListSum: '',  // 全部的书籍数量
+    pendingTradeSum: '',    // 待处理的书籍数量
+    confirmedTradeSum: '',  // 待收货的书籍数量
+    rejectedTradeSum: '',   // 已取消的书籍数量
+    successfulTradeSum: '', // 已成交的书籍数量
   },
 
   onLoad(options) {
-    this.countUnreceived()
     this.getMyTrade()
     this.getAllSum()
   },
@@ -197,13 +198,9 @@ Page({
         this.setData({
           confirmedTrade: this.data.confirmedTrade,
           tradeGoodsList: this.data.tradeGoodsList,
-          confirmedTradeSum: this.data.confirmedTrade - 1,
+          confirmedTradeSum: this.data.confirmedTradeSum - 1,
         })
-        if (!this.data.confirmedTrade.length) {
-          this.setData({
-            unreceived: false
-          })
-        }
+
         return
       })
       .then(res =>
@@ -439,23 +436,4 @@ Page({
     this.data.active = e.detail.index
   },
 
-  // 计算暂未收货的交易量
-  countUnreceived() {
-    wx.cloud.database().collection('trade')
-      .where({
-        _openid: __user.getUserOpenid(),
-        state: 1
-      })
-      .count()
-      .then(res => {
-        if (res.total)
-          this.setData({
-            unreceived: true
-          })
-        else
-          this.setData({
-            unreceived: false
-          })
-      })
-  }
 })

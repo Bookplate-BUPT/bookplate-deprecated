@@ -44,7 +44,7 @@
     </view>
   </van-tab>
 
-  <van-tab title="待收货" dot="{{unreceived}}">
+  <van-tab title="待收货" info="{{ confirmedTradeSum?confirmedTradeSum:'' }}">
     <view wx:if="{{ !confirmedTrade.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有待收货的交易哦~"></van-empty>
     </view>
