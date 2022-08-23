@@ -124,10 +124,10 @@ Page({
     }
   },
 
-  //确认交易
+  //同意请求
   confirmForm(event) {
     wx.showLoading({
-      title: '确认中……',
+      title: '同意中……',
     })
 
     // 更新交易记录的state
@@ -140,7 +140,7 @@ Page({
       }
     })
       .then(res => {
-        // 在全部标签中将要确认元素的state改为1
+        // 在全部标签中将要同意元素的state改为1
         this.data.tradeGoodsList[this.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 1
 
         // 在未处理中删除元素
@@ -157,7 +157,7 @@ Page({
       .then(res => this.getConfirmedTrade())
       .then(res => this.getConfirmedTradeSum())
       .then(res => wx.showToast({
-        title: '确认成功',
+        title: '同意成功',
       }))
       .catch(err => console.error(err))
   },
@@ -270,7 +270,7 @@ Page({
   },
 
   /**
-    * 查找已确认数据
+    * 查找已同意数据
     * @returns 返回 Promise 类型
     */
   getConfirmedTrade() {
@@ -377,7 +377,7 @@ Page({
   },
 
   /**
-   * 获取已确认订单总数量
+   * 获取已同意订单总数量
    */
   getConfirmedTradeSum() {
     var promise = new Promise((resolve, reject) => {

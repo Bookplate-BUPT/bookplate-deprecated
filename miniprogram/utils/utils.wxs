@@ -58,7 +58,7 @@ var orderStateToStr = function (state, page) {
       switch (page) {
         case 0:
         case '0':
-          return '已确认'
+          return '已同意'
 
         case 1:
         case '1':

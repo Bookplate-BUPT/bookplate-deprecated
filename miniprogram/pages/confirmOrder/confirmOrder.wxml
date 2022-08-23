@@ -34,9 +34,9 @@
     </view>
   </van-tab>
 
-  <van-tab title="已确认">
+  <van-tab title="已同意">
     <view wx:if="{{ !confirmedTrade.length }}" style="margin-top: 180rpx;">
-      <van-empty description="没有已确认的交易哦~"></van-empty>
+      <van-empty description="没有已同意的交易哦~"></van-empty>
     </view>
     <view wx:else>
       <view wx:for="{{confirmedTrade}}" wx:key="_id" style="margin-top: 20rpx;">

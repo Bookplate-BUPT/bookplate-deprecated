@@ -15,10 +15,10 @@ Page({
     })
   },
 
-  //确认交易
+  //同意请求
   confirmForm(event) {
     wx.showLoading({
-      title: '确认中……',
+      title: '同意中……',
     })
 
     // 获取当前页面栈
@@ -36,7 +36,7 @@ Page({
       }
     })
       .then(res => {
-        // 更改全部中将要确认的元素的state为1
+        // 更改全部中将要同意的元素的state为1
         prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].state = 1
 
         // 在未处理中删除元素
@@ -52,14 +52,14 @@ Page({
         return
       })
       .then(res => {
-        // 更新已确认的tab栏
+        // 更新已同意的tab栏
         return prePage.getConfirmedTrade()
       })
       .then(res => {
         return prePage.getConfirmedTradeSum()
       })
       .then(res => wx.showToast({
-        title: '确认成功',
+        title: '同意成功',
       }))
       .then(res => wx.navigateBack())
       .catch(err => console.error(err))
