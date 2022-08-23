@@ -39,21 +39,59 @@ Page({
     }
   },
 
+  /**
+   * 刷新首页
+   * @param {number} 书籍的_id
+   * @param {number} 需要删除书籍的索引
+   * @returns 无返回值
+   */
+  refreshMainPage(goods_id, index) {
+    wx.cloud.database().collection('goods')
+      .where({
+        _id: goods_id
+      })
+      .count()
+      .then(res => {
+        if (!res.total) {
+          // 获取当前页面栈
+          const pages = getCurrentPages();
+          // 获取上一页面对象
+          let prePage = pages[pages.length - 2];
+
+          prePage.data.goodsList.splice(index, 1)
+          prePage.setData({
+            goodsList: prePage.data.goodsList
+          })
+          wx.showToast({
+            title: '该书籍已被购买，建议返回首页下拉刷新',
+            icon: 'none',
+            duration: 2000
+          })
+          setTimeout(res => wx.navigateBack(), 2000)
+        }
+      })
+  },
+
   onLoad(options) {
+    console.log(options)
     this.setData({
       goodsID: options.id,
     })
 
-    // 商品被浏览量加1
-    wx.cloud.database().collection('goods')
-      .doc(options.id)
-      .update({
-        data: {
-          views: wx.cloud.database().command.inc(1)
-        }
-      })
+    if (options.isMainPage == "true")
+      this.refreshMainPage(options.id, options.deleteBookIndex)
+    else {
+      // 商品被浏览量加1
+      wx.cloud.database().collection('goods')
+        .doc(options.id)
+        .update({
+          data: {
+            views: wx.cloud.database().command.inc(1)
+          }
+        })
 
-    this.getBookDetail()
+      this.getBookDetail()
+    }
   },
 
   onShow() {

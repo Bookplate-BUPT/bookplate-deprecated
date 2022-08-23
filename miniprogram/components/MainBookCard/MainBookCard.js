@@ -29,6 +29,13 @@ Component({
       type: Number,
       value: 0
     },
+    
+    // 刷新页面的相关属性
+    isMainPage: {
+      type: Boolean,
+      value: false
+    },
+    deleteBookIndex: '',
 
     bookDetail: Object,
   },
@@ -41,7 +48,7 @@ Component({
     // 进入商品详情页
     goToBookDetail(event) {
       wx.navigateTo({
-        url: '../bookDetail/bookDetail?id=' + event.currentTarget.dataset.id,
+        url: `../bookDetail/bookDetail?id=${event.currentTarget.dataset.id}&isMainPage=${this.properties.isMainPage}&deleteBookIndex=${this.properties.deleteBookIndex}`,
       }).then(res => {
         wx.cloud.database().collection('history').where({
           goods_id: event.currentTarget.dataset.id

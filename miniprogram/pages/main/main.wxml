@@ -29,7 +29,7 @@
 <scroll-view scroll-y style="height: {{ scrollViewHeight }}px;" refresher-enabled="{{ true }}" refresher-triggered="{{ triggered }}" bindrefresherrefresh="onPullDownRefresh" bindscrolltolower="onReachBottom">
   <!-- 卖书书籍陈列 -->
   <view wx:if="{{ goodsList.length }}" wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
-    <MainBookCard right="{{ 100 }}" _id="{{ item._id }}" _openid="{{ item._openid }}" price="{{ item.price }}" image_list="{{ item.image_list }}" original_price="{{ item.original_price }}" name="{{ item.name }}" introduction="{{ item.introduction }}" isNew="{{ item.isNew }}" bookDetail="{{ item }}">
+    <MainBookCard isMainPage deleteBookIndex="{{ index }}" right="{{ 100 }}" _id="{{ item._id }}" _openid="{{ item._openid }}" price="{{ item.price }}" image_list="{{ item.image_list }}" original_price="{{ item.original_price }}" name="{{ item.name }}" introduction="{{ item.introduction }}" isNew="{{ item.isNew }}" bookDetail="{{ item }}">
 
       <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
         <van-icon name="star" />
