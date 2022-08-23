@@ -176,15 +176,6 @@ Page({
                       title: '已取消收藏',
                       icon: 'success'
                     })
-
-                    // 商品的被收藏数减1 
-                    wx.cloud.database().collection('goods')
-                      .doc(this.data.goodsID)
-                      .update({
-                        data: {
-                          favorites: wx.cloud.database().command.inc(-1)
-                        }
-                      })
                   })
               }
               // 收藏此商品 
@@ -204,15 +195,6 @@ Page({
                       title: '收藏成功',
                       icon: 'success'
                     })
-
-                    // 商品的被收藏数加1 
-                    wx.cloud.database().collection('goods')
-                      .doc(this.data.goodsID)
-                      .update({
-                        data: {
-                          favorites: wx.cloud.database().command.inc(1)
-                        }
-                      })
                   })
               }
             })
@@ -223,33 +205,42 @@ Page({
 
   // 商品被锁定时加入购物车的确认
   lockedGoodsConfirm() {
-    Dialog.confirm({
-      title: '确定加入收藏吗？',
-      message: '该书籍目前已被预定，被购买后将下架',
-      closeOnClickOverlay: true,
-    })
+    // 查询用户收藏里是否已有此商品
+    wx.cloud.database().collection('cart')
+      .where({
+        _openid: __user.getUserOpenid(),
+        goods_id: this.data.goodsID,
+      })
+      .get()
       .then(res => {
-        wx.cloud.database().collection('cart')
-          .where({
-            _openid: __user.getUserOpenid(),
-            goods_id: this.data.goodsID,
-          })
-          .get()
-          .then(res => {
-
-            // 已经在购物车内
-            if (res.data.length) {
-              wx.showToast({
-                title: '已在收藏中',
-                icon: 'error',
+        // 如果已经收藏此商品，则需要取消收藏 
+        if (res.data.length === 1) {
+          wx.cloud.database().collection('cart')
+            .doc(res.data[0]._id)
+            .remove()
+            .then(res => {
+              this.setData({
+                isExisted: false
               })
-            } else {
-              // 不在购物车内
+              wx.showToast({
+                title: '已取消收藏',
+                icon: 'success'
+              })
+            })
+        }
+        // 收藏此商品 
+        else {
+          Dialog.confirm({
+            title: '确定加入收藏吗？',
+            message: '该书籍目前已被预定，被购买后将下架',
+            closeOnClickOverlay: true,
+          })
+            .then(res => {
               wx.cloud.database().collection('cart')
                 .add({
                   data: {
                     goods_id: this.data.goodsID,
-                    add_time: new Date(),
+                    add_time: new Date()
                   }
                 })
                 .then(res => {
@@ -258,16 +249,12 @@ Page({
                   })
                   wx.showToast({
                     title: '添加成功',
-                    icon: 'success',
+                    icon: 'success'
                   })
                 })
-            }
-          })
+            })
+        }
       })
-      .catch(err => {
-
-      })
-
   },
 
   // 联系卖家
