@@ -2,7 +2,7 @@
 
 <van-cell-group inset custom-class="shadow">
   <van-swipe-cell right-width="{{ right }}" left-width="{{ left }}">
-    <view slot="left">
+    <view slot="left" style="height: 100%;width: 100%;">
       <slot name="left"></slot>
     </view>
 
@@ -21,7 +21,7 @@
       {{ utils.orderStateToStr(trade.state, page) }}
     </view>
 
-    <view slot="right">
+    <view slot="right" style="height: 100%;width: 100%;">
       <slot name="right"></slot>
     </view>
   </van-swipe-cell>
