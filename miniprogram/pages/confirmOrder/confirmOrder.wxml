@@ -22,10 +22,10 @@
       <view wx:for="{{pendingTrade}}" wx:key="_id" style="margin-top: 20rpx;">
         <OrderCard left="{{ 88 }}" right="{{ 88 }}" link trade="{{ item }}" page="{{ 0 }}">
           <van-button slot="left" block custom-class="swiperCellButton" color="#FF596A" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
-            取消交易
+            拒绝请求
           </van-button>
           <van-button slot="right" block custom-class="swiperCellButton" color="#8AC286" bind:click="confirmForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
-            确认交易
+            同意请求
           </van-button>
         </OrderCard>
       </view>
