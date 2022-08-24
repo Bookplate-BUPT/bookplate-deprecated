@@ -32,7 +32,7 @@
     </view>
   </van-cell> -->
 
-  <van-field model:value="{{ college }}" label="适用学院" required clearable clear-trigger="focus" bind:click-input="selectCollege" readonly></van-field>
+  <van-field model:value="{{ college }}" label="适用学院" placeholder="请先选择书籍适用学院" required clearable clear-trigger="focus" bind:click-input="selectCollege" readonly></van-field>
   <van-popup show="{{ showCollege }}" bind:close="onCloseCollege" round overlay closeable custom-style="height: 60%; width: 80%">
     <van-picker columns="{{ columnsCollege }}" visible-item-count="8" id="Collegeclassification" />
     <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
@@ -83,7 +83,7 @@
   </van-goods-action-button>
   <block wx:if="{{showState}}">
     <van-goods-action-button color="#8ac286" bind:click="uploadBookInfo">
-      信息录入
+      确认提交
     </van-goods-action-button>
   </block>
   <block wx:else>

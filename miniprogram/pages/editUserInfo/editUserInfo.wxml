@@ -1,5 +1,5 @@
 <!--pages/editUserInfo/editUserInfo.wxml-->
-<van-cell-group inset title="编辑个人信息" custom-class="shadow">
+<van-cell-group inset title="修改个人资料" custom-class="shadow">
   <van-cell title="入学年份" value="{{userGrade}}" bind:click="selectYear">
   </van-cell>
   <van-popup show="{{ show }}" position="bottom" round bind:close="onClose">
@@ -11,5 +11,5 @@
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
-  <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="confirmEdit">确认编辑</van-button>
+  <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="confirmEdit">确认修改</van-button>
 </van-cell-group>
