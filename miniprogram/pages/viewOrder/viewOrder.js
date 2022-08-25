@@ -133,7 +133,7 @@ Page({
   //拒绝请求
   rejectForm(event) {
     wx.showLoading({
-      title: '拒绝中……',
+      title: '取消中……',
     })
 
     wx.cloud.callFunction({
@@ -170,7 +170,7 @@ Page({
       .then(res => this.getRejectedTrade())
       .then(res => this.getRejectedTradeSum())
       .then(res => wx.showToast({
-        title: '拒绝成功',
+        title: '取消成功',
       }))
       .catch(err => console.error(err))
   },
