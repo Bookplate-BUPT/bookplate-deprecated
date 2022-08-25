@@ -14,16 +14,10 @@ App({
     // 取本地缓存的用户信息
     this.globalData.userInfo = wx.getStorageSync('user').userInfo
     this.globalData.userOpenid = wx.getStorageSync('user').userOpenid
-  },
 
-  onShow() {
-    this.checkUpdateApp()
-  },
-
-  checkUpdateApp() {
+    // 检测更新
     const updateManager = wx.getUpdateManager()
     updateManager.onCheckForUpdate(function (res) {
-      // 请求完新版本信息的回调 
       console.log(res.hasUpdate)
     })
     updateManager.onUpdateReady(function () {
