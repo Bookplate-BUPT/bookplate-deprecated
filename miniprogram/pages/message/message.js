@@ -13,7 +13,9 @@ Page({
   },
 
   onLoad() {
-
+    wx.showLoading({
+      title: '加载中',
+    })
   },
 
   onShow() {
@@ -77,6 +79,8 @@ Page({
           relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
         })
       }
+
+      wx.hideLoading()
     })
   },
 
