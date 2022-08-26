@@ -81,6 +81,16 @@ Page({
       }
 
       wx.hideLoading()
+    }).catch(res => {
+      console.log(res)
+
+      wx.hideLoading()
+        .then(resInner => {
+          wx.showToast({
+            title: '加载错误',
+            icon: 'error',
+          })
+        })
     })
   },
 
