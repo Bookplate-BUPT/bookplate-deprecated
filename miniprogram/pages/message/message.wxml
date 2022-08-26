@@ -10,13 +10,17 @@
   <view wx:for="{{ relationshipList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-otherid="{{ item.userInfo[0]._openid }}" data-avatar="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" data-relationshipid="{{ item._id }}">
     <van-image round width="40px" height="40px" src="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" />
 
-    <view style="margin-left: 16px; width: 100%;">
+    <view wx:if="{{ !item.is_readed && item.last_sender !== openid }}" class="dot">
+      <text style="padding: 0; margin: 0;">{{ item.last_send_number }}</text>
+    </view>
+
+    <view style="margin-left: 16px; width: 82%;">
       <view style="margin-top: -8px;">
         <text>{{ item.userInfo.length ? item.userInfo[0].nickName : '用户不存在' }}</text>
         <text class="date">{{ item.formatTime }}</text>
       </view>
 
-      <view style="margin-top: 8px; font-size: small; color: #999999; padding-right: 16px;">{{ item.last_content }}</view>
+      <view class="content">{{ item.last_content }}</view>
     </view>
   </view>
 </view>
