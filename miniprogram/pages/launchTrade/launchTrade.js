@@ -29,8 +29,13 @@ Page({
 
   // 生命周期函数--监听页面加载
   onLoad(options) {
+    // 首先对url进行解码
+    var bookDetail = JSON.parse(options.bookDetail)
+    bookDetail.image_list.forEach((i, idx) => {
+      bookDetail.image_list[idx] = decodeURIComponent(i)
+    })
     this.setData({
-      bookDetail: JSON.parse(options.bookDetail),
+      bookDetail: bookDetail,
       sellerDetail: JSON.parse(options.sellerDetail),
       trade_date: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
       trade_time: __util.formatTime(new Date()).slice(11, 16),
