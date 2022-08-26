@@ -88,10 +88,10 @@
 | _id                    | string         | not null | primary | 关系ID                               |
 | _openid                | string         | not null |         | 用户ID                               |
 | last_content           | string         | not null |         | 记录聊天中最后一条发送的消息的内容   |
-| last_content_type      | number         | not null |         | 最后一条消息类型                     |
 | last_conversation_time | date           | not null |         | 最后一条消息的发送时间               |
 | user1                  | string         | not null |         | 用户 1 的 openid                     |
 | user2                  | string         | not null |         | 用户 2 的 openid                     |
+| last_content_type      | number         | not null |         | 最后一条消息类型                     |
 | last_sender            | string         | not null |         | 最后一条消息的发送者 openid          |
 | is_readed              | boolean        | not null |         | 最后一次消息是否被接受者阅读         |
 | last_send_number       | number         | not null |         | 当一方未读时，其所积累的未读信息条数 |
