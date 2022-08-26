@@ -61,7 +61,7 @@ Page({
       name: 'getRelationshipList',
       data: {
         openid: __user.getUserOpenid()
-      }
+      },
     }).then(res => {
       // console.log(res.result)
 
@@ -75,6 +75,26 @@ Page({
         this.setData({
           relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
         })
+      }
+
+      // 计算红点数量
+      let redDotSum = 0
+      res.result.forEach(i => {
+        if (i.last_sender !== app.globalData.userOpenid && !i.is_readed) {
+          redDotSum += i.last_send_number
+        }
+      })
+
+      // 设置红点
+      if (redDotSum) {
+        wx.setTabBarBadge({
+          index: 1,
+          text: redDotSum.toString()
+        }).catch(res => { })
+      } else {
+        wx.removeTabBarBadge({
+          index: 1,
+        }).catch(res => { })
       }
 
       wx.hideLoading()
