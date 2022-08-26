@@ -205,8 +205,8 @@ Page({
           },
           success: resInner => {
             // console.log(JSON.parse(resInner.result).data)
-
-            let tempRes = JSON.parse(resInner.result).data
+            console.log(JSON.parse(resInner.result))
+            let tempRes = JSON.parse(resInner.result).showapi_res_body.datas[0]
 
             if (tempRes) {
               this.setBookDetail(tempRes)
@@ -261,19 +261,19 @@ Page({
 
     let tempImageList = this.data.showList
     tempImageList.push({
-      url: res.photoUrl,
+      url: res.img,
       isImage: true,
     })
 
     this.setData({
       author: res.author,
-      introduction: res.description,
+      introduction: res.gist,
       showList: tempImageList,
-      isbn: res.code,
-      name: res.name,
-      publisher: res.publishing,
-      publishDate: res.published,
-      originalPrice: this.stringToPrice(res.price),
+      isbn: res.isbn,
+      name: res.title,
+      publisher: res.publisher,
+      publishDate: this.formatPubDate(res.pubdate),
+      originalPrice: res.price.toFixed(2),
     })
   },
 
@@ -375,7 +375,7 @@ Page({
     }
 
     // 提醒用户没有上传图片信息
-    if(!this.data.imageList.length){
+    if (!this.data.imageList.length) {
       wx.showToast({
         title: '图片不能为空哦~',
         icon: 'none'
@@ -538,7 +538,7 @@ Page({
   //更新上传实时的我的卖书信息，通过选择判断决定是否进行上传更新我的卖书信息
   upDateMySellBooksMessages() {
 
-    if(!this.data.showList.length){
+    if (!this.data.showList.length) {
       wx.showToast({
         title: '图片不能为空哦~',
         icon: 'none'
@@ -614,5 +614,10 @@ Page({
     this.setData({
       imageList: tempImageList,
     })
+  },
+
+  // 将日期格式化
+  formatPubDate(d) {
+    return d.slice(0, 4) + '/' + d.slice(4)
   },
 })
