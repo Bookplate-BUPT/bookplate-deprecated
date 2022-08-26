@@ -70,14 +70,31 @@
 
 ## CHAT 聊天消息
 
-| 属性名       | 数据库数据类型 | 是否为空 | 类型    | 备注             |
-| ------------ | -------------- | -------- | ------- | ---------------- |
-| _id          | string         | not null | primary | 消息ID           |
-| sender       | string         | not null | foreign | 消息发送者ID     |
-| recipient    | string         | not null | foreign | 消息接受者ID     |
-| send_time    | date           | not null |         | 消息发送时间     |
-| send_time_ts | number         | not null |         | 消息发送的时间戳 |
-| content      | string         | not null |         | 消息内容         |
+| 属性名    | 数据库数据类型 | 是否为空 | 类型    | 备注                               |
+| --------- | -------------- | -------- | ------- | ---------------------------------- |
+| _id       | string         | not null | primary | 消息ID                             |
+| sender    | string         | not null | foreign | 消息发送者ID                       |
+| recipient | string         | not null | foreign | 消息接受者ID                       |
+| sendTime  | date           | not null |         | 消息发送时间                       |
+| content   | string         | not null |         | 消息内容                           |
+| type      | number         | not null |         | 0 为普通文字消息，1 暂定为图片消息 |
+
+
+
+## RELATIONSHIP 关系
+
+| 属性名                 | 数据库数据类型 | 是否为空 | 类型    | 备注                                 |
+| ---------------------- | -------------- | -------- | ------- | ------------------------------------ |
+| _id                    | string         | not null | primary | 关系ID                               |
+| _openid                | string         | not null |         | 用户ID                               |
+| last_content           | string         | not null |         | 记录聊天中最后一条发送的消息的内容   |
+| last_content_type      | number         | not null |         | 最后一条消息类型                     |
+| last_conversation_time | date           | not null |         | 最后一条消息的发送时间               |
+| user1                  | string         | not null |         | 用户 1 的 openid                     |
+| user2                  | string         | not null |         | 用户 2 的 openid                     |
+| last_sender            | string         | not null |         | 最后一条消息的发送者 openid          |
+| is_readed              | boolean        | not null |         | 最后一次消息是否被接受者阅读         |
+| last_send_number       | number         | not null |         | 当一方未读时，其所积累的未读信息条数 |
 
 
 
