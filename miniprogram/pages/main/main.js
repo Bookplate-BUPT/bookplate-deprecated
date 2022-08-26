@@ -717,7 +717,7 @@ Page({
 
   // 计算tabbar展示的商品数量
   countNumOfStateSum() {
-    var promise = new Promise((resolve, reject) => {
+    if (__user.checkLoginStatus())
       wx.cloud.database().collection('trade')
         .where({
           _openid: __user.getUserOpenid(),
@@ -746,11 +746,8 @@ Page({
                   index: 4,
                 })
               }
-              resolve(res)
             })
         })
-    })
-    return promise
   },
 
   // // 获取购物车总商品量

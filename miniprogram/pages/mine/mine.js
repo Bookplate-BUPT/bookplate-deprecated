@@ -91,6 +91,8 @@ Page({
               this.countConfirmedTrade()
               this.countUnreceived()
 
+              this.countNumOfStateSum()
+
               // 检查用户是否是第一次使用
               this.userRegister()
 
@@ -120,6 +122,9 @@ Page({
       tradeSum: '-',
       unconfirmedTrade: false,
       unreceived: false,
+    })
+    wx.removeTabBarBadge({
+      index: 4,
     })
     __user.userLogout()
   },
@@ -368,7 +373,7 @@ Page({
 
   // 计算tabbar展示的商品数量
   countNumOfStateSum() {
-    var promise = new Promise((resolve, reject) => {
+    if (__user.checkLoginStatus())
       wx.cloud.database().collection('trade')
         .where({
           _openid: __user.getUserOpenid(),
@@ -397,10 +402,7 @@ Page({
                   index: 4,
                 })
               }
-              resolve(res)
             })
         })
-    })
-    return promise
   }
 })
