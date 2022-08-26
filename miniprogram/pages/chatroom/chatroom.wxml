@@ -1,6 +1,6 @@
 <!--pages/chatroom/chatroom.wxml-->
 
-<scroll-view scroll-y id="chatroom">
+<scroll-view scroll-y id="chatroom" style="padding-bottom: 84px;">
   <view wx:for="{{ chatMessage }}" wx:key="_id">
 
     <view wx:if="{{ openid !== item.sender }}" style="display: flex; align-items: center; margin-top: 12px; position: relative;">
@@ -8,7 +8,7 @@
       <view class="chatContent-left">{{ item.content }}</view>
     </view>
 
-    <view wx:else style="display: flex; align-items: center; margin-top: 12px; justify-content: flex-end; position: relative;">
+    <view wx:else style="display: flex; align-items: center; margin-top: 12px; justify-content: flex-end; position: relative; ">
       <view class="chatContent-right">{{ item.content }}</view>
       <van-image width="2.5rem" height="2.5rem" round src="{{ avatarRight }}" style="margin-right: 12px;" />
     </view>
@@ -16,10 +16,17 @@
   </view>
 </scroll-view>
 
-<view style="height: 80px;" />
-
-<view class="textInputRoot">
-  <van-field placeholder="请输入" custom-style="border-radius: 4px; padding-right: 64rpx; margin: 16rpx" value="{{ textInputValue }}" use-button-slot bind:change="onTextInput">
-    <van-button slot="button" color="#8ac286" size="small" custom-style="border-radius: 8px;" bind:click="onSend">发送</van-button>
-  </van-field>
-</view>
+<van-goods-action>
+  <view style="width: 100%;">
+    <van-row>
+      <van-col span="18" offset="1">
+        <van-field placeholder="请输入" value="{{ textInputValue }}" bind:change="onTextInput" />
+      </van-col>
+      <van-col span="4">
+        <view style="display: flex; justify-content: center; width: 100%; margin-top: 6px;">
+          <van-button color="#8ac286" size="small" custom-style="border-radius: 8px; " bind:click="onSend">发送</van-button>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-goods-action>
