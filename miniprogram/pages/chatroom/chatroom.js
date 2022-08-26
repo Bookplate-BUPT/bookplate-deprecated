@@ -16,10 +16,13 @@ Page({
     avatarLeft: '',   // 对方用户的头像url
     avatarRight: '',  // 自己的头像url
 
-    relationshipID: '',   // 记录关系在数据库中的 docID
+    relationshipID: '',       // 记录关系在数据库中的 docID
+
+    chatWatcher: {},          // 与当前用户聊天内容监听器
+    // relationshipWatcher: {},  // 与当前用户聊天关系监听器
   },
 
-  onLoad(options) {
+  async onLoad(options) {
     this.setData({
       openid: app.globalData.userOpenid,
       otherid: options.otherid,
@@ -30,13 +33,13 @@ Page({
       relationshipID: options.relationshipID,
     })
 
-    this.checkRelationship()
+    await this.checkRelationship()
     this.checkUserInfo()
 
     // 监听chatroom数据库里符合两人对话的消息
     // 当这一些消息发生变更（即某人可能发送了消息）时
     // 调用onChange()函数
-    wx.cloud.database().collection('chatroom')
+    const chatWatcher = wx.cloud.database().collection('chatroom')
       .where(
         wx.cloud.database().command.or([
           {
@@ -53,6 +56,72 @@ Page({
         onChange: this.onChange.bind(this),
         onError(err) {
           console.log(err)
+        }
+      })
+    this.setData({
+      chatWatcher: chatWatcher
+    })
+
+    // async 函数运行到此处肯定已有关系ID
+    // if (this.data.relationshipID) {
+    //   const relationshipWatcher = wx.cloud.database().collection('relationship')
+    //     .doc(this.data.relationshipID)
+    //     .watch({
+    //       onChange: snapshot => {
+    //         // 聊天页面每次切出去再切回来都会认为是初次进入
+    //         // 此为初次进入页面
+    //         if (snapshot.type === 'init') {
+    //           // 如果最后的发送者不是自己，则需要去掉红点
+    //           if (snapshot.docs[0].last_sender !== this.data.openid) {
+    //             wx.cloud.database().collection('relationship')
+    //               .doc(this.data.relationshipID)
+    //               .update({
+    //                 data: {
+    //                   is_readed: true,
+    //                   last_send_number: 0,
+    //                 }
+    //               })
+    //           }
+    //         } else {
+    //           console.log('后续的监听')
+    //           console.log(snapshot)
+    //         }
+    //       },
+    //       onError: res => {
+    //         console.log(res)
+    //       }
+    //     })
+
+    //   this.setData({
+    //     relationshipWatcher: relationshipWatcher
+    //   })
+    // }
+  },
+
+  // 从其他页面进入聊天页面再返回
+  // 页面栈调用的是 onUnload() 而不是 onHide()
+  // 两个页面设置的监听器都要卸载掉，避免重复监听
+  onUnload() {
+    this.data.chatWatcher.close()
+    // await this.data.relationshipWatcher.close()
+
+    // 退出页面时更新一下关系，消掉红点
+    wx.cloud.database().collection('relationship')
+      .doc(this.data.relationshipID)
+      .get()
+      .then(res => {
+        // console.log(res.data)
+
+        // 如果最后的消息不是自己发送的，则已读
+        if (res.data.last_sender !== this.data.openid) {
+          wx.cloud.database().collection('relationship')
+            .doc(this.data.relationshipID)
+            .update({
+              data: {
+                is_readed: true,
+                last_send_number: 0,
+              }
+            })
         }
       })
   },
@@ -95,7 +164,6 @@ Page({
         chatMessage: chatMessage.sort((x, y) => x.sendTime - y.sendTime)
       })
     }
-
     this.pageScrollToBottom()
   },
 
@@ -108,8 +176,6 @@ Page({
 
   // 发送消息
   onSend() {
-    this.pageScrollToBottom()
-
     // 消息为空
     if (!this.data.textInputValue) {
       wx.showToast({
@@ -124,6 +190,7 @@ Page({
       sendTime: new Date(),
       sender: this.data.openid,
       recipient: this.data.otherid,
+      type: 0,  // TODO: 目前只能发送文字消息，以后改吧
     }
 
     // 消息发送防抖
@@ -144,6 +211,13 @@ Page({
             data: {
               last_content: doc.content,
               last_conversation_time: doc.sendTime,
+
+              last_content_type: doc.last_content_type,
+              last_sender: doc.sender,
+              is_readed: false,
+
+              // 如果上一次的最后一条消息仍是自己发的，则未读数量自增，否则设1
+              last_send_number: doc.sender !== this.data.otherid ? wx.cloud.database().command.inc(1) : 1,
             }
           })
       })
@@ -160,7 +234,7 @@ Page({
   pageScrollToBottom() {
     wx.createSelectorQuery().select('#chatroom').boundingClientRect((rect) => {
       wx.pageScrollTo({
-        scrollTop: rect.bottom,
+        scrollTop: rect.height,
         duration: 200,
       })
     }).exec()
@@ -194,6 +268,11 @@ Page({
                   last_conversation_time: new Date(),
                   user1: app.globalData.userOpenid,
                   user2: this.data.otherid,
+
+                  last_content_type: 0,
+                  last_sender: app.globalData.userOpenid,
+                  is_readed: false,
+                  last_send_number: 0,
                 }
               })
               .then(resInner => {
@@ -201,7 +280,7 @@ Page({
                   relationshipID: resInner._id
                 })
               })
-          } else { // 如果关系已存在
+          } else { // 如果关系已存在，则获取关系id
             this.setData({
               relationshipID: res.data[0]._id
             })
