@@ -7,25 +7,26 @@ const app = getApp();
 Page({
   data: {
     relationshipList: [],   // 用户列表
+    openid: '',             // 用户自己的 openid
 
-    watcher: '',          // 页面关系表监听器
+    watcher: {},          // 页面关系表监听器
     watcherIsSet: false,  // 监听器是否已经建立
   },
 
   onLoad() {
-    wx.showLoading({
-      title: '加载中',
-    })
+    if (__user.checkLoginStatus()) {
+      wx.showLoading({
+        title: '加载中',
+      })
+    }
   },
 
   onShow() {
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
-    // if (__user.checkLoginStatus()) {
-    //   this.getUserList()
-    // }
+    this.setData({
+      openid: __user.getUserOpenid()
+    })
 
+    // 如果当前登录了，且监听器还未设置才开始
     if (__user.checkLoginStatus() && !this.data.watcherIsSet) {
       const watcher = wx.cloud.database().collection('relationship')
         .where(
@@ -51,10 +52,6 @@ Page({
       })
     }
   },
-
-  // async onHide() {
-  //   await this.data.watcher.close()
-  // },
 
   // 获取用户关系列表
   getRelationshipList(snapshot) {
