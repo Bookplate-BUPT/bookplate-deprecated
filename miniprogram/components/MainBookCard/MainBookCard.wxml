@@ -12,7 +12,7 @@
           <van-tag color="#8AC286" plain>{{ bookDetail.college }}</van-tag>
         </view> -->
       </view>
-      <view slot="desc" style="color: #a1a1a1; margin-top: 4px;">
+      <view slot="desc" style="color: #a1a1a1; margin-top: 4px;" class="van-multi-ellipsis--l2">
         {{ introduction }}
       </view>
     </van-card>

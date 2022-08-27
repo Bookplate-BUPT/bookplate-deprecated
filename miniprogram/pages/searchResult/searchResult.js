@@ -7,11 +7,11 @@ const app = getApp()
 Page({
 
   data: {
-    keyword: '',      // 搜索关键字
-    goodsList: '',    // 商品列表
-    goodsSum: '',     // 商品总数量
+    keyword: '',         // 搜索关键字
+    goodsList: '',       // 商品列表
+    goodsSum: '',        // 商品总数量
 
-    formatLength: '', // 介绍内容格式化后的字数
+    // formatLength: '', // 介绍内容格式化后的字数
   },
 
   onLoad(options) {
@@ -20,7 +20,7 @@ Page({
     })
     this.getGoodsList()
     this.getGoodsSum()
-    this.getIntroductionFormatLength()
+    // this.getIntroductionFormatLength()
   },
 
   // 获取商品列表
@@ -36,8 +36,6 @@ Page({
             ...i,
             // 5天内将书籍设置为最新
             isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, this.data.formatLength),
           }))
 
           this.setData({
@@ -58,8 +56,6 @@ Page({
             ...i,
             // 5天内将书籍设置为最新
             isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, this.data.formatLength),
           }))
 
           this.setData({
@@ -84,8 +80,6 @@ Page({
               ...i,
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-              // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             // 拼接数组
@@ -110,8 +104,6 @@ Page({
               ...i,
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-              // 书籍介绍自定义格式化，最长长度为24
-              introduction: this.introductionFormat(i.introduction, this.data.formatLength),
             }))
 
             // 拼接数组
@@ -127,22 +119,22 @@ Page({
   },
 
   // 书籍介绍内容格式化
-  introductionFormat(str, length) {
-    // 过长则需要省略
-    if (str.length > length) {
-      return str.substr(0, length) + '……'
-    }
-    // 不用格式化
-    else return str
-  },
+  // introductionFormat(str, length) {
+  //   // 过长则需要省略
+  //   if (str.length > length) {
+  //     return str.substr(0, length) + '……'
+  //   }
+  //   // 不用格式化
+  //   else return str
+  // },
 
   // 获取书籍内容格式化后的字数
-  getIntroductionFormatLength() {
-    var res = wx.getWindowInfo()
-    this.setData({
-      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-    })
-  },
+  // getIntroductionFormatLength() {
+  //   var res = wx.getWindowInfo()
+  //   this.setData({
+  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+  //   })
+  // },
 
   // 添加商品到购物车
   addGoodsToCart(event) {

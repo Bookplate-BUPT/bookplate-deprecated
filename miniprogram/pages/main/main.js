@@ -11,7 +11,7 @@ Page({
     // 页面显示
     active: 0,              // 标签栏索引
     scrollViewHeight: '',   // 页面高度
-    formatLength: '',       // 格式化内容后的文字数量
+    // formatLength: '',    // 格式化内容后的文字数量
 
     // 卖书部分
     bookTypeOption: [
@@ -594,11 +594,6 @@ Page({
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
 
-            // 书籍内容格式化
-            tempGoodsList.forEach(i => {
-              i.introduction = __util.format(i.introduction, 110, 14, 2)
-            })
-
             this.setData({
               goodsList: tempGoodsList,
             })
@@ -620,11 +615,6 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
-
-            // 书籍内容格式化
-            tempGoodsList.forEach(i => {
-              i.introduction = __util.format(i.introduction, 110, 14, 2)
-            })
 
             this.setData({
               goodsList: tempGoodsList,
@@ -651,11 +641,6 @@ Page({
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
 
-            // 书籍内容格式化
-            tempGoodsList.forEach(i => {
-              i.introduction = __util.format(i.introduction, 110, 14, 2)
-            })
-
             this.setData({
               goodsList: tempGoodsList
             })
@@ -681,11 +666,6 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
-
-            // 书籍内容格式化
-            tempGoodsList.forEach(i => {
-              i.introduction = __util.format(i.introduction, 110, 14, 2)
-            })
 
             this.setData({
               goodsList: tempGoodsList

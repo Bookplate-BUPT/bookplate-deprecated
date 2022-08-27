@@ -13,7 +13,7 @@ Page({
     historyList: '', // 总浏览历史记录
     historySum: '',
     today: '', // 今天的日期
-    formatLength: '', //格式化的字符串字数
+    // formatLength: '', //格式化的字符串字数
 
     // 页面展示
     // scrollViewHeight: '', // 页面的显示高度
@@ -23,7 +23,7 @@ Page({
   onLoad() {
     this.getHistoryList()
     this.getHistorySum()
-    this.getIntroductionFormatLength()
+    // this.getIntroductionFormatLength()
     // this.getScrollViewHeight()
   },
 
@@ -55,10 +55,7 @@ Page({
                 college: '无',
                 major: '无',
               }]
-            else {
-              // 书籍介绍内容格式化
-              i.bookDetail[0].introduction = this.introductionFormat(i.bookDetail[0].introduction, this.data.formatLength)
-            }
+
             // 这里的时间是ISO标准（这里不太理解）
             i.view_time = i.view_time.slice(0, 10)
           })
@@ -110,22 +107,22 @@ Page({
   },
 
   // 获取书籍内容格式化后的字数，注：此函数每个手机只需执行一遍
-  getIntroductionFormatLength() {
-    var res = wx.getWindowInfo()
-    this.setData({
-      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-    })
-  },
+  // getIntroductionFormatLength() {
+  //   var res = wx.getWindowInfo()
+  //   this.setData({
+  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+  //   })
+  // },
 
   // 书籍介绍内容格式化
-  introductionFormat(str, length) {
-    // 过长则需要省略
-    if (str.length > length) {
-      return str.substr(0, length) + '……'
-    }
-    // 不用格式化
-    else return str
-  },
+  // introductionFormat(str, length) {
+  //   // 过长则需要省略
+  //   if (str.length > length) {
+  //     return str.substr(0, length) + '……'
+  //   }
+  //   // 不用格式化
+  //   else return str
+  // },
 
   // 上拉触底事件
   onReachBottom() {
@@ -150,10 +147,6 @@ Page({
                 college: '无',
                 major: '无',
               }]
-            else {
-              // 书籍介绍内容格式化
-              i.bookDetail[0].introduction = this.introductionFormat(i.bookDetail[0].introduction, this.data.formatLength)
-            }
             // 将浏览时间取前面日期（这里是ISO标准时间）
             i.view_time = i.view_time.slice(0, 10)
           })
