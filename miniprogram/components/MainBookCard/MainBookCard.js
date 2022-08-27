@@ -75,16 +75,4 @@ Component({
         })
     },
   },
-
-  lifetimes: {
-    // 生命周期函数：在组件实例进入页面节点树时执行
-    attached() {
-      // console.log(this.data.bookDetail)
-
-      this.setData({
-
-        introduction: __util.format(this.properties.introduction, 110, 14, 2)
-      })
-    }
-  }
 })

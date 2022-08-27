@@ -1,4 +1,6 @@
 /* components/CartBookCard/CartBookCard.wxss */
+@import '../../miniprogram_npm/@vant/weapp/common/index.wxss';
+
 .shadow {
   box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
   background-color: #fafafa;

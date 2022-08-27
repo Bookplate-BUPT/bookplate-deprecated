@@ -1,7 +1,4 @@
 // components/CartBookCard/CartBookCard.js
-
-import __util from "../../utils/util"
-
 Component({
   // 组件的属性列表
   properties: {
@@ -63,15 +60,4 @@ Component({
         })
     },
   },
-
-  lifetimes: {
-    // 生命周期函数：在组件实例进入页面节点树时执行
-    attached() {
-      if (this.properties.bookDetail) {
-        this.setData({
-          'bookDetail.description': __util.format(this.properties.bookDetail.description, 110, 14, 2)
-        })
-      }
-    }
-  }
 })

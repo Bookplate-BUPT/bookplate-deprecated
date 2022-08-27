@@ -1,5 +1,4 @@
 /* components/mainBook/mainBook.wxss */
-
 @import '../../miniprogram_npm/@vant/weapp/common/index.wxss';
 
 .shadow {
