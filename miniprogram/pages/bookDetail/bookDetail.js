@@ -33,12 +33,13 @@ Page({
       })
     } else {
       // 跳转前对图片中的url进行编码
-      this.data.bookDetail.image_list.forEach((i, idx) => {
-        this.data.bookDetail.image_list[idx] = encodeURIComponent(i)
+      var bookDetail =this.data.bookDetail
+      bookDetail.image_list.forEach((i, idx) => {
+        bookDetail.image_list[idx] = encodeURIComponent(i)
       })
       // 跳转至新页面
       wx.navigateTo({
-        url: `../launchTrade/launchTrade?bookDetail=${JSON.stringify(this.data.bookDetail)}&sellerDetail=${JSON.stringify(this.data.sellerDetail)}`,
+        url: `../launchTrade/launchTrade?bookDetail=${JSON.stringify(bookDetail)}&sellerDetail=${JSON.stringify(this.data.sellerDetail)}`,
       })
     }
   },

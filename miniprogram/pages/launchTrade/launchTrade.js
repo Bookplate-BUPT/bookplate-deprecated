@@ -27,12 +27,22 @@ Page({
     },
   },
 
+  // 循环解析url
+  getUrl(url) {
+    if (url.indexOf('%') < 0) {
+      return url
+    } else {
+      const newUrl = decodeURIComponent(url)
+      return this.getUrl(newUrl)
+    }
+  },
+
   // 生命周期函数--监听页面加载
   onLoad(options) {
     // 首先对url进行解码
     var bookDetail = JSON.parse(options.bookDetail)
     bookDetail.image_list.forEach((i, idx) => {
-      bookDetail.image_list[idx] = decodeURIComponent(i)
+      bookDetail.image_list[idx] = this.getUrl(i)
     })
     this.setData({
       bookDetail: bookDetail,
