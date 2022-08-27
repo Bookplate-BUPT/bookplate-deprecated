@@ -65,6 +65,19 @@
   <van-cell is-link title="修改个人资料" link-type="navigateTo" bind:click="gotoeditUserInfo" icon="edit" />
 </van-cell-group>
 
+<van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
+  <van-collapse value="{{ activeNames }}" bind:change="changeCollapse">
+    <van-collapse-item title="关于我们" name="1" icon="contact">
+      <van-cell title="在线服务交流qq群：679307983" use-label-slot title-width="{{ 200 }}">
+        <view slot="label">
+          <text>-发布使用指南{{ "\n" }}-搜集用户反馈{{ "\n" }}-客服在线答疑</text>
+        </view>
+        <van-image width="100" height="100" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/QRCode.png" bind:click="previewPicture"/>
+      </van-cell>
+    </van-collapse-item>
+  </van-collapse>
+</van-cell-group>
+
 <!-- <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-swipe-cell right-width="{{ 65 }}" left-width="{{ 65 }}">
     <van-button slot="left" color="lightgreen" custom-class="swiperCellButton">选择</van-button>

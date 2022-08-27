@@ -21,6 +21,8 @@ Page({
     numOfMybuybook: 0,          // 我买到的数量
     showState: '',
     StateSum: 0,                //tabbar展示的数字
+
+    activeNames: [],            // 折叠面板展示的内容项
   },
 
   onLoad() {
@@ -436,6 +438,20 @@ Page({
       }
     }).catch(res => {
       console.log(res)
+    })
+  },
+
+  changeCollapse(event) {
+    this.setData({
+      activeNames: event.detail,
+    });
+  },
+
+  // 预览图片
+  previewPicture() {
+    wx.previewImage({
+      urls: ['cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/QRCode.png'],
+      showmenu: true,
     })
   },
 })
