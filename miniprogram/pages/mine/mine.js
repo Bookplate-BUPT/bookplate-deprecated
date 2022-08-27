@@ -450,7 +450,7 @@ Page({
   // 预览图片
   previewPicture() {
     wx.previewImage({
-      urls: ['cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/QRCode.png'],
+      urls: ['cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/QRCodeDetail.jpg'],
       showmenu: true,
     })
   },
