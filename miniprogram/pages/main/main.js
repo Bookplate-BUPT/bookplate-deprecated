@@ -408,137 +408,123 @@ Page({
   // 上拉触底监听
   onReachBottom() {
     // 已到达最底部，无需刷新
-    if (this.data.isReachBottom) return
+    if (this.data.isReachBottom) {
+      return
+    } else {
+      // 加个简单的防抖
+      this.setData({
+        isReachBottom: true
+      })
+      // 无排序要求
+      if (this.data.bookType === '全部书籍' && !this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .skip(this.data.goodsList.length)
+          .limit(20)
+          .get()
+          .then(res => {
+            if (res.data.length)
+              this.setData({
+                isReachBottom: false
+              })
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            }))
 
-    // 无排序要求
-    if (this.data.bookType === '全部书籍' && !this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .skip(this.data.goodsList.length)
-        .limit(20)
-        .get()
-        .then(res => {
-          if (!res.data.length)
+            // 拼接数组
+            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
             this.setData({
-              isReachBottom: true
+              goodsList: this.data.goodsList,
             })
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-          }))
-
-          // 书籍内容格式化
-          tempGoodsList.forEach(i => {
-            i.introduction = __util.format(i.introduction, 110, 14, 2)
           })
+      }
+      // 书籍信息排序（时间、浏览、收藏等）
+      else if (this.data.bookType === '全部书籍' && this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .orderBy(this.data.sortType, 'desc')
+          .skip(this.data.goodsList.length)
+          .limit(20)
+          .get()
+          .then(res => {
+            if (res.data.length)
+              this.setData({
+                isReachBottom: false
+              })
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            }))
 
-          // 拼接数组
-          this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+            // 拼接数组
+            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
 
-          this.setData({
-            goodsList: this.data.goodsList,
-          })
-        })
-    }
-    // 书籍信息排序（时间、浏览、收藏等）
-    else if (this.data.bookType === '全部书籍' && this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .orderBy(this.data.sortType, 'desc')
-        .skip(this.data.goodsList.length)
-        .limit(20)
-        .get()
-        .then(res => {
-          if (!res.data.length)
             this.setData({
-              isReachBottom: true
+              goodsList: this.data.goodsList,
             })
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-          }))
-
-          // 书籍内容格式化
-          tempGoodsList.forEach(i => {
-            i.introduction = __util.format(i.introduction, 110, 14, 2)
           })
-
-          // 拼接数组
-          this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-
-          this.setData({
-            goodsList: this.data.goodsList,
+      }
+      // 书籍类型排序（学院、专业）
+      else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .where({
+            college: this.data.college,
+            major: this.data.major,
           })
-        })
-    }
-    // 书籍类型排序（学院、专业）
-    else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .where({
-          college: this.data.college,
-          major: this.data.major,
-        })
-        .skip(this.data.goodsList.length)
-        .limit(20)
-        .get()
-        .then(res => {
-          if (!res.data.length)
+          .skip(this.data.goodsList.length)
+          .limit(20)
+          .get()
+          .then(res => {
+            if (res.data.length)
+              this.setData({
+                isReachBottom: false
+              })
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            }))
+
+            // 拼接数组
+            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
             this.setData({
-              isReachBottom: true
+              goodsList: this.data.goodsList,
             })
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-          }))
-
-          // 书籍内容格式化
-          tempGoodsList.forEach(i => {
-            i.introduction = __util.format(i.introduction, 110, 14, 2)
           })
-
-          // 拼接数组
-          this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-
-          this.setData({
-            goodsList: this.data.goodsList,
+      }
+      // 都存在
+      else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
+        wx.cloud.database().collection('goods')
+          .where({
+            college: this.data.college,
+            major: this.data.major,
           })
-        })
-    }
-    // 都存在
-    else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
-      wx.cloud.database().collection('goods')
-        .where({
-          college: this.data.college,
-          major: this.data.major,
-        })
-        .orderBy(this.data.sortType, 'asc')
-        .skip(this.data.goodsList.length)
-        .limit(20)
-        .get()
-        .then(res => {
-          if (!res.data.length)
+          .orderBy(this.data.sortType, 'asc')
+          .skip(this.data.goodsList.length)
+          .limit(20)
+          .get()
+          .then(res => {
+            if (res.data.length)
+              this.setData({
+                isReachBottom: false
+              })
+            let tempGoodsList = res.data.map((i, idx) => ({
+              ...i,
+              // 5天内将书籍设置为最新
+              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+            }))
+
+            // 拼接数组
+            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
             this.setData({
-              isReachBottom: true
+              goodsList: this.data.goodsList,
             })
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 5天内将书籍设置为最新
-            isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-          }))
-
-          // 书籍内容格式化
-          tempGoodsList.forEach(i => {
-            i.introduction = __util.format(i.introduction, 110, 14, 2)
           })
-
-          // 拼接数组
-          this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-
-          this.setData({
-            goodsList: this.data.goodsList,
-          })
-        })
+      }
     }
   },
 
