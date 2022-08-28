@@ -51,6 +51,8 @@ Page({
         watcherIsSet: true,
       })
     }
+
+    this.countRedDot()
   },
 
   // 获取用户关系列表
@@ -75,7 +77,7 @@ Page({
         })
       }
 
-      this.countRedDot()
+      // this.countRedDot()
 
       wx.hideLoading()
     }).catch(res => {
@@ -140,8 +142,10 @@ Page({
         relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
       })
 
-      this.countRedDot()
+      // this.countRedDot()
     }
+
+    this.countRedDot()
   },
 
   // 前往聊天室
@@ -169,6 +173,7 @@ Page({
               last_send_number: 0,
             }
           })
+        break
       }
     }
 
