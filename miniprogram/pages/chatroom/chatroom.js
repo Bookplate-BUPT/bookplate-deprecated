@@ -207,18 +207,24 @@ Page({
         // 消息发送成功后，需要更新一下双方的关系
         wx.cloud.database().collection('relationship')
           .doc(this.data.relationshipID)
-          .update({
-            data: {
-              last_content: doc.content,
-              last_conversation_time: doc.sendTime,
+          .get()
+          .then(resInner => {
+            // 但需要先检查一下上一次发送者是谁
+            wx.cloud.database().collection('relationship')
+              .doc(this.data.relationshipID)
+              .update({
+                data: {
+                  last_content: doc.content,
+                  last_conversation_time: doc.sendTime,
 
-              last_content_type: doc.type,
-              last_sender: doc.sender,
-              is_readed: false,
+                  last_content_type: doc.type,
+                  last_sender: doc.sender,
+                  is_readed: false,
 
-              // 如果上一次的最后一条消息仍是自己发的，则未读数量自增，否则设1
-              last_send_number: doc.sender !== this.data.otherid ? wx.cloud.database().command.inc(1) : 1,
-            }
+                  // 如果上一次的最后一条消息仍是自己发的，则未读数量自增，否则设1
+                  last_send_number: resInner.data.last_sender !== this.data.otherid ? wx.cloud.database().command.inc(1) : 1,
+                }
+              })
           })
       })
       .catch(res => {
