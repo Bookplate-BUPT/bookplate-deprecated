@@ -39,7 +39,7 @@
   <van-cell title="出版社" label="{{ bookDetail.publisher }}" />
   <van-cell title="出版时间" label="{{ bookDetail.book_publish_date }}" />
 
-  <van-cell title="书籍描述" label="{{ bookDetail.introduction }}" />
+  <van-cell title="书籍描述" label="{{ bookDetail.introduction ? bookDetail.introduction : '该用户暂未填写' }}" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">
