@@ -21,14 +21,14 @@ Page({
     }
   },
 
-  onShow() {
+  async onShow() {
     this.setData({
       openid: __user.getUserOpenid()
     })
 
     // 如果当前登录了，且监听器还未设置才开始
     if (__user.checkLoginStatus() && !this.data.watcherIsSet) {
-      const watcher = wx.cloud.database().collection('relationship')
+      const watcher = await wx.cloud.database().collection('relationship')
         .where(
           wx.cloud.database().command.or([
             {
@@ -40,7 +40,7 @@ Page({
           ])
         )
         .watch({
-          onChange: this.getRelationshipList.bind(this),
+          onChange: await this.onChange.bind(this),
           onError(err) {
             console.log(err)
           }
@@ -54,9 +54,7 @@ Page({
   },
 
   // 获取用户关系列表
-  getRelationshipList(snapshot) {
-    // console.log(snapshot)
-
+  getRelationshipList() {
     wx.cloud.callFunction({
       name: 'getRelationshipList',
       data: {
@@ -77,25 +75,7 @@ Page({
         })
       }
 
-      // 计算红点数量
-      let redDotSum = 0
-      res.result.forEach(i => {
-        if (i.last_sender !== app.globalData.userOpenid && !i.is_readed) {
-          redDotSum += i.last_send_number
-        }
-      })
-
-      // 设置红点
-      if (redDotSum) {
-        wx.setTabBarBadge({
-          index: 1,
-          text: redDotSum.toString()
-        }).catch(res => { })
-      } else {
-        wx.removeTabBarBadge({
-          index: 1,
-        }).catch(res => { })
-      }
+      this.countRedDot()
 
       wx.hideLoading()
     }).catch(res => {
@@ -109,6 +89,59 @@ Page({
           })
         })
     })
+  },
+
+  // 关系列表发生改变时调用
+  onChange(snapshot) {
+    // 初次加载
+    if (snapshot.type === 'init') {
+      this.getRelationshipList()
+    } else { // 后续有关系更新
+      // console.log(snapshot)
+
+      let tempList = [...this.data.relationshipList]
+      for (const docChange of snapshot.docChanges) {
+        switch (docChange.queueType) {
+          // 有关系更新，则直接覆盖对应的本地关系即可
+          case 'update':
+            for (let i = 0; i < tempList.length; i++) {
+              if (tempList[i]._id === docChange.docId) {
+                // 只将关系中修改的字段重新赋值
+                Object.keys(docChange.updatedFields).forEach((key) => {
+                  tempList[i][key] = docChange.doc[key]
+                })
+                break
+              }
+            }
+            break
+
+          // 有关系新加入
+          case 'enqueue':
+            // 新加入的关系和从云函数表连接那边获得的不一样
+            // 缺少了用户信息，故需要手动获取一下
+            wx.cloud.callFunction({
+              name: 'getUserPublicInfo',
+              data: {
+                openid: docChange.doc.user1 !== app.globalData.userOpenid ? docChange.doc.user1 : docChange.doc.user2
+              }
+            }).then(res => {
+              let newRelationship = {
+                ...docChange.doc,
+                formatTime: __util.newFormatTime(new Date(docChange.doc.last_conversation_time)),
+                userInfo: [res.result]
+              }
+              tempList.push(newRelationship)
+            })
+            break
+        }
+      }
+
+      this.setData({
+        relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
+      })
+
+      this.countRedDot()
+    }
   },
 
   // 前往聊天室
@@ -145,4 +178,27 @@ Page({
         + '&relationshipID=' + event.currentTarget.dataset.relationshipid,
     })
   },
+
+  // 计算消息页面显示红点数
+  countRedDot() {
+    // 计算红点数量
+    let redDotSum = 0
+    this.data.relationshipList.forEach(i => {
+      if (i.last_sender !== app.globalData.userOpenid && !i.is_readed) {
+        redDotSum += i.last_send_number
+      }
+    })
+
+    // 设置红点
+    if (redDotSum) {
+      wx.setTabBarBadge({
+        index: 1,
+        text: redDotSum.toString()
+      }).catch(res => { })
+    } else {
+      wx.removeTabBarBadge({
+        index: 1,
+      }).catch(res => { })
+    }
+  }
 })

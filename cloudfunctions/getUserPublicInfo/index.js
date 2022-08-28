@@ -16,6 +16,7 @@ exports.main = async (event, context) => {
     .get()
 
   return {
+    _openid: result.data[0]._openid,
     avatarUrl: result.data[0].avatarUrl,
     college: result.data[0].college,
     grade: result.data[0].grade,
