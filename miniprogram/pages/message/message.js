@@ -205,5 +205,15 @@ Page({
         index: 1,
       }).catch(res => { })
     }
-  }
+  },
+
+  // 页面隐藏
+  onHide() {
+    // 页面销毁时监听器失效，置为false
+    wx.onAppHide((res) => {
+      this.setData({
+        watcherIsSet: false,
+      })
+    })
+  },
 })

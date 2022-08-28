@@ -337,6 +337,7 @@ Page({
     this.getGoodsList()
     // this.getGoodsSum()
     this.getScrollViewHeight()
+    this.updateMessageRedDot()
   },
 
   onShow() {
@@ -872,4 +873,36 @@ Page({
   //     }
   //   })
   // },
+
+  // 获取用户信息的红点数量
+  updateMessageRedDot() {
+    wx.cloud.callFunction({
+      name: 'getRelationshipList',
+      data: {
+        openid: __user.getUserOpenid()
+      },
+    }).then(res => {
+      // 计算红点数量
+      let redDotSum = 0
+      res.result.forEach(i => {
+        if (i.last_sender !== app.globalData.userOpenid && !i.is_readed) {
+          redDotSum += i.last_send_number
+        }
+      })
+
+      // 设置红点
+      if (redDotSum) {
+        wx.setTabBarBadge({
+          index: 1,
+          text: redDotSum.toString()
+        }).catch(res => { })
+      } else {
+        wx.removeTabBarBadge({
+          index: 1,
+        }).catch(res => { })
+      }
+    }).catch(res => {
+      console.log(res)
+    })
+  },
 })
