@@ -122,8 +122,6 @@ Page({
       return
     }
 
-    // console.log(this.data.relationshipList)
-
     let tempList = this.data.relationshipList
     for (let i = 0; i < tempList.length; i++) {
       // 进入页面之前就消除红点

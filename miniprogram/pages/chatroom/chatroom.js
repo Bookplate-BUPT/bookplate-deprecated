@@ -113,7 +113,7 @@ Page({
         // console.log(res.data)
 
         // 如果最后的消息不是自己发送的，则已读
-        if (res.data.last_sender !== this.data.openid) {
+        if (res.data.last_sender !== this.data.openid && !res.data.is_readed) {
           wx.cloud.database().collection('relationship')
             .doc(this.data.relationshipID)
             .update({
