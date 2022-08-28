@@ -19,7 +19,7 @@
 <van-goods-action>
   <view style="width: 100%;">
     <van-row>
-      <van-col span="18" offset="1">
+      <van-col span="19">
         <van-field placeholder="请输入" value="{{ textInputValue }}" bind:change="onTextInput" />
       </van-col>
       <van-col span="4">

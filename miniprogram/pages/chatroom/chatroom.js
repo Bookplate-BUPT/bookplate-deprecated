@@ -190,7 +190,7 @@ Page({
       sendTime: new Date(),
       sender: this.data.openid,
       recipient: this.data.otherid,
-      type: 0,  // TODO: 目前只能发送文字消息，以后改吧
+      last_content_type: 0,  // TODO: 目前只能发送文字消息，以后改吧
     }
 
     // 消息发送防抖

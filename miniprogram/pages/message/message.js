@@ -122,6 +122,25 @@ Page({
       return
     }
 
+    // console.log(this.data.relationshipList)
+
+    let tempList = this.data.relationshipList
+    for (let i = 0; i < tempList.length; i++) {
+      // 进入页面之前就消除红点
+      if (i._id === event.currentTarget.dataset.relationshipid
+        && i.last_sender !== app.globalData.userOpenid
+        && !i.is_readed) {
+        wx.cloud.database().collection('relationship')
+          .doc(i._id)
+          .update({
+            data: {
+              is_readed: true,
+              last_send_number: 0,
+            }
+          })
+      }
+    }
+
     wx.navigateTo({
       url: '../chatroom/chatroom?otherid=' + event.currentTarget.dataset.otherid
         + '&avatarLeft=' + event.currentTarget.dataset.avatar
