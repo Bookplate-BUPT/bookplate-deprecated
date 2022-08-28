@@ -50,15 +50,29 @@ Component({
 
     // 购买商品，联系卖家
     contactSeller() {
-      if (this.properties.trade.bookDetail._openid == undefined) {
-        wx.showToast({
-          title: '该书已下架',
-          icon: 'error'
-        })
-      } else
-        wx.navigateTo({
-          url: '../../pages/chatroom/chatroom?otherid=' + this.properties.trade.bookDetail._openid,
-        })
+      if (this.properties.page) {
+        // 我是买家，需要联系卖家
+        if (this.properties.trade.bookDetail._openid == undefined) {
+          wx.showToast({
+            title: '该用户不存在',
+            icon: 'error'
+          })
+        } else
+          wx.navigateTo({
+            url: '../../pages/chatroom/chatroom?otherid=' + this.properties.trade.bookDetail._openid,
+          })
+      } else {
+        // 我是卖家，需要联系买家
+        if (this.properties.trade._openid == undefined) {
+          wx.showToast({
+            title: '该用户不存在',
+            icon: 'error'
+          })
+        } else
+          wx.navigateTo({
+            url: '../../pages/chatroom/chatroom?otherid=' + this.properties.trade._openid,
+          })
+      }
     },
   }
 })

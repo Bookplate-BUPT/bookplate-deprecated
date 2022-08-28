@@ -13,7 +13,7 @@
         <view style="margin-bottom: 5rpx;">交易地点：{{ trade.trade_spot }}</view>
       </view>
       <view slot="footer">
-        <van-button size="small" round bind:click="contactSeller">联系卖家</van-button>
+        <van-button size="small" round bind:click="contactSeller">{{page?'联系卖家':'联系买家'}}</van-button>
       </view>
     </van-card>
 
