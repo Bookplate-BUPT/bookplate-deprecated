@@ -7,3 +7,13 @@
   /* 解决van-swipe-cell渲染层报错 */
   touch-action: pan-y;
 }
+
+.styler {
+  font-weight: bolder;
+  font-size: 14px;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

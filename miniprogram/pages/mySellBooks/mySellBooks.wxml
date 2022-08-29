@@ -12,7 +12,7 @@
       <van-cell-group inset custom-class="shadow">
         <van-swipe-cell right-width="{{ 60 }}">
           <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
-            <view slot="title" style="font-weight: bolder; font-size:30rpx;">
+            <view slot="title" class="styler">
               {{ item.name }}
               <view style="margin-top: 4px;">
                 <van-tag color="#13c2c2" plain>{{ item.college }}</van-tag>
