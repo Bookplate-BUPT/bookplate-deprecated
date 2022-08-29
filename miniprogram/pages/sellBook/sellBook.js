@@ -204,31 +204,23 @@ Page({
             isbn: res.result
           },
           success: resInner => {
-            // console.log(JSON.parse(resInner.result).data)
-            console.log(JSON.parse(resInner.result))
-            let tempRes = JSON.parse(resInner.result).showapi_res_body.datas[0]
-
-            if (tempRes) {
+            // console.log(JSON.parse(resInner.result))
+            if (JSON.parse(resInner.result).showapi_res_body.ret_code) {
+              wx.showToast({
+                title: '未查询到书籍',
+                icon: 'error',
+              })
+            } else {
+              let tempRes = JSON.parse(resInner.result).showapi_res_body.datas[0]
               this.setBookDetail(tempRes)
               wx.showToast({
                 icon: 'success',
                 title: '识别成功',
               })
-
               // 滚动页面到底部
               wx.pageScrollTo({
                 scrollTop: 9999,
                 duration: 200,
-              })
-            } else if (JSON.parse(resInner.result).ret == 1) {
-              wx.showToast({
-                title: '今日查询已受限',
-                icon: 'error'
-              })
-            } else {
-              wx.showToast({
-                title: '未查询到书籍',
-                icon: 'error',
               })
             }
           },
