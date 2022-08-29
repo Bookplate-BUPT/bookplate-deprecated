@@ -6,7 +6,7 @@
     </view>
 
     <van-card price="{{ price }}" thumb="{{ image_list[0] }}" origin-price="{{ original_price }}" data-id="{{ _id }}" bindtap="goToBookDetail" tag="{{ isNew ? '最新' : '' }}">
-      <view slot="title" style="font-weight: bolder; font-size: 14px;">
+      <view slot="title" style="font-weight: bolder; font-size: 14px;" class="van-multi-ellipsis--l2">
         {{ name }}
         <!-- <view style="margin-top: 4px;">
           <van-tag color="#8AC286" plain>{{ bookDetail.college }}</van-tag>

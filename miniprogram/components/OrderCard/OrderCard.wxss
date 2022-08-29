@@ -1,3 +1,5 @@
+@import '../../miniprogram_npm/@vant/weapp/common/index.wxss';
+
 .shadow {
   box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
   background-color: #fafafa;
@@ -42,4 +44,12 @@
 /* 已拒绝 */
 .order-state-3 {
   background-color: #C0C2C5;
+}
+
+.van-card__title {
+  word-wrap: break-word;
+  font-weight: 700;
+  line-height: 16px;
+  line-height: var(--card-title-line-height, 16px);
+  max-width: 80%;
 }
