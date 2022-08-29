@@ -423,7 +423,7 @@ Page({
           .limit(20)
           .get()
           .then(res => {
-            if (res.data.length)
+            if (res.data.length == 20)
               this.setData({
                 isReachBottom: false
               })
@@ -449,7 +449,7 @@ Page({
           .limit(20)
           .get()
           .then(res => {
-            if (res.data.length)
+            if (res.data.length == 20)
               this.setData({
                 isReachBottom: false
               })
@@ -478,7 +478,7 @@ Page({
           .limit(20)
           .get()
           .then(res => {
-            if (res.data.length)
+            if (res.data.length == 20)
               this.setData({
                 isReachBottom: false
               })
@@ -508,7 +508,7 @@ Page({
           .limit(20)
           .get()
           .then(res => {
-            if (res.data.length)
+            if (res.data.length == 20)
               this.setData({
                 isReachBottom: false
               })
@@ -585,7 +585,7 @@ Page({
         wx.cloud.database().collection('goods')
           .get()
           .then(res => {
-            if (!res.data.length)
+            if (res.data.length < 20)
               this.setData({
                 isReachBottom: true
               })
@@ -607,7 +607,7 @@ Page({
           .orderBy(this.data.sortType, 'desc')
           .get()
           .then(res => {
-            if (!res.data.length)
+            if (res.data.length < 20)
               this.setData({
                 isReachBottom: true
               })
@@ -632,7 +632,7 @@ Page({
           })
           .get()
           .then(res => {
-            if (!res.data.length)
+            if (res.data.length < 20)
               this.setData({
                 isReachBottom: true
               })
@@ -658,7 +658,7 @@ Page({
           .orderBy(this.data.sortType, 'asc')
           .get()
           .then(res => {
-            if (!res.data.length)
+            if (res.data.length < 20)
               this.setData({
                 isReachBottom: true
               })
@@ -680,7 +680,6 @@ Page({
 
   // 排序类型改变时调用
   sortTypeChange(event) {
-    console.log(event.detail)
     this.setData({
       sortType: event.detail,
       isReachBottom: false,
