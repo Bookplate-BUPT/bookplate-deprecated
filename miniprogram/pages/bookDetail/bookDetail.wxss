@@ -56,11 +56,7 @@
   font-weight: 600;
   margin-top: 6px;
   margin-left: 2px;
-  overflow: hidden;
-  display: -webkit-box;
   word-break: break-all;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 }
 
 .star {

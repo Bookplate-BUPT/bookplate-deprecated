@@ -56,7 +56,7 @@
 </van-cell-group>
 
 <!-- 书籍图片 -->
-<van-cell-group inset title="书籍图片（封面、破损程度等）" custom-class="shadow">
+<van-cell-group inset title="请上传书籍实物图（如损坏、笔记等实拍图）" custom-class="shadow">
   <view style="margin: 2% 0 0 3%;">
     <van-uploader file-list="{{ showList }}" bind:after-read="addImage" max-count="9" bind:delete="deleteImage" />
   </view>
