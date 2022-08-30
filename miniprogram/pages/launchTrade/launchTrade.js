@@ -14,6 +14,9 @@ Page({
     trade_time: '',       // 交易时间
     trade_spot: '',       // 交易地点
 
+    originalTradeDate: '',        // 原本格式的交易日期
+    // originalTradeTime: '',     // 原本格式的日期时间 
+
     showCalendar: false,  // 显示日期弹出层
     showTime: false,      // 显示时间弹出层
 
@@ -47,6 +50,7 @@ Page({
     this.setData({
       bookDetail: bookDetail,
       sellerDetail: JSON.parse(options.sellerDetail),
+      originalTradeDate: new Date(),
       trade_date: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
       trade_time: __util.formatTime(new Date()).slice(11, 16),
     })
@@ -73,6 +77,7 @@ Page({
     this.setData({
       showCalendar: false,
       trade_date: this.formatDate(event.detail),
+      originalTradeDate: new Date(event.detail),
     });
   },
 
@@ -162,7 +167,9 @@ Page({
   // 向trade集合中添加记录
   addTradeRecord() {
     // 连接完整的交易时间
-    var trade_time = this.data.trade_date + this.data.trade_time
+    var time = this.data.trade_time
+    this.data.originalTradeDate.setHours(+(time.slice(0, 2)))
+    this.data.originalTradeDate.setMinutes(+(time.slice(3, 5)))
 
     var bookDetail = this.data.bookDetail
     delete bookDetail.views
@@ -172,7 +179,7 @@ Page({
         goods_id: this.data.bookDetail._id,
         state: 0,
         trade_price: this.data.bookDetail.price,
-        trade_time: trade_time,
+        trade_time: this.data.originalTradeDate,
         trade_spot: this.data.trade_spot,
         seller_openid: this.data.bookDetail._openid,
         bookDetail: bookDetail,
