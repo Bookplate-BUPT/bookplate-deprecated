@@ -72,7 +72,7 @@
       <text>.{{ utils.getFloat(trade.bookDetail.price) }}</text>
     </view>
 
-    <van-button round color="#FF5E62" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="rejectForm" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">取消请求</van-button>
+    <van-button round color="#FF5E62" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="cancelTrade" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">取消请求</van-button>
   </view>
 </van-goods-action>
 

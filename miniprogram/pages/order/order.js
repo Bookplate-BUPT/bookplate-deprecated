@@ -196,7 +196,7 @@ Page({
   },
 
   // 取消请求
-  rejectForm(event) {
+  cancelTrade(event) {
     wx.showLoading({
       title: '取消中……',
     })

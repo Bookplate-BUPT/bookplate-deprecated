@@ -150,7 +150,7 @@ Page({
     }
   },
 
-  //拒绝请求
+  // 拒绝请求
   rejectForm(event) {
     wx.showLoading({
       title: '取消中……',
