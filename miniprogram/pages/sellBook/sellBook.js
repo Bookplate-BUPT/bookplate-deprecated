@@ -67,9 +67,10 @@ Page({
         desc: 'A：亲，图片最多只能上传9张哦~'
       },
     ],
+    state: 0,                   // 书籍是否被锁定
 
     userOpenid: '',
-    showState: true,            //根据不同的页面判断呈现相应的页面
+    showState: true,            // 根据不同的页面判断呈现相应的页面
     showCollege: false,
     showMajor: false,
     columnsCollege: [
@@ -167,7 +168,7 @@ Page({
     }
     else {
       // console.log(JSON.parse(options.message))
-      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major } = JSON.parse(options.message)
+      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major, state } = JSON.parse(options.message)
 
       // 首先进行url解码
       image_list.forEach((i, idx) => {
@@ -200,6 +201,7 @@ Page({
         college: college,
         major: major,
         index: options.index,
+        state: state,
       })
     }
   },
@@ -548,6 +550,14 @@ Page({
 
   //更新上传实时的我的卖书信息，通过选择判断决定是否进行上传更新我的卖书信息
   upDateMySellBooksMessages() {
+
+    if (this.data.state) {
+      wx.showToast({
+        title: '书籍已被预订，暂不能修改哦~',
+        icon: 'none',
+      })
+      return
+    }
 
     if (!this.data.showList.length) {
       wx.showToast({
