@@ -311,9 +311,12 @@ Page({
 
   // 点击相机图标添加图片
   addImage(event) {
-    this.data.showList.push({
-      url: event.detail.file.url,
-      isImage: true,
+
+    event.detail.file.forEach(i => {
+      this.data.showList.push({
+        url: i.url,
+        isImage: true,
+      })
     })
 
     this.setData({
