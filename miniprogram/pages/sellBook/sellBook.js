@@ -78,6 +78,9 @@ Page({
       },
     ],
     columnsMajor: [],
+
+    // 回退时需要修改书籍的索引
+    index: '',
   },
 
   //选择书籍的类型时调用
@@ -196,6 +199,7 @@ Page({
         _id: _id,
         college: college,
         major: major,
+        index: options.index,
       })
     }
   },
@@ -587,6 +591,29 @@ Page({
             res[idx] = i.fileID
           }
         })
+
+        // 修改本地书籍
+        // 获取当前页面栈
+        const pages = getCurrentPages();
+        // 获取上一页面对象
+        let prePage = pages[pages.length - 2];
+        var index = this.data.index
+        prePage.data.goodsList[index].name = this.data.name
+        prePage.data.goodsList[index].author = this.data.author
+        prePage.data.goodsList[index].introduction = this.data.introduction
+        prePage.data.goodsList[index].isbn = this.data.isbn
+        prePage.data.goodsList[index].publisher = this.data.publisher
+        prePage.data.goodsList[index].publishDate = this.data.publishDate
+        prePage.data.goodsList[index].originalPrice = this.data.originalPrice
+        prePage.data.goodsList[index].price = this.data.price
+        prePage.data.goodsList[index].image_list = res
+        prePage.data.goodsList[index].description = this.data.description
+        prePage.data.goodsList[index].major = this.data.major
+        prePage.data.goodsList[index].college = this.data.college
+        prePage.setData({
+          goodsList: prePage.data.goodsList
+        })
+
         // 修改数据库
         wx.cloud.database().collection('goods').doc(this.data._id).update({
           data: {
