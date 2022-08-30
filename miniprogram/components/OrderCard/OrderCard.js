@@ -86,15 +86,16 @@ Component({
     formatImage() {
       this.properties.trade.bookDetail.image_list.forEach((i, idx) => {
         if (i.slice(0, 8) === 'cloud://')
-          wx.cloud.downloadFile({
-            fileID: i, // 文件 ID
-            success: res => { },
-            fail: err => {
-              this.properties.trade.bookDetail.image_list[idx] = 'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png'
-              this.setData({
-                trade: this.properties.trade
-              })
-            }
+          wx.cloud.getTempFileURL({
+            fileList: [i],
+            success: res => {
+              if (res.fileList[0].status) {
+                this.properties.trade.bookDetail.image_list[idx] = 'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png'
+                this.setData({
+                  trade: this.properties.trade
+                })
+              }
+            },
           })
       })
     },
