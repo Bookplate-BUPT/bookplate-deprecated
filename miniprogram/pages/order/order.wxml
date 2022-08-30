@@ -29,7 +29,7 @@
 
   <van-cell title="适用学院" value="{{ trade.bookDetail.college }}" title-width="60px" />
   <van-cell title="适用专业" value="{{ trade.bookDetail.major }}" title-width="60px" />
-  <van-cell title="卖家描述" label="{{ trade.bookDetail.description }}" />
+  <van-cell title="卖家描述" label="{{ trade.bookDetail.description }}" style="word-break: break-all;" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" title="交易信息">
@@ -41,7 +41,7 @@
 <view style="margin-bottom: 25%;" />
 
 <van-goods-action>
-  <van-goods-action-button text="拒绝请求" plain color="#FF596A" bind:click="rejectForm" />
+  <van-goods-action-button text="拒绝请求" plain color="#FF5E62" bind:click="rejectForm" />
   <van-goods-action-button text="同意请求" color="#8AC286" bind:click="confirmForm" />
 </van-goods-action>
 

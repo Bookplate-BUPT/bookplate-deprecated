@@ -7,7 +7,12 @@
     </view>
     <view wx:else>
       <view wx:for="{{tradeGoodsList}}" wx:key="_id" style="margin-top: 20rpx;">
-        <OrderCard trade="{{ item }}" page="{{ 1 }}"></OrderCard>
+        <OrderCard right="{{ item.state===0||item.state===1?88:0 }}" trade="{{ item }}" page="{{ 1 }}">
+          <van-button wx:if="{{ item.state===0 }}" slot="right" color="#FF5E62" custom-class="swiperCellButton" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+            取消请求
+          </van-button>
+          <van-button wx:if="{{ item.state===1 }}" slot='right' color="#8AC286" custom-class="swiperCellButton" bind:click="confirmReceipt" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">确认收货</van-button>
+        </OrderCard>
       </view>
 
       <van-divider wx:if="{{ tradeGoodsList.length == tradeGoodsListSum }}" contentPosition="center" dashed>没有更多了~</van-divider>
@@ -21,7 +26,7 @@
     <view wx:else>
       <view wx:for="{{pendingTrade}}" wx:key="_id" style="margin-top: 20rpx;">
         <OrderCard right="{{ 88 }}" trade="{{ item }}" page="{{ 1 }}">
-          <van-button slot="right" color="#FF596A" custom-class="swiperCellButton" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+          <van-button slot="right" color="#FF5E62" custom-class="swiperCellButton" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
             取消请求
           </van-button>
         </OrderCard>
