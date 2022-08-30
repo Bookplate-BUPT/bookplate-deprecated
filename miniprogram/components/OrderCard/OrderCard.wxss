@@ -7,10 +7,6 @@
   touch-action: pan-y;
 }
 
-.pictureStyle {
-  margin-top: 25rpx;
-}
-
 .order-state-0,
 .order-state-1,
 .order-state-2,
