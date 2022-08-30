@@ -5,7 +5,7 @@
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
   <van-cell>
-    <swiper indicator-dots autoplay circular interval="3000">
+    <swiper indicator-dots circular>
       <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
         <van-image height="100%" width="100%" src="{{ item }}" fit="contain" bind:click="preview" data-index="{{index}}" />
       </swiper-item>
@@ -31,7 +31,7 @@
 
   <van-cell title="适用学院" value="{{ bookDetail.college }}" title-width="60px" />
   <van-cell title="适用专业" value="{{ bookDetail.major }}" title-width="60px" />
-  <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
+  <van-cell title="卖家描述" label="{{ bookDetail.description }}" style="word-break: break-all;" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" title="书籍信息">
@@ -39,7 +39,7 @@
   <van-cell title="出版社" label="{{ bookDetail.publisher }}" />
   <van-cell title="出版时间" label="{{ bookDetail.book_publish_date }}" />
 
-  <van-cell title="书籍描述" label="{{ bookDetail.introduction ? bookDetail.introduction : '该用户暂未填写' }}" />
+  <van-cell title="书籍描述" label="{{ bookDetail.introduction ? bookDetail.introduction : '该用户暂未填写' }}" style="word-break: break-all;" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">

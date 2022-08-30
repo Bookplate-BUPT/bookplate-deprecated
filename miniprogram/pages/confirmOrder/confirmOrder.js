@@ -31,6 +31,10 @@ Page({
             .skip(this.data.tradeGoodsList.length)
             .get()
             .then(res => {
+              // 格式化时间
+              res.data.forEach((i, idx) => {
+                res.data[idx].trade_time = this.formatTime(i.trade_time)
+              })
               this.data.tradeGoodsList = [...this.data.tradeGoodsList, ...res.data]
               // 更新页面
               this.setData({
@@ -51,6 +55,10 @@ Page({
             .skip(this.data.pendingTrade.length)
             .get()
             .then(res => {
+              // 格式化时间
+              res.data.forEach((i, idx) => {
+                res.data[idx].trade_time = this.formatTime(i.trade_time)
+              })
               this.data.pendingTrade = [...this.data.pendingTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -71,6 +79,10 @@ Page({
             .skip(this.data.confirmedTrade.length)
             .get()
             .then(res => {
+              // 格式化时间
+              res.data.forEach((i, idx) => {
+                res.data[idx].trade_time = this.formatTime(i.trade_time)
+              })
               this.data.confirmedTrade = [...this.data.confirmedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -91,6 +103,10 @@ Page({
             .skip(this.data.rejectedTrade.length)
             .get()
             .then(res => {
+              // 格式化时间
+              res.data.forEach((i, idx) => {
+                res.data[idx].trade_time = this.formatTime(i.trade_time)
+              })
               this.data.rejectedTrade = [...this.data.rejectedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -111,6 +127,10 @@ Page({
             .skip(this.data.successfulTrade.length)
             .get()
             .then(res => {
+              // 格式化时间
+              res.data.forEach((i, idx) => {
+                res.data[idx].trade_time = this.formatTime(i.trade_time)
+              })
               this.data.successfulTrade = [...this.data.successfulTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -241,6 +261,10 @@ Page({
       .limit(20)
       .get()
       .then(res => {
+        // 格式化时间
+        res.data.forEach((i, idx) => {
+          res.data[idx].trade_time = this.formatTime(i.trade_time)
+        })
         // 更新页面
         this.setData({
           tradeGoodsList: res.data
@@ -261,6 +285,10 @@ Page({
       .orderBy('trade_time', 'desc')
       .get()
       .then(res => {
+        // 格式化时间
+        res.data.forEach((i, idx) => {
+          res.data[idx].trade_time = this.formatTime(i.trade_time)
+        })
         // 更新页面
         this.setData({
           pendingTrade: res.data
@@ -282,6 +310,10 @@ Page({
         .orderBy('trade_time', 'desc')
         .get()
         .then(res => {
+          // 格式化时间
+          res.data.forEach((i, idx) => {
+            res.data[idx].trade_time = this.formatTime(i.trade_time)
+          })
           // 更新页面
           this.setData({
             confirmedTrade: res.data
@@ -306,6 +338,10 @@ Page({
         .orderBy('trade_time', 'desc')
         .get()
         .then(res => {
+          // 格式化时间
+          res.data.forEach((i, idx) => {
+            res.data[idx].trade_time = this.formatTime(i.trade_time)
+          })
           // 更新页面
           this.setData({
             rejectedTrade: res.data
@@ -329,6 +365,10 @@ Page({
       .orderBy('trade_time', 'desc')
       .get()
       .then(res => {
+        // 格式化时间
+        res.data.forEach((i, idx) => {
+          res.data[idx].trade_time = this.formatTime(i.trade_time)
+        })
         // 更新页面
         this.setData({
           successfulTrade: res.data
@@ -425,5 +465,22 @@ Page({
         successfulTradeSum: res.total
       })
     })
+  },
+
+  /**
+   * 格式化时间
+   * @param {Date} date 格式化的时间
+   */
+  formatTime(date) {
+    var year = date.getFullYear()
+    var month = date.getMonth() + 1
+    var day = date.getDate()
+    var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+    var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+
+    if (year === new Date().getFullYear())
+      return `${month}月${day}日 ${hours}:${minutes}`
+    else
+      return `${year}年${month}月${day}日 ${hours}:${minutes}`
   },
 })

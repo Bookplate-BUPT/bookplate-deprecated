@@ -12,7 +12,7 @@
   </view>
 </van-sticky>
 
-<van-notice-bar left-icon="info-o" scrollable="{{ false }}" text="本平台仅涉及二手书意向沟通，不涉及金钱交易。" style="margin-top: -8px" class="styler" />
+<van-notice-bar left-icon="info-o" text="本平台仅涉及二手书意向沟通，不涉及金钱交易。" style="margin-top: -8px" class="styler" />
 
 <!-- <van-tabs active="{{ active }}" style="margin-top: -8px" sticky animated offset-top="{{ 50 }}" swipeable color="#659c64"> -->
 <!-- 卖书部分 -->
