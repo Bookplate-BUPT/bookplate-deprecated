@@ -48,3 +48,14 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+.bookDescripthion {
+  line-height: 20px;
+  color: #646566;
+  word-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
