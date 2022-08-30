@@ -30,7 +30,7 @@ Component({
 
   // 组件的初始数据
   data: {
-
+    titleWidth: ''
   },
 
   // 组件的方法列表
@@ -74,5 +74,19 @@ Component({
           })
       }
     },
-  }
+    // 获取标题的长度
+    getTitleWidth() {
+      var res = wx.getWindowInfo()
+      var width = res.screenWidth
+      var titleWidth = width - 205      // - 32 - 32 - 88 - 8 + 16 - 58 - 3
+      this.setData({
+        titleWidth: titleWidth
+      })
+    },
+  },
+  lifetimes: {
+    attached() {
+      this.getTitleWidth()
+    },
+  },
 })

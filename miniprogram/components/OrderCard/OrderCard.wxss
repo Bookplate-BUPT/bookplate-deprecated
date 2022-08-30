@@ -51,5 +51,4 @@
   font-weight: 700;
   line-height: 16px;
   line-height: var(--card-title-line-height, 16px);
-  max-width: 80%;
 }
