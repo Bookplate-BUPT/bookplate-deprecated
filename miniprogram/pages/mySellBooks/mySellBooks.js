@@ -7,21 +7,23 @@ Page({
   data: {
     goodsList: [],                // 我的卖书列表
     // unChangedGoodList: [],     // 存储没有经过格式化的回调卖书列表
-    goodsSum: '',                 // 所有的书籍数量
+    // goodsSum: '',              // 所有的书籍数量
     today: '',                    // 今天日期
     postDate: '',                 // 上传日期
     imageTempList: [],
-    formatLength: [],             // 介绍内容格式化的长度
+    // formatLength: [],          // 介绍内容格式化的长度
+
+    isReachBottom: false,         // 是否到达底部
   },
 
   onLoad(options) {
-    // this.getMySellBooksList()
+    this.getMySellBooksList()
     // this.getIntroductionFormatLength()
-    this.getGoodsSum()
+    // this.getGoodsSum()
   },
 
-  onShow(){
-    this.getMySellBooksList()
+  onShow() {
+    // this.getMySellBooksList()
   },
 
   // 携带参数将对应的数组信息传递到修改信息页面
@@ -40,6 +42,13 @@ Page({
       .orderBy('post_date', 'desc')
       .get()
       .then(res => {
+
+        // 判断是否到达底部
+        if (res.data.length < 20)
+          this.setData({
+            isReachBottom: true
+          })
+
         // 为每一个列表对象增加相同的辨识标志
         res.data.forEach((item, index) => {
           Object.assign(item, { identification: 'mySellBooks' })
@@ -83,7 +92,6 @@ Page({
         this.setData({
           goodsList: this.data.goodsList,
           postDate: this.data.postDate,
-          goodsSum: this.data.goodsSum - 1,
         })
         // 提示
         wx.hideLoading()
@@ -114,7 +122,14 @@ Page({
 
   // 上拉触底监听
   onReachBottom() {
-    if (this.data.goodsList.length < this.data.goodsSum) {
+    if (this.data.isReachBottom) {
+      return
+    } else {
+      // 防抖
+      this.setData({
+        isReachBottom: true
+      })
+
       wx.cloud.database().collection('goods').where({
         _openid: __user.getUserOpenid(),
       })
@@ -122,6 +137,13 @@ Page({
         .skip(this.data.goodsList.length)
         .get()
         .then(res => {
+
+          // 判断是否到达底部
+          if (res.data.length == 20)
+            this.setData({
+              isReachBottom: false
+            })
+
           // 为每一个列表对象增加相同的辨识标志
           res.data.forEach((item, index) => {
             Object.assign(item, { identification: 'mySellBooks' })
@@ -150,13 +172,13 @@ Page({
   },
 
   // 获取商品总数量
-  getGoodsSum() {
-    wx.cloud.database().collection('goods').where({
-      _openid: __user.getUserOpenid()
-    }).count().then(res => {
-      this.setData({
-        goodsSum: res.total
-      })
-    })
-  },
+  // getGoodsSum() {
+  //   wx.cloud.database().collection('goods').where({
+  //     _openid: __user.getUserOpenid()
+  //   }).count().then(res => {
+  //     this.setData({
+  //       goodsSum: res.total
+  //     })
+  //   })
+  // },
 })
