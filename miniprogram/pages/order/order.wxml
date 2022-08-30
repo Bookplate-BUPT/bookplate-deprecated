@@ -40,9 +40,40 @@
 
 <view style="margin-bottom: 25%;" />
 
-<van-goods-action>
+<!-- 卖家确认订单 -->
+<van-goods-action wx:if="{{ page==0&&trade.state==0 }}">
   <van-goods-action-button text="拒绝请求" plain color="#FF5E62" bind:click="rejectForm" />
   <van-goods-action-button text="同意请求" color="#8AC286" bind:click="confirmForm" />
+</van-goods-action>
+
+<!-- 买家确认收货 -->
+<van-goods-action wx:if="{{ page==1&&trade.state==1 }}" custom-class="bottom-tab">
+  <view style="text-align: right; width: 100%;">
+    <text style="color: #222222; font-weight: 500; font-size: 14px; ">现价：</text>
+
+    <view style="display: inline-block; color: #ee0a24; font-weight: 600; margin-top: 8px; margin-right: 18px;">
+      <text style="font-size: 14px;">￥</text>
+      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.bookDetail.price) }}</text>
+      <text>.{{ utils.getFloat(trade.bookDetail.price) }}</text>
+    </view>
+
+    <van-button round color="linear-gradient(to right, #8ac286, #659c64)" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="receiveGoods" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">确认收货</van-button>
+  </view>
+</van-goods-action>
+
+<!-- 买家取消请求 -->
+<van-goods-action wx:if="{{ page==1&&trade.state==0 }}" custom-class="bottom-tab">
+  <view style="text-align: right; width: 100%;">
+    <text style="color: #222222; font-weight: 500; font-size: 14px; ">现价：</text>
+
+    <view style="display: inline-block; color: #ee0a24; font-weight: 600; margin-top: 8px; margin-right: 18px;">
+      <text style="font-size: 14px;">￥</text>
+      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.bookDetail.price) }}</text>
+      <text>.{{ utils.getFloat(trade.bookDetail.price) }}</text>
+    </view>
+
+    <van-button round color="#FF5E62" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="rejectForm" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">取消请求</van-button>
+  </view>
 </van-goods-action>
 
 <van-dialog id="van-dialog" />

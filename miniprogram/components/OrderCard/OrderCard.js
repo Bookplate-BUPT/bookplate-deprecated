@@ -37,15 +37,13 @@ Component({
   methods: {
     // 跳转到新页面
     gotoNewPage() {
-      if (this.properties.link) {
-        // 跳转前对url进行编码
-        this.properties.trade.bookDetail.image_list.forEach((i, idx) => {
-          this.properties.trade.bookDetail.image_list[idx] = encodeURIComponent(i)
-        })
-        wx.navigateTo({
-          url: `../../pages/order/order?trade=${JSON.stringify(this.properties.trade)}`,
-        })
-      }
+      // 跳转前对url进行编码
+      this.properties.trade.bookDetail.image_list.forEach((i, idx) => {
+        this.properties.trade.bookDetail.image_list[idx] = encodeURIComponent(i)
+      })
+      wx.navigateTo({
+        url: `../../pages/order/order?trade=${JSON.stringify(this.properties.trade)}&page=${this.properties.page}`,
+      })
     },
 
     // 购买商品，联系卖家

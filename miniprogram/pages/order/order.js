@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    trade: {}
+    trade: {},
+    page: '',     // 0表示卖家，1表示买家
   },
 
   // 循环解析url
@@ -20,16 +21,19 @@ Page({
 
   // 生命周期函数--监听页面加载
   onLoad(options) {
+    console.log(options)
     var trade = JSON.parse(options.trade)
+    // 跳转后先进行解码
     trade.bookDetail.image_list.forEach((i, idx) => {
       trade.bookDetail.image_list[idx] = this.getUrl(i)
     })
     this.setData({
       trade: trade,
+      page: options.page,
     })
   },
 
-  //同意请求
+  // 同意请求
   confirmForm(event) {
     wx.showLoading({
       title: '同意中……',
@@ -79,7 +83,7 @@ Page({
       .catch(err => console.error(err))
   },
 
-  //拒绝请求
+  // 拒绝请求
   rejectForm(event) {
     wx.showLoading({
       title: '拒绝中……',
@@ -133,6 +137,110 @@ Page({
       })
       .then(res => wx.showToast({
         title: '拒绝成功',
+      }))
+      .then(res => wx.navigateBack())
+      .catch(err => console.error(err))
+  },
+
+  // 确认收货
+  receiveGoods(event) {
+    wx.showLoading({
+      title: '收货中……',
+    })
+
+    //获取当前页面栈
+    const pages = getCurrentPages();
+    //获取上一页面对象
+    let prePage = pages[pages.length - 2];
+
+    wx.cloud.callFunction({
+      name: 'updateTradeState',
+      data: {
+        type: 2,
+        _id: event.currentTarget.dataset._id,
+        state: 2,
+      }
+    })
+      .then(res => {
+        // 将全部中将要变成完成的元素state改为2
+        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 2
+
+        // 在待收货中删除元素
+        prePage.data.confirmedTrade.splice(prePage.data.confirmedTrade.findIndex(i => i._id == event.currentTarget.dataset._id), 1)
+
+        // 更新页面
+        prePage.setData({
+          confirmedTrade: prePage.data.confirmedTrade,
+          tradeGoodsList: prePage.data.tradeGoodsList,
+          confirmedTradeSum: prePage.data.confirmedTradeSum - 1,
+        })
+
+        return
+      })
+      .then(res =>
+        // 在goods集合中删除书籍
+        wx.cloud.callFunction({
+          name: 'updateGoods',
+          data: {
+            type: 'removeGoods',
+            goodsID: event.currentTarget.dataset.goodsid
+          }
+        }))
+      .then(res => prePage.getSuccessfulTrade())
+      .then(res => prePage.getSuccessfulTradeSum())
+      .then(res => wx.showToast({
+        title: '收货成功',
+      }))
+      .then(res => wx.navigateBack())
+      .catch(err => console.error(err))
+  },
+
+  // 取消请求
+  rejectForm(event) {
+    wx.showLoading({
+      title: '取消中……',
+    })
+
+    //获取当前页面栈
+    const pages = getCurrentPages();
+    //获取上一页面对象
+    let prePage = pages[pages.length - 2];
+
+    wx.cloud.callFunction({
+      name: 'updateTradeState',
+      data: {
+        type: 3,
+        _id: event.currentTarget.dataset._id,
+        state: 3,
+      }
+    })
+      .then(res => {
+        // 将全部中需要拒绝的元素的state改为3
+        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
+
+        // 在待处理中删除元素
+        prePage.data.pendingTrade.splice(prePage.data.pendingTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id }), 1)
+
+        // 更新页面
+        prePage.setData({
+          pendingTrade: prePage.data.pendingTrade,
+          tradeGoodsList: prePage.data.tradeGoodsList,
+          pendingTradeSum: prePage.data.pendingTradeSum - 1,
+        })
+        return
+      })
+      .then(res => wx.cloud.callFunction({
+        name: 'updateGoods',
+        data: {
+          type: 'updateState',
+          goodsID: event.currentTarget.dataset.goodsid,
+          state: 0,
+        }
+      }))
+      .then(res => prePage.getRejectedTrade())
+      .then(res => prePage.getRejectedTradeSum())
+      .then(res => wx.showToast({
+        title: '取消成功',
       }))
       .then(res => wx.navigateBack())
       .catch(err => console.error(err))
