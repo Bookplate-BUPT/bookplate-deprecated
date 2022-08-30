@@ -19,9 +19,22 @@
   margin-left: 25px;
 }
 
-.styler {
-  font-weight: bolder;
-  font-size: 14px;
+.bookName {
+  word-wrap: break-word;
+  font-weight: 700;
+  line-height: 16px;
+  line-height: var(--card-title-line-height, 16px);
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.bookIntroduction {
+  color: #a1a1a1;
+  font-size: xx-small;
+  margin-top: 4px;
   overflow: hidden;
   display: -webkit-box;
   word-break: break-all;

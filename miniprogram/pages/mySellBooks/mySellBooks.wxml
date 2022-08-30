@@ -12,13 +12,10 @@
       <van-cell-group inset custom-class="shadow">
         <van-swipe-cell right-width="{{ 60 }}">
           <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
-            <view slot="title" class="styler">
+            <view slot="title" class="bookName">
               {{ item.name }}
-              <view style="margin-top: 4px;">
-                <van-tag color="#13c2c2" plain>{{ item.college }}</van-tag>
-              </view>
             </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
+            <view slot="desc" class="bookIntroduction">
               {{ item.introduction }}
             </view>
           </van-card>
@@ -28,5 +25,5 @@
     </view>
   </view>
 
-  <van-divider wx:if="{{ goodsList.length == goodsSum }}" contentPosition="center" dashed>没有更多啦</van-divider>
+  <van-divider wx:if="{{ goodsList.length && goodsList.length == goodsSum }}" contentPosition="center" dashed>没有更多啦</van-divider>
 </block>

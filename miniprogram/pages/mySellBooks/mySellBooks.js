@@ -5,18 +5,18 @@ import __util from "../../utils/util"
 Page({
 
   data: {
-    goodsList: [],    // 我的卖书列表
-    unChangedGoodList: [],     // 存储没有经过格式化的回调卖书列表
-    goodsSum: '', //所有的书籍数量
-    today: '', // 今天日期
-    postDate: '', // 上传日期
+    goodsList: [],                // 我的卖书列表
+    // unChangedGoodList: [],     // 存储没有经过格式化的回调卖书列表
+    goodsSum: '',                 // 所有的书籍数量
+    today: '',                    // 今天日期
+    postDate: '',                 // 上传日期
     imageTempList: [],
-    formatLength: [], // 介绍内容格式化的长度
+    formatLength: [],             // 介绍内容格式化的长度
   },
 
   onLoad(options) {
     // this.getMySellBooksList()
-    this.getIntroductionFormatLength()
+    // this.getIntroductionFormatLength()
     this.getGoodsSum()
   },
 
@@ -28,7 +28,7 @@ Page({
   goToUpDateMyBookDetail(e) {
     var index = e.currentTarget.dataset.index
     wx.navigateTo({
-      url: '../sellBook/sellBook?message=' + JSON.stringify(this.data.unChangedGoodList[index]),
+      url: '../sellBook/sellBook?message=' + JSON.stringify(this.data.goodsList[index]),
     })
   },
 
@@ -45,21 +45,12 @@ Page({
           Object.assign(item, { identification: 'mySellBooks' })
         })
 
-        // 存储为未格式化的卖书列表
-        this.data.unChangedGoodList = res.data
-
-        let tempGoodsList = res.data.map((i, idx) => ({
-          ...i,
-          // 书籍介绍自定义格式化，最长长度为24
-          introduction: this.introductionFormat(i.introduction, this.data.formatLength),
-        }))
-
-        var postDate = tempGoodsList.map(i => {
+        var postDate = res.data.map(i => {
           return i.post_date.toISOString().slice(0, 10)
         })
 
         this.setData({
-          goodsList: tempGoodsList,
+          goodsList: res.data,
           today: new Date().toISOString().slice(0, 10),
           postDate: postDate
         })
@@ -86,14 +77,11 @@ Page({
       .remove()
       .then(res => {
         // 删除并更新数组
-        var index = e.currentTarget.dataset.index
         this.data.goodsList.splice(index, 1)
-        this.data.unChangedGoodList.splice(index, 1)
         this.data.postDate.splice(index, 1)
         // 更新页面
         this.setData({
           goodsList: this.data.goodsList,
-          unChangedGoodList: this.data.unChangedGoodList,
           postDate: this.data.postDate,
           goodsSum: this.data.goodsSum - 1,
         })
@@ -107,22 +95,22 @@ Page({
   },
 
   // 获取书籍内容格式化后的字数
-  getIntroductionFormatLength() {
-    var res = wx.getWindowInfo()
-    this.setData({
-      formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-    })
-  },
+  // getIntroductionFormatLength() {
+  //   var res = wx.getWindowInfo()
+  //   this.setData({
+  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
+  //   })
+  // },
 
   // 书籍介绍内容格式化
-  introductionFormat(str, length) {
-    // 过长则需要省略
-    if (str.length > length) {
-      return str.substr(0, length) + '……'
-    }
-    // 不用格式化
-    else return str
-  },
+  // introductionFormat(str, length) {
+  //   // 过长则需要省略
+  //   if (str.length > length) {
+  //     return str.substr(0, length) + '……'
+  //   }
+  //   // 不用格式化
+  //   else return str
+  // },
 
   // 上拉触底监听
   onReachBottom() {
@@ -139,22 +127,12 @@ Page({
             Object.assign(item, { identification: 'mySellBooks' })
           })
 
-          // 存储为格式化的卖书列表
-          var unChangedGoodList = res.data
-
-          let tempGoodsList = res.data.map((i, idx) => ({
-            ...i,
-            // 书籍介绍自定义格式化，最长长度为24
-            introduction: this.introductionFormat(i.introduction, this.data.formatLength),
-          }))
-
-          var postDate = tempGoodsList.map(i => {
+          var postDate = res.data.map(i => {
             return i.post_date.toISOString().slice(0, 10)
           })
 
           // 将新数据添加至原始数据
-          this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-          this.data.unChangedGoodList = [...this.data.unChangedGoodList, ...unChangedGoodList]
+          this.data.goodsList = [...this.data.goodsList, ...res.data]
           this.data.postDate = [...this.data.postDate, ...postDate]
 
           // 更新页面
@@ -163,14 +141,12 @@ Page({
             today: new Date().toISOString().slice(0, 10),
             postDate: this.data.postDate
           })
-          console.log(this.data.goodsList)
 
           this.data.goodsList.forEach((i, idx) => {
             this.data.imageTempList[idx] = i.image_list
           })
         })
-    } else
-      console.log('this is else')
+    }
   },
 
   // 获取商品总数量
