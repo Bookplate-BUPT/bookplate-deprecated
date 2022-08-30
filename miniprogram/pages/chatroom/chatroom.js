@@ -19,7 +19,7 @@ Page({
     relationshipID: '',       // 记录关系在数据库中的 docID
 
     chatWatcher: {},          // 与当前用户聊天内容监听器
-    // relationshipWatcher: {},  // 与当前用户聊天关系监听器
+    chatWatcherIsSet: false,  // 内容监听器是否已经建立
   },
 
   async onLoad(options) {
@@ -35,67 +35,36 @@ Page({
 
     await this.checkRelationship()
     this.checkUserInfo()
+  },
 
-    // 监听chatroom数据库里符合两人对话的消息
-    // 当这一些消息发生变更（即某人可能发送了消息）时
-    // 调用onChange()函数
-    const chatWatcher = wx.cloud.database().collection('chatroom')
-      .where(
-        wx.cloud.database().command.or([
-          {
-            sender: this.data.openid,
-            recipient: this.data.otherid,
-          },
-          {
-            sender: this.data.otherid,
-            recipient: this.data.openid,
-          }
-        ])
-      )
-      .watch({
-        onChange: this.onChange.bind(this),
-        onError(err) {
-          console.log(err)
-        }
+  async onShow() {
+    if (__user.checkLoginStatus() && !this.data.chatWatcherIsSet) {
+      // 监听chatroom数据库里符合两人对话的消息
+      // 当这一些消息发生变更（即某人可能发送了消息）时
+      // 调用onChange()函数
+      const chatWatcher = await wx.cloud.database().collection('chatroom')
+        .where(
+          wx.cloud.database().command.or([
+            {
+              sender: this.data.openid,
+              recipient: this.data.otherid,
+            },
+            {
+              sender: this.data.otherid,
+              recipient: this.data.openid,
+            }
+          ])
+        )
+        .watch({
+          onChange: this.onChange.bind(this),
+          onError: this.onError.bind(this),
+        })
+
+      this.setData({
+        chatWatcher: chatWatcher,
+        chatWatcherIsSet: true,
       })
-    this.setData({
-      chatWatcher: chatWatcher
-    })
-
-    // async 函数运行到此处肯定已有关系ID
-    // if (this.data.relationshipID) {
-    //   const relationshipWatcher = wx.cloud.database().collection('relationship')
-    //     .doc(this.data.relationshipID)
-    //     .watch({
-    //       onChange: snapshot => {
-    //         // 聊天页面每次切出去再切回来都会认为是初次进入
-    //         // 此为初次进入页面
-    //         if (snapshot.type === 'init') {
-    //           // 如果最后的发送者不是自己，则需要去掉红点
-    //           if (snapshot.docs[0].last_sender !== this.data.openid) {
-    //             wx.cloud.database().collection('relationship')
-    //               .doc(this.data.relationshipID)
-    //               .update({
-    //                 data: {
-    //                   is_readed: true,
-    //                   last_send_number: 0,
-    //                 }
-    //               })
-    //           }
-    //         } else {
-    //           console.log('后续的监听')
-    //           console.log(snapshot)
-    //         }
-    //       },
-    //       onError: res => {
-    //         console.log(res)
-    //       }
-    //     })
-
-    //   this.setData({
-    //     relationshipWatcher: relationshipWatcher
-    //   })
-    // }
+    }
   },
 
   // 从其他页面进入聊天页面再返回
@@ -103,7 +72,10 @@ Page({
   // 两个页面设置的监听器都要卸载掉，避免重复监听
   onUnload() {
     this.data.chatWatcher.close()
-    // await this.data.relationshipWatcher.close()
+
+    this.setData({
+      chatWatcherIsSet: false,
+    })
 
     // 退出页面时更新一下关系，消掉红点
     wx.cloud.database().collection('relationship')
@@ -165,6 +137,20 @@ Page({
       })
     }
     this.pageScrollToBottom()
+  },
+
+  // 监听器发生错误时调用
+  onError(snapshot) {
+    console.log(snapshot)
+
+    this.setData({
+      chatWatcherIsSet: false,
+      // 发生错误时会让监听器重新建立
+      // 消息记录会全部重新获取，故而此处需要清空
+      chatMessage: [],
+    })
+
+    this.onShow()
   },
 
   // 输入框内容发生改变时调用
@@ -310,5 +296,5 @@ Page({
         })
       })
     }
-  }
+  },
 })
