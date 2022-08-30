@@ -42,7 +42,7 @@
         </view>
       </van-col>
       <van-col span="5" offset="1">
-        <van-image width="84px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips2.png" />
+        <van-image fit="contain" width="128px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips2.png" />
       </van-col>
     </van-row>
   </view>
