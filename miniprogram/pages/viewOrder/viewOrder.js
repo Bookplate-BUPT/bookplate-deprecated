@@ -488,6 +488,10 @@ Page({
     var day = date.getDate()
     var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
     var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
-    return `${year}年${month}月${day} ${hours}:${minutes}`
+
+    if (year === new Date().getFullYear())
+      return `${month}月${day}日 ${hours}:${minutes}`
+    else
+      return `${year}年${month}月${day}日 ${hours}:${minutes}`
   },
 })
