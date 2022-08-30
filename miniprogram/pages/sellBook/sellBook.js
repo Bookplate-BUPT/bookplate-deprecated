@@ -132,6 +132,16 @@ Page({
     })
   },
 
+  // 循环解析url
+  getUrl(url) {
+    if (url.indexOf('%') < 0) {
+      return url
+    } else {
+      const newUrl = decodeURIComponent(url)
+      return this.getUrl(newUrl)
+    }
+  },
+
   //根据页面的不同，赋予不同的setdata
   onLoad(options) {
     if (options.identification == 'transmission' || !(JSON.parse(options.message).identification == 'mySellBooks')) {
@@ -155,6 +165,11 @@ Page({
     else {
       // console.log(JSON.parse(options.message))
       var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major } = JSON.parse(options.message)
+
+      // 首先进行url解码
+      image_list.forEach((i, idx) => {
+        image_list[idx] = this.getUrl(i)
+      })
 
       for (var i = 0; i < image_list.length; i++) {
         this.data.showList.push({

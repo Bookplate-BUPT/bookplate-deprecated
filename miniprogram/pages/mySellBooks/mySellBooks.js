@@ -29,8 +29,16 @@ Page({
   // 携带参数将对应的数组信息传递到修改信息页面
   goToUpDateMyBookDetail(e) {
     var index = e.currentTarget.dataset.index
+
+    // 首先进行url编码
+    // 跳转前对图片中的url进行编码
+    var goodsList = this.data.goodsList
+    goodsList[index].image_list.forEach((i, idx) => {
+      goodsList[index].image_list[idx] = encodeURIComponent(i)
+    })
+
     wx.navigateTo({
-      url: '../sellBook/sellBook?message=' + JSON.stringify(this.data.goodsList[index]),
+      url: '../sellBook/sellBook?message=' + JSON.stringify(goodsList[index]),
     })
   },
 
