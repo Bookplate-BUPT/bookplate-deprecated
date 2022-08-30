@@ -58,7 +58,7 @@
         </view>
       </van-col>
       <van-col span="5" offset="1">
-        <van-image width="84px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips2.png" />
+        <van-image fit="contain" width="100px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips2.png" />
       </van-col>
     </van-row>
   </view>
@@ -89,14 +89,14 @@
     <van-row>
       <van-col span="10" offset="1">
         <view style="height: 84px;display: flex;align-items: center;">
-          <van-image fit="heightFix" height="60px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller04.png" />
+          <van-image fit="heightFix" height="45px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller04.png" />
         </view>
       </van-col>
       <van-col span="12" offset="0">
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">确认第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>在我的页面点击“我是卖家”</view>
+            <view>在我的页面点击“我卖出的”</view>
             <view>点击未处理标签</view>
             <view>查看未处理订单</view>
           </view>
@@ -120,7 +120,7 @@
       </van-col>
       <van-col span="5" offset="1">
         <view style="height: 84px;display: flex;align-items: center;">
-          <van-image fit="heightFix" height="65px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller05.png" />
+          <van-image fit="widthFix" width="120px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller05.png" />
         </view>
       </van-col>
     </van-row>
@@ -133,14 +133,14 @@
     <van-row>
       <van-col span="10" offset="1">
         <view style="height: 84px;display: flex;align-items: center;">
-          <van-image fit="heightFix" height="65px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller06.png" />
+          <van-image fit="heightFix" height="55px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller06.png" />
         </view>
       </van-col>
       <van-col span="12" offset="0">
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">买家收货后：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>在我的页面点击“我是卖家”</view>
+            <view>在我的页面点击“我卖出的”</view>
             <view>点击已成交标签</view>
             <view>可查看已成功交易的书籍</view>
           </view>
@@ -216,7 +216,7 @@
       </van-col>
       <van-col span="12" offset="0">
         <view style="margin-top: 2px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">购买第一步：</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">提交第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>点击我想要</view>
           </view>
@@ -231,14 +231,14 @@
     <van-row>
       <van-col span="12" offset="1">
         <view style="height: 100%;margin-top: 10px;display: flex;flex-direction: column;justify-content: center;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">购买第二步：</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">提交第二步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>在交易信息页面填写相关信息</view>
             <view>确认无误后即可提交</view>
             <view>提示：</view>
-            <view>  1.现价以发布时的价格为默认值,可手动更改（必填项）</view>
-            <view>  2.时间以购买当天时间为默认值,可手动更改（选填项）</view>
-            <view>  3.地点为线下交易地点（必填项）</view>
+            <view>  1.现价以发布时的价格为默认值,可手动更改</view>
+            <view>  2.时间以提交申请当时为默认值,可手动更改</view>
+            <view>  3.地点为线下交易地点</view>
           </view>
         </view>
       </van-col>
@@ -264,7 +264,7 @@
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">收货第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>在我的页面点击“我是买家”</view>
+            <view>在我的页面点击“我买到的”</view>
             <view>点击待收货标签</view>
           </view>
         </view>
@@ -278,7 +278,7 @@
     <van-row>
       <van-col span="10" offset="1">
         <view style="height: 84px;display: flex;align-items: center;">
-          <van-image fit="heightFix" height="65px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer06.png" />
+          <van-image fit="heightFix" height="80px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer06.png" />
         </view>
       </van-col>
       <van-col span="12" offset="0">
