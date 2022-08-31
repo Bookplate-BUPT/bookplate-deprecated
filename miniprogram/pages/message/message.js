@@ -176,7 +176,8 @@ Page({
     wx.navigateTo({
       url: '../chatroom/chatroom?otherid=' + event.currentTarget.dataset.otherid
         + '&avatarLeft=' + event.currentTarget.dataset.avatar
-        + '&relationshipID=' + event.currentTarget.dataset.relationshipid,
+        + '&relationshipID=' + event.currentTarget.dataset.relationshipid
+        + '&nickName=' + event.currentTarget.dataset.nickname,
     })
   },
 

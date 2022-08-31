@@ -7,7 +7,7 @@
   <van-empty description="暂时没有新消息" />
 </view>
 <view wx:elif="{{ relationshipList.length }}">
-  <view wx:for="{{ relationshipList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-otherid="{{ item.userInfo[0]._openid }}" data-avatar="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" data-relationshipid="{{ item._id }}">
+  <view wx:for="{{ relationshipList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-otherid="{{ item.userInfo[0]._openid }}" data-avatar="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" data-relationshipid="{{ item._id }}" data-nickname="{{ item.userInfo[0].nickName }}">
     <van-image round width="40px" height="40px" src="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" />
 
     <view wx:if="{{ !item.is_readed && item.last_sender !== openid }}" class="dot">

@@ -13,6 +13,7 @@ Page({
     openid: '',       // 用户自己的openid
     otherid: '',      // 当前对话对方的openid
 
+    nickName: '',     // 对方用户的昵称
     avatarLeft: '',   // 对方用户的头像url
     avatarRight: '',  // 自己的头像url
 
@@ -27,6 +28,7 @@ Page({
       openid: app.globalData.userOpenid,
       otherid: options.otherid,
 
+      nickName: options.nickName,
       avatarLeft: options.avatarLeft,
       avatarRight: app.globalData.userInfo.avatarUrl,
 
@@ -34,7 +36,11 @@ Page({
     })
 
     await this.checkRelationship()
-    this.checkUserInfo()
+    await this.checkUserInfo()
+
+    wx.setNavigationBarTitle({
+      title: this.data.nickName,
+    })
   },
 
   async onShow() {
@@ -281,18 +287,19 @@ Page({
     }
   },
 
-  // 检查用户数据是否完整（头像）
-  checkUserInfo() {
+  // 检查用户数据是否完整（头像、昵称）
+  async checkUserInfo() {
     // 如果页面跳转不带完整用户信息
-    if (!this.data.avatarLeft) {
-      wx.cloud.callFunction({
+    if (!this.data.avatarLeft || !this.data.nickName) {
+      await wx.cloud.callFunction({
         name: 'getUserPublicInfo',
         data: {
           openid: this.data.otherid
         }
       }).then(res => {
         this.setData({
-          avatarLeft: res.result.avatarUrl
+          avatarLeft: res.result.avatarUrl,
+          nickName: res.result.nickName,
         })
       })
     }
