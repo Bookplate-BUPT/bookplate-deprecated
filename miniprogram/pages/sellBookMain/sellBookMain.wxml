@@ -17,11 +17,10 @@
       </van-col>
       <van-col span="12" offset="0">
         <view style="margin-top: 2px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第一步：</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">第一步：发布书籍</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>填入书籍信息</view>
-            <view>系统根据信息进行评估</view>
-            <view>给出推荐价格</view>
+            <view>通过isbn扫码录入信息</view>
+            <view>或者填写录入书籍信息</view>
           </view>
         </view>
       </van-col>
@@ -34,9 +33,9 @@
     <van-row>
       <van-col span="12" offset="1">
         <view style="margin-top: 10px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第二步：</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">第二步：确认提交</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>提交信息，书籍上架</view>
+            <view>确认提交，书籍上架</view>
             <view>等待买家联系</view>
           </view>
         </view>
@@ -56,7 +55,7 @@
       </van-col>
       <van-col span="10" offset="1">
         <view style="margin-top: 10px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第三步：</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">第三步：联系卖家</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>与买家达成协议</view>
             <view>线下完成交易</view>
@@ -67,19 +66,40 @@
   </view>
 </van-cell-group>
 
+<van-cell-group inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="12" offset="1">
+        <view style="margin-top: 10px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">第四步：等待请求</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>等待买家确认想要的书籍</view>
+            <view>买家点击 我想要</view>
+          </view>
+        </view>
+      </van-col>
+      <van-col span="5" offset="1">
+        <van-image fit="contain" width="128px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips4.png" />
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<view style="height: 115px;"></view>
+
 <view class="footerRoot">
   <van-row>
     <van-col span="10" offset="7">
-      <view bindtap="toSellBook" data-identification="transmission" data-scan_isbn="{{ false }}" style="display: flex;justify-content: center; margin-bottom: 8px; color: #B1B1B1; font-size: x-small;">
-        发布卖书信息
-      </view>
-
       <van-button round block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="toSellBook" data-identification="transmission" data-scan_isbn="{{true}}" custom-class="scan-code-button">
         <view style="display: flex; align-items: center;">
           <van-icon name="scan" size="22px" />
           <text style="margin-left: 10px; font-size: 14px;">扫码发布</text>
         </view>
       </van-button>
+
+      <view bindtap="toSellBook" data-identification="transmission" data-scan_isbn="{{ false }}" style="display: flex;justify-content: center; margin-top: 8px; color: #B1B1B1; font-size: small;">
+        手动输入书籍信息
+      </view>
     </van-col>
 
     <!-- <van-col span="9" offset="2"> -->
@@ -87,9 +107,8 @@
       </van-button> -->
     <!-- </van-col> -->
   </van-row>
-
   <view bindtap="toSellDetail" class="help">
     <van-icon name="question-o" style="margin: 5px 0 0 0;" />
-    <text style="font-size: 14px; color: #323233; margin:4px 0 0 4px;">了解更多买卖二手书流程</text>
+    <text style="font-size: 14px; color: #323233; margin:4px 0 0 4px;">了解更多详细流程</text>
   </view>
 </view>
