@@ -77,8 +77,6 @@ Page({
         })
       }
 
-      // this.countRedDot()
-
       wx.hideLoading()
     }).catch(res => {
       console.log(res)
@@ -141,8 +139,6 @@ Page({
       this.setData({
         relationshipList: tempList.sort((x, y) => new Date(y.last_conversation_time) - new Date(x.last_conversation_time))
       })
-
-      // this.countRedDot()
     }
 
     this.countRedDot()

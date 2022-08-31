@@ -43,6 +43,7 @@
 
   <!-- 底部提示分隔线 -->
   <van-divider wx:if="{{ goodsList.length && isReachBottom }}" contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
+  <view style="height: 4px;" />
 </scroll-view>
 
 

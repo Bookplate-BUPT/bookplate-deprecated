@@ -11,7 +11,6 @@ Page({
     // 页面显示
     active: 0,              // 标签栏索引
     scrollViewHeight: '',   // 页面高度
-    // formatLength: '',    // 格式化内容后的文字数量
 
     // 卖书部分
     bookTypeOption: [
@@ -315,34 +314,31 @@ Page({
         value: 'views',
       },
     ],
+
     bookType: '全部书籍',    // 书籍类型
     sortType: '',           // 排序类型
 
-    // goodsSum: '',        // 商品总数量
-    goodsList: '',          // 卖书商品列表
+    goodsList: [],          // 卖书商品列表
     isReachBottom: false,   // 是否到达最底部
 
     // 求书部分
-    seekList: '',           // 求书列表
+    // seekList: [],           // 求书列表
 
     triggered: false,       // 关闭下拉刷新界面
     college: '',            // 选择的学院
     major: '',              // 选择的专业
     mainActiveIndex: 0,
     StateSum: 0,            //收藏tabbar展示的数字
-    // cartSum: 0,          //我的tabbar展示的数字
   },
 
   onLoad() {
     this.getGoodsList()
-    // this.getGoodsSum()
     this.getScrollViewHeight()
     this.updateMessageRedDot()
   },
 
   onShow() {
     this.countNumOfStateSum()
-    // this.getCartSum()
   },
 
   //获取学院信息
@@ -377,7 +373,7 @@ Page({
   getScrollViewHeight() {
     const res = wx.getWindowInfo()
     this.setData({
-      scrollViewHeight: res.windowHeight - 153
+      scrollViewHeight: res.windowHeight - 140
     })
   },
 
@@ -561,21 +557,6 @@ Page({
       }
     })
   },
-
-  // 获取商品总数量
-  // getGoodsSum() {
-  //   var promise = new Promise((resolve, reject) => {
-  //     wx.cloud.database().collection('goods')
-  //       .count()
-  //       .then(res => {
-  //         this.setData({
-  //           goodsSum: res.total
-  //         })
-  //         resolve(res)
-  //       })
-  //   })
-  //   return promise
-  // },
 
   // 获取商品列表
   getGoodsList() {
@@ -790,37 +771,6 @@ Page({
     }
   },
 
-  // 用户需求内容格式化
-  // needsFormat(str) {
-  //   // 过长则需要省略
-  //   if (str.length > 50) {
-  //     return str.substr(0, 50) + '……'
-  //   }
-  //   // 为空则需要提示
-  //   else if (str.length === 0) {
-  //     return '无二手书具体要求'
-  //   }
-  //   else return str
-  // },
-
-  // 获取书籍内容格式化后的字数
-  // getIntroductionFormatLength() {
-  //   var res = wx.getWindowInfo()
-  //   this.setData({
-  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-  //   })
-  // },
-
-  // 书籍介绍内容格式化
-  // introductionFormat(str, length) {
-  //   // 过长则需要省略
-  //   if (str.length > length) {
-  //     return str.substr(0, length) + '……'
-  //   }
-  //   // 不用格式化
-  //   else return str
-  // },
-
   // 计算tabbar展示的商品数量
   countNumOfStateSum() {
     if (__user.checkLoginStatus())
@@ -855,23 +805,6 @@ Page({
             })
         })
   },
-
-  // // 获取购物车总商品量
-  // getCartSum() {
-  //   wx.cloud.database().collection('cart').where({
-  //     _openid: __user.getUserOpenid()
-  //   }).count().then(res => {
-  //     this.setData({
-  //       cartSum: res.total
-  //     })
-  //     if (this.data.cartSum) {
-  //       wx.setTabBarBadge({
-  //         index: 3,
-  //         text: this.data.cartSum.toString()
-  //       })
-  //     }
-  //   })
-  // },
 
   // 获取用户信息的红点数量
   updateMessageRedDot() {
