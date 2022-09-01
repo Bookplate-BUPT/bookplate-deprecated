@@ -52,7 +52,7 @@
     </van-grid-item>
   </van-grid>
 
-  <van-cell is-link title="我发布的" bind:click="gotoMySellBooks">
+  <van-cell is-link title="我上传的" bind:click="gotoMySellBooks">
     <van-icon name="shop-o" size="16px" slot="icon" style="margin-right: 4px;" />
   </van-cell>
 
