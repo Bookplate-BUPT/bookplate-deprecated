@@ -6,20 +6,15 @@ Page({
 
   data: {
     goodsList: [],                // 我的卖书列表
-    // unChangedGoodList: [],     // 存储没有经过格式化的回调卖书列表
-    // goodsSum: '',              // 所有的书籍数量
     today: '',                    // 今天日期
     postDate: '',                 // 上传日期
     imageTempList: [],
-    // formatLength: [],          // 介绍内容格式化的长度
 
     isReachBottom: false,         // 是否到达底部
   },
 
   onLoad(options) {
     this.getMySellBooksList()
-    // this.getIntroductionFormatLength()
-    // this.getGoodsSum()
   },
 
   onShow() {
@@ -109,24 +104,6 @@ Page({
       })
   },
 
-  // 获取书籍内容格式化后的字数
-  // getIntroductionFormatLength() {
-  //   var res = wx.getWindowInfo()
-  //   this.setData({
-  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-  //   })
-  // },
-
-  // 书籍介绍内容格式化
-  // introductionFormat(str, length) {
-  //   // 过长则需要省略
-  //   if (str.length > length) {
-  //     return str.substr(0, length) + '……'
-  //   }
-  //   // 不用格式化
-  //   else return str
-  // },
-
   // 上拉触底监听
   onReachBottom() {
     if (this.data.isReachBottom) {
@@ -178,14 +155,4 @@ Page({
     }
   },
 
-  // 获取商品总数量
-  // getGoodsSum() {
-  //   wx.cloud.database().collection('goods').where({
-  //     _openid: __user.getUserOpenid()
-  //   }).count().then(res => {
-  //     this.setData({
-  //       goodsSum: res.total
-  //     })
-  //   })
-  // },
 })
