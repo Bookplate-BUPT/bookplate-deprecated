@@ -17,7 +17,7 @@
       </van-col>
       <van-col span="12" offset="0">
         <view style="margin-top: 2px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">第一步：录入信息</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>通过isbn扫码录入信息</view>
             <view>或者手动填写录入书籍信息</view>
@@ -33,7 +33,7 @@
     <van-row>
       <van-col span="12" offset="1">
         <view style="margin-top: 10px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">第二步：确认提交</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第二步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>确认提交，书籍上架</view>
             <view>等待买家联系</view>
@@ -55,7 +55,7 @@
       </van-col>
       <van-col span="10" offset="1">
         <view style="margin-top: 10px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">第三步：联系卖家</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第三步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>与买家达成协议</view>
             <view>线下完成交易</view>
@@ -71,7 +71,7 @@
     <van-row>
       <van-col span="12" offset="1">
         <view style="margin-top: 10px;">
-          <view style="font-size: 14px; font-weight: bold; color: #333333;">第四步：等待请求</view>
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第四步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
             <view>等待买家确认想要的书籍</view>
             <view>买家点击 我想要</view>
@@ -93,7 +93,7 @@
       <van-button round block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="toSellBook" data-identification="transmission" data-scan_isbn="{{true}}" custom-class="scan-code-button">
         <view style="display: flex; align-items: center;">
           <van-icon name="scan" size="22px" />
-          <text style="margin-left: 10px; font-size: 14px;">扫码发布</text>
+          <text style="margin-left: 10px; font-size: 14px;">扫码卖书</text>
         </view>
       </van-button>
 

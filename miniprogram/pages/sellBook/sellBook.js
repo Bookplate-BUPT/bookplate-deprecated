@@ -57,10 +57,6 @@ Page({
     showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
     helpSteps: [        // 遇到困难遮罩层内容
       {
-        text: 'Q：提示今日查询已受限',
-        desc: 'A：每个用户每天查询书籍次数有最高限制'
-      },
-      {
         text: 'Q：提示信息不完整',
         desc: 'A：带星号为必填项'
       },
