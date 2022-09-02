@@ -48,6 +48,8 @@ Page({
     description: '',    // 用户对自己二手书的描述
     major: '',          // 书籍对应的专业
     college: '',         //书籍对应的学院
+    backedMajor: '',     //备份专业，避免二查数据库
+    backedCollege: '',   //备份学院，避免二查数据库
 
     // 页面展示相关
     showList: [],       // 展示在页面上的图片列表，类型为对象数组
@@ -82,6 +84,7 @@ Page({
 
     // 回退时需要修改书籍的索引
     index: '',
+    tempMessage: ''    // 暂存修改卖书页面传过来的书籍信息
   },
 
   //选择书籍的类型时调用
@@ -94,7 +97,7 @@ Page({
   //选择书籍的类型时调用
   selectMajor(e) {
     // 如果用户点击了一键清空，防止该选项出现空列表
-    if(this.data.college == ''){
+    if (this.data.college == '') {
       wx.showToast({
         title: '请先选择学院',
       })
@@ -165,7 +168,9 @@ Page({
           this.setData({
             userOpenid: __user.getUserOpenid(),
             major: res.data[0].major,
+            backedMajor: res.data[0].major,
             college: res.data[0].college,
+            backedCollege: res.data[0].college,
           })
 
           if (options.scan_isbn === 'true')
@@ -175,7 +180,10 @@ Page({
     }
     else {
       // console.log(JSON.parse(options.message))
-      var { author, book_publish_date, description, grade, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major, state } = JSON.parse(options.message)
+      this.setData({
+        tempMessage: options.message
+      })
+      var { author, book_publish_date, description, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major, state } = JSON.parse(options.message)
 
       // 首先进行url解码
       image_list.forEach((i, idx) => {
@@ -299,21 +307,50 @@ Page({
 
   // 清除所有信息
   clearBookDetail() {
-    this.setData({
-      author: '',
-      introduction: '',
-      showList: [],
-      isbn: '',
-      name: '',
-      publisher: '',
-      publishDate: '',
-      imageList: [],
-      originalPrice: '',
-      price: '',
-      description: '',
-      college: '',
-      major: '',
-    })
+    if (this.data.showState) {   // 清空
+      this.setData({
+        author: '',
+        introduction: '',
+        showList: [],
+        isbn: '',
+        name: '',
+        publisher: '',
+        publishDate: '',
+        imageList: [],
+        originalPrice: '',
+        price: '',
+        description: '',
+        college: this.data.backedCollege,
+        major: this.data.backedMajor,
+      })
+    } else {
+      var { author, book_publish_date, image_list, description, introduction, isbn, name, original_price, price, publisher, college, major } = JSON.parse(this.data.tempMessage)  // 还原
+      // 处理修改后图片的还原问题
+      image_list.forEach((i, idx) => {
+        image_list[idx] = this.getUrl(i)
+      })
+      this.data.showList = []
+      for (var i = 0; i < image_list.length; i++) {
+        this.data.showList.push({
+          url: image_list[i],
+          isImage: true,
+        })
+      }
+      this.setData({
+        name: name,
+        author: author,
+        publishDate: book_publish_date,
+        description: description,
+        showList: this.data.showList,
+        introduction: introduction,
+        isbn: isbn,
+        originalPrice: original_price,
+        price: price,
+        publisher: publisher,
+        college: college,
+        major: major,
+      })
+    }
   },
 
   // 点击相机图标添加图片

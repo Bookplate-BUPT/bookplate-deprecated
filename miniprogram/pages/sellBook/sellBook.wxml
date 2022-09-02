@@ -76,7 +76,7 @@
 <!-- 底部 -->
 <van-goods-action style="z-index: 999;">
   <van-goods-action-icon icon="question-o" text="遇到困难" bind:click="showDifficultyOverLay" />
-  <van-goods-action-icon icon="delete-o" text="一键清空" bind:click="clearBookDetail" />
+  <van-goods-action-icon icon="delete-o" text="{{showState ? '一键清空': '一键还原'}}" bind:click="clearBookDetail" />
   <van-goods-action-button plain color="#8ac286" bind:click="scanISBN">
     <van-icon name="scan" />
     <text style="margin-left: 4px;">扫码填写</text>
