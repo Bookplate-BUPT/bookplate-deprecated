@@ -3,28 +3,22 @@
 import __user from "../../utils/user"
 import __util from "../../utils/util"
 
-const app = getApp();
-
 Page({
   data: {
     userInfo: '',
     userOpenid: '',
     showNoLoginPopup: false,
-    historyList: '', // 总浏览历史记录
-    historySum: '',
-    today: '', // 今天的日期
-    // formatLength: '', //格式化的字符串字数
+    historyList: '',              // 总浏览历史记录
+    isReachBottom: false,         // 是否到达底部
+    today: '',                    // 今天的日期
 
     // 页面展示
-    // scrollViewHeight: '', // 页面的显示高度
-    // triggered: false,     // 页面是否下拉刷新
+    // scrollViewHeight: '',      // 页面的显示高度
+    // triggered: false,          // 页面是否下拉刷新
   },
 
   onLoad() {
     this.getHistoryList()
-    this.getHistorySum()
-    // this.getIntroductionFormatLength()
-    // this.getScrollViewHeight()
   },
 
   onShow() {
@@ -43,7 +37,12 @@ Page({
       })
         .then(res => {
           var tempHistoryList = res.result.list
-          console.log(tempHistoryList)
+          if (tempHistoryList.length < 20)
+            this.setData({
+              isReachBottom: true
+            })
+
+          // console.log(tempHistoryList)
 
           tempHistoryList.forEach((i, idx) => {
             if (i.bookDetail.length === 0)
@@ -78,18 +77,13 @@ Page({
       .doc(event.currentTarget.dataset.id)
       .remove()
       .then(res => {
-        // 将操作数组取出
-        var historyList = this.data.historyList
-        // 寻找被删除书籍索引
-        const index = historyList.findIndex(i => i._id === event.currentTarget.dataset.id)
 
         // 删除书籍
-        historyList.splice(index, 1)
+        this.data.historyList.splice(this.data.historyList.findIndex(i => i._id === event.currentTarget.dataset.id), 1)
 
         // 更新页面
         this.setData({
-          historyList: historyList,
-          historySum: this.data.historySum - 1
+          historyList: this.data.historyList,
         })
 
         wx.showToast({
@@ -98,7 +92,7 @@ Page({
         })
       })
       .catch(err => {
-        console.error(err)
+        // console.error(err)
         wx.showToast({
           title: '删除失败',
           icon: 'error',
@@ -106,27 +100,17 @@ Page({
       })
   },
 
-  // 获取书籍内容格式化后的字数，注：此函数每个手机只需执行一遍
-  // getIntroductionFormatLength() {
-  //   var res = wx.getWindowInfo()
-  //   this.setData({
-  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-  //   })
-  // },
-
-  // 书籍介绍内容格式化
-  // introductionFormat(str, length) {
-  //   // 过长则需要省略
-  //   if (str.length > length) {
-  //     return str.substr(0, length) + '……'
-  //   }
-  //   // 不用格式化
-  //   else return str
-  // },
-
   // 上拉触底事件
   onReachBottom() {
-    if (this.data.historyList.length < this.data.historySum)
+    if (this.data.isReachBottom) {
+      return
+    }
+    else {
+      // 防抖
+      this.setData({
+        isReachBottom: true
+      })
+      // 获取数据
       wx.cloud.callFunction({
         name: 'getHistoryList',
         data: {
@@ -135,7 +119,11 @@ Page({
       })
         .then(res => {
           var tempHistoryList = res.result.list
-          console.log(tempHistoryList)
+          if (tempHistoryList.length == 20)
+            this.setData({
+              isReachBottom: false
+            })
+          // console.log(tempHistoryList)
 
           tempHistoryList.forEach((i, idx) => {
             if (i.bookDetail.length === 0)
@@ -160,6 +148,7 @@ Page({
           })
         })
         .catch(err => console.error(err))
+    }
   },
 
   // 下拉刷新事件
@@ -172,7 +161,8 @@ Page({
       .then(res => {
         wx.showToast({
           title: '刷新成功',
-          icon: 'success'
+          icon: 'success',
+          duration: 1000,
         })
         setTimeout(() => {
           wx.stopPullDownRefresh()
@@ -181,21 +171,11 @@ Page({
   },
 
   // 获取scroll-view的高度
-  getScrollViewHeight() {
-    const res = wx.getWindowInfo()
-    this.setData({
-      scrollViewHeight: res.windowHeight - 50
-    })
-  },
+  // getScrollViewHeight() {
+  //   const res = wx.getWindowInfo()
+  //   this.setData({
+  //     scrollViewHeight: res.windowHeight - 50
+  //   })
+  // },
 
-  // 获取浏览历史总数量
-  getHistorySum() {
-    wx.cloud.database().collection('history').where({
-      _openid: __user.getUserOpenid()
-    }).count().then(res => {
-      this.setData({
-        historySum: res.total
-      })
-    })
-  },
 })

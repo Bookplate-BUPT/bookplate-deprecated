@@ -1,14 +1,14 @@
 <!--pages/history/history.wxml-->
 <wxs src="../../utils/utils.wxs" module="utils" />
 
-<view wx:if="{{!userOpenid}}">
+<!-- <view wx:if="{{!userOpenid}}">
   <van-popup show="{{ showNoLoginPopup }}" bind:close="closeNoLoginPopup" round position="bottom" custom-style="height: 35%">
     <view style="justify-content: center; display: flex; margin: 12% 0 8% 0;">认证用户信息后方可正常使用</view>
     <van-button round type="primary" color="linear-gradient(to right, #b3cfb0, #659c64)" custom-style="justify-content: center; display: flex; width: 80%" bind:click="userLogin">
       点此认证用户信息
     </van-button>
   </van-popup>
-</view>
+</view> -->
 
 <!-- <van-tabs color="#8AC286" sticky animated swipeable> -->
 <!-- <van-tab title="卖书"> -->
@@ -26,7 +26,7 @@
     </MainBookCard>
   </view>
 
-  <van-divider wx:if="{{ historyList.length == historySum }}" contentPosition="center" dashed>没有更多啦</van-divider>
+  <van-divider wx:if="{{ isReachBottom }}" contentPosition="center" dashed>没有更多啦</van-divider>
 </view>
 <!-- </van-tab> -->
 
