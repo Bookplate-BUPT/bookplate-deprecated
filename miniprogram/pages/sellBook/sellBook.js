@@ -96,13 +96,6 @@ Page({
 
   //选择书籍的类型时调用
   selectMajor(e) {
-    // 如果用户点击了一键清空，防止该选项出现空列表
-    if (this.data.college == '') {
-      wx.showToast({
-        title: '请先选择学院',
-      })
-      return
-    }
     this.setData({
       showMajor: true,
       columnsMajor: citys[this.data.college]
