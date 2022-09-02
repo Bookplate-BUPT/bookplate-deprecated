@@ -13,7 +13,7 @@
         <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ trade.trade_time }}</view>
         <view style="margin-bottom: 5rpx;">交易地点：{{ trade.trade_spot }}</view>
       </view>
-      <view slot="footer">
+      <view slot="footer" catchtap="son" hover-stop-propagation="true">
         <van-button style="--button-small-min-width: 80px;" size="small" round bind:click="contactSeller">{{page?'联系卖家':'联系买家'}}</van-button>
       </view>
     </van-card>
