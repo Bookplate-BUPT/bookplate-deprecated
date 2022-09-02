@@ -148,6 +148,7 @@ Page({
   confirmForm(event) {
     wx.showLoading({
       title: '同意中……',
+      mask: true,
     })
 
     // 更新交易记录的state
@@ -186,6 +187,7 @@ Page({
   rejectForm(event) {
     wx.showLoading({
       title: '拒绝中……',
+      mask: true,
     })
 
     // 更新交易记录的state

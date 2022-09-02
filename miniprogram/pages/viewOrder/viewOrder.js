@@ -154,6 +154,7 @@ Page({
   rejectForm(event) {
     wx.showLoading({
       title: '取消中……',
+      mask: true,
     })
 
     wx.cloud.callFunction({
@@ -199,6 +200,7 @@ Page({
   confirmReceipt(event) {
     wx.showLoading({
       title: '收货中……',
+      mask: true,
     })
 
     wx.cloud.callFunction({

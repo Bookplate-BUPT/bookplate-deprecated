@@ -37,6 +37,7 @@ Page({
   confirmForm(event) {
     wx.showLoading({
       title: '同意中……',
+      mask: true,
     })
 
     // 获取当前页面栈
@@ -87,6 +88,7 @@ Page({
   rejectForm(event) {
     wx.showLoading({
       title: '拒绝中……',
+      mask: true,
     })
 
     //获取当前页面栈
@@ -146,6 +148,7 @@ Page({
   receiveGoods(event) {
     wx.showLoading({
       title: '收货中……',
+      mask: true,
     })
 
     //获取当前页面栈
@@ -199,6 +202,7 @@ Page({
   cancelTrade(event) {
     wx.showLoading({
       title: '取消中……',
+      mask: true,
     })
 
     //获取当前页面栈
