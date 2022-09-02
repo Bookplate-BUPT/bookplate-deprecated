@@ -2,16 +2,12 @@
 
 import __user from "../../utils/user"
 
-const app = getApp()
-
 Page({
 
   data: {
     keyword: '',         // 搜索关键字
     goodsList: '',       // 商品列表
-    goodsSum: '',        // 商品总数量
-
-    // formatLength: '', // 介绍内容格式化后的字数
+    isReachBottom: false,// 页面是否到达底部
   },
 
   onLoad(options) {
@@ -19,8 +15,6 @@ Page({
       keyword: options.keyword
     })
     this.getGoodsList()
-    this.getGoodsSum()
-    // this.getIntroductionFormatLength()
   },
 
   // 获取商品列表
@@ -37,6 +31,10 @@ Page({
             // 5天内将书籍设置为最新
             isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
           }))
+          if (tempGoodsList.length < 20)
+            this.setData({
+              isReachBottom: true
+            })
 
           this.setData({
             goodsList: tempGoodsList
@@ -57,6 +55,10 @@ Page({
             // 5天内将书籍设置为最新
             isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
           }))
+          if (tempGoodsList.length < 20)
+            this.setData({
+              isReachBottom: true
+            })
 
           this.setData({
             goodsList: tempGoodsList
@@ -67,7 +69,14 @@ Page({
 
   // 上拉触底监听事件
   onReachBottom() {
-    if (this.data.goodsList.length < this.data.goodsSum) {
+    if (this.data.isReachBottom) {
+      return
+    } else {
+      // 防抖
+      this.setData({
+        isReachBottom: true
+      })
+      // 获取数据
       if (!isNaN(Number(this.data.keyword))) {
         wx.cloud.database().collection('goods')
           .where({
@@ -81,6 +90,10 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
+            if (tempGoodsList.length == 20)
+              this.setData({
+                isReachBottom: false
+              })
 
             // 拼接数组
             this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
@@ -105,6 +118,10 @@ Page({
               // 5天内将书籍设置为最新
               isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
             }))
+            if (tempGoodsList.length == 20)
+              this.setData({
+                isReachBottom: false
+              })
 
             // 拼接数组
             this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
@@ -114,27 +131,8 @@ Page({
             })
           })
       }
-    }else
-    console.log('this is else')
+    }
   },
-
-  // 书籍介绍内容格式化
-  // introductionFormat(str, length) {
-  //   // 过长则需要省略
-  //   if (str.length > length) {
-  //     return str.substr(0, length) + '……'
-  //   }
-  //   // 不用格式化
-  //   else return str
-  // },
-
-  // 获取书籍内容格式化后的字数
-  // getIntroductionFormatLength() {
-  //   var res = wx.getWindowInfo()
-  //   this.setData({
-  //     formatLength: parseInt((res.screenWidth - 168) / 14 * 2 - 3)
-  //   })
-  // },
 
   // 添加商品到购物车
   addGoodsToCart(event) {
@@ -153,7 +151,7 @@ Page({
         .get()
         .then(res => {
           // 不允许添加自己的商品进购物车
-          if (event.currentTarget.dataset.openid === app.globalData.userOpenid) {
+          if (event.currentTarget.dataset.openid === __user.getUserOpenid()) {
             wx.showToast({
               title: '不能收藏自己的商品',
               icon: 'none',
@@ -185,34 +183,4 @@ Page({
         })
     }
   },
-
-  // 获取商品总数量
-  getGoodsSum() {
-    if (!isNaN(Number(this.data.keyword))) {
-      wx.cloud.database().collection('goods')
-        .where({
-          isbn: this.data.keyword
-        })
-        .count()
-        .then(res => {
-          this.setData({
-            goodsSum: res.total
-          })
-        })
-    } else {
-      wx.cloud.database().collection('goods')
-        .where({
-          name: wx.cloud.database().RegExp({
-            regexp: this.data.keyword,
-            options: 'i',
-          })
-        })
-        .count()
-        .then(res => {
-          this.setData({
-            goodsSum: res.total
-          })
-        })
-    }
-  }
 })
