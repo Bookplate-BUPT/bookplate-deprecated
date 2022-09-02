@@ -2,15 +2,13 @@
 import __user from "../../utils/user"
 import __util from "../../utils/util"
 
-const app = getApp();
-
 Page({
   data: {
     userInfo: '',
     userOpenid: '',
     showNoLoginPopup: false,
     cartList: '',
-    cartSum: '',
+    isReachBottom: false,       // 是否到达底部
   },
 
   onLoad() {
@@ -19,12 +17,11 @@ Page({
 
   onShow() {
     this.setData({
-      userInfo: app.globalData.userInfo,
-      userOpenid: app.globalData.userOpenid,
+      userInfo: __user.getUserInfo(),
+      userOpenid: __user.getUserOpenid(),
     })
-    this.getCartSum()
 
-    if (!__user.checkLoginStatus())
+    if (!__user.checkLoginStatus())   // 如果没有登录
       this.setData({ showNoLoginPopup: true })
     else
       this.getCartList()
@@ -34,14 +31,20 @@ Page({
     this.closeNoLoginPopup()
     this.setData({
       cartList: '',
+      isReachBottom: false,
     })
   },
 
   // 上拉触底监听
   onReachBottom() {
-    // 如果数据不全再向数据库请求
-    if (this.data.cartList.length < this.data.cartSum) {
-      // 获取购物车列表
+    if (this.data.isReachBottom) {
+      return
+    } else {
+      // 防抖
+      this.setData({
+        isReachBottom: true
+      })
+      // 获取数据
       wx.cloud.callFunction({
         name: 'getCartList',
         data: {
@@ -50,6 +53,10 @@ Page({
       })
         .then(res => {
           var tempCartList = res.result.list
+          if (tempCartList.length == 20)
+            this.setData({
+              isReachBottom: false
+            })
 
           // 向原数组中添加新值
           this.data.cartList = [...this.data.cartList, ...tempCartList]
@@ -61,23 +68,6 @@ Page({
         })
         .catch(err => console.error(err))
     }
-  },
-
-  // 获取购物车总商品量
-  getCartSum() {
-    wx.cloud.database().collection('cart').where({
-      _openid: __user.getUserOpenid()
-    }).count().then(res => {
-      this.setData({
-        cartSum: res.total
-      })
-      // if (this.data.cartSum) {
-      //   wx.setTabBarBadge({
-      //     index: 3,
-      //     text: this.data.cartSum.toString()
-      //   })
-      // }
-    })
   },
 
   // 打开提示弹出层
@@ -147,6 +137,10 @@ Page({
     })
       .then(res => {
         var tempCartList = res.result.list
+        if (tempCartList.length < 20)
+          this.setData({
+            isReachBottom: true
+          })
 
         this.setData({
           cartList: tempCartList
@@ -163,7 +157,6 @@ Page({
 
     this.setData({
       cartList: this.data.cartList,
-      cartSum: this.data.cartSum - 1
     })
     // if (this.data.cartSum) {
     //   wx.setTabBarBadge({
