@@ -313,6 +313,10 @@ Page({
         text: '最多浏览',
         value: 'views',
       },
+      {
+        text: '可以购买',
+        value: 'isNotLocked',
+      },
     ],
 
     bookType: '全部书籍',    // 书籍类型
@@ -439,29 +443,56 @@ Page({
       }
       // 书籍信息排序（时间、浏览、收藏等）
       else if (this.data.bookType === '全部书籍' && this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .orderBy(this.data.sortType, 'desc')
-          .skip(this.data.goodsList.length)
-          .limit(20)
-          .get()
-          .then(res => {
-            if (res.data.length == 20)
-              this.setData({
-                isReachBottom: false
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            // 拼接数组
-            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-
-            this.setData({
-              goodsList: this.data.goodsList,
+        if (this.data.sortType == 'isNotLocked')
+          wx.cloud.database().collection('goods')
+            .where({
+              state: 0,
             })
-          })
+            .skip(this.data.goodsList.length)
+            .limit(20)
+            .get()
+            .then(res => {
+              if (res.data.length == 20)
+                this.setData({
+                  isReachBottom: false
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              // 拼接数组
+              this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
+              this.setData({
+                goodsList: this.data.goodsList,
+              })
+            })
+        else
+          wx.cloud.database().collection('goods')
+            .orderBy(this.data.sortType, 'desc')
+            .skip(this.data.goodsList.length)
+            .limit(20)
+            .get()
+            .then(res => {
+              if (res.data.length == 20)
+                this.setData({
+                  isReachBottom: false
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              // 拼接数组
+              this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
+              this.setData({
+                goodsList: this.data.goodsList,
+              })
+            })
       }
       // 书籍类型排序（学院、专业）
       else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
@@ -494,33 +525,63 @@ Page({
       }
       // 都存在
       else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .where({
-            college: this.data.college,
-            major: this.data.major,
-          })
-          .orderBy(this.data.sortType, 'asc')
-          .skip(this.data.goodsList.length)
-          .limit(20)
-          .get()
-          .then(res => {
-            if (res.data.length == 20)
-              this.setData({
-                isReachBottom: false
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            // 拼接数组
-            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-
-            this.setData({
-              goodsList: this.data.goodsList,
+        if (this.data.sortType == 'isNotLocked')
+          wx.cloud.database().collection('goods')
+            .where({
+              college: this.data.college,
+              major: this.data.major,
+              state: 0,
             })
-          })
+            .orderBy(this.data.sortType, 'asc')
+            .skip(this.data.goodsList.length)
+            .limit(20)
+            .get()
+            .then(res => {
+              if (res.data.length == 20)
+                this.setData({
+                  isReachBottom: false
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              // 拼接数组
+              this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
+              this.setData({
+                goodsList: this.data.goodsList,
+              })
+            })
+        else
+          wx.cloud.database().collection('goods')
+            .where({
+              college: this.data.college,
+              major: this.data.major,
+            })
+            .orderBy(this.data.sortType, 'asc')
+            .skip(this.data.goodsList.length)
+            .limit(20)
+            .get()
+            .then(res => {
+              if (res.data.length == 20)
+                this.setData({
+                  isReachBottom: false
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              // 拼接数组
+              this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
+
+              this.setData({
+                goodsList: this.data.goodsList,
+              })
+            })
       }
     }
   },
@@ -584,25 +645,49 @@ Page({
       }
       // 书籍信息排序（时间、浏览、收藏等）
       else if (this.data.bookType === '全部书籍' && this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .orderBy(this.data.sortType, 'desc')
-          .get()
-          .then(res => {
-            if (res.data.length < 20)
-              this.setData({
-                isReachBottom: true
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            this.setData({
-              goodsList: tempGoodsList,
+        // 筛选可以查找的书籍
+        if (this.data.sortType == 'isNotLocked')
+          wx.cloud.database().collection('goods')
+            .where({
+              state: 0,
             })
-            resolve(res)
-          })
+            .get()
+            .then(res => {
+              if (res.data.length < 20)
+                this.setData({
+                  isReachBottom: true
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              this.setData({
+                goodsList: tempGoodsList,
+              })
+              resolve(res)
+            })
+        else
+          wx.cloud.database().collection('goods')
+            .orderBy(this.data.sortType, 'desc')
+            .get()
+            .then(res => {
+              if (res.data.length < 20)
+                this.setData({
+                  isReachBottom: true
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              this.setData({
+                goodsList: tempGoodsList,
+              })
+              resolve(res)
+            })
       }
       // 书籍类型排序（学院、专业）
       else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
@@ -631,29 +716,55 @@ Page({
       }
       // 都存在
       else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .where({
-            college: this.data.college,
-            major: this.data.major,
-          })
-          .orderBy(this.data.sortType, 'asc')
-          .get()
-          .then(res => {
-            if (res.data.length < 20)
-              this.setData({
-                isReachBottom: true
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            this.setData({
-              goodsList: tempGoodsList
+        // 查找未锁定的书籍
+        if (this.data.sortType == 'isNotLocked')
+          wx.cloud.database().collection('goods')
+            .where({
+              college: this.data.college,
+              major: this.data.major,
+              state: 0,
             })
-            resolve(res)
-          })
+            .get()
+            .then(res => {
+              if (res.data.length < 20)
+                this.setData({
+                  isReachBottom: true
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              this.setData({
+                goodsList: tempGoodsList
+              })
+              resolve(res)
+            })
+        else
+          wx.cloud.database().collection('goods')
+            .where({
+              college: this.data.college,
+              major: this.data.major,
+            })
+            .orderBy(this.data.sortType, 'asc')
+            .get()
+            .then(res => {
+              if (res.data.length < 20)
+                this.setData({
+                  isReachBottom: true
+                })
+              let tempGoodsList = res.data.map((i, idx) => ({
+                ...i,
+                // 5天内将书籍设置为最新
+                isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
+              }))
+
+              this.setData({
+                goodsList: tempGoodsList
+              })
+              resolve(res)
+            })
       }
     })
     return promise
