@@ -2,3 +2,7 @@
   --button-default-height: 100%;
   width: auto;
 }
+
+.tabAdaptAuto{
+  --tab-font-size: 28rpx
+}

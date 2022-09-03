@@ -1,6 +1,7 @@
 <wxs src="../../utils/utils.wxs" module="utils" />
 
-<van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable bind:change="changeActive">
+<van-tabs active="{{ active }}" color="#8AC286" sticky animated swipeable bind:change="changeActive"
+class="tabAdaptAuto">
   <van-tab title="全部">
     <view wx:if="{{ !tradeGoodsList.length }}" style="margin-top: 180rpx;">
       <van-empty description="没有任何交易哦~"></van-empty>
