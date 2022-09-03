@@ -33,23 +33,15 @@
   </van-cell> -->
 
   <van-field model:value="{{ college }}" label="适用学院" placeholder="请先选择书籍适用学院" required clearable clear-trigger="focus" bind:click-input="selectCollege" readonly></van-field>
-  <van-popup show="{{ showCollege }}" bind:close="onCloseCollege" round overlay closeable custom-style="height: 60%; width: 80%">
-    <van-picker columns="{{ columnsCollege }}" visible-item-count="8" id="Collegeclassification" />
-    <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
-      <view bindtap="onCloseCollege" style="color: #aaa; margin-top: 40rpx;">取消</view>
-      <view bindtap="onOrderCollege" style="margin-top: 40rpx;">确认</view>
-    </view>
+  <van-popup show="{{ showCollege }}" bind:close="onCloseCollege" round overlay safe-area-inset-bottom safe-area-inset-top position="bottom">
+    <van-picker columns="{{ columnsCollege }}" visible-item-count="8" id="Collegeclassification" 
+     show-toolbar bind:confirm="onOrderCollege" bind:cancel="onCloseCollege" />
   </van-popup>
 
   <van-field model:value="{{ major }}" placeholder="请选择书籍适用专业" label="适用专业" required clearable clear-trigger="focus" bind:click-input="selectMajor" readonly></van-field>
-  <van-popup show="{{ showMajor }}" bind:close="onCloseMajor" round overlay closeable custom-style="height: 60%; width: 80%">
-    <van-picker columns="{{ columnsMajor }}" visible-item-count="8" id="Majorclassification" />
-    <view style="display: flex; justify-content: space-between; margin-left: 18rpx; margin-right: 18rpx;">
-      <view bindtap="onCloseMajor" style="color: #aaa; margin-top: 40rpx;">取消</view>
-      <view bindtap="onOrderMajor" style="margin-top: 40rpx;">确认</view>
-
-
-    </view>
+  <van-popup show="{{ showMajor }}" bind:close="onCloseMajor" round overlay safe-area-inset-bottom safe-area-inset-top position="bottom">
+    <van-picker columns="{{ columnsMajor }}" visible-item-count="8" id="Majorclassification" 
+    show-toolbar bind:confirm="onOrderMajor" bind:cancel="onCloseMajor"/>
   </van-popup>
 
   <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable clear-trigger="focus" autosize type="textarea" />
