@@ -68,7 +68,7 @@
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-collapse value="{{ activeNames }}" bind:change="changeCollapse">
     <van-collapse-item title="关于我们" name="1" icon="contact">
-      <van-cell title="在线服务交流qq群：679307983" use-label-slot title-width="{{ 200 }}" center>
+      <van-cell title="在线服务交流qq群：679307983" use-label-slot title-width="{{ 200 }}" title-width="130px" center>
         <view slot="label">
           <text>- 发布使用指南{{ "\n" }}- 搜集用户反馈{{ "\n" }}- 客服在线答疑</text>
         </view>
