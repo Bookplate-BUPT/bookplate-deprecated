@@ -5,11 +5,11 @@
 
     <view wx:if="{{ openid !== item.sender }}" style="display: flex; align-items: center; margin-top: 12px; position: relative;">
       <van-image width="2.5rem" height="2.5rem" round src="{{ avatarLeft }}" style="margin-left: 12px;" />
-      <view class="chatContent-left">{{ item.content }}</view>
+      <text class="chatContent-left" selectable="true">{{ item.content }}</text>
     </view>
 
     <view wx:else style="display: flex; align-items: center; margin-top: 12px; justify-content: flex-end; position: relative; ">
-      <view class="chatContent-right">{{ item.content }}</view>
+      <text class="chatContent-right" selectable="true">{{ item.content }}</text>
       <van-image width="2.5rem" height="2.5rem" round src="{{ avatarRight }}" style="margin-right: 12px;" />
     </view>
 
