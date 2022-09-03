@@ -57,6 +57,10 @@ Page({
     showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
     helpSteps: [        // 遇到困难遮罩层内容
       {
+        text: 'Q：提示功能不能使用',
+        desc: 'A：该书正在交易中，不可以修改书籍信息'
+      },
+      {
         text: 'Q：提示信息不完整',
         desc: 'A：带星号为必填项'
       },
@@ -212,6 +216,14 @@ Page({
 
   // 扫描ISBN
   scanISBN() {
+
+    if (this.data.state) {
+      wx.showToast({
+        title: '书籍已被预订，不能使用扫码填写哦~',
+        icon: 'none',
+      })
+      return
+    }
     // 识别书籍的ISBN码
     wx.scanCode({
       onlyFromCamera: false,
@@ -313,6 +325,14 @@ Page({
         major: this.data.backedMajor,
       })
     } else {
+      if (this.data.state) {
+        wx.showToast({
+          title: '书籍已被预订，不能使用该功能哦~',
+          icon: 'none',
+        })
+        return
+      }
+
       var { author, book_publish_date, image_list, description, introduction, isbn, name, original_price, price, publisher, college, major } = JSON.parse(this.data.tempMessage)  // 还原
       // 处理修改后图片的还原问题
       image_list.forEach((i, idx) => {

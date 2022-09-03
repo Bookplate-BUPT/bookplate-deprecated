@@ -34,14 +34,12 @@
 
   <van-field model:value="{{ college }}" label="适用学院" placeholder="请先选择书籍适用学院" required clearable clear-trigger="focus" bind:click-input="selectCollege" readonly></van-field>
   <van-popup show="{{ showCollege }}" bind:close="onCloseCollege" round overlay safe-area-inset-bottom safe-area-inset-top position="bottom">
-    <van-picker columns="{{ columnsCollege }}" visible-item-count="8" id="Collegeclassification" 
-     show-toolbar bind:confirm="onOrderCollege" bind:cancel="onCloseCollege" />
+    <van-picker columns="{{ columnsCollege }}" visible-item-count="8" id="Collegeclassification" show-toolbar bind:confirm="onOrderCollege" bind:cancel="onCloseCollege" />
   </van-popup>
 
   <van-field model:value="{{ major }}" placeholder="请选择书籍适用专业" label="适用专业" required clearable clear-trigger="focus" bind:click-input="selectMajor" readonly></van-field>
   <van-popup show="{{ showMajor }}" bind:close="onCloseMajor" round overlay safe-area-inset-bottom safe-area-inset-top position="bottom">
-    <van-picker columns="{{ columnsMajor }}" visible-item-count="8" id="Majorclassification" 
-    show-toolbar bind:confirm="onOrderMajor" bind:cancel="onCloseMajor"/>
+    <van-picker columns="{{ columnsMajor }}" visible-item-count="8" id="Majorclassification" show-toolbar bind:confirm="onOrderMajor" bind:cancel="onCloseMajor" />
   </van-popup>
 
   <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable clear-trigger="focus" autosize type="textarea" />
@@ -68,7 +66,7 @@
 <!-- 底部 -->
 <van-goods-action style="z-index: 999;">
   <van-goods-action-icon icon="question-o" text="遇到困难" bind:click="showDifficultyOverLay" />
-  <van-goods-action-icon icon="delete-o" text="{{showState ? '一键清空': '一键还原'}}" bind:click="clearBookDetail" />
+  <van-goods-action-icon icon="{{showState ? 'delete-o': 'revoke'}}" text="{{showState ? '一键清空': '一键还原'}}" bind:click="clearBookDetail" />
   <van-goods-action-button plain color="#8ac286" bind:click="scanISBN">
     <van-icon name="scan" />
     <text style="margin-left: 4px;">扫码填写</text>
