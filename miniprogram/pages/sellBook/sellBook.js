@@ -255,11 +255,19 @@ Page({
               })
             } else {
               let tempRes = JSON.parse(resInner.result).showapi_res_body.datas[0]
-              this.setBookDetail(tempRes)
-              wx.showToast({
-                icon: 'success',
-                title: '识别成功',
-              })
+              var resInner = this.setBookDetail(tempRes)
+              // console.log(resInner)
+              if (resInner == undefined)
+                wx.showToast({
+                  icon: 'success',
+                  title: '识别成功',
+                })
+              else {
+                wx.showToast({
+                  title: resInner,
+                  icon: 'none',
+                })
+              }
               // 滚动页面到底部
               wx.pageScrollTo({
                 scrollTop: 9999,
@@ -300,11 +308,7 @@ Page({
       isImage: true,
     })
 
-    if (tempImageList[0].url == undefined) {
-      wx.showToast({
-        title: '未查询到书籍相关图片，请手动拍照上传哦~',
-        icon: 'none',
-      })
+    if (tempImageList[0].url == '') {
       this.setData({
         author: res.author,
         introduction: res.gist,
@@ -314,6 +318,7 @@ Page({
         publishDate: this.formatPubDate(res.pubdate),
         originalPrice: res.price.toFixed(2),
       })
+      return '未查询到书籍相关图片，请手动拍照上传哦~'
     } else
       this.setData({
         author: res.author,
