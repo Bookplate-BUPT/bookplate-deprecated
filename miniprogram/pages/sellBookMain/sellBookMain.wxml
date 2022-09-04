@@ -19,7 +19,7 @@
         <view style="margin-top: 2px;">
           <view style="font-size: 14px; font-weight: bold; color: #333333;">卖书第一步：</view>
           <view style="font-size: 12px; margin-top: 8px; color: gray;">
-            <view>通过isbn扫码录入信息</view>
+            <view>通过扫ISBN码录入信息</view>
             <view>或者手动填写录入书籍信息</view>
           </view>
         </view>
