@@ -75,7 +75,7 @@ Page({
   // 删除商品
   deleteMyGoods(e) {
     wx.showLoading({
-      title: '删除中'
+      title: '下架中'
     })
     var index = e.currentTarget.dataset.index
     this.data.imageTempList[index].forEach((i, idx) => {
@@ -98,7 +98,7 @@ Page({
         // 提示
         wx.hideLoading()
         wx.showToast({
-          title: '删除成功',
+          title: '下架成功',
           icon: 'success',
         })
       })

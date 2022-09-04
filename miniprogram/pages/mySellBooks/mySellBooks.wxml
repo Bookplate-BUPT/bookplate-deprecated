@@ -10,17 +10,17 @@
     </view>
     <view style="margin-top: 20rpx;">
       <van-cell-group inset custom-class="shadow">
-        <van-swipe-cell right-width="{{ 60 }}">
-          <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
-            <view slot="title" class="bookName">
-              {{ item.name }}
-            </view>
-            <view slot="desc" class="bookIntroduction">
-              {{ item.introduction }}
-            </view>
-          </van-card>
-          <van-button block color="#878998" slot="right" custom-class="swiperCellButton" bind:click="deleteMyGoods" data-_id="{{item._id}}" data-index="{{index}}">删除</van-button>
-        </van-swipe-cell>
+        <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
+          <view slot="title" class="bookName">
+            {{ item.name }}
+          </view>
+          <view slot="desc" class="bookIntroduction">
+            {{ item.introduction }}
+          </view>
+          <view slot="footer" catchtap="son" hover-stop-propagation="true">
+            <van-button custom-class="btnSizeStyle" size="small" round data-_id="{{item._id}}" data-index="{{index}}" bind:click="deleteMyGoods">下架</van-button>
+          </view>
+        </van-card>
       </van-cell-group>
     </view>
   </view>

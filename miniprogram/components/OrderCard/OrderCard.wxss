@@ -48,3 +48,9 @@
   line-height: 16px;
   line-height: var(--card-title-line-height, 16px);
 }
+
+.btnSizeStyle{
+  --button-small-min-width: 80px;
+  --button-small-font-size: 10px;
+  --button-small-height: 28px;
+}
