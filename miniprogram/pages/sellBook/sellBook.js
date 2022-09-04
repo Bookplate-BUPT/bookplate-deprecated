@@ -320,6 +320,7 @@ Page({
       this.setData({
         author: res.author,
         introduction: res.gist,
+        showList: [],
         isbn: res.isbn,
         name: res.title,
         publisher: res.publisher,
