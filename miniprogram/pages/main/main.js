@@ -298,6 +298,9 @@ Page({
           },
         ],
       },
+      {
+        text: '所有学院',
+      },
     ],
 
     sortTypeOption: [
@@ -355,6 +358,16 @@ Page({
       this.setData({
         bookType: '全部书籍',
         isReachBottom: false,
+      })
+      this.selectComponent('#identity').toggle(false)
+      this.getGoodsList()
+    }
+
+    if (this.data.college === '所有学院') {
+      this.setData({
+        bookType: '所有学院',
+        isReachBottom: false,
+        major: '所有专业',
       })
       this.selectComponent('#identity').toggle(false)
       this.getGoodsList()

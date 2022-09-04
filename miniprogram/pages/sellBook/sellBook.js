@@ -1,6 +1,7 @@
 // pages/scanISBN/scanISBN.js
 
 const citys = {
+  '所有学院': ['所有专业'],
   '未来学院': ['电子信息类（元班）', '计算机类（元班）', '通信工程', '电子科学与技术', '计算机科学与技术', '网路空间安全'],
   '电子工程学院': ['电子信息类', '电子信息科学与技术', '电子科学与技术', '光电信息科学与工程'],
   '计算机学院': ['计算机类', '软件工程', '计算机科学与技术', '网络工程', '数据科学与大数据技术'],
@@ -17,19 +18,20 @@ const citys = {
 };
 
 const college = {
-  '未来学院': 0,
-  '电子工程学院': 1,
-  '计算机学院': 2,
-  '信息与通信工程学院': 3,
-  '网络空间安全学院': 4,
-  '人工智能学院': 5,
-  '现代邮政学院': 6,
-  '经济管理学院': 7,
-  '理学院': 8,
-  '人文学院': 9,
-  '数字媒体与设计艺术学院': 10,
-  '国际学院': 11,
-  '北京邮电大学玛丽女王海南学院': 12,
+  '所有学院': 0,
+  '未来学院': 1,
+  '电子工程学院': 2,
+  '计算机学院': 3,
+  '信息与通信工程学院': 4,
+  '网络空间安全学院': 5,
+  '人工智能学院': 6,
+  '现代邮政学院': 7,
+  '经济管理学院': 8,
+  '理学院': 9,
+  '人文学院': 10,
+  '数字媒体与设计艺术学院': 11,
+  '国际学院': 12,
+  '北京邮电大学玛丽女王海南学院': 13,
 }
 import __user from "../../utils/user"
 
@@ -96,6 +98,8 @@ Page({
 
   //选择书籍的类型时调用
   selectMajor(e) {
+    if (this.data.major == '所有专业')
+      return
     this.setData({
       showMajor: true,
       columnsMajor: citys[this.data.college]
@@ -116,26 +120,28 @@ Page({
 
   onOrderCollege(e) {
     var tempList = this.selectComponent('#Collegeclassification').getValues()
-
     if (this.data.college !== tempList[0]) {
+      if (tempList[0] == '所有学院') {
+        this.setData({
+          showCollege: false,
+          college: tempList[0],
+          major: '所有专业',
+        })
+        return
+      }
       this.setData({
         showCollege: false,
-        college: tempList,
+        college: tempList[0],
         major: '',
       })
     }
-
-    this.setData({
-      showCollege: false,
-      college: tempList,
-    })
   },
 
   onOrderMajor(e) {
     var tempList = this.selectComponent('#Majorclassification').getValues()
     this.setData({
       showMajor: false,
-      major: tempList
+      major: tempList[0],
     })
   },
 
