@@ -300,16 +300,31 @@ Page({
       isImage: true,
     })
 
-    this.setData({
-      author: res.author,
-      introduction: res.gist,
-      showList: tempImageList,
-      isbn: res.isbn,
-      name: res.title,
-      publisher: res.publisher,
-      publishDate: this.formatPubDate(res.pubdate),
-      originalPrice: res.price.toFixed(2),
-    })
+    if (tempImageList[0].url == undefined) {
+      wx.showToast({
+        title: '未查询到书籍相关图片，请手动拍照上传哦~',
+        icon: 'none',
+      })
+      this.setData({
+        author: res.author,
+        introduction: res.gist,
+        isbn: res.isbn,
+        name: res.title,
+        publisher: res.publisher,
+        publishDate: this.formatPubDate(res.pubdate),
+        originalPrice: res.price.toFixed(2),
+      })
+    } else
+      this.setData({
+        author: res.author,
+        introduction: res.gist,
+        showList: tempImageList,
+        isbn: res.isbn,
+        name: res.title,
+        publisher: res.publisher,
+        publishDate: this.formatPubDate(res.pubdate),
+        originalPrice: res.price.toFixed(2),
+      })
   },
 
   // 清除所有信息
