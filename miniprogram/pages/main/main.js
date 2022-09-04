@@ -16,9 +16,11 @@ Page({
     bookTypeOption: [
       {
         text: '全部书籍',
+        value: '全部书籍'
       },
       {
         text: '未来学院',
+        value: '未来学院',
         children: [
           {
             text: '电子信息类（元班）',
@@ -48,6 +50,7 @@ Page({
       },
       {
         text: '信息与通信工程学院',
+        value: '信息与通信工程学院',
         children: [
           {
             text: '通信工程（大类招生）',
@@ -69,6 +72,7 @@ Page({
       },
       {
         text: '电子工程学院',
+        value: '电子工程学院',
         children: [
           {
             text: '电子信息类',
@@ -90,6 +94,7 @@ Page({
       },
       {
         text: '计算机学院',
+        value: '计算机学院',
         children: [
           {
             text: '计算机类',
@@ -115,6 +120,7 @@ Page({
       },
       {
         text: '网络空间安全学院',
+        value: '网络空间安全学院',
         children: [
           {
             text: '网络空间安全（大类招生）',
@@ -136,6 +142,7 @@ Page({
       },
       {
         text: '人工智能学院',
+        value: '人工智能学院',
         children: [
           {
             text: '人工智能（大类招生）',
@@ -161,6 +168,7 @@ Page({
       },
       {
         text: '现代邮政学院',
+        value: '现代邮政学院',
         children: [
           {
             text: '自动化类',
@@ -190,6 +198,7 @@ Page({
       },
       {
         text: '经济管理学院',
+        value: '经济管理学院',
         children: [
           {
             text: '大数据管理与应用金融科技',
@@ -211,6 +220,7 @@ Page({
       },
       {
         text: '理学院',
+        value: '理学院',
         children: [
           {
             text: '理科试验班',
@@ -232,6 +242,7 @@ Page({
       },
       {
         text: '人文学院',
+        value: '人文学院',
         children: [
           {
             text: '英语',
@@ -249,6 +260,7 @@ Page({
       },
       {
         text: '数字媒体与设计艺术学院',
+        value: '数字媒体与设计艺术学院',
         children: [
           {
             text: '智能交互设计',
@@ -270,6 +282,7 @@ Page({
       },
       {
         text: '国际学院',
+        value: '国际学院',
         children: [
           {
             text: '电信工程及管理',
@@ -291,6 +304,7 @@ Page({
       },
       {
         text: '北京邮电大学玛丽女王海南学院',
+        value: '北京邮电大学玛丽女王海南学院',
         children: [
           {
             text: '信息与计算科学',
@@ -299,7 +313,8 @@ Page({
         ],
       },
       {
-        text: '所有学院',
+        text: '不分学院',
+        value: '所有学院'
       },
     ],
 
@@ -353,7 +368,7 @@ Page({
     this.setData({
       mainActiveIndex: detail.index || 0,
     });
-    this.data.college = this.data.bookTypeOption[this.data.mainActiveIndex].text
+    this.data.college = this.data.bookTypeOption[this.data.mainActiveIndex].value
     if (this.data.college === '全部书籍') {
       this.setData({
         bookType: '全部书籍',
@@ -365,7 +380,7 @@ Page({
 
     if (this.data.college === '所有学院') {
       this.setData({
-        bookType: '所有学院',
+        bookType: '不分学院',
         isReachBottom: false,
         major: '所有专业',
       })
