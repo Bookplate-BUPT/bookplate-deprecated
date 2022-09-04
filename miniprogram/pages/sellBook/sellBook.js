@@ -59,6 +59,10 @@ Page({
     showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
     helpSteps: [        // 遇到困难遮罩层内容
       {
+        text: 'Q：识别失败',
+        desc: 'A：此为微信小程序，请微信扫码使用'
+      },
+      {
         text: 'Q：未查询到书籍',
         desc: 'A：目前该书不支持扫码填写，可手动录入'
       },
