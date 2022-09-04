@@ -332,7 +332,7 @@ Page({
         value: 'views',
       },
       {
-        text: '可以购买',
+        text: '暂未预定',
         value: 'isNotLocked',
       },
     ],
