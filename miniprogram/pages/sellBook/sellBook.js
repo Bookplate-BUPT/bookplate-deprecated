@@ -59,6 +59,10 @@ Page({
     showDifficultyOverLay: false,   // 遇到困难遮罩层的显示
     helpSteps: [        // 遇到困难遮罩层内容
       {
+        text: 'Q：未查询到书籍',
+        desc: 'A：目前该书不支持扫码填写，可手动录入'
+      },
+      {
         text: 'Q：提示功能不能使用',
         desc: 'A：该书正在交易中，不可以修改书籍信息'
       },
