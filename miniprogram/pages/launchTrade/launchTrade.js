@@ -1,6 +1,7 @@
 // pages/launchTrade/launchTrade.js
 
 import __util from "../../utils/util"
+import __user from "../../utils/user"
 
 Page({
 
@@ -183,7 +184,8 @@ Page({
         trade_spot: this.data.trade_spot,
         seller_openid: this.data.bookDetail._openid,
         bookDetail: bookDetail,
-        state_zero_time: new Date()
+        state_zero_time: new Date(),
+        buyer_openid: __user.getUserOpenid()
       }
     }).then(res => {
       wx.showToast({
@@ -205,7 +207,9 @@ Page({
             //获取上一页面对象
             let prePage = pages[pages.length - 2];
             prePage.setData({
-              'bookDetail.state': 1
+              'bookDetail.state': 1,
+              textShowState: 1,
+              textDiffShow: '取消预订'
             })
             wx.navigateBack({
               delta: 1,

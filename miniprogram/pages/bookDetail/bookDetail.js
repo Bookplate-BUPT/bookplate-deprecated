@@ -12,6 +12,8 @@ Page({
     isExisted: false,
     numOfUserCartGoods: '',
     eventID: '',
+    textShowState: '',   // 前后端状态显示控制
+    textDiffShow: '',    // 控制文案的显示
   },
 
   // 跳转至发起交易页面
@@ -22,9 +24,34 @@ Page({
         icon: 'error',
       })
     } else if (this.data.bookDetail.state == 1) {
-      wx.showToast({
-        title: '该书已被预订',
-        icon: 'error'
+      wx.cloud.database().collection('trade').where({
+        goods_id: this.data.bookDetail._id,
+        buyer_openid: __user.getUserOpenid()
+      }).count().then(res => {
+        if (res.total) {
+          wx.cloud.callFunction({
+            name: 'updateGoods',
+            data: {
+              type: 'updateState',
+              goodsID: this.data.bookDetail._id,
+              state: 0,
+            }
+          }).then(resner => {
+            this.data.bookDetail.state = 0
+            this.setData({
+              textShowState: 0,
+              textDiffShow: '我想要'
+            })
+            wx.cloud.database().collection('trade').where({
+              goods_id: this.data.bookDetail._id,
+              buyer_openid: __user.getUserOpenid()
+            }).remove()
+          })
+          wx.showToast({
+            title: '已取消预订',
+            icon: 'success'
+          })
+        }
       })
     } else if (this.data.bookDetail._openid == __user.getUserOpenid()) {
       wx.showToast({
@@ -33,7 +60,7 @@ Page({
       })
     } else {
       // 跳转前对图片中的url进行编码
-      var bookDetail =this.data.bookDetail
+      var bookDetail = this.data.bookDetail
       bookDetail.image_list.forEach((i, idx) => {
         bookDetail.image_list[idx] = encodeURIComponent(i)
       })
@@ -109,10 +136,35 @@ Page({
       .doc(this.data.goodsID)
       .get()
       .then(res => {
-        this.setData({
-          bookDetail: res.data,
-          trade_price: res.data.price
-        })
+        if (res.data.state) {
+          wx.cloud.database().collection('trade').where({
+            goods_id: this.data.goodsID,
+            buyer_openid: __user.getUserOpenid()
+          }).count().then(resner => {
+            if (resner.total) {
+              this.setData({
+                bookDetail: res.data,
+                trade_price: res.data.price,
+                textShowState: res.data.state,
+                textDiffShow: '取消预订'
+              })
+            } else {
+              this.setData({
+                bookDetail: res.data,
+                trade_price: res.data.price,
+                textShowState: res.data.state,
+                textDiffShow: '已被预订'
+              })
+            }
+          })
+        } else {
+          this.setData({
+            bookDetail: res.data,
+            trade_price: res.data.price,
+            textShowState: res.data.state,
+            textDiffShow: '我想要'
+          })
+        }
 
         // 获取卖家详细信息
         wx.cloud.callFunction({
