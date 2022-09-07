@@ -170,7 +170,7 @@ Page({
         wx.cloud.callFunction({
           name: 'getUserPublicInfo',
           data: {
-            openid: this.data.bookDetail._openid
+            openid: res.data._openid
           }
         }).then(res => {
           this.setData({
