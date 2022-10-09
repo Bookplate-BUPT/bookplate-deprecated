@@ -1,14 +1,27 @@
 <!--pages/editUserInfo/editUserInfo.wxml-->
+
 <van-cell-group inset title="修改个人资料" custom-class="shadow">
-  <van-cell title="入学年份" value="{{userGrade}}" bind:click="selectYear">
+  <van-cell title="身份" value="{{ userID }}" bind:click="selectID">
   </van-cell>
-  <van-popup show="{{ show }}" position="bottom" round bind:close="onClose">
-    <van-picker columns="{{ columnsYear }}" show-toolbar bind:confirm="getYourYear" bind:cancel="onClose" default-index="{{gradeIndex}}" />
+  <van-popup show="{{ showID }}" position="bottom" round bind:close="onClose">
+    <van-picker columns="{{ columnsID }}" show-toolbar bind:confirm="getYourID" bind:cancel="onClose" />
   </van-popup>
-  <van-cell title="学院、专业" use-label-slot>
-    <van-picker slot="label" columns="{{ columns }}" id="identity" bind:change="changeUserInfoInSchool" class="styler" />
-  </van-cell>
 </van-cell-group>
+
+<block wx:if="{{ userID == 'Byr' }}">
+  <van-cell-group inset custom-class="shadow" style="margin-top: 13px;">
+    <van-cell title="入学年份" value="{{userGrade}}" bind:click="selectYear">
+    </van-cell>
+    <van-popup show="{{ showYear }}" position="bottom" round bind:close="onClose">
+      <van-picker columns="{{ columnsYear }}" show-toolbar bind:confirm="getYourYear" bind:cancel="onClose" default-index="{{gradeIndex}}" />
+    </van-popup>
+    <van-cell title="学院、专业" use-label-slot>
+      <van-picker slot="label" columns="{{ columns }}" id="identity" bind:change="changeUserInfoInSchool" class="styler" />
+    </van-cell>
+  </van-cell-group>
+</block>
+
+<view wx:if="{{userID != 'Byr'}}" style="height: 309px;"></view>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="confirmEdit">确认修改</van-button>

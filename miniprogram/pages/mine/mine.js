@@ -19,7 +19,6 @@ Page({
 
     numOfMysellbook: 0,         // 我卖出的数量
     numOfMybuybook: 0,          // 我买到的数量
-    showState: '',
     StateSum: 0,                //tabbar展示的数字
 
     activeNames: [],            // 折叠面板展示的内容项
@@ -37,9 +36,6 @@ Page({
       this.countUnreceived()
       this.countNumOfStateSum()
       this.countSum()
-      this.setData({
-        showState: '级'
-      })
     }
   },
 

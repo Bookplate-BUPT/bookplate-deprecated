@@ -19,11 +19,13 @@ const college = {
 
 Page({
   data: {
-    userGrade: '2022级',    // 用户的年级
+    userGrade: '2022',    // 用户的年级
     userCollege: '',   // 用户的学院
     userMajor: '',    // 用户的专业
+    userID: 'Byr',    // 用户的身份
     gradeIndex: 0,
-    show: false,
+    showYear: false,
+    showID: false,
     columns: [
       {
         values: Object.keys(college),
@@ -35,6 +37,8 @@ Page({
     ],
     // 入学年级列表
     columnsYear: ['2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'],
+    // 身份认证信息
+    columnsID: ['Byr', '校外']
   },
 
   onLoad() {
@@ -48,22 +52,38 @@ Page({
   // 打开入学年级弹出层
   selectYear() {
     this.setData({
-      show: true
+      showYear: true
+    })
+  },
+
+  // 打开用户身份的弹出层
+  selectID() {
+    this.setData({
+      showID: true
     })
   },
 
   // 关闭入学年级弹出层
   onClose() {
     this.setData({
-      show: false
+      showYear: false,
+      showID: false
     })
   },
 
   // 获取用户的入学年级
   getYourYear(e) {
     this.setData({
-      show: false,
+      showYear: false,
       userGrade: e.detail.value
+    })
+  },
+
+  // 获取用户的身份
+  getYourID(e) {
+    this.setData({
+      showID: false,
+      userID: e.detail.value
     })
   },
 
@@ -72,27 +92,34 @@ Page({
       _openid: __user.getUserOpenid()
     }).get()
       .then(res => {
-        var gradeIndex = this.data.columnsYear.findIndex(i => i == res.data[0].grade)
-        var collegeIndex = Object.keys(college).findIndex(i => i === res.data[0].college)
-        var majorIndex = college[res.data[0].college].findIndex(i => i === res.data[0].major)
-        this.setData({
-          userGrade: res.data[0].grade,
-          gradeIndex: gradeIndex,
-          columns: [
-            {
-              values: Object.keys(college),
-              defaultIndex: collegeIndex,
-            },
-            {
-              values: college[res.data[0].college],
-            },
-          ],
-        })
-        setTimeout(() => {
+        if (res.data[0].college != '校外') {
+          var gradeIndex = this.data.columnsYear.findIndex(i => i == res.data[0].grade)
+          var collegeIndex = Object.keys(college).findIndex(i => i === res.data[0].college)
+          var majorIndex = college[res.data[0].college].findIndex(i => i === res.data[0].major)
           this.setData({
-            'columns[1].defaultIndex': majorIndex
+            userGrade: res.data[0].grade,
+            gradeIndex: gradeIndex,
+            columns: [
+              {
+                values: Object.keys(college),
+                defaultIndex: collegeIndex,
+              },
+              {
+                values: college[res.data[0].college],
+              },
+            ],
           })
-        }, 400)
+          setTimeout(() => {
+            this.setData({
+              'columns[1].defaultIndex': majorIndex
+            })
+          }, 400)
+        }
+        else {
+          this.setData({
+            userID: '校外'
+          })
+        }
       })
 
   },
@@ -103,27 +130,44 @@ Page({
     picker.setColumnValues(1, college[value[0]]);
   },
 
-  // 确认编辑
+  // 确认修改
   confirmEdit() {
-    var tempMessage = this.selectComponent('#identity').getValues()
-    this.setData({
-      userCollege: tempMessage[0],
-      userMajor: tempMessage[1],
-    })
-    wx.cloud.database().collection('users')
-      .where({
-        _openid: __user.getUserOpenid()
+    if (this.data.userID == 'Byr') {
+      var tempMessage = this.selectComponent('#identity').getValues()
+      this.setData({
+        userCollege: tempMessage[0],
+        userMajor: tempMessage[1],
       })
-      .update({
-        data: {
-          grade: this.data.userGrade,
-          college: this.data.userCollege,
-          major: this.data.userMajor,
-        }
-      })
-      .then(res => {
-        // 返回上一页面
-        wx.navigateBack()
-      })
+      wx.cloud.database().collection('users')
+        .where({
+          _openid: __user.getUserOpenid()
+        })
+        .update({
+          data: {
+            grade: this.data.userGrade,
+            college: this.data.userCollege,
+            major: this.data.userMajor,
+          }
+        })
+        .then(res => {
+          wx.navigateBack()
+        })
+    }
+    else {
+      wx.cloud.database().collection('users')
+        .where({
+          _openid: __user.getUserOpenid()
+        })
+        .update({
+          data: {
+            grade: new Date().getFullYear(),
+            college: '校外',
+            major: '校外',
+          }
+        })
+        .then(res => {
+          wx.navigateBack()
+        })
+    }
   }
 })
