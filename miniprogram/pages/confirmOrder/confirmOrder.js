@@ -32,9 +32,9 @@ Page({
             .get()
             .then(res => {
               // 格式化时间
-              res.data.forEach((i, idx) => {
-                res.data[idx].trade_time = this.formatTime(i.trade_time)
-              })
+              // res.data.forEach((i, idx) => {
+              //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+              // })
               this.data.tradeGoodsList = [...this.data.tradeGoodsList, ...res.data]
               // 更新页面
               this.setData({
@@ -56,9 +56,9 @@ Page({
             .get()
             .then(res => {
               // 格式化时间
-              res.data.forEach((i, idx) => {
-                res.data[idx].trade_time = this.formatTime(i.trade_time)
-              })
+              // res.data.forEach((i, idx) => {
+              //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+              // })
               this.data.pendingTrade = [...this.data.pendingTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -80,9 +80,9 @@ Page({
             .get()
             .then(res => {
               // 格式化时间
-              res.data.forEach((i, idx) => {
-                res.data[idx].trade_time = this.formatTime(i.trade_time)
-              })
+              // res.data.forEach((i, idx) => {
+              //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+              // })
               this.data.confirmedTrade = [...this.data.confirmedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -104,9 +104,9 @@ Page({
             .get()
             .then(res => {
               // 格式化时间
-              res.data.forEach((i, idx) => {
-                res.data[idx].trade_time = this.formatTime(i.trade_time)
-              })
+              // res.data.forEach((i, idx) => {
+              //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+              // })
               this.data.rejectedTrade = [...this.data.rejectedTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -128,9 +128,9 @@ Page({
             .get()
             .then(res => {
               // 格式化时间
-              res.data.forEach((i, idx) => {
-                res.data[idx].trade_time = this.formatTime(i.trade_time)
-              })
+              // res.data.forEach((i, idx) => {
+              //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+              // })
               this.data.successfulTrade = [...this.data.successfulTrade, ...res.data]
               // 更新页面
               this.setData({
@@ -264,9 +264,9 @@ Page({
       .get()
       .then(res => {
         // 格式化时间
-        res.data.forEach((i, idx) => {
-          res.data[idx].trade_time = this.formatTime(i.trade_time)
-        })
+        // res.data.forEach((i, idx) => {
+        //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+        // })
         // 更新页面
         this.setData({
           tradeGoodsList: res.data
@@ -288,9 +288,9 @@ Page({
       .get()
       .then(res => {
         // 格式化时间
-        res.data.forEach((i, idx) => {
-          res.data[idx].trade_time = this.formatTime(i.trade_time)
-        })
+        // res.data.forEach((i, idx) => {
+        //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+        // })
         // 更新页面
         this.setData({
           pendingTrade: res.data
@@ -313,9 +313,9 @@ Page({
         .get()
         .then(res => {
           // 格式化时间
-          res.data.forEach((i, idx) => {
-            res.data[idx].trade_time = this.formatTime(i.trade_time)
-          })
+          // res.data.forEach((i, idx) => {
+          //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+          // })
           // 更新页面
           this.setData({
             confirmedTrade: res.data
@@ -341,9 +341,9 @@ Page({
         .get()
         .then(res => {
           // 格式化时间
-          res.data.forEach((i, idx) => {
-            res.data[idx].trade_time = this.formatTime(i.trade_time)
-          })
+          // res.data.forEach((i, idx) => {
+          //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+          // })
           // 更新页面
           this.setData({
             rejectedTrade: res.data
@@ -368,9 +368,9 @@ Page({
       .get()
       .then(res => {
         // 格式化时间
-        res.data.forEach((i, idx) => {
-          res.data[idx].trade_time = this.formatTime(i.trade_time)
-        })
+        // res.data.forEach((i, idx) => {
+        //   res.data[idx].trade_time = this.formatTime(i.trade_time)
+        // })
         // 更新页面
         this.setData({
           successfulTrade: res.data

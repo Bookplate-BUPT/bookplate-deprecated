@@ -45,6 +45,16 @@
   <van-field model:value="{{ description }}" placeholder="9成新、配套资料齐全等" label="书籍情况" required clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>
 
+<van-cell-group inset title="卖家信息" custom-class="shadow">
+  <!-- 交易地点 -->
+  <van-field model:value="{{ tradeSpot }}" placeholder="请选择交易地点" label="交易地点" required clearable clear-trigger="focus" bind:click-input="selectTradeSpot" readonly></van-field>
+  <van-popup show="{{ showTradeSpot }}" bind:close="closeTradeSpot" round overlay safe-area-inset-bottom safe-area-inset-top position="bottom">
+    <van-picker columns="{{ tradeSpotColumns }}" visible-item-count="6" show-toolbar title="选择交易地点" bind:confirm="confirmTradeSpot" bind:cancel="closeTradeSpot" />
+  </van-popup>
+
+  <van-field model:value="{{ contactInformation }}" placeholder="手机号/QQ/微信等更方便交流哦~" label="备注" clearable clear-trigger="focus" autosize type="textarea" />
+</van-cell-group>
+
 <!-- 书籍图片 -->
 <van-cell-group inset title="请上传书籍实物图（如损坏、笔记等实拍图）" custom-class="shadow">
   <view style="margin: 2% 0 0 3%;">

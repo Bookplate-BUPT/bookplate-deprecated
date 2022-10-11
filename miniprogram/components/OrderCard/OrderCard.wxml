@@ -10,8 +10,9 @@
       <view slot="title" style="max-width: {{ titleWidth }}px;" class="van-card__title van-multi-ellipsis--l2">{{ trade.bookDetail.name }}</view>
       <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
         <!-- <view>ISBN：{{ trade.bookDetail.isbn }}</view> -->
-        <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ trade.trade_time }}</view>
-        <view style="margin-bottom: 5rpx;">交易地点：{{ trade.trade_spot }}</view>
+        <!-- <view style="margin-top: 5rpx; margin-bottom: 5rpx;">交易时间：{{ trade.trade_time }}</view> -->
+        <!-- <view style="margin-bottom: 5rpx;">交易地点：{{ trade.trade_spot }}</view> -->
+        <view style="margin-top: 2px;">联系方式：{{ trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下联系方式哦~' }}</view>
       </view>
       <view slot="footer" catchtap="son" hover-stop-propagation="true">
         <van-button custom-class="btnSizeStyle" size="small" round bind:click="contactSeller">{{page?'联系卖家':'联系买家'}}</van-button>

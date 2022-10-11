@@ -11,24 +11,25 @@ Page({
   data: {
     bookDetail: {},       // 书籍详细信息
     sellerDetail: {},     // 卖家详细信息
-    trade_date: '',       // 交易日期
-    trade_time: '',       // 交易时间
-    trade_spot: '',       // 交易地点
+    // trade_date: '',       // 交易日期
+    // trade_time: '',       // 交易时间
+    // trade_spot: '',       // 交易地点
+    contactInformation: '',  // 买家联系方式
 
-    originalTradeDate: '',        // 原本格式的交易日期
-    // originalTradeTime: '',     // 原本格式的日期时间 
+    // originalTradeDate: '',        // 原本格式的交易日期
+    // originalTradeTime: '',        // 原本格式的日期时间
 
-    showCalendar: false,  // 显示日期弹出层
-    showTime: false,      // 显示时间弹出层
+    // showCalendar: false,  // 显示日期弹出层
+    // showTime: false,      // 显示时间弹出层
 
     // 时间选择的过滤器
-    filter(type, options) {
-      if (type === 'minute') {
-        return options.filter((option) => option % 10 === 0);
-      }
+    // filter(type, options) {
+    //   if (type === 'minute') {
+    //     return options.filter((option) => option % 10 === 0);
+    //   }
 
-      return options;
-    },
+    //   return options;
+    // },
   },
 
   // 循环解析url
@@ -51,126 +52,126 @@ Page({
     this.setData({
       bookDetail: bookDetail,
       sellerDetail: JSON.parse(options.sellerDetail),
-      originalTradeDate: new Date(),
-      trade_date: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
-      trade_time: __util.formatTime(new Date()).slice(11, 16),
+      // originalTradeDate: new Date(),
+      // trade_date: `${new Date().getFullYear()}年 ${new Date().getMonth() + 1}月${new Date().getDate()}日`,
+      // trade_time: __util.formatTime(new Date()).slice(11, 16),
     })
   },
 
   // 打开日期弹出层
-  displayCalendar() {
-    this.setData({ showCalendar: true });
-  },
+  // displayCalendar() {
+  //   this.setData({ showCalendar: true });
+  // },
 
   // 关闭日期弹出层
-  closeCalendar() {
-    this.setData({ showCalendar: false });
-  },
+  // closeCalendar() {
+  //   this.setData({ showCalendar: false });
+  // },
 
   // 格式化日期
-  formatDate(date) {
-    date = new Date(date);
-    return `${date.getFullYear()}年 ${date.getMonth() + 1}月${date.getDate()}日`;
-  },
+  // formatDate(date) {
+  //   date = new Date(date);
+  //   return `${date.getFullYear()}年 ${date.getMonth() + 1}月${date.getDate()}日`;
+  // },
 
   // 确认选择日期
-  confirmCalendar(event) {
-    this.setData({
-      showCalendar: false,
-      trade_date: this.formatDate(event.detail),
-      originalTradeDate: new Date(event.detail),
-    });
-  },
+  // confirmCalendar(event) {
+  //   this.setData({
+  //     showCalendar: false,
+  //     trade_date: this.formatDate(event.detail),
+  //     originalTradeDate: new Date(event.detail),
+  //   });
+  // },
 
   // 填写现价
-  onChangeTradePrice(e) {
-    this.setData({
-      'bookDetail.price': e.detail
-    })
-  },
+  // onChangeTradePrice(e) {
+  //   this.setData({
+  //     'bookDetail.price': e.detail
+  //   })
+  // },
 
   // 填写交易地点
-  onChangeTradeSpot(e) {
-    this.setData({
-      trade_spot: e.detail
-    })
-  },
+  // onChangeTradeSpot(e) {
+  //   this.setData({
+  //     trade_spot: e.detail
+  //   })
+  // },
 
   // 显示时间弹出层
-  displayTime() {
-    this.setData({
-      showTime: true
-    })
-  },
+  // displayTime() {
+  //   this.setData({
+  //     showTime: true
+  //   })
+  // },
 
   // 关闭时间弹出层
-  closeTime() {
-    this.setData({
-      showTime: false
-    })
-  },
+  // closeTime() {
+  //   this.setData({
+  //     showTime: false
+  //   })
+  // },
 
   // 确认选择时间
-  confirmTime(e) {
-    this.setData({
-      trade_time: e.detail,
-      showTime: false
-    })
-  },
+  // confirmTime(e) {
+  //   this.setData({
+  //     trade_time: e.detail,
+  //     showTime: false
+  //   })
+  // },
 
   // 确认提交交易信息
   commitForm(event) {
-    if (!this.data.bookDetail.price) {
-      wx.showToast({
-        title: '现价不能为空',
-        icon: 'error'
-      })
-    }
-    else if (!this.data.trade_spot) {
-      wx.showToast({
-        title: '地点不能为空',
-        icon: 'error'
-      })
-    }
-    else {
-      wx.cloud.database().collection('trade').where({
-        goods_id: this.data.bookDetail._id,
-      }).get().then(res => {
-        if (res.data.length) {
-          if (res.data.some(i => { return i.state == 0 })) {
-            wx.showToast({
-              title: '该书已被预订',
-              icon: 'error'
-            }).then(res => {
-              setTimeout(() => {
-                //获取当前页面栈
-                const pages = getCurrentPages();
-                //获取上一页面对象
-                let prePage = pages[pages.length - 2];
-                prePage.setData({
-                  'bookDetail.state': 1
-                })
-                wx.navigateBack({
-                  delta: 1,
-                })
-              }, 1500)
-            })
-          } else {
-            this.addTradeRecord()
-          }
+    // if (!this.data.bookDetail.price) {
+    //   wx.showToast({
+    //     title: '现价不能为空',
+    //     icon: 'error'
+    //   })
+    // }
+    // else if (!this.data.trade_spot) {
+    //   wx.showToast({
+    //     title: '地点不能为空',
+    //     icon: 'error'
+    //   })
+    // }
+    // else {
+    wx.cloud.database().collection('trade').where({
+      goods_id: this.data.bookDetail._id,
+    }).get().then(res => {
+      if (res.data.length) {
+        if (res.data.some(i => { return i.state == 0 })) {
+          wx.showToast({
+            title: '该书已被预订',
+            icon: 'error'
+          }).then(res => {
+            setTimeout(() => {
+              //获取当前页面栈
+              const pages = getCurrentPages();
+              //获取上一页面对象
+              let prePage = pages[pages.length - 2];
+              prePage.setData({
+                'bookDetail.state': 1
+              })
+              wx.navigateBack({
+                delta: 1,
+              })
+            }, 1500)
+          })
         } else {
           this.addTradeRecord()
         }
-      })
-    }
+      } else {
+        this.addTradeRecord()
+      }
+    })
+    // }
   },
 
   // 向trade集合中添加记录
   addTradeRecord() {
     // 连接完整的交易时间
-    var time = this.data.trade_time
-    this.data.originalTradeDate.setHours(+(time.slice(0, 2)))
-    this.data.originalTradeDate.setMinutes(+(time.slice(3, 5)))
+    // var time = this.data.trade_time
+    // this.data.originalTradeDate.setHours(+(time.slice(0, 2)))
+    // this.data.originalTradeDate.setMinutes(+(time.slice(3, 5)))
 
     var bookDetail = this.data.bookDetail
     delete bookDetail.views
@@ -180,12 +181,13 @@ Page({
         goods_id: this.data.bookDetail._id,
         state: 0,
         trade_price: this.data.bookDetail.price,
-        trade_time: this.data.originalTradeDate,
+        // trade_time: this.data.originalTradeDate,
         trade_spot: this.data.trade_spot,
         seller_openid: this.data.bookDetail._openid,
         bookDetail: bookDetail,
         state_zero_time: new Date(),
-        buyer_openid: __user.getUserOpenid()
+        buyer_openid: __user.getUserOpenid(),
+        contact_information: this.data.contactInformation,
       }
     }).then(res => {
       wx.showToast({

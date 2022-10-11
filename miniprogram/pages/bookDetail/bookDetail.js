@@ -105,7 +105,6 @@ Page({
   },
 
   onLoad(options) {
-    console.log(options)
     this.setData({
       goodsID: options.id,
     })

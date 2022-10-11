@@ -34,8 +34,8 @@
 
 <van-cell-group inset custom-class="shadow" title="交易信息">
   <van-cell title="现价" label="{{ trade.trade_price }}" />
-  <van-cell title="交易时间" label="{{ trade.trade_time }}" />
   <van-cell title="交易地点" label="{{ trade.trade_spot }}" />
+  <van-cell title="联系方式" label="{{ page?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下交易地点哦~':trade.contact_information?trade.contact_information:'该用户没有留下交易地点哦~' }}" />
 </van-cell-group>
 
 <view style="margin-bottom: 25%;" />

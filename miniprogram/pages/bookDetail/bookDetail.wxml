@@ -32,6 +32,7 @@
   <van-cell title="适用学院" value="{{ bookDetail.college }}" title-width="60px" />
   <van-cell title="适用专业" value="{{ bookDetail.major }}" title-width="60px" />
   <van-cell title="卖家描述" label="{{ bookDetail.description }}" style="word-break: break-all;" />
+  <van-cell title="交易地点" value="{{ bookDetail.trade_spot ? bookDetail.trade_spot : '该用户没有留下交易地点哦~' }}" title-width="60px" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" title="书籍信息">

@@ -38,20 +38,24 @@
   </van-row>
 </van-cell-group>
 
-<van-cell-group inset title="订单详情" custom-class="shadow" style="margin-bottom: 75px;">
-  <van-field label="现价" value="{{ bookDetail.price }}" placeholder="请输入现价" bind:change="onChangeTradePrice" clearable required />
+<van-cell-group inset title="订单详情" custom-class="shadow">
+  <!-- <van-field label="交易价格" value="{{ bookDetail.price }}" bind:change="onChangeTradePrice" clearable required /> -->
+  <van-cell title="交易价格" label="{{ bookDetail.price }}" title-width="60px" />
+  <van-cell title="交易地点" label="{{ bookDetail.trade_spot }}" title-width="60px" />
 
   <!-- 日期选择 -->
-  <van-field label="日期" value="{{ trade_date }}" clearable clear-trigger="focus" bind:click-input="displayCalendar" readonly required />
-  <van-calendar color="#8AC286" show="{{ showCalendar }}" title="交易日期选择" bind:close="closeCalendar" bind:confirm="confirmCalendar" />
+  <!-- <van-field label="日期" value="{{ trade_date }}" clearable clear-trigger="focus" bind:click-input="displayCalendar" readonly required />
+  <van-calendar color="#8AC286" show="{{ showCalendar }}" title="交易日期选择" bind:close="closeCalendar" bind:confirm="confirmCalendar" /> -->
 
   <!-- 时间选择 -->
-  <van-field label="时间" value="{{ trade_time }}" clearable clear-trigger="focus" bind:click-input="displayTime" readonly required />
+  <!-- <van-field label="时间" value="{{ trade_time }}" clearable clear-trigger="focus" bind:click-input="displayTime" readonly required />
   <van-popup show="{{ showTime }}" position="bottom" round bind:close="closeTime">
     <van-datetime-picker type="time" value="{{ trade_time }}" filter="{{ filter }}" bind:confirm="confirmTime" bind:cancel="closeTime" />
-  </van-popup>
+  </van-popup> -->
+</van-cell-group>
 
-  <van-field label="地点" value="{{ trade_spot }}" placeholder="请输入地点" bind:change="onChangeTradeSpot" clearable required />
+<van-cell-group inset title="买家信息" custom-class="shadow">
+  <van-field model:value="{{ contactInformation }}" placeholder="手机号/QQ/微信等更方便交流哦~" label="备注" clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>
 
 <van-goods-action custom-class="bottom-tab">

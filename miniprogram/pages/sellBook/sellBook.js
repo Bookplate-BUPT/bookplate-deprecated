@@ -94,7 +94,36 @@ Page({
 
     // 回退时需要修改书籍的索引
     index: '',
-    tempMessage: ''    // 暂存修改卖书页面传过来的书籍信息
+    tempMessage: '',   // 暂存修改卖书页面传过来的书籍信息
+
+    // 卖家信息
+    tradeSpot: '',                                                    // 交易地点
+    showTradeSpot: false,                                             // 显示交易地点选择项弹出层
+    tradeSpotColumns: ['沙河校区', '西土城校区', '沙河或西土城校区'],      // 交易地点弹出层的可选项 (沙河/西土城等)
+    contactInformation: '',                                           // 卖家联系方式
+  },
+
+  // 打开交易地点弹出层
+  selectTradeSpot() {
+    this.setData({
+      showTradeSpot: true
+    })
+  },
+
+  // 关闭交易地点弹出层
+  closeTradeSpot() {
+    this.setData({
+      showTradeSpot: false
+    })
+  },
+
+  // 确认交易地点修改（点击确认按钮）
+  confirmTradeSpot(e) {
+    this.setData({
+      showTradeSpot: false,
+      tradeSpot: e.detail.value,
+    })
+    console.log(e)
   },
 
   //选择书籍的类型时调用
@@ -470,7 +499,7 @@ Page({
     this.fromObjectToChar()
 
     // 信息是否完整
-    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.college || !this.data.major || this.data.price === '') {
+    if (!this.data.author || !this.data.isbn || !this.data.name || !this.data.publisher || !this.data.publishDate || !this.data.originalPrice || !this.data.description || !this.data.college || !this.data.major || this.data.price === '' || !this.data.tradeSpot) {
       wx.showToast({
         title: '信息不完整',
         icon: 'error',
@@ -525,6 +554,8 @@ Page({
             openid: this.data.userOpenid,
             major: this.data.major,
             college: this.data.college,
+            trade_spot: this.data.tradeSpot,
+            contact_information: this.data.contactInformation,
             state: 0, // 表示未售出
           },
           success: res => {
