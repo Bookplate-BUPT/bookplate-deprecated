@@ -22,7 +22,7 @@ Page({
     userGrade: '2022',    // 用户的年级
     userCollege: '',   // 用户的学院
     userMajor: '',    // 用户的专业
-    userID: 'Byr',    // 用户的身份
+    userID: '北邮人',    // 用户的身份
     gradeIndex: 0,
     showYear: false,
     showID: false,
@@ -38,7 +38,7 @@ Page({
     // 入学年级列表
     columnsYear: ['2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'],
     // 身份认证信息
-    columnsID: ['Byr', '校外']
+    columnsID: ['北邮人', '游客']
   },
 
   onLoad() {
@@ -92,7 +92,7 @@ Page({
       _openid: __user.getUserOpenid()
     }).get()
       .then(res => {
-        if (res.data[0].college != '校外') {
+        if (res.data[0].college != '游客') {
           var gradeIndex = this.data.columnsYear.findIndex(i => i == res.data[0].grade)
           var collegeIndex = Object.keys(college).findIndex(i => i === res.data[0].college)
           var majorIndex = college[res.data[0].college].findIndex(i => i === res.data[0].major)
@@ -117,7 +117,7 @@ Page({
         }
         else {
           this.setData({
-            userID: '校外'
+            userID: '游客'
           })
         }
       })
@@ -132,7 +132,7 @@ Page({
 
   // 确认修改
   confirmEdit() {
-    if (this.data.userID == 'Byr') {
+    if (this.data.userID == '北邮人') {
       var tempMessage = this.selectComponent('#identity').getValues()
       this.setData({
         userCollege: tempMessage[0],
@@ -161,8 +161,8 @@ Page({
         .update({
           data: {
             grade: new Date().getFullYear(),
-            college: '校外',
-            major: '校外',
+            college: '游客',
+            major: '游客',
           }
         })
         .then(res => {

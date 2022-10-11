@@ -8,7 +8,7 @@
   </van-popup>
 </van-cell-group>
 
-<block wx:if="{{ userID == 'Byr' }}">
+<block wx:if="{{ userID == '北邮人' }}">
   <van-cell-group inset custom-class="shadow" style="margin-top: 13px;">
     <van-cell title="入学年份" value="{{userGrade}}" bind:click="selectYear">
     </van-cell>
@@ -20,8 +20,6 @@
     </van-cell>
   </van-cell-group>
 </block>
-
-<view wx:if="{{userID != 'Byr'}}" style="height: 309px;"></view>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-button block color="linear-gradient(to right, #8ac286, #659c64)" bind:click="confirmEdit">确认修改</van-button>
