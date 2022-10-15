@@ -13,11 +13,6 @@ Component({
       value: 0
     },
 
-    link: {
-      type: Boolean,
-      value: false
-    },
-
     left: {
       type: Number,
       value: 0

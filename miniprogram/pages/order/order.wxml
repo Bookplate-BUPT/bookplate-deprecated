@@ -14,8 +14,8 @@
     <view class="price-show" slot="label">
       <view>
         <text class="price-mark">￥</text>
-        <text class="price-int">{{ utils.getInt(trade.bookDetail.price) }}</text>
-        <text class="price-float">.{{ utils.getFloat(trade.bookDetail.price) }}</text>
+        <text class="price-int">{{ utils.getInt(trade.trade_price) }}</text>
+        <text class="price-float">.{{ utils.getFloat(trade.trade_price) }}</text>
         <text class="original-price">￥{{ trade.bookDetail.original_price }}</text>
         <!-- <van-tag plain style="margin-left: 4px;">原价</van-tag> -->
       </view>
@@ -32,11 +32,27 @@
   <van-cell title="卖家描述" label="{{ trade.bookDetail.description }}" style="word-break: break-all;" />
 </van-cell-group>
 
-<van-cell-group inset custom-class="shadow" title="交易信息">
-  <van-cell title="现价" label="{{ trade.trade_price }}" />
-  <van-cell title="交易地点" label="{{ trade.trade_spot }}" />
-  <van-cell title="联系方式" label="{{ page?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下交易地点哦~':trade.contact_information?trade.contact_information:'该用户没有留下交易地点哦~' }}" />
-</van-cell-group>
+<!-- 可以修改现价 -->
+<view wx:if="{{ page==0 && trade.state==0 }}">
+  <van-cell-group inset custom-class="shadow" title="交易信息（如果不符可以修改哦）">
+    <!-- 修改现价 -->
+    <van-field value="{{ trade_price }}" placeholder="请输入现价" label="现价" clearable clear-trigger="focus" autosize type="textarea" bind:input="inputTradePrice" />
+  </van-cell-group>
+  <van-cell-group inset custom-class="shadow" title=" ">
+    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot }}" />
+    <van-cell title="备注" label="{{ page?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
+  </van-cell-group>
+</view>
+
+<!-- 不可以修改现价 -->
+<view wx:else>
+  <van-cell-group inset custom-class="shadow" title="交易信息">
+    <!-- 修改现价 -->
+    <van-cell title="现价" label="{{ trade.trade_price }}" />
+    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot }}" />
+    <van-cell title="备注" label="{{ page?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
+  </van-cell-group>
+</view>
 
 <view style="margin-bottom: 25%;" />
 
@@ -53,8 +69,8 @@
 
     <view style="display: inline-block; color: #ee0a24; font-weight: 600; margin-top: 8px; margin-right: 18px;">
       <text style="font-size: 14px;">￥</text>
-      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.bookDetail.price) }}</text>
-      <text>.{{ utils.getFloat(trade.bookDetail.price) }}</text>
+      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.trade_price) }}</text>
+      <text>.{{ utils.getFloat(trade.trade_price) }}</text>
     </view>
 
     <van-button round color="linear-gradient(to right, #8ac286, #659c64)" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="receiveGoods" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">确认收货</van-button>
@@ -68,11 +84,11 @@
 
     <view style="display: inline-block; color: #ee0a24; font-weight: 600; margin-top: 8px; margin-right: 18px;">
       <text style="font-size: 14px;">￥</text>
-      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.bookDetail.price) }}</text>
-      <text>.{{ utils.getFloat(trade.bookDetail.price) }}</text>
+      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.trade_price) }}</text>
+      <text>.{{ utils.getFloat(trade.trade_price) }}</text>
     </view>
 
-    <van-button round color="#FF5E62" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="cancelTrade" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">取消请求</van-button>
+    <van-button round color="#FF5E62" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="cancelTrade" data-_id="{{ trade._id }}" data-goodsid="{{ trade.trade_price }}">取消请求</van-button>
   </view>
 </van-goods-action>
 

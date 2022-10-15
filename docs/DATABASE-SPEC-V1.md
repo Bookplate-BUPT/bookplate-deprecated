@@ -55,6 +55,10 @@
 | trade_price         | string         | not null |         | 交易价格                                                     |
 | trade_spot          | string         | not null |         | 交易地点                                                     |
 | state               | number         | not null |         | 交易的状态，0表示未完成，1表示待收货，2表示已完成，3表示已取消但用户未读，4表示已取消但用户已读 |
+| state_zero_time     | date           | not null |         | state设置为0的时间                                           |
+| state_one_time      | date           | not null |         | state设置为1的时间                                           |
+| state_two_time      | date           | not null |         | state设置为2的时间                                           |
+| state_three_time    | date           | not null |         | state设置为3的时间                                           |
 | bookDetail          | object         | not null |         | 存放书籍的详细信息                                           |
 | buyer_openid        | string         | not null |         | 存放买家的_openid，用来控制按钮的文案显示、随时取消预订      |
 | contact_information | string         |          |         | 买家的联系方式                                               |

@@ -33,7 +33,7 @@ Page({
           wx.cloud.database().collection('trade').where({
             _openid: __user.getUserOpenid()
           })
-            .orderBy('trade_time', 'desc')
+            .orderBy('state_zero_time', 'desc')
             .skip(this.data.tradeGoodsList.length)
             .get()
             .then(res => {
@@ -57,7 +57,7 @@ Page({
             _openid: __user.getUserOpenid(),
             state: 0
           })
-            .orderBy('trade_time', 'desc')
+            .orderBy('state_zero_time', 'desc')
             .skip(this.data.pendingTrade.length)
             .get()
             .then(res => {
@@ -81,7 +81,7 @@ Page({
             _openid: __user.getUserOpenid(),
             state: 1
           })
-            .orderBy('trade_time', 'desc')
+            .orderBy('state_zero_time', 'desc')
             .skip(this.data.confirmedTrade.length)
             .get()
             .then(res => {
@@ -105,7 +105,7 @@ Page({
             _openid: __user.getUserOpenid(),
             state: 3
           })
-            .orderBy('trade_time', 'desc')
+            .orderBy('state_zero_time', 'desc')
             .skip(this.data.rejectedTrade.length)
             .get()
             .then(res => {
@@ -129,7 +129,7 @@ Page({
             _openid: __user.getUserOpenid(),
             state: 2
           })
-            .orderBy('trade_time', 'desc')
+            .orderBy('state_zero_time', 'desc')
             .skip(this.data.successfulTrade.length)
             .get()
             .then(res => {
@@ -264,7 +264,7 @@ Page({
     wx.cloud.database().collection('trade').where({
       _openid: __user.getUserOpenid()
     })
-      .orderBy('trade_time', 'desc')
+      .orderBy('state_zero_time', 'desc')
       .limit(20)
       .get()
       .then(res => {
@@ -289,7 +289,7 @@ Page({
       _openid: __user.getUserOpenid(),
       state: 0
     })
-      .orderBy('trade_time', 'desc')
+      .orderBy('state_zero_time', 'desc')
       .get()
       .then(res => {
         // 格式化时间
@@ -313,7 +313,7 @@ Page({
       _openid: __user.getUserOpenid(),
       state: 1
     })
-      .orderBy('trade_time', 'desc')
+      .orderBy('state_zero_time', 'desc')
       .get()
       .then(res => {
         // 格式化时间
@@ -339,7 +339,7 @@ Page({
         _openid: __user.getUserOpenid(),
         state: 3
       })
-        .orderBy('trade_time', 'desc')
+        .orderBy('state_zero_time', 'desc')
         .get()
         .then(res => {
           // 格式化时间
@@ -367,7 +367,7 @@ Page({
         _openid: __user.getUserOpenid(),
         state: 2
       })
-        .orderBy('trade_time', 'desc')
+        .orderBy('state_zero_time', 'desc')
         .get()
         .then(res => {
           // 格式化时间

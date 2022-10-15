@@ -6,7 +6,16 @@ Page({
    */
   data: {
     trade: {},
-    page: '',     // 0表示卖家，1表示买家
+    page: '',         // 0表示卖家，1表示买家
+
+    trade_price: '',   // 单独抽出，防止图片下的价格实时变化
+  },
+
+  // 修改现价内容
+  inputTradePrice(e) {
+    this.setData({
+      'trade_price': e.detail
+    })
   },
 
   // 循环解析url
@@ -30,6 +39,7 @@ Page({
     this.setData({
       trade: trade,
       page: options.page,
+      trade_price: trade.trade_price,
     })
   },
 
@@ -39,6 +49,9 @@ Page({
       title: '同意中……',
       mask: true,
     })
+
+    // 将暂时的变量赋值给trade
+    this.data.trade.trade_price = this.data.trade_price
 
     // 获取当前页面栈
     const pages = getCurrentPages();
@@ -52,11 +65,14 @@ Page({
         type: 1,
         _id: this.data.trade._id,
         state: 1,
+        trade_price: this.data.trade.trade_price,
       }
     })
       .then(res => {
         // 更改全部中将要同意的元素的state为1
         prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].state = 1
+        // 更新全部中将要同意的元素的trade_price
+        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].trade_price = this.data.trade.trade_price
 
         // 在未处理中删除元素
         prePage.data.pendingTrade.splice(prePage.data.pendingTrade.findIndex(i => i._id == this.data.trade._id), 1)
@@ -248,5 +264,15 @@ Page({
       }))
       .then(res => wx.navigateBack())
       .catch(err => console.error(err))
+  },
+
+  // 预览图片
+  preview(e) {
+    var image_list = this.data.trade.bookDetail.image_list
+    wx.previewImage({
+      urls: image_list,
+      showmenu: true,
+      current: image_list[e.currentTarget.dataset.index],
+    })
   },
 })
