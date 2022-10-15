@@ -123,7 +123,6 @@ Page({
       showTradeSpot: false,
       tradeSpot: e.detail.value,
     })
-    console.log(e)
   },
 
   //选择书籍的类型时调用
@@ -203,7 +202,6 @@ Page({
         .then(res => {
           if (!(res.data[0].college === '游客')) {
             this.setData({
-              userOpenid: __user.getUserOpenid(),
               major: res.data[0].major,
               backedMajor: res.data[0].major,
               college: res.data[0].college,
@@ -236,7 +234,6 @@ Page({
 
       var showListToo = this.data.showList.map(i => (i))
       this.setData({
-        userOpenid: __user.getUserOpenid(),
         showState: false,
         name: name,
         author: author,
@@ -256,6 +253,10 @@ Page({
         state: state,
       })
     }
+    // 不分身份统一获取用户的userOpenid
+    this.setData({
+      userOpenid: __user.getUserOpenid()
+    })
   },
 
   // 扫描ISBN
