@@ -201,14 +201,15 @@ Page({
         })
         .get()
         .then(res => {
-          this.setData({
-            userOpenid: __user.getUserOpenid(),
-            major: res.data[0].major,
-            backedMajor: res.data[0].major,
-            college: res.data[0].college,
-            backedCollege: res.data[0].college,
-          })
-
+          if (!(res.data[0].college === '游客')) {
+            this.setData({
+              userOpenid: __user.getUserOpenid(),
+              major: res.data[0].major,
+              backedMajor: res.data[0].major,
+              college: res.data[0].college,
+              backedCollege: res.data[0].college,
+            })
+          }
           if (options.scan_isbn === 'true')
             // 调用函数进行扫码
             this.scanISBN()
