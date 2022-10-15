@@ -14,8 +14,9 @@
           <view slot="title" class="bookName">
             {{ item.name }}
           </view>
-          <view slot="desc" class="bookIntroduction">
-            {{ item.introduction }}
+          <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
+            <view style="margin-top: 2px;">交易地点：{{ item.trade_spot }}</view>
+            <view style="margin-top: 1px;">备注：{{ item.contact_information?item.contact_information:'你没有留下备注哦~' }}</view>
           </view>
           <view slot="footer" catchtap="son" hover-stop-propagation="true">
             <van-button custom-class="btnSizeStyle" size="small" round data-_id="{{item._id}}" data-index="{{index}}" bind:click="deleteMyGoods">下架</van-button>
