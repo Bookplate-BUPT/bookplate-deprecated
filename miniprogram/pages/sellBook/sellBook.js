@@ -697,6 +697,14 @@ Page({
       return
     }
 
+    if (this.data.tradeSpot == undefined) {
+      wx.showToast({
+        title: '交易地点不能为空哦~',
+        icon: 'none'
+      })
+      return
+    }
+
     wx.showLoading({
       title: '修改中',
     })
