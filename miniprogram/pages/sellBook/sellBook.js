@@ -218,7 +218,7 @@ Page({
       this.setData({
         tempMessage: options.message
       })
-      var { author, book_publish_date, description, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major, state } = JSON.parse(options.message)
+      var { author, book_publish_date, description, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major, state, trade_spot, contact_information } = JSON.parse(options.message)
 
       // 首先进行url解码
       image_list.forEach((i, idx) => {
@@ -251,6 +251,8 @@ Page({
         major: major,
         index: options.index,
         state: state,
+        tradeSpot: trade_spot,
+        contactInformation: contact_information
       })
     }
     // 不分身份统一获取用户的userOpenid
@@ -389,6 +391,8 @@ Page({
         description: '',
         college: this.data.backedCollege,
         major: this.data.backedMajor,
+        tradeSpot: '',
+        contactInformation: ''
       })
     } else {
       if (this.data.state) {
@@ -399,7 +403,7 @@ Page({
         return
       }
 
-      var { author, book_publish_date, image_list, description, introduction, isbn, name, original_price, price, publisher, college, major } = JSON.parse(this.data.tempMessage)  // 还原
+      var { author, book_publish_date, image_list, description, introduction, isbn, name, original_price, price, publisher, college, major, trade_spot, contact_information } = JSON.parse(this.data.tempMessage)  // 还原
       // 处理修改后图片的还原问题
       image_list.forEach((i, idx) => {
         image_list[idx] = this.getUrl(i)
@@ -424,6 +428,8 @@ Page({
         publisher: publisher,
         college: college,
         major: major,
+        tradeSpot: trade_spot,
+        contactInformation: contact_information
       })
     }
   },
@@ -744,6 +750,8 @@ Page({
         prePage.data.goodsList[index].description = this.data.description
         prePage.data.goodsList[index].major = this.data.major
         prePage.data.goodsList[index].college = this.data.college
+        prePage.data.goodsList[index].trade_spot = this.data.tradeSpot
+        prePage.data.goodsList[index].contact_information = this.data.contactInformation
         prePage.setData({
           goodsList: prePage.data.goodsList
         })
@@ -763,6 +771,8 @@ Page({
             description: this.data.description,
             major: this.data.major,
             college: this.data.college,
+            trade_spot: this.data.tradeSpot,
+            contact_information: this.data.contactInformation
           }
         }).then(res => {
           wx.showToast({
