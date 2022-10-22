@@ -32,7 +32,7 @@
   <van-cell title="卖家描述" label="{{ trade.bookDetail.description }}" style="word-break: break-all;" />
 </van-cell-group>
 
-<!-- 可以修改现价 -->
+<!-- 交易信息（可以修改现价） -->
 <view wx:if="{{ page==0 && trade.state==0 }}">
   <van-cell-group inset custom-class="shadow" title="交易信息（如果不符可以修改哦）">
     <!-- 修改现价 -->
@@ -40,17 +40,17 @@
   </van-cell-group>
   <van-cell-group inset custom-class="shadow" title=" ">
     <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot }}" />
-    <van-cell title="备注" label="{{ page?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
+    <van-cell title="备注" label="{{ page==1?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
   </van-cell-group>
 </view>
 
-<!-- 不可以修改现价 -->
+<!-- 交易信息（不可以修改现价） -->
 <view wx:else>
   <van-cell-group inset custom-class="shadow" title="交易信息">
     <!-- 修改现价 -->
     <van-cell title="现价" label="{{ trade.trade_price }}" />
     <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot }}" />
-    <van-cell title="备注" label="{{ page?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
+    <van-cell title="备注" label="{{ page==1?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
   </van-cell-group>
 </view>
 
@@ -58,7 +58,7 @@
 
 <!-- 卖家确认订单 -->
 <van-goods-action wx:if="{{ page==0&&trade.state==0 }}">
-  <van-goods-action-button text="拒绝请求" plain color="#FF5E62" bind:click="rejectForm" />
+  <van-goods-action-button text="拒绝请求" plain color="#8AC286" bind:click="rejectForm" />
   <van-goods-action-button text="同意请求" color="#8AC286" bind:click="confirmForm" />
 </van-goods-action>
 

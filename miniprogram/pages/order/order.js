@@ -45,59 +45,71 @@ Page({
 
   // 同意请求
   confirmForm(event) {
-    wx.showLoading({
-      title: '同意中……',
-      mask: true,
-    })
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      editable: true,
+      placeholderText: '书籍初始价格：' + this.data.trade.bookDetail.price,
+      title: '确认交易价格',
+      content: this.data.trade_price,
 
-    // 将暂时的变量赋值给trade
-    this.data.trade.trade_price = this.data.trade_price
+      confirmColor:'#8AC286',
+    }).then(res => {
 
-    // 获取当前页面栈
-    const pages = getCurrentPages();
-    // 获取上一页面对象
-    let prePage = pages[pages.length - 2];
-
-    // 更新交易记录的state
-    wx.cloud.callFunction({
-      name: 'updateTradeState',
-      data: {
-        type: 1,
-        _id: this.data.trade._id,
-        state: 1,
-        trade_price: this.data.trade.trade_price,
-      }
-    })
-      .then(res => {
-        // 更改全部中将要同意的元素的state为1
-        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].state = 1
-        // 更新全部中将要同意的元素的trade_price
-        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].trade_price = this.data.trade.trade_price
-
-        // 在未处理中删除元素
-        prePage.data.pendingTrade.splice(prePage.data.pendingTrade.findIndex(i => i._id == this.data.trade._id), 1)
-
-        // 更新页面
-        prePage.setData({
-          pendingTrade: prePage.data.pendingTrade,
-          tradeGoodsList: prePage.data.tradeGoodsList,
-          pendingTradeSum: prePage.data.pendingTradeSum - 1,
+      if (res.confirm) {
+        wx.showLoading({
+          title: '同意中……',
+          mask: true,
         })
 
-        return
-      })
-      .then(res => {
-        // 更新已同意的tab栏
-        return prePage.getConfirmedTrade()
-      })
-      .then(res => {
-        return prePage.getConfirmedTradeSum()
-      })
-      .then(res => wx.showToast({
-        title: '同意成功',
-      }))
-      .then(res => wx.navigateBack())
-      .catch(err => console.error(err))
+        // 将暂时的变量赋值给trade
+        this.data.trade.trade_price = res.content
+
+        // 获取当前页面栈
+        const pages = getCurrentPages();
+        // 获取上一页面对象
+        let prePage = pages[pages.length - 2];
+
+        // 更新交易记录的state
+        wx.cloud.callFunction({
+          name: 'updateTradeState',
+          data: {
+            type: 1,
+            _id: this.data.trade._id,
+            state: 1,
+            trade_price: this.data.trade.trade_price,
+          }
+        })
+          .then(res => {
+            // 更改全部中将要同意的元素的state为1
+            prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].state = 1
+            // 更新全部中将要同意的元素的trade_price
+            prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == this.data.trade._id)].trade_price = this.data.trade.trade_price
+
+            // 在未处理中删除元素
+            prePage.data.pendingTrade.splice(prePage.data.pendingTrade.findIndex(i => i._id == this.data.trade._id), 1)
+
+            // 更新页面
+            prePage.setData({
+              pendingTrade: prePage.data.pendingTrade,
+              tradeGoodsList: prePage.data.tradeGoodsList,
+              pendingTradeSum: prePage.data.pendingTradeSum - 1,
+            })
+
+            return
+          })
+          .then(res => prePage.getConfirmedTrade())
+          .then(res => prePage.getConfirmedTradeSum())
+          .then(res => wx.showToast({
+            title: '同意成功',
+          }))
+          .then(res => wx.navigateBack())
+          .catch(err => console.error(err))
+      } else if (res.cancel) {
+
+      }
+    })
+      .catch(err => { })
+
   },
 
   // 拒绝请求
