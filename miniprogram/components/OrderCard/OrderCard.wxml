@@ -9,7 +9,8 @@
     <van-card price="{{ trade.trade_price }}" thumb="{{ trade.bookDetail.image_list[0] }}" origin-price="{{ trade.bookDetail.original_price }}" bindtap="gotoNewPage" data-id="{{ trade._id }}">
       <view slot="title" style="max-width: {{ titleWidth }}px;" class="van-card__title van-multi-ellipsis--l2">{{ trade.bookDetail.name }}</view>
       <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 4px;">
-        <view style="margin-top: 2px;">备注：{{ page?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}</view>
+        <view wx:if="{{ trade.state==2||trade.state==3 }}" class="van-multi-ellipsis--l2" style="margin-top: 2px;">{{trade.bookDetail.introduction}} </view>
+        <view wx:else style="margin-top: 2px;">备注：{{ page==1?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}</view>
       </view>
       <view slot="footer" catchtap="son" hover-stop-propagation="true">
         <van-button custom-class="btnSizeStyle" size="small" round bind:click="contactSeller">{{page?'联系卖家':'联系买家'}}</van-button>
