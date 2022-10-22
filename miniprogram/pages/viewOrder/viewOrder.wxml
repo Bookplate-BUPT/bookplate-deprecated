@@ -61,7 +61,10 @@
     </view>
     <view wx:else>
       <view wx:for="{{confirmedTrade}}" wx:key="_id" style="margin-top: 20rpx;">
-        <OrderCard right="{{ 85 }}" trade="{{ item }}" page="{{ 1 }}">
+        <OrderCard left="{{ 85 }}" right="{{ 85 }}" trade="{{ item }}" page="{{ 1 }}">
+          <van-button slot="left" color="#FF5E62" custom-class="swiperCellButton" bind:click="cancelTradeAfterSellerConfirm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+            取消订单
+          </van-button>
           <van-button slot='right' color="#8AC286" custom-class="swiperCellButton" bind:click="confirmReceipt" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">确认收货</van-button>
         </OrderCard>
       </view>
