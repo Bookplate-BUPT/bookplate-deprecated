@@ -40,8 +40,8 @@
 
 <van-cell-group inset title="订单详情" custom-class="shadow">
   <!-- <van-field label="交易价格" value="{{ bookDetail.price }}" bind:change="onChangeTradePrice" clearable required /> -->
-  <van-cell title="交易价格" label="{{ bookDetail.price }}" title-width="60px" />
-  <van-cell title="交易地点" label="{{ bookDetail.trade_spot }}" title-width="60px" />
+  <van-cell title="交易价格" label="{{ bookDetail.price }}" />
+  <van-cell title="交易地点" label="{{ bookDetail.trade_spot }}" />
 
   <!-- 日期选择 -->
   <!-- <van-field label="日期" value="{{ trade_date }}" clearable clear-trigger="focus" bind:click-input="displayCalendar" readonly required />
@@ -55,8 +55,10 @@
 </van-cell-group>
 
 <van-cell-group inset title="买家信息" custom-class="shadow">
-  <van-field model:value="{{ contactInformation }}" placeholder="手机号/QQ/微信等更方便交流哦~" label="备注" clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ contactInformation }}" placeholder="手机/QQ/微信便于及时联系~" label="备注(可选)" clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>
+
+<view style="margin-top: 75px;"></view>
 
 <van-goods-action custom-class="bottom-tab">
   <view style="text-align: right; width: 100%;">
@@ -71,3 +73,5 @@
     <van-button round color="linear-gradient(to right, #8ac286, #659c64)" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="commitForm">提交</van-button>
   </view>
 </van-goods-action>
+
+<van-dialog id="van-dialog" />

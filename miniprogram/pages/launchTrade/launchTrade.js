@@ -1,7 +1,27 @@
 // pages/launchTrade/launchTrade.js
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
 import __util from "../../utils/util"
 import __user from "../../utils/user"
+
+const beforeClose = (action) => new Promise((resolve) => {
+  if (action === 'confirm') {
+    //获取当前页面栈
+    const pages = getCurrentPages();
+    //获取上一页面对象
+    let prePage = pages[pages.length - 2];
+    prePage.setData({
+      'bookDetail.state': 1,
+      textShowState: 1,
+      textDiffShow: '取消预订'
+    })
+    wx.navigateBack()
+    resolve(true);
+  } else {
+    // 拦截取消操作
+    resolve(false);
+  }
+});
 
 Page({
 
@@ -121,19 +141,9 @@ Page({
 
   // 确认提交交易信息
   commitForm(event) {
-    // if (!this.data.bookDetail.price) {
-    //   wx.showToast({
-    //     title: '现价不能为空',
-    //     icon: 'error'
-    //   })
-    // }
-    // else if (!this.data.trade_spot) {
-    //   wx.showToast({
-    //     title: '地点不能为空',
-    //     icon: 'error'
-    //   })
-    // }
-    // else {
+    wx.showLoading({
+      title: '提交中…',
+    })
     wx.cloud.database().collection('trade').where({
       goods_id: this.data.bookDetail._id,
     }).get().then(res => {
@@ -163,7 +173,6 @@ Page({
         this.addTradeRecord()
       }
     })
-    // }
   },
 
   // 向trade集合中添加记录
@@ -190,34 +199,27 @@ Page({
         contact_information: this.data.contactInformation,
       }
     }).then(res => {
-      wx.showToast({
-        title: '交易请求已发送',
-        icon: 'success'
-      }).then(res => {
-        // 调用云函数修改数据库
-        wx.cloud.callFunction({
-          name: 'updateGoods',
-          data: {
-            type: 'updateState',
-            goodsID: this.data.bookDetail._id,
-            state: 1,
-          }
-        })
-          .then(res => {
-            //获取当前页面栈
-            const pages = getCurrentPages();
-            //获取上一页面对象
-            let prePage = pages[pages.length - 2];
-            prePage.setData({
-              'bookDetail.state': 1,
-              textShowState: 1,
-              textDiffShow: '取消预订'
-            })
-            wx.navigateBack({
-              delta: 1,
-            })
-          })
+      // 调用云函数修改数据库
+      wx.cloud.callFunction({
+        name: 'updateGoods',
+        data: {
+          type: 'updateState',
+          goodsID: this.data.bookDetail._id,
+          state: 1,
+        }
       })
+        .then(res => {
+          var that = this
+          wx.hideLoading()
+          // 弹出提示点击确认后返回页面
+          Dialog.alert({
+            title: '提示',
+            message: '卖家留下的备注为：' + that.data.bookDetail.contact_information + "\n下次查看可到'我买到的'页面查看哦~",
+            beforeClose,
+          })
+            .then()
+            .catch()
+        })
     })
   },
 
