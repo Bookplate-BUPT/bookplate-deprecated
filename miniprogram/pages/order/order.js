@@ -266,6 +266,58 @@ Page({
       .catch(err => console.error(err))
   },
 
+  // 卖家确认后取消请求（与收货同一级！！！）
+  cancelTradeAfterSellerConfirm(event) {
+    wx.showLoading({
+      title: '取消中……',
+      mask: true,
+    })
+
+    //获取当前页面栈
+    const pages = getCurrentPages();
+    //获取上一页面对象
+    let prePage = pages[pages.length - 2];
+
+    wx.cloud.callFunction({
+      name: 'updateTradeState',
+      data: {
+        type: 3,
+        _id: event.currentTarget.dataset._id,
+        state: 3,
+      }
+    })
+      .then(res => {
+        // 将全部中需要拒绝的元素的state改为3
+        prePage.data.tradeGoodsList[prePage.data.tradeGoodsList.findIndex(i => i._id == event.currentTarget.dataset._id)].state = 3
+
+        // 在待收货中删除元素
+        prePage.data.confirmedTrade.splice(prePage.data.confirmedTrade.findIndex(i => { return i._id == event.currentTarget.dataset._id }), 1)
+
+        // 更新页面
+        prePage.setData({
+          confirmedTrade: prePage.data.confirmedTrade,
+          tradeGoodsList: prePage.data.tradeGoodsList,
+          confirmedTradeSum: prePage.data.confirmedTradeSum - 1,
+        })
+        return
+      })
+      .then(res => wx.cloud.callFunction({
+        name: 'updateGoods',
+        data: {
+          type: 'updateState',
+          goodsID: event.currentTarget.dataset.goodsid,
+          state: 0,
+        }
+      }))
+      .then(res => prePage.getRejectedTrade())
+      .then(res => prePage.getRejectedTradeSum())
+      .then(res => wx.showToast({
+        title: '取消成功',
+      }))
+      .then(res => wx.navigateBack())
+      .catch(err => console.error(err))
+  },
+
   // 预览图片
   preview(e) {
     var image_list = this.data.trade.bookDetail.image_list

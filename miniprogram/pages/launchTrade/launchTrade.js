@@ -214,7 +214,7 @@ Page({
           // 弹出提示点击确认后返回页面
           Dialog.alert({
             title: '提示',
-            message: '卖家留下的备注为：' + that.data.bookDetail.contact_information + "\n下次查看可到'我买到的'页面查看哦~",
+            message: that.data.bookDetail.contact_information ? '卖家备注：' + that.data.bookDetail.contact_information + "\n下次查看可到'我买到的'页面查看\n(成交后备注将不会显示)" : "卖家暂没有留下备注",
             beforeClose,
           })
             .then()

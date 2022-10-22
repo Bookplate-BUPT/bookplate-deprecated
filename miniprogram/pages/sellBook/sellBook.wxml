@@ -52,7 +52,7 @@
     <van-picker columns="{{ tradeSpotColumns }}" visible-item-count="6" show-toolbar title="选择交易地点" bind:confirm="confirmTradeSpot" bind:cancel="closeTradeSpot" />
   </van-popup>
 
-  <van-field model:value="{{ contactInformation }}" placeholder="手机/QQ/微信便于及时联系~" label="备注(可选)" clearable clear-trigger="focus" autosize type="textarea" />
+  <van-field model:value="{{ contactInformation }}" placeholder="如手机/QQ (买家拍下后才会显示)" label="备注(可选)" clearable clear-trigger="focus" autosize type="textarea" />
 </van-cell-group>
 
 <!-- 书籍图片 -->

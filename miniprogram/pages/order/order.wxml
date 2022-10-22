@@ -73,7 +73,8 @@
       <text>.{{ utils.getFloat(trade.trade_price) }}</text>
     </view>
 
-    <van-button round color="linear-gradient(to right, #8ac286, #659c64)" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="receiveGoods" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">确认收货</van-button>
+    <van-button round type="primary" custom-style="color: #8cbf84; width: 100px; height: 37px" bind:click="cancelTradeAfterSellerConfirm" class="btn-left" plain data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">取消订单</van-button>
+    <van-button round color="linear-gradient(to right, #8fba81, #8ac286)" custom-style="width: 100px;  margin-right: 16px; height: 37px" bind:click="receiveGoods" class="btn-right" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">确认收货</van-button>
   </view>
 </van-goods-action>
 

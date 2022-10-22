@@ -7,11 +7,17 @@
     </view>
     <view wx:else>
       <view wx:for="{{tradeGoodsList}}" wx:key="_id" style="margin-top: 20rpx;">
-        <OrderCard right="{{ item.state===0||item.state===1?88:0 }}" trade="{{ item }}" page="{{ 1 }}">
+        <OrderCard right="{{ item.state===0||item.state===1?88:0 }}" left="{{ item.state===1?88:0 }}" trade="{{ item }}" page="{{ 1 }}">
           <van-button wx:if="{{ item.state===0 }}" slot="right" color="#FF5E62" custom-class="swiperCellButton" bind:click="rejectForm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
             取消请求
           </van-button>
-          <van-button wx:if="{{ item.state===1 }}" slot='right' color="#8AC286" custom-class="swiperCellButton" bind:click="confirmReceipt" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">确认收货</van-button>
+          <!-- state为1后买家的视角 -->
+          <van-button wx:if="{{ item.state===1 }}" slot='right' color="#8AC286" custom-class="swiperCellButton" bind:click="confirmReceipt" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+            确认收货
+          </van-button>
+          <van-button wx:if="{{ item.state===1 }}" slot="left" color="#FF5E62" custom-class="swiperCellButton" bind:click="cancelTradeAfterSellerConfirm" data-_id="{{item._id}}" data-goodsid="{{item.goods_id}}">
+            取消订单
+          </van-button>
         </OrderCard>
       </view>
 
