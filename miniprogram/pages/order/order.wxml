@@ -39,7 +39,7 @@
     <van-field value="{{ trade_price }}" placeholder="请输入现价" label="现价" clearable clear-trigger="focus" autosize type="textarea" bind:input="inputTradePrice" />
   </van-cell-group>
   <van-cell-group inset custom-class="shadow" title=" ">
-    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot }}" />
+    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot?trade.bookDetail.trade_spot:'该用户没有留下交易地点哦~' }}" />
     <van-cell title="备注" label="{{ page==1?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
   </van-cell-group>
 </view>
@@ -49,7 +49,7 @@
   <van-cell-group inset custom-class="shadow" title="交易信息">
     <!-- 修改现价 -->
     <van-cell title="现价" label="{{ trade.trade_price }}" />
-    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot }}" />
+    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot?trade.bookDetail.trade_spot:'该用户没有留下交易地点哦~' }}" />
     <van-cell title="备注" label="{{ page==1?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
   </van-cell-group>
 </view>
