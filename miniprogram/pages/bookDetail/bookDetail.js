@@ -51,6 +51,13 @@ Page({
             title: '已取消预订',
             icon: 'success'
           })
+        }else{
+          wx.showToast({
+            title: '该书已被他人预定',
+            icon: 'none',
+            duration: 2000
+          })
+          wx.hideLoading()
         }
       })
     } else if (this.data.bookDetail._openid == __user.getUserOpenid()) {
