@@ -41,7 +41,7 @@
 <van-cell-group inset title="订单详情" custom-class="shadow">
   <!-- <van-field label="交易价格" value="{{ bookDetail.price }}" bind:change="onChangeTradePrice" clearable required /> -->
   <van-cell title="交易价格" label="{{ bookDetail.price }}" />
-  <van-cell title="交易地点" label="{{ bookDetail.trade_spot }}" />
+  <van-cell title="交易地点" label="{{ bookDetail.trade_spot?bookDetail.trade_spot:'该用户没有留下交易地点' }}" />
 
   <!-- 日期选择 -->
   <!-- <van-field label="日期" value="{{ trade_date }}" clearable clear-trigger="focus" bind:click-input="displayCalendar" readonly required />
