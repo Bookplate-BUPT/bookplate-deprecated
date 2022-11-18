@@ -1,0 +1,45 @@
+/* pages/personalInformation/personalInformation.wxss */
+.shadow {
+  box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  /* 解决van-swipe-cell渲染层报错 */
+  /* touch-action: none; */
+}
+
+.avatarOuter {
+  display: flex;
+  justify-content: center;
+}
+
+.avatarInner {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nickname {
+  display: flex;
+  justify-content: space-between;
+}
+
+.placeholder_class {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+  color: #c8c9cc;
+  font-size: 14px;
+}
+
+.label_default {
+  margin-left: 15px;
+  color: #646566;
+  font-size: 14px;
+}
+
+.btn {
+  --button-small-min-width: 280px;
+  --button-small-height: 44px;
+  --padding-xs: 0px;
+  --button-small-font-size: 16px
+}

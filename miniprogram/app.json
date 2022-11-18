@@ -17,7 +17,8 @@
     "pages/launchTrade/launchTrade",
     "pages/order/order",
     "pages/sellDetail/sellDetail",
-    "pages/mySellBooks/mySellBooks"
+    "pages/mySellBooks/mySellBooks",
+    "pages/personalInformation/personalInformation"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

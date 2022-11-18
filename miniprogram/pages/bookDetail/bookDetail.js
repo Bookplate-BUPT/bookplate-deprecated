@@ -57,7 +57,6 @@ Page({
             icon: 'none',
             duration: 2000
           })
-          wx.hideLoading()
         }
       })
     } else if (this.data.bookDetail._openid == __user.getUserOpenid()) {

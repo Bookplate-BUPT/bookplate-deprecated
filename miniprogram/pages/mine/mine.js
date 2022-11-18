@@ -42,70 +42,74 @@ Page({
   // 用户登录
   userLoginInMine() {
     if (!__user.checkLoginStatus()) {
-      // 获取用户昵称、头像
-      wx.getUserProfile({
-        desc: '获取你的昵称、头像',
-        success: res => {
-          app.globalData.userInfo = res.userInfo
+      // 获取用户openid 
+      wx.cloud.callFunction({
+        name: 'getOpenid',
+        success: resInner => {
+          var that = this       // 将this存入本地变量
 
-          this.setData({
-            userInfo: app.globalData.userInfo,
-          })
+          // 获取头像
+          wx.navigateTo({
+            url: '../personalInformation/personalInformation',
+            // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+            events: {
+              getAvatarAndNickname: function (res) {
+                console.log(res)
+                if (res.userInfo) {     // 用户在个人信息页面成功点击登录
+                  app.globalData.userOpenid = resInner.result.openid  // 将openid存入全局变量
+                  app.globalData.userInfo = res.userInfo                  // 将userInfo存入全局变量
 
-          // 获取用户openid
-          wx.cloud.callFunction({
-            name: 'getOpenid',
-            success: resInner => {
-              app.globalData.userOpenid = resInner.result.openid
+                  that.setData({                            // 更新当前页面信息
+                    userOpenid: resInner.result.openid,
+                    userInfo: res.userInfo,
+                  })
+                  wx.setStorageSync('user', {               // 将头像和昵称存入本地缓存
+                    userInfo: app.globalData.userInfo,
+                    userOpenid: app.globalData.userOpenid
+                  })
+                  wx.showToast({                            // 显示登录成功
+                    title: '登录成功',
+                    icon: 'success',
+                  })
 
-              this.setData({
-                userOpenid: app.globalData.userOpenid,
-              })
+                  wx.cloud.database().collection('users')   // 将头像和昵称存入数据库
+                    .where({
+                      _openid: resInner.result.openid
+                    })
+                    .update({
+                      data: {
+                        avatarUrl: res.userInfo.avatarUrl,
+                        nickName: res.userInfo.nickName
+                      }
+                    })
 
-              // 本地缓存
-              wx.setStorageSync('user', {
-                userInfo: app.globalData.userInfo,
-                userOpenid: app.globalData.userOpenid
-              })
+                  that.countViews()
+                  that.countTrade()
+                  that.countConfirmedTrade()
+                  that.countUnreceived()
 
-              wx.showToast({
-                title: '登录成功',
-                icon: 'success',
-              })
+                  that.countNumOfStateSum()
 
-              wx.cloud.database().collection('users')
-                .where({
-                  _openid: resInner.result.openid
+                  // 检查用户是否是第一次使用 
+                  that.userRegister()
+
+                  that.getUserDetail()
+                }
+                else wx.showToast({
+                  title: '登录失败',
+                  icon: 'error'
                 })
-                .update({
-                  data: {
-                    avatarUrl: res.userInfo.avatarUrl,
-                    nickName: res.userInfo.nickName
-                  }
-                })
-
-              this.countViews()
-              this.countTrade()
-              this.countConfirmedTrade()
-              this.countUnreceived()
-
-              this.countNumOfStateSum()
-
-              // 检查用户是否是第一次使用
-              this.userRegister()
-
-              this.getUserDetail()
+              },
             },
-            fail: resInner => {
-              console.log(resInner)
+            success: function (res) {
+              // 通过 eventChannel 向被打开页面传送数据
+              res.eventChannel.emit('getOpenid', { userOpenid: resInner.result.openid })
+              console.log(res)
             }
           })
         },
-        fail: res => {
-          wx.showToast({
-            title: '获取失败',
-            icon: 'error',
-          })
+        fail: err => {
+          console.error(err)
         }
       })
     }
@@ -120,6 +124,8 @@ Page({
       tradeSum: '-',
       unconfirmedTrade: false,
       unreceived: false,
+      numOfMysellbook: 0,
+      numOfMybuybook: 0,
     })
     wx.removeTabBarBadge({
       index: 4,
