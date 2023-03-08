@@ -58,7 +58,7 @@ Page({
           const eventChannel = this.getOpenerEventChannel()   // 获取页面间事件通信通道
           eventChannel.emit('getAvatarAndNickname', {         // 向“我的”页面返回头像与昵称信息
             userInfo: {
-              avatarUrl: res[0].fileID,
+              avatarUrl: res[0].fileID ? res[0].fileID : res[0],
               nickName: this.data.nickname
             }
           })
