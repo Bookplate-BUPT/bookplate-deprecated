@@ -77,6 +77,8 @@ Page({
         })
       }
 
+      // console.log(this.data.relationshipList)
+
       wx.hideLoading()
     }).catch(res => {
       console.log(res)
@@ -147,13 +149,13 @@ Page({
   // 前往聊天室
   gotoChatroom(event) {
     // 该用户不存在
-    if (!event.currentTarget.dataset.avatar) {
-      wx.showToast({
-        title: '该用户不存在',
-        icon: 'error',
-      })
-      return
-    }
+    // if (!event.currentTarget.dataset.avatar) {
+    //   wx.showToast({
+    //     title: '该用户不存在',
+    //     icon: 'error',
+    //   })
+    //   return
+    // }
 
     let tempList = [...this.data.relationshipList]
     for (let i = 0; i < tempList.length; i++) {

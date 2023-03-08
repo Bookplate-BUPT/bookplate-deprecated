@@ -7,8 +7,8 @@
   <van-empty description="暂时没有新消息" />
 </view>
 <view wx:elif="{{ relationshipList.length }}">
-  <view wx:for="{{ relationshipList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-otherid="{{ item.userInfo[0]._openid }}" data-avatar="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" data-relationshipid="{{ item._id }}" data-nickname="{{ item.userInfo[0].nickName }}">
-    <van-image round width="40px" height="40px" src="{{ item.userInfo.length ? item.userInfo[0].avatarUrl : '' }}" />
+  <view wx:for="{{ relationshipList }}" wx:key="id" class="user-card" bindtap="gotoChatroom" data-otherid="{{ item.userInfo[0]._openid }}" data-avatar="{{ item.userInfo.length && item.userInfo[0].avatarUrl  ? item.userInfo[0].avatarUrl : 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0' }}" data-relationshipid="{{ item._id }}" data-nickname="{{ item.userInfo[0].nickName }}">
+    <van-image round width="40px" height="40px" src="{{ item.userInfo.length && item.userInfo[0].avatarUrl  ? item.userInfo[0].avatarUrl : 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0' }}" />
 
     <view wx:if="{{ !item.is_readed && item.last_sender !== openid }}" class="dot">
       <text style="padding: 0; margin: 0;">{{ item.last_send_number }}</text>
