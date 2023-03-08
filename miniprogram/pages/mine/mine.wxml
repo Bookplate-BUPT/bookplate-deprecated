@@ -8,7 +8,7 @@
       <van-row>
         <van-col custom-class="usernameCol">
           <text style="font-size: 14px; margin-left: 16px;">{{ userInfo.nickName }}</text>
-          <van-tag color="#f6a7af" style="margin-left: 12px;">{{ userSchool == '游客'? '' :  userGrade+'级' }}</van-tag>
+          <van-tag color="#f6a7af" style="margin-left: 12px;">{{ userSchool == '游客'? '' : userGrade+'级' }}</van-tag>
         </van-col>
         <van-col offset="2" custom-class="tagCol">
           <van-tag color="#b0c2db">{{ userSchool }}</van-tag>
@@ -74,7 +74,7 @@
         </view>
         <van-image width="55" height="55" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/QRCode.png" bind:click="previewPicture" />
       </van-cell>
-      <view style="text-align: right;font-size: 10px;margin-top: 4px;margin-right: 16px;">版本号：1.5.1</view>
+      <view style="text-align: right;font-size: 10px;margin-top: 4px;margin-right: 16px;">版本号：1.5.2</view>
     </van-collapse-item>
   </van-collapse>
 </van-cell-group>
