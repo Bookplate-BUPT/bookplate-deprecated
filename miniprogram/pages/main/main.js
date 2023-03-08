@@ -369,10 +369,6 @@ Page({
     sortTypeOption: [
       {
         text: '默认排序',
-        value: '',
-      },
-      {
-        text: '最新上架',
         value: 'post_date',
       },
       {
@@ -386,7 +382,7 @@ Page({
     ],
 
     bookType: '全部书籍',    // 书籍类型
-    sortType: '',           // 排序类型
+    sortType: 'post_date',           // 排序类型
 
     goodsList: [],          // 卖书商品列表
     isReachBottom: false,   // 是否到达最底部
@@ -492,33 +488,7 @@ Page({
       this.setData({
         isReachBottom: true
       })
-      // 无排序要求
-      if (this.data.bookType === '全部书籍' && !this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .skip(this.data.goodsList.length)
-          .limit(20)
-          .get()
-          .then(res => {
-            if (res.data.length == 20)
-              this.setData({
-                isReachBottom: false
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            // 拼接数组
-            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-
-            this.setData({
-              goodsList: this.data.goodsList,
-            })
-          })
-      }
-      // 书籍信息排序（时间、浏览、收藏等）
-      else if (this.data.bookType === '全部书籍' && this.data.sortType) {
+      if (this.data.bookType === '全部书籍' && this.data.sortType) {
         if (this.data.sortType == 'isNotLocked')
           wx.cloud.database().collection('goods')
             .where({
@@ -569,35 +539,6 @@ Page({
                 goodsList: this.data.goodsList,
               })
             })
-      }
-      // 书籍类型排序（学院、专业）
-      else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .where({
-            college: this.data.college,
-            major: this.data.major,
-          })
-          .skip(this.data.goodsList.length)
-          .limit(20)
-          .get()
-          .then(res => {
-            if (res.data.length == 20)
-              this.setData({
-                isReachBottom: false
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            // 拼接数组
-            this.data.goodsList = [...this.data.goodsList, ...tempGoodsList]
-
-            this.setData({
-              goodsList: this.data.goodsList,
-            })
-          })
       }
       // 都存在
       else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
@@ -698,29 +639,8 @@ Page({
   // 获取商品列表
   getGoodsList() {
     var promise = new Promise((resolve, reject) => {
-      // 无排序要求
-      if (this.data.bookType === '全部书籍' && !this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .get()
-          .then(res => {
-            if (res.data.length < 20)
-              this.setData({
-                isReachBottom: true
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            this.setData({
-              goodsList: tempGoodsList,
-            })
-            resolve(res)
-          })
-      }
       // 书籍信息排序（时间、浏览、收藏等）
-      else if (this.data.bookType === '全部书籍' && this.data.sortType) {
+      if (this.data.bookType === '全部书籍' && this.data.sortType) {
         // 筛选可以查找的书籍
         if (this.data.sortType == 'isNotLocked')
           wx.cloud.database().collection('goods')
@@ -764,31 +684,6 @@ Page({
               })
               resolve(res)
             })
-      }
-      // 书籍类型排序（学院、专业）
-      else if (this.data.bookType !== '全部书籍' && !this.data.sortType) {
-        wx.cloud.database().collection('goods')
-          .where({
-            college: this.data.college,
-            major: this.data.major,
-          })
-          .get()
-          .then(res => {
-            if (res.data.length < 20)
-              this.setData({
-                isReachBottom: true
-              })
-            let tempGoodsList = res.data.map((i, idx) => ({
-              ...i,
-              // 5天内将书籍设置为最新
-              isNew: (new Date).getTime() - i.post_date.getTime() < 432000000,
-            }))
-
-            this.setData({
-              goodsList: tempGoodsList
-            })
-            resolve(res)
-          })
       }
       // 都存在
       else if (this.data.bookType !== '全部书籍' && this.data.sortType) {
