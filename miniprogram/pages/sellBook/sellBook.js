@@ -92,6 +92,9 @@ Page({
     ],
     columnsMajor: [],
 
+    //标识修改二手书价格区间
+    idention: '-1',
+
     // 回退时需要修改书籍的索引
     index: '',
     tempMessage: '',   // 暂存修改卖书页面传过来的书籍信息
@@ -219,6 +222,9 @@ Page({
         tempMessage: options.message
       })
       var { author, book_publish_date, description, image_list, introduction, isbn, name, original_price, price, publisher, _id, college, major, state, trade_spot, contact_information } = JSON.parse(options.message)
+
+      //存一下被修改之前的二手书价格
+      this.data.idention = price;
 
       // 首先进行url解码
       image_list.forEach((i, idx) => {
@@ -565,26 +571,36 @@ Page({
             trade_spot: this.data.tradeSpot,
             contact_information: this.data.contactInformation,
             state: 0, // 表示未售出
-          },
-          success: res => {
-            wx.hideLoading()
-            wx.showToast({
-              title: '发布成功',
-              icon: 'success',
+          }
+        })
+          .then(res => {
+            //生成二手书价格展示区段
+            wx.cloud.callFunction({
+              name: 'operatePriceNum',
+              data: {
+                price: this.data.price,
+                num: 1,
+              }
             }).then(res => {
-              wx.switchTab({
-                url: '../sellBookMain/sellBookMain',
+              wx.hideLoading()
+              wx.showToast({
+                title: '发布成功',
+                icon: 'success',
+              }).then(res => {
+                wx.switchTab({
+                  url: '../sellBookMain/sellBookMain',
+                })
               })
             })
-          },
-          fail: res => {
+          })
+          .catch(err => {
             wx.hideLoading()
             wx.showToast({
               title: '发布失败',
               icon: 'error',
             })
-          }
-        })
+          })
+
       })
       .catch(err => {
         wx.showModal({
@@ -783,15 +799,33 @@ Page({
             contact_information: this.data.contactInformation
           }
         }).then(res => {
-          wx.showToast({
-            title: '修改成功',
-            icon: 'success'
-          }).then(res => {
-            wx.navigateBack()
-          })
+          if (this.data.idention > 0) {
+            wx.cloud.callFunction({
+              name: 'operatePriceNum',
+              data: {
+                price: this.data.idention,
+                num: -1
+              }
+            }).then(res => {
+              wx.cloud.callFunction({
+                name: 'operatePriceNum',
+                data: {
+                  price: this.data.price,
+                  num: 1
+                }
+              })
+            }
+            ).then(res => {
+              wx.showToast({
+                title: '修改成功',
+                icon: 'success'
+              }).then(res => {
+                wx.navigateBack()
+              })
+            })
+          }
         })
       })
-
   },
 
   // 对象数组映射成字符串数组

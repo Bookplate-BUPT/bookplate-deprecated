@@ -84,24 +84,37 @@ Page({
           fileList: [i]
         })
     })
-    wx.cloud.database().collection("goods").doc(e.currentTarget.dataset._id)
-      .remove()
+    this.deletePriceRange(this.data.goodsList[index].price)
       .then(res => {
-        // 删除并更新数组
-        this.data.goodsList.splice(index, 1)
-        this.data.postDate.splice(index, 1)
-        // 更新页面
-        this.setData({
-          goodsList: this.data.goodsList,
-          postDate: this.data.postDate,
-        })
-        // 提示
-        wx.hideLoading()
-        wx.showToast({
-          title: '下架成功',
-          icon: 'success',
-        })
+        wx.cloud.database().collection("goods").doc(e.currentTarget.dataset._id)
+          .remove()
+          .then(res => {
+            // 删除并更新数组
+            this.data.goodsList.splice(index, 1)
+            this.data.postDate.splice(index, 1)
+            // 更新页面
+            this.setData({
+              goodsList: this.data.goodsList,
+              postDate: this.data.postDate,
+            })
+            // 提示
+            wx.hideLoading()
+            wx.showToast({
+              title: '下架成功',
+              icon: 'success',
+            })
+          })
       })
+  },
+
+  deletePriceRange(e) {
+    wx.cloud.callFunction({
+      name: 'operatePriceNum',
+      data: {
+        price: e,
+        num: -1,
+      }
+    })
   },
 
   // 上拉触底监听
