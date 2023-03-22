@@ -11,8 +11,8 @@ exports.main = async (event, context) => {
   const currentOpenid = wxContext.OPENID
 
   // 对event中不存在的数据进行处理
-  if(event.trade_spot==undefined)             trade_spot = ''
-  if(event.contact_information == undefined)  contact_information = ''
+  if(event.trade_spot==undefined)             event.trade_spot = ''
+  if(event.contact_information == undefined)  event.contact_information = ''
 
   if (currentOpenid === event.openid) {
     return cloud.database().collection('goods').add({
