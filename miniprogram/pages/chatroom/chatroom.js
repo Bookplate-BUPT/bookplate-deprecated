@@ -1,5 +1,6 @@
 // pages/chatroom/chatroom.js
 import __user from "../../utils/user"
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
 const app = getApp()
 
