@@ -1,11 +1,13 @@
 <!--pages/bookDetail/bookDetail.wxml-->
 <wxs src="../../utils/utils.wxs" module="utils" />
 
+<van-notice-bar left-icon="info-o" text="建议先与卖家联系交流后，再进行交易哦~" />
+
 <van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
   <van-cell>
-    <swiper wx:for="{{ bookDetail.image_list }}" wx:key="key" indicator-dots autoplay>
-      <swiper-item>
-        <van-image height="100%" width="100%" src="{{ item }}" fit="contain" />
+    <swiper indicator-dots circular>
+      <swiper-item wx:for="{{ bookDetail.image_list }}" wx:key="key">
+        <van-image height="100%" width="100%" src="{{ item }}" fit="contain" bind:click="preview" data-index="{{index}}" />
       </swiper-item>
     </swiper>
   </van-cell>
@@ -21,13 +23,16 @@
       </view>
 
       <view class="book-name">
-        <van-tag color="{{ bookDetail.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain>{{ bookDetail.grade }}</van-tag>
-        <text style="margin-left: 8px;">{{ bookDetail.name }}</text>
+        <!-- <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag> -->
+        <text>{{ bookDetail.name }}</text>
       </view>
     </view>
   </van-cell>
 
-  <van-cell title="卖家描述" label="{{ bookDetail.description }}" />
+  <van-cell title="适用学院" value="{{ bookDetail.college }}" title-width="60px" />
+  <van-cell title="适用专业" value="{{ bookDetail.major }}" title-width="60px" />
+  <van-cell title="卖家描述" label="{{ bookDetail.description }}" style="word-break: break-all;" />
+  <van-cell title="交易地点" value="{{ bookDetail.trade_spot ? bookDetail.trade_spot : '该用户没有留下交易地点' }}" title-width="60px" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" title="书籍信息">
@@ -35,22 +40,22 @@
   <van-cell title="出版社" label="{{ bookDetail.publisher }}" />
   <van-cell title="出版时间" label="{{ bookDetail.book_publish_date }}" />
 
-  <van-cell title="书籍描述" label="{{ bookDetail.introduction }}" />
+  <van-cell title="书籍描述" label="{{ bookDetail.introduction ? bookDetail.introduction : '该用户暂未填写' }}" style="word-break: break-all;" />
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 1px;" title="卖家信息" custom-class="shadow">
   <van-cell title="昵称" value="{{ sellerDetail.nickName }}" />
-  <van-cell title="年级" value="{{ sellerDetail.grade }}" />
-  <van-cell title="学院" value="{{ sellerDetail.school }}" />
+  <van-cell title="届级" value="{{ sellerDetail.grade }}级" />
+  <van-cell title="学院" value="{{ sellerDetail.college }}" />
   <view style="display: flex; align-items: center; margin: 0 0 3% 5%;">
     <van-image round width="48px" height="48px" src="{{ sellerDetail.avatarUrl }}" style="margin: 5% 0 0 10%" />
     <van-row>
       <van-col custom-class="usernameCol">
         <text style="font-size: 14px; margin-left: 16px;">{{ sellerDetail.nickName }}</text>
-        <van-tag color="#f6a7af" style="margin-left: 12px;">{{ sellerDetail.grade }}</van-tag>
+        <van-tag color="#f6a7af" style="margin-left: 12px;">{{ sellerDetail.grade }}级</van-tag>
       </van-col>
       <van-col offset="2" custom-class="tagCol">
-        <van-tag color="#b0c2db">{{ sellerDetail.school }}</van-tag>
+        <van-tag color="#b0c2db">{{ sellerDetail.college }}</van-tag>
       </van-col>
     </van-row>
   </view>
@@ -59,9 +64,11 @@
 <view style="margin-bottom: 25%;" />
 
 <van-goods-action>
-  <van-goods-action-icon icon="cart-o" text="购物车" info="{{ numOfUserCartGoods === 0 ? '' : numOfUserCartGoods }}" bind:click="gotoCart" />
-  <van-goods-action-icon icon="{{ isExisted ? 'star' : 'star-o' }}" text="{{ isExisted ? '已收藏' : '收藏' }}" bind:click="addGoodsToFavorite" icon-class="{{ isExisted ? 'star' : ''}}">
+  <van-goods-action-icon icon="{{ isExisted ? 'star' : 'star-o' }}" text="{{ isExisted ? '已收藏' : '收藏' }}" bind:click="addGoodsToCart" icon-class="{{ isExisted ? 'star' : ''}}" data-state="{{bookDetail.state}}">
   </van-goods-action-icon>
-  <van-goods-action-button text="加入购物车" type="warning" plain color="#8ac286" bind:click="addGoodsToCart" />
-  <van-goods-action-button text="联系卖家" color="linear-gradient(to right, #8ac286, #659c64)" bind:click="contactSeller" />
+  <!-- <van-goods-action-icon icon="cart-o" text="购物车" bind:click="gotoCart" /> -->
+  <van-goods-action-button text="{{ textDiffShow }}" plain="{{ textShowState == 1 ? fasle : true }}" color="{{ textShowState == 1 ? '#818385' : '#8ac286' }}" bind:click="gotoLaunchTrade" />
+  <van-goods-action-button text="联系卖家" type="warning" color="{{ textShowState == 1 ? '#808385' : 'linear-gradient(to right, #8ac286, #659c64)' }}" plain="{{ textShowState == 1 ? true : fasle }}" bind:click="contactSeller" />
 </van-goods-action>
+
+<van-dialog id="van-dialog" />

@@ -1,0 +1,40 @@
+<!--pages/history/history.wxml-->
+<wxs src="../../utils/utils.wxs" module="utils" />
+
+<!-- <view wx:if="{{!userOpenid}}">
+  <van-popup show="{{ showNoLoginPopup }}" bind:close="closeNoLoginPopup" round position="bottom" custom-style="height: 35%">
+    <view style="justify-content: center; display: flex; margin: 12% 0 8% 0;">认证用户信息后方可正常使用</view>
+    <van-button round type="primary" color="linear-gradient(to right, #b3cfb0, #659c64)" custom-style="justify-content: center; display: flex; width: 80%" bind:click="userLogin">
+      点此认证用户信息
+    </van-button>
+  </van-popup>
+</view> -->
+
+<!-- <van-tabs color="#8AC286" sticky animated swipeable> -->
+<!-- <van-tab title="卖书"> -->
+<view wx:if="{{ !historyList.length }}" style="margin-top: 160rpx;">
+  <van-empty description="没有浏览记录"></van-empty>
+</view>
+<view wx:else>
+  <view wx:for="{{ historyList }}" style="margin-top: 8px;" wx:key="_id">
+    <view wx:if="{{historyList[index-1].view_time!=item.view_time}}">
+      <view class="time">{{ item.view_time==today?'今天':utils.getDateOnly(item.view_time,today) }}</view>
+    </view>
+    <MainBookCard disabled="{{ item.bookDetail[0]._id==null }}" right="{{ 60 }}" left="{{ 60 }}" price="{{item.bookDetail[0].price}}" image_list="{{item.bookDetail[0].image_list}}" origin-price="{{item.bookDetail[0].origin-price}}" _id="{{item.bookDetail[0]._id}}" name="{{item.bookDetail[0].name}}" introduction="{{item.bookDetail[0].introduction}}">
+      <van-button block color="#878998" custom-class="swiperCellButton" slot="left" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
+      <van-button block color="#878998" custom-class="swiperCellButton" slot="right" bind:click="deleteHistory" data-id="{{item._id}}">删除</van-button>
+    </MainBookCard>
+  </view>
+
+  <van-divider wx:if="{{ isReachBottom }}" contentPosition="center" dashed>没有更多啦</van-divider>
+</view>
+<!-- </van-tab> -->
+
+<!-- <van-tab title="求书">
+    <view style="margin-top: 200rpx;">
+      <van-empty description="此功能暂未开发"></van-empty>
+    </view>
+    <van-divider contentPosition="center" dashed>没有更多啦</van-divider>
+</van-tab> -->
+
+<!-- </van-tabs> -->

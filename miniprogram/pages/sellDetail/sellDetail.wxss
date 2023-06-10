@@ -1,0 +1,35 @@
+/* pages/sellDetail/sellDetail.wxss */
+.footerRoot {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  background-color: white;
+  padding-top: 8px;
+}
+
+.shadow {
+  box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  /* 解决van-swipe-cell渲染层报错 */
+  /* touch-action: none; */
+}
+
+.question {
+  /* 卡片位置 */
+  height: 30%;
+  width: 80%;
+  /* 卡片背景 */
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 10px 20px 10px 0px rgba(0, 0, 0, 0.05);
+  /* flex布局 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+page {
+  --steps-background-color: #f6f6f6;
+  height: 100%;
+}

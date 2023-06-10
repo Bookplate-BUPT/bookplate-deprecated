@@ -1,0 +1,25 @@
+<!--pages/personalInformation/personalInformation.wxml-->
+<view class="avatarOuter">
+  <image style="margin-top: 8px;height: 120px;" mode="heightFix" src="{{avatarUrl}}"></image>
+</view>
+<form catchsubmit="uploadInformation" catchreset="formReset" style="margin-top: 15px;">
+  <van-cell-group inset custom-class="shadow">
+    <view class="avatarInner" bindchooseavatar="chooseavatar">
+      <view class="label_default" style="margin-top: 26px;">头像</view>
+      <view>
+        <button open-type="chooseAvatar" bind:chooseavatar="chooseAvatar">
+          <image style="margin-top: 8px;height: 50px;width: 50px;border-radius: 25px;" src="{{avatarUrl}}"></image>
+        </button>
+      </view>
+    </view>
+
+    <view class="nickname" bindchooseavatar="chooseavatar">
+      <view class="label_default" style="margin-top: 5px;padding-bottom: 25px;">昵称</view>
+      <input value="{{ nickname }}" type="nickname" placeholder-class="placeholder_class" placeholder="请输入用户名" name="input" />
+    </view>
+  </van-cell-group>
+
+  <view style="display: flex;justify-content: center;margin-top: 10px;">
+    <van-button round class="btn" size="small" color="linear-gradient(to right, #8ac286, #659c64)" formType="submit">确认</van-button>
+  </view>
+</form>

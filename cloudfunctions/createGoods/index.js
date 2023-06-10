@@ -10,6 +10,10 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const currentOpenid = wxContext.OPENID
 
+  // 对event中不存在的数据进行处理
+  if(event.trade_spot==undefined)             event.trade_spot = ''
+  if(event.contact_information == undefined)  event.contact_information = ''
+
   if (currentOpenid === event.openid) {
     return cloud.database().collection('goods').add({
       data: {
@@ -23,11 +27,14 @@ exports.main = async (event, context) => {
         introduction: event.introduction,
         image_list: event.imageList,
         views: 0,
-        favorites: 0,
         post_date: new Date(),
         publisher: event.publisher,
         book_publish_date: event.publishDate,
-        grade: event.grade,
+        major: event.major,
+        college: event.college,
+        trade_spot: event.trade_spot,
+        contact_information: event.contact_information,
+        state: event.state,
       }
     })
   }

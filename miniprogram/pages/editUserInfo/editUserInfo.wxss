@@ -4,3 +4,7 @@
   box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
   background-color: white;
 }
+
+.styler {
+  --picker-option-font-size: 14px
+}

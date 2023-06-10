@@ -1,0 +1,295 @@
+<!--pages/sellDetail/sellDetail.wxml-->
+<view wx:if="{{identity === 0}}" style="height: 100%;display: flex;justify-content: center;align-items: center;">
+  <view class="question">
+    <view style="font-size: xx-large;color: #666666;">请选择你的身份</view>
+    <van-row gutter="30" style="margin-top: 25px;">
+      <van-col>
+        <van-button block color="#8AC286" hairline round bind:click="isSeller">我是卖家</van-button>
+      </van-col>
+      <van-col>
+        <van-button block color="#8AC286" hairline round bind:click="isBuyer">我是买家</van-button>
+      </van-col>
+    </van-row>
+  </view>
+</view>
+
+<!-- 卖家页面 -->
+<view wx:if="{{identity === 1}}" style="height: 20rpx;"></view>
+<van-sticky wx:if="{{identity === 1}}">
+  <van-steps steps="{{ sellerSteps }}" active="{{ active }}" />
+</van-sticky>
+
+<view wx:if="{{identity === 1}}" style="background-color: #f6f6f6;width: 100%;position: fixed;bottom: 15px;display: flex;justify-content: space-around;">
+  <van-button wx:if="{{identity === 1 && active != 0}}" color="#8AC286" icon="arrow-left" hairline round bindclick="gotoPreviousStep">上一步</van-button>
+
+  <van-button wx:if="{{identity === 1}}" color="#8AC286" icon="arrow" hairline round bindclick="gotoNextStep">下一步</van-button>
+</view>
+
+<!-- 第一步 -->
+<van-cell-group wx:if="{{active ===0 && identity === 1}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <van-image width="84px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips1.png" />
+      </van-col>
+      <van-col span="12" offset="0">
+        <view style="margin-top: 2px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">发布第一步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>填入书籍信息</view>
+            <view>填写原价与二手价</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<van-cell-group wx:if="{{active ===0 && identity === 1}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="12" offset="1">
+        <view style="margin-top: 10px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">发布第二步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>提交信息，书籍上架</view>
+            <view>等待买家联系</view>
+          </view>
+        </view>
+      </van-col>
+      <van-col span="5" offset="1">
+        <van-image fit="contain" width="100px" height="84px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips2.png" />
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<van-cell-group wx:if="{{active ===0 && identity === 1}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <van-image width="84px" height="84px" fit="contain" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/seller/Seller03.jpg" />
+      </van-col>
+      <van-col span="10" offset="1">
+        <view style="margin-top: 10px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">发布第三步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>与买家达成协议</view>
+            <view>线下完成交易</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<!-- 第二步 -->
+<van-cell-group wx:if="{{active ===1 && identity === 1}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="45px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller04.png" />
+        </view>
+      </van-col>
+      <van-col span="12" offset="0">
+        <view style="margin-top: 2px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">确认第一步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>在我的页面点击“我卖出的”</view>
+            <view>点击未处理标签</view>
+            <view>查看未处理订单</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<van-cell-group wx:if="{{active ===1 && identity === 1}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="12" offset="1">
+        <view style="margin-top: 10px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">确认第二步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>左滑同意，右滑拒绝</view>
+            <view>选择后等待买家收货</view>
+          </view>
+        </view>
+      </van-col>
+      <van-col span="5" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="widthFix" width="120px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller05.png" />
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<!-- 第三步 -->
+<van-cell-group wx:if="{{active ===2 && identity === 1}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="55px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/seller/Seller06.png" />
+        </view>
+      </van-col>
+      <van-col span="12" offset="0">
+        <view style="margin-top: 2px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">买家收货后：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>在我的页面点击“我卖出的”</view>
+            <view>点击已成交标签</view>
+            <view>可查看已成功交易的书籍</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<!-- 买家页面 -->
+<view wx:if="{{identity === 2}}" style="height: 20rpx;"></view>
+<van-sticky wx:if="{{identity === 2}}">
+  <van-steps steps="{{ buyerSteps }}" active="{{ active }}" />
+</van-sticky>
+
+<view wx:if="{{identity === 2}}" style="background-color: #f6f6f6;width: 100%;position: fixed;bottom: 15px;display: flex;justify-content: space-around;">
+  <van-button wx:if="{{identity === 2 && active != 0}}" color="#8AC286" icon="arrow-left" hairline round bindclick="gotoPreviousStep">上一步</van-button>
+
+  <van-button wx:if="{{identity === 2}}" color="#8AC286" icon="arrow" hairline round bindclick="gotoNextStep">下一步</van-button>
+</view>
+
+<!-- 第一步 -->
+<van-cell-group wx:if="{{active === 0 && identity === 2}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="16px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer01.png" />
+        </view>
+      </van-col>
+      <van-col span="12" offset="0">
+        <view style="margin-top: 2px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">查找第一步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>在首页搜索框输入名称</view>
+            <view>或扫所需书籍的条形码</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<van-cell-group wx:if="{{active === 0 && identity === 2}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="12" offset="1">
+        <view style="margin-top: 10px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">查找第二步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>联系卖家可与卖家沟通</view>
+            <view>加入收藏可存储收藏书籍</view>
+          </view>
+        </view>
+      </van-col>
+      <van-col span="5" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="28px" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/buyer/Buyer02.jpg" />
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<!-- 第二步 -->
+<van-cell-group wx:if="{{active === 1 && identity === 2}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="35px" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/buyer/Buyer03.jpg" />
+        </view>
+      </van-col>
+      <van-col span="12" offset="0">
+        <view style="margin-top: 2px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">提交第一步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>点击我想要</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<van-cell-group wx:if="{{active === 1 && identity === 2}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="12" offset="1">
+        <view style="height: 100%;margin-top: 10px;display: flex;flex-direction: column;justify-content: center;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">提交第二步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>在交易信息页面填写相关信息</view>
+            <view>确认无误后即可提交</view>
+            <view>提示：</view>
+            <view>  1.现价以发布时的价格为默认值,可手动更改</view>
+            <view>  2.时间以提交申请当时为默认值,可手动更改</view>
+            <view>  3.地点为线下交易地点</view>
+          </view>
+        </view>
+      </van-col>
+      <van-col span="5" offset="1">
+        <view style="height: 200px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="200px" class="tipsCardImage" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/tips/buyer/Buyer04.jpg" />
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<!-- 第三步 -->
+<van-cell-group wx:if="{{active === 2 && identity === 2}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="45px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer05.png" />
+        </view>
+      </van-col>
+      <van-col span="12" offset="0">
+        <view style="margin-top: 2px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">收货第一步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>在我的页面点击“我买到的”</view>
+            <view>点击待收货标签</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>
+
+<van-cell-group wx:if="{{active === 2 && identity === 2}}" inset style="margin-top: 12px;" custom-class="shadow">
+  <view style="background-color: white; padding: 12px;">
+    <van-row>
+      <van-col span="10" offset="1">
+        <view style="height: 84px;display: flex;align-items: center;">
+          <van-image fit="heightFix" height="80px" class="tipsCardImage" src="cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/tips/buyer/Buyer06.png" />
+        </view>
+      </van-col>
+      <van-col span="12" offset="0">
+        <view style="margin-top: 2px;">
+          <view style="font-size: 14px; font-weight: bold; color: #333333;">收货第二步：</view>
+          <view style="font-size: 12px; margin-top: 8px; color: gray;">
+            <view>左滑即可拉出按钮</view>
+            <view>点击即可收货</view>
+          </view>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+</van-cell-group>

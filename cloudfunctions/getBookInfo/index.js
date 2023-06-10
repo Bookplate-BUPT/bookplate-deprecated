@@ -20,9 +20,20 @@ exports.main = async (event, context) => {
   //     return String(err)
   // })
 
-  const apikey = '12394.65010c74b70b7af6a1e2b288ac362884.29a6cee3c743e056dcc5750ea8e7230a'
+  const showapi_appid = '1142180'
+  const showapi_sign = '944aa952c13d470e8a539e658a51b2fe'
+  // const apikey = '12394.65010c74b70b7af6a1e2b288ac362884.29a6cee3c743e056dcc5750ea8e7230a'
 
-  var res = rp('https://api.jike.xyz/situ/book/isbn/' + event.isbn + '?apikey=' + apikey, {
+  // var res = rp('https://api.jike.xyz/situ/book/isbn/' + event.isbn + '?apikey=' + apikey, {
+  //   timeout: 30000
+  // }).then(html => {
+  //   return html
+  // }).catch(err => {
+  //   console.log(err)
+  //   return String(err)
+  // })
+
+  var res = rp('https://route.showapi.com/2218-1?showapi_appid=' + showapi_appid + '&showapi_sign=' + showapi_sign + '&isbn=' + event.isbn, {
     timeout: 30000
   }).then(html => {
     return html

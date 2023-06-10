@@ -2,11 +2,11 @@
 import __user from "../../utils/user"
 
 // 对象解构
-const { userLogin } = __user
+// const { userLogin } = __user
 
 Page({
   // 对象字面量的属性值简写
-  userLogin,
+  // userLogin,
 
   data: {
     userInfo: '',
@@ -32,22 +32,36 @@ Page({
 
   // 了解更多买卖二手书流程
   toSellDetail() {
-    console.log('暂未开发')
+    wx.navigateTo({
+      url: '../sellDetail/sellDetail',
+    })
   },
 
   // 发布卖书信息
-  toSellBook() {
+  toSellBook(e) {
+    if (!__user.checkLoginStatus()) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'error',
+      })
+      return
+    }
+
     wx.navigateTo({
-      url: '../sellBook/sellBook',
+      url: `../sellBook/sellBook?identification=${e.currentTarget.dataset.identification}&scan_isbn=${e.currentTarget.dataset.scan_isbn}`
     })
   },
 
   // 发布求书信息
-  toSeekBook() {
-    wx.navigateTo({
-      url: '../seekBook/seekBook',
-    })
-  },
+  // toSeekBook() {
+  //   wx.showToast({
+  //     title: '此功能暂未开发',
+  //     icon: 'error'
+  //   })
+  //   wx.navigateTo({
+  //     url: '../seekBook/seekBook',
+  //   })
+  // },
 
   // 打开提示弹出层
   showNoLoginPopup() {
@@ -59,7 +73,4 @@ Page({
     if (__user.checkLoginStatus())
       this.setData({ showNoLoginPopup: false });
   },
-
-
-
 })

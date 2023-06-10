@@ -8,7 +8,7 @@
       <van-row>
         <van-col custom-class="usernameCol">
           <text style="font-size: 14px; margin-left: 16px;">{{ userInfo.nickName }}</text>
-          <van-tag color="#f6a7af" style="margin-left: 12px;">{{ userGrade }}</van-tag>
+          <van-tag color="#f6a7af" style="margin-left: 12px;">{{ userSchool == '游客'? '' : userGrade+'级' }}</van-tag>
         </van-col>
         <van-col offset="2" custom-class="tagCol">
           <van-tag color="#b0c2db">{{ userSchool }}</van-tag>
@@ -25,43 +25,58 @@
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
   <van-grid direction="horizontal" column-num="3" clickable>
-    <van-grid-item use-slot bind:click="gotoFavorite">
-      <van-icon name="star-o" size="15px" style="margin-bottom: 1px;" />
-      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我的收藏</text>
+    <van-grid-item use-slot bind:click="gotoConfirmOrder">
+      <van-icon name="manager-o" size="16px" dot="{{unconfirmedTrade}}" />
+      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我卖出的</text>
+      <text style="margin-left: 4px;color: #afafaf;font-size: x-small;">{{ numOfMysellbook }}</text>
     </van-grid-item>
 
-    <van-grid-item use-slot bind:click="gotoTrade">
-      <van-icon name="todo-list-o" size="16px" />
-      <text style="font-size: x-small; color: #323233; margin-left: 3px;">交易查询</text>
+    <van-grid-item use-slot bind:click="gotoViewOrder">
+      <van-icon name="/icons/mybook.png" size="16px" dot="{{unreceived}}" />
+      <text style="font-size: x-small; color: #323233; margin-left: 3px;">我买到的</text>
+      <text style="margin-left: 4px;color: #afafaf;font-size: x-small;">{{ numOfMybuybook }}</text>
     </van-grid-item>
 
     <van-grid-item use-slot bind:click="gotoHistory">
-      <van-icon name="clock-o" size="15px" />
-      <text style="font-size: x-small; color: #323233; margin-left: 3px;">浏览记录</text>
+      <van-icon name="clock-o" size="16px" />
+      <text style="font-size: x-small; color: #323233; margin-left: 3px;">浏览历史</text>
     </van-grid-item>
   </van-grid>
 
   <van-grid column-num="2">
-    <van-grid-item text="书籍总浏览量" center>
+    <van-grid-item text="书籍被浏览量" center>
       <text slot="icon" style="color: #323233; font-size: x-large;">{{ viewsSum }}</text>
     </van-grid-item>
-
-    <van-grid-item text="书籍总收藏量" center>
-      <text slot="icon" style="color: #323233; font-size: x-large;">{{ favoriteSum }}</text>
+    <van-grid-item text="总交易成功量" center>
+      <text slot="icon" style="color: #323233; font-size: x-large;">{{ tradeSum }}</text>
     </van-grid-item>
   </van-grid>
 
-  <van-cell is-link title="我的卖书" link-type="navigateTo" url="../editUserInfo/editUserInfo">
+  <van-cell is-link title="我上传的" bind:click="gotoMySellBooks">
     <van-icon name="shop-o" size="16px" slot="icon" style="margin-right: 4px;" />
   </van-cell>
 
-  <van-cell is-link title="我的求书" link-type="navigateTo" url="../editUserInfo/editUserInfo">
+  <!-- <van-cell is-link title="我的求书" link-type="navigateTo" bind:click="gotoMySeekBooks">
     <van-icon name="shop-collect-o" size="16px" slot="icon" style="margin-right: 4px;" />
-  </van-cell>
+  </van-cell> -->
 </van-cell-group>
 
 <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
-  <van-cell is-link title="编辑个人信息" link-type="navigateTo" url="../editUserInfo/editUserInfo" icon="edit" />
+  <van-cell is-link title="修改个人资料" link-type="navigateTo" bind:click="gotoeditUserInfo" icon="edit" />
+</van-cell-group>
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 24px;">
+  <van-collapse value="{{ activeNames }}" bind:change="changeCollapse">
+    <van-collapse-item title="关于我们" name="1" icon="contact">
+      <van-cell title="在线服务交流qq群：679307983" use-label-slot title-width="{{ 200 }}" title-width="130px" center>
+        <view slot="label">
+          <text>- 发布使用指南{{ "\n" }}- 搜集用户反馈{{ "\n" }}- 客服在线答疑</text>
+        </view>
+        <van-image width="55" height="55" src="cloud://test-4g1hlst9c8bcc18f.7465-test-4g1hlst9c8bcc18f-1306811448/QRCode.png" bind:click="previewPicture" />
+      </van-cell>
+      <view style="text-align: right;font-size: 10px;margin-top: 4px;margin-right: 16px;">版本号：1.5.3</view>
+    </van-collapse-item>
+  </van-collapse>
 </van-cell-group>
 
 <!-- <van-cell-group inset custom-class="shadow" style="margin-top: 24px;">

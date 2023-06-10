@@ -48,7 +48,7 @@
         {
           "name": "bookDetail",
           "pathName": "pages/bookDetail/bookDetail",
-          "query": "id=1cf827d0625b8f880051dac5416f3d31",
+          "query": "id=6d85a2b962d3ceb610f0167d68029781",
           "launchMode": "default",
           "scene": null
         },
@@ -78,16 +78,9 @@
           "scene": null
         },
         {
-          "name": "chatroom1",
-          "pathName": "pages/chatroom/chatroom",
-          "query": "openid=owJ0m5Rq0zk13XjgBwsg2W68WBm8",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "chatroom2",
-          "pathName": "pages/chatroom/chatroom",
-          "query": "openid=owJ0m5QDHh4Op9n_4-wPgxDO21FQ",
+          "name": "bookDetail2",
+          "pathName": "pages/bookDetail/bookDetail",
+          "query": "id=6842667962d3e9b5093b617e77f1b764",
           "launchMode": "default",
           "scene": null
         }

@@ -1,0 +1,77 @@
+<!--pages/launchTrade/launchTrade.wxml-->
+<wxs src="../../utils/utils.wxs" module="utils" />
+
+<van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" text="地点优先校内当面交易，谨防上当！" />
+
+<van-cell-group inset custom-class="shadow" title="商品概要">
+  <view style="display: flex; align-items: center; margin-top: 16px; margin-left: 12px;">
+    <van-image width="1.5rem" height="1.5rem" round src="{{ sellerDetail.avatarUrl }}" style="margin-left: 8px;" />
+    <view style="margin-left: 12px; font-size: 14px; font-weight: 500;">{{ sellerDetail.nickName }}
+      <van-tag color="#f6a7af" style="margin-left: 4px;">{{ sellerDetail.grade }}级</van-tag>
+    </view>
+  </view>
+
+  <view style="display: flex; justify-content: center;">
+    <view style="width: 92%;">
+      <van-divider borderColor="#F5F6F7" />
+    </view>
+  </view>
+
+  <van-row custom-class="row-bottom-margin">
+    <van-col span="8" offset="1">
+      <view style="display: flex; align-items: center; justify-content: center;">
+        <view style="height: 120px; width: 120px; border-radius: 8px; overflow: hidden; background-color: #F6F6F6;">
+          <van-image height="100%" width="100%" src="{{ bookDetail.image_list[0] }}" fit="contain" bind:click="preview" />
+        </view>
+      </view>
+    </van-col>
+    <van-col span="13" offset="1" custom-class="col-height">
+      <view class="book-name">{{ bookDetail.name }}</view>
+
+      <view style="font-size: 12px; color: #999999; margin-top: 8px;">
+        <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag>
+        <view style="margin-top: 4px;">{{ bookDetail.description }}</view>
+      </view>
+
+      <view style="font-size: 12px; text-decoration: line-through; color: #999999; position: absolute; bottom: 0px; right: 24px;">￥{{ bookDetail.original_price }}</view>
+    </van-col>
+  </van-row>
+</van-cell-group>
+
+<van-cell-group inset title="订单详情" custom-class="shadow">
+  <!-- <van-field label="交易价格" value="{{ bookDetail.price }}" bind:change="onChangeTradePrice" clearable required /> -->
+  <van-cell title="交易价格" label="{{ bookDetail.price }}" />
+  <van-cell title="交易地点" label="{{ bookDetail.trade_spot?bookDetail.trade_spot:'该用户没有留下交易地点' }}" />
+
+  <!-- 日期选择 -->
+  <!-- <van-field label="日期" value="{{ trade_date }}" clearable clear-trigger="focus" bind:click-input="displayCalendar" readonly required />
+  <van-calendar color="#8AC286" show="{{ showCalendar }}" title="交易日期选择" bind:close="closeCalendar" bind:confirm="confirmCalendar" /> -->
+
+  <!-- 时间选择 -->
+  <!-- <van-field label="时间" value="{{ trade_time }}" clearable clear-trigger="focus" bind:click-input="displayTime" readonly required />
+  <van-popup show="{{ showTime }}" position="bottom" round bind:close="closeTime">
+    <van-datetime-picker type="time" value="{{ trade_time }}" filter="{{ filter }}" bind:confirm="confirmTime" bind:cancel="closeTime" />
+  </van-popup> -->
+</van-cell-group>
+
+<van-cell-group inset title="买家信息" custom-class="shadow">
+  <van-field model:value="{{ contactInformation }}" placeholder="手机/QQ/微信便于及时联系~" label="备注(可选)" clearable clear-trigger="focus" autosize type="textarea" />
+</van-cell-group>
+
+<view style="margin-top: 75px;"></view>
+
+<van-goods-action custom-class="bottom-tab">
+  <view style="text-align: right; width: 100%;">
+    <text style="color: #222222; font-weight: 500; font-size: 14px; ">现价：</text>
+
+    <view style="display: inline-block; color: #ee0a24; font-weight: 600; margin-top: 8px; margin-right: 18px;">
+      <text style="font-size: 14px;">￥</text>
+      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(bookDetail.price) }}</text>
+      <text>.{{ utils.getFloat(bookDetail.price) }}</text>
+    </view>
+
+    <van-button round color="linear-gradient(to right, #8ac286, #659c64)" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="commitForm">提交</van-button>
+  </view>
+</van-goods-action>
+
+<van-dialog id="van-dialog" />

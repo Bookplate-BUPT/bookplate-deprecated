@@ -1,34 +1,32 @@
 <!--pages/chatroom/chatroom.wxml-->
 
-<scroll-view scroll-y id="chatroom">
+<scroll-view scroll-y id="chatroom" style="padding-bottom: 84px;">
   <view wx:for="{{ chatMessage }}" wx:key="_id">
 
-    <view wx:if="{{ openid !== item.sender }}" style="display: flex; align-items: center; margin-top: 8px;">
-      <van-image width="2.5rem" height="2.5rem" round src="{{ avatarLeft }}" style="margin-left: 8px;" />
-      <view class="chatContent-left">{{ item.content }}</view>
+    <view wx:if="{{ openid !== item.sender }}" style="display: flex; align-items: center; margin-top: 12px; position: relative;">
+      <van-image width="2.5rem" height="2.5rem" round src="{{ avatarLeft }}" style="margin-left: 12px;" />
+      <text class="chatContent-left" selectable="true">{{ item.content }}</text>
     </view>
 
-    <view wx:else style="display: flex; align-items: center; margin-top: 8px; justify-content: flex-end;">
-      <view class="chatContent-right">{{ item.content }}</view>
-      <van-image width="2.5rem" height="2.5rem" round src="{{ avatarRight }}" style="margin-right: 8px;" />
+    <view wx:else style="display: flex; align-items: center; margin-top: 12px; justify-content: flex-end; position: relative; ">
+      <text class="chatContent-right" selectable="true">{{ item.content }}</text>
+      <van-image width="2.5rem" height="2.5rem" round src="{{ avatarRight }}" style="margin-right: 12px;" />
     </view>
 
   </view>
 </scroll-view>
 
-<view style="height: 80px;" />
-
-<van-dialog id="van-dialog" />
-
-<van-row custom-class="textInputRoot">
-  <view wx:if="{{ relationship.user2 === openid }}">
-    <van-button type="primary" icon="certificate" plain custom-style="border: 1px solid transparent; background-color: transparent; min-height: 50px; display: flex; flex-direction: column;" block bind:click="showTradeDialog">
-    </van-button>
-  </view>
-
+<van-goods-action>
   <view style="width: 100%;">
-    <van-field placeholder="请输入" custom-style="border-radius: 4px" value="{{ textInputValue }}" use-button-slot bind:change="onTextInput">
-      <van-button slot="button" color="#8ac286" size="small" custom-style="border-radius: 8px;" bind:click="onSend">发送</van-button>
-    </van-field>
+    <van-row>
+      <van-col span="19">
+        <van-field placeholder="请输入" value="{{ textInputValue }}" bind:change="onTextInput" />
+      </van-col>
+      <van-col span="4">
+        <view style="display: flex; justify-content: center; width: 100%; margin-top: 6px;">
+          <van-button color="#8ac286" size="small" custom-style="border-radius: 8px; " bind:click="onSend">发送</van-button>
+        </view>
+      </van-col>
+    </van-row>
   </view>
-</van-row>
+</van-goods-action>

@@ -12,49 +12,49 @@
   </view>
 </van-sticky>
 
-<van-tabs active="{{ active }}" style="margin-top: -8px" sticky animated offset-top="{{ 50 }}" swipeable color="#659c64">
-  <!-- 卖书部分 -->
-  <van-tab title="卖书">
-    <!-- 卖书部分书籍分类菜单栏 -->
-    <van-dropdown-menu active-color="#8ac286">
-      <van-dropdown-item value="{{ bookType }}" options="{{ bookTypeOption }}" bind:change="bookTypeChange" />
-      <van-dropdown-item value="{{ sortType }}" options="{{ sortTypeOption }}" bind:change="sortTypeChange" />
-    </van-dropdown-menu>
+<van-notice-bar left-icon="info-o" text="本平台仅涉及二手书意向沟通，不涉及金钱交易。" style="margin-top: -8px" class="styler" />
 
-    <!-- 卖书书籍陈列 -->
-    <view wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
-      <van-cell-group inset custom-class="shadow">
-        <van-swipe-cell right-width="{{ 100 }}" left-width="{{ 60 }}">
-          <van-button slot="left" color="#FFC125" custom-class="swiperCellButton" bind:click="favoriteGoods" data-id="{{ item._id }}">
-            <van-icon name="star" />
-            <view>收藏</view>
-          </van-button>
+<!-- <van-tabs active="{{ active }}" style="margin-top: -8px" sticky animated offset-top="{{ 50 }}" swipeable color="#659c64"> -->
+<!-- 卖书部分 -->
+<!-- <van-tab title="卖书"> -->
+<!-- 卖书部分书籍分类菜单栏 -->
 
-          <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-id="{{ item._id }}" bindtap="goToBookDetail" tag="{{ item.isNew ? '最新' : '' }}">
-            <view slot="title" style="font-weight: bold;">
-              {{ item.name }}
-              <van-tag color="{{ item.grade === '本科生' ? '#a0d911' : '#13c2c2' }}" plain custom-class="tagMargin">{{ item.grade }}</van-tag>
-            </view>
-            <view slot="desc" style="color: #a1a1a1; font-size: xx-small; margin-top: 8px;">
-              {{ item.introduction }}
-            </view>
-          </van-card>
+<van-dropdown-menu active-color="#8ac286">
+  <van-dropdown-item title="{{bookType}}" id="identity">
+    <van-tree-select items="{{ bookTypeOption }}" main-active-index="{{ mainActiveIndex  }}" bind:click-nav="onClickNav" bind:click-item="onClickItem" />
+  </van-dropdown-item>
+  <van-dropdown-item value="{{ sortType }}" options="{{ sortTypeOption }}" bind:change="sortTypeChange" />
+</van-dropdown-menu>
 
-          <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}">
-            <van-icon name="shopping-cart" />
-            <view>加入购物车</view>
-          </van-button>
-        </van-swipe-cell>
-      </van-cell-group>
-    </view>
+<scroll-view scroll-y style="height: {{ scrollViewHeight }}px;" refresher-enabled="{{ true }}" refresher-triggered="{{ triggered }}" bindrefresherrefresh="onPullDownRefresh" bindscrolltolower="onReachBottom">
+  <!-- 卖书书籍陈列 -->
+  <view wx:if="{{ goodsList.length }}" wx:for="{{ goodsList }}" style="margin-top: 12px;" wx:key="_id">
+    <MainBookCard isMainPage deleteBookIndex="{{ index }}" right="{{ 100 }}" _id="{{ item._id }}" _openid="{{ item._openid }}" price="{{ item.price }}" image_list="{{ item.image_list }}" original_price="{{ item.original_price }}" name="{{ item.name }}" introduction="{{ item.introduction }}" isNew="{{ item.isNew }}" bookDetail="{{ item }}">
 
-    <!-- 底部提示分隔线 -->
-    <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
-  </van-tab>
+      <van-button slot="right" block color="#8ac286" custom-class="swiperCellButton" bind:click="addGoodsToCart" data-id="{{ item._id }}" data-openid="{{ item._openid }}" data-index="{{ index }}">
+        <van-icon name="star" />
+        <view>添加到收藏</view>
+      </van-button>
+    </MainBookCard>
+  </view>
+  <view wx:if="{{ !goodsList.length }}" style="height: 60vh; display: flex; align-items: center; justify-content: center;">
+    <van-empty image="https://img.yzcdn.cn/vant/custom-empty-image.png" description="这里没有商品呀" />
+  </view>
 
-  <!-- 求书部分 -->
-  <van-tab title="求书">
-    <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
+  <!-- 底部提示分隔线 -->
+  <van-divider wx:if="{{ goodsList.length && isReachBottom }}" contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
+  <view style="height: 4px;" />
+</scroll-view>
+
+
+<!-- </van-tab> -->
+
+<!-- 求书部分 -->
+<!-- <van-tab title="求书">
+  <view style="margin-top: 200rpx;">
+    <van-empty description="此功能暂未开发"></van-empty>
+  </view> -->
+<!-- <view wx:for="{{ seekList }}" style="margin-top: 12px;" wx:key="_id">
       <van-cell-group inset custom-class="shadow">
         <view>
           <van-row>
@@ -75,9 +75,9 @@
           <view style="color: #646566; font-size: xx-small; margin: 8px 16px; display: flex; justify-content: flex-end;">{{ item.date }}</view>
         </view>
       </van-cell-group>
-    </view>
+    </view> -->
 
-    <!-- 底部提示分隔线 -->
-    <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider>
-  </van-tab>
-</van-tabs>
+<!-- 底部提示分隔线 -->
+<!-- <van-divider contentPosition="center" dashed style="margin-top: 16px;">没有更多啦</van-divider> -->
+<!-- </van-tab> -->
+<!-- </van-tabs> -->

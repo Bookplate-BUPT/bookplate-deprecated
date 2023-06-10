@@ -1,0 +1,24 @@
+<!--components/mainBook/mainBook.wxml-->
+<van-cell-group inset custom-class="shadow">
+  <van-swipe-cell right-width="{{ right }}" left-width="{{ left }}">
+    <view slot="left" style="height: 100%;width: 100%;">
+      <slot name="left"></slot>
+    </view>
+
+    <van-card price="{{ price }}" thumb="{{ image_list[0] }}" origin-price="{{ original_price }}" data-id="{{ _id }}" bindtap="goToBookDetail" tag="{{ isNew ? '最新' : '' }}">
+      <view slot="title" class="styler">
+        {{ name }}
+        <!-- <view style="margin-top: 4px;">
+          <van-tag color="#8AC286" plain>{{ bookDetail.college }}</van-tag>
+        </view> -->
+      </view>
+      <view slot="desc" class="bookIntroduction">
+        {{ introduction }}
+      </view>
+    </van-card>
+
+    <view slot="right" style="height: 100%;width: 100%;">
+      <slot name="right"></slot>
+    </view>
+  </van-swipe-cell>
+</van-cell-group>

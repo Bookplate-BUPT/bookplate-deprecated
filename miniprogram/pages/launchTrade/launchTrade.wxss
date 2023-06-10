@@ -1,0 +1,29 @@
+/* pages/launchTrade/launchTrade.wxss */
+.shadow {
+  box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  /* 解决van-swipe-cell渲染层报错 */
+  /* touch-action: none; */
+}
+
+.book-name {
+  color: #323233;
+  font-size: 14px;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.bottom-tab {
+  z-index: 9;
+  box-shadow: 0px -2px 10px 5px rgba(0, 0, 0, 0.05);
+}
+
+.row-bottom-margin {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.col-height {
+  min-height: 120px;
+  /* background-color: tomato; */
+}

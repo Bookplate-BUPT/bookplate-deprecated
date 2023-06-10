@@ -1,0 +1,29 @@
+<wxs src="../../utils/utils.wxs" module="utils" />
+
+<block wx:if="{{!goodsList.length}}">
+  <van-empty description="没有卖书记录" style="margin-top: 160rpx;"></van-empty>
+</block>
+<block wx:else>
+  <view wx:for="{{goodsList}}" wx:key="_id">
+    <view wx:if="{{postDate[index-1]===postDate[index]?false:true}}">
+      <view class="time">{{ postDate[index]===today?'今天':utils.getDateOnly(postDate[index],today) }}</view>
+    </view>
+    <view style="margin-top: 20rpx;">
+      <van-cell-group inset custom-class="shadow">
+        <van-card price="{{ item.price }}" thumb="{{ item.image_list[0] }}" origin-price="{{ item.original_price }}" data-index="{{ index }}" bindtap="goToUpDateMyBookDetail">
+          <view slot="title" class="bookName">
+            {{ item.name }}
+          </view>
+          <view slot="desc" class="bookIntroduction">
+            {{ item.introduction }}
+          </view>
+          <view slot="footer" catchtap="son" hover-stop-propagation="true">
+            <van-button custom-class="btnSizeStyle" size="small" round data-_id="{{item._id}}" data-index="{{index}}" bind:click="deleteMyGoods">下架</van-button>
+          </view>
+        </van-card>
+      </van-cell-group>
+    </view>
+  </view>
+
+  <van-divider wx:if="{{ isReachBottom }}" contentPosition="center" dashed>没有更多啦</van-divider>
+</block>

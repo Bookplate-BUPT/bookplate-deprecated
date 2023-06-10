@@ -1,0 +1,20 @@
+<!--components/CartBookCard/CartBookCard.wxml-->
+<van-cell-group inset custom-class="shadow">
+  <van-card price="{{ bookDetail.price }}" origin-price="{{ bookDetail.original_price }}" thumb="{{ bookDetail.image_list[0] == null ? 'cloud://qqk-4gjankm535f1a524.7171-qqk-4gjankm535f1a524-1306811448/imageDownloadFail.png' : bookDetail.image_list[0] }}" custom-class="goodsCardMargin">
+    <view slot="title" class="styler">
+      {{ bookDetail.name == null ? '已下架' : bookDetail.name }}
+      <!-- <view wx:if="{{ bookDetail.grade==null?false:true }}" style="margin-top: 4px;">
+        <van-tag type="warning" plain color="#a0d911">{{ bookDetail.college }}</van-tag>
+      </view> -->
+    </view>
+    <view slot="desc" style="line-height: 20px;color: #646566;word-wrap: break-word" class="bookDescripthion">{{ bookDetail.description ? bookDetail.description : '非常抱歉，在您收藏该书后，该书已被他人购买，现已下架' }}</view>
+    <view slot="num" style="text-align: center;">
+      <van-button class="btnOne" size="mini" round color="rgba(246,167,175,0.90)" bind:click="deleteGoods" data-id="{{ _id }}">删除
+      </van-button>
+      <van-button class="btnTwo" size="mini" round color="rgba(176,194,219,0.90)" bind:click="goToBookDetail" data-id="{{ bookDetail._id }}">查看
+      </van-button>
+      <van-button class="btnThree" size="mini" round color="rgba(138,194,134,0.90)" bind:click="buyGoods" data-id="{{ bookDetail._id }}" data-openid="{{ bookDetail._openid }}">联系卖家
+      </van-button>
+    </view>
+  </van-card>
+</van-cell-group>

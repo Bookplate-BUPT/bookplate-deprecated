@@ -1,0 +1,96 @@
+<!--pages/bookDetail/bookDetail.wxml-->
+<wxs src="../../utils/utils.wxs" module="utils" />
+
+<van-cell-group inset custom-class="shadow" style="margin-top: 12px;" scrollTouchMove>
+  <van-cell>
+    <swiper indicator-dots autoplay circular interval="3000">
+      <swiper-item wx:for="{{ trade.bookDetail.image_list }}" wx:key="key">
+        <van-image height="100%" width="100%" src="{{ item }}" fit="contain" bind:click="preview" data-index="{{index}}" />
+      </swiper-item>
+    </swiper>
+  </van-cell>
+
+  <van-cell use-label-slot>
+    <view class="price-show" slot="label">
+      <view>
+        <text class="price-mark">￥</text>
+        <text class="price-int">{{ utils.getInt(trade.trade_price) }}</text>
+        <text class="price-float">.{{ utils.getFloat(trade.trade_price) }}</text>
+        <text class="original-price">￥{{ trade.bookDetail.original_price }}</text>
+        <!-- <van-tag plain style="margin-left: 4px;">原价</van-tag> -->
+      </view>
+
+      <view class="book-name">
+        <!-- <van-tag color="#a0d911" plain>{{ bookDetail.college }}</van-tag> -->
+        <text style="margin-left: 2px;">{{ trade.bookDetail.name }}</text>
+      </view>
+    </view>
+  </van-cell>
+
+  <van-cell title="适用学院" value="{{ trade.bookDetail.college }}" title-width="60px" />
+  <van-cell title="适用专业" value="{{ trade.bookDetail.major }}" title-width="60px" />
+  <van-cell title="卖家描述" label="{{ trade.bookDetail.description }}" style="word-break: break-all;" />
+</van-cell-group>
+
+<!-- 交易信息（可以修改现价） -->
+<view wx:if="{{ page==0 && trade.state==0 }}">
+  <van-cell-group inset custom-class="shadow" title="交易信息（如果不符可以修改哦）">
+    <!-- 修改现价 -->
+    <van-field value="{{ trade_price }}" placeholder="请输入现价" label="现价" clearable clear-trigger="focus" autosize type="textarea" bind:input="inputTradePrice" />
+  </van-cell-group>
+  <van-cell-group inset custom-class="shadow" title=" ">
+    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot?trade.bookDetail.trade_spot:'该用户没有留下交易地点哦~' }}" />
+    <van-cell title="备注" label="{{ page==1?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
+  </van-cell-group>
+</view>
+
+<!-- 交易信息（不可以修改现价） -->
+<view wx:else>
+  <van-cell-group inset custom-class="shadow" title="交易信息">
+    <!-- 修改现价 -->
+    <van-cell title="现价" label="{{ trade.trade_price }}" />
+    <van-cell title="交易地点" label="{{ trade.bookDetail.trade_spot?trade.bookDetail.trade_spot:'该用户没有留下交易地点哦~' }}" />
+    <van-cell title="备注" label="{{ page==1?trade.bookDetail.contact_information?trade.bookDetail.contact_information:'该用户没有留下备注哦~':trade.contact_information?trade.contact_information:'该用户没有留下备注哦~' }}" />
+  </van-cell-group>
+</view>
+
+<view style="margin-bottom: 25%;" />
+
+<!-- 卖家确认订单 -->
+<van-goods-action wx:if="{{ page==0&&trade.state==0 }}">
+  <van-goods-action-button text="拒绝请求" plain color="#8AC286" bind:click="rejectForm" />
+  <van-goods-action-button text="同意请求" color="#8AC286" bind:click="confirmForm" />
+</van-goods-action>
+
+<!-- 买家确认收货 -->
+<van-goods-action wx:if="{{ page==1&&trade.state==1 }}" custom-class="bottom-tab">
+  <view style="text-align: right; width: 100%;">
+    <text style="color: #222222; font-weight: 500; font-size: 14px; ">现价：</text>
+
+    <view style="display: inline-block; color: #ee0a24; font-weight: 600; margin-top: 8px; margin-right: 18px;">
+      <text style="font-size: 14px;">￥</text>
+      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.trade_price) }}</text>
+      <text>.{{ utils.getFloat(trade.trade_price) }}</text>
+    </view>
+
+    <van-button round type="primary" custom-style="color: #8cbf84; width: 100px; height: 37px" bind:click="cancelTradeAfterSellerConfirm" class="btn-left" plain data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">取消订单</van-button>
+    <van-button round color="linear-gradient(to right, #8fba81, #8ac286)" custom-style="width: 100px;  margin-right: 16px; height: 37px" bind:click="receiveGoods" class="btn-right" data-_id="{{ trade._id }}" data-goodsid="{{ trade.bookDetail._id }}">确认收货</van-button>
+  </view>
+</van-goods-action>
+
+<!-- 买家取消请求 -->
+<van-goods-action wx:if="{{ page==1&&trade.state==0 }}" custom-class="bottom-tab">
+  <view style="text-align: right; width: 100%;">
+    <text style="color: #222222; font-weight: 500; font-size: 14px; ">现价：</text>
+
+    <view style="display: inline-block; color: #ee0a24; font-weight: 600; margin-top: 8px; margin-right: 18px;">
+      <text style="font-size: 14px;">￥</text>
+      <text style="margin-left: 2px; font-size: 18px;">{{ utils.getInt(trade.trade_price) }}</text>
+      <text>.{{ utils.getFloat(trade.trade_price) }}</text>
+    </view>
+
+    <van-button round color="#FF5E62" custom-style="width: 120px; margin-right: 16px; height: 40px" bind:click="cancelTrade" data-_id="{{ trade._id }}" data-goodsid="{{ trade.trade_price }}">取消请求</van-button>
+  </view>
+</van-goods-action>
+
+<van-dialog id="van-dialog" />

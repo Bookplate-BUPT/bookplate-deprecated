@@ -6,24 +6,85 @@ var getInt = function (n) {
 
 // 取数的小数部分，只返回两位
 var getFloat = function (n) {
-  if (n) {
-    var f = (n.split("."))[1]
-    if (f.length == 1) return f + "0"
-    else return f.substring(0, 2)
+  if (n !== undefined) {
+    var numList = n.split(".")
+
+    if (numList.length == 1 || numList[1].length == 0) {
+      return "00"
+    } else if (numList.length == 2) {
+      if (numList[1].length == 1) return numList[1] + "0"
+      else return numList[1].substring(0, 2)
+    }
   }
-  else return "00";
 }
 
 // 自定义时间戳转成时间，形式如下
 // x月x日 hh:mm
-var newFormatTime = function (timestamp) {
-  // 此处的先除以1000再乘以1000不可删除
-  var date = getDate(timestamp / 1000 * 1000)
-  return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+// var newFormatTime = function (timestamp) {
+//   // 此处的先除以1000再乘以1000不可删除
+//   var date = getDate(timestamp / 1000 * 1000)
+//   return (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+// }
+
+/**
+ * 自定义日期显示，形式如下
+ * 若为今年：x月x日，否则：x年x月x日
+ * @param str 表示需要显示的日期
+ * @param now 表示当前日期
+ */
+var getDateOnly = function (str, now) {
+  var datelist = [(+str.slice(0, 4)), (+str.slice(5, 7)), (+str.slice(8, 10))]
+  now = (+now.slice(0, 4))
+  if (now == datelist[0]) {
+    return datelist[1] + '月' + datelist[2] + '日'
+  } else {
+    return datelist[0] + '年' + datelist[1] + '月' + datelist[2] + '日'
+  }
+}
+
+/**
+ * 根据订单枚举状态返回字符串
+ * @param {string|number} state 表示订单的状态
+ * @param {string|number} page 0表示“我是卖家”页面，1表示“我是买家”页面
+ */
+var orderStateToStr = function (state, page) {
+  switch (state) {
+    case 0:
+    case '0':
+      return '待处理'
+
+    case 1:
+    case '1':
+      switch (page) {
+        case 0:
+        case '0':
+          return '已同意'
+
+        case 1:
+        case '1':
+          return '待收货'
+
+        default:
+          return '错误'
+      }
+
+    case 2:
+    case '2':
+      return '已成交'
+
+    case 3:
+    case '3':
+      return '已拒绝'
+
+    default:
+      return '错误'
+  }
 }
 
 module.exports = {
   getInt: getInt,
   getFloat: getFloat,
-  newFormatTime: newFormatTime,
+  // newFormatTime: newFormatTime,
+  getDateOnly: getDateOnly,
+  orderStateToStr: orderStateToStr,
 }
